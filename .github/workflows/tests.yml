@@ -20,6 +20,10 @@ jobs:
           luaVersion: ${{ matrix.lua-version }}
       - uses: leafo/gh-actions-luarocks@v5
       - name: Install dependencies
-        run: luarocks install busted
+        run: |
+          luarocks install busted
+          luarocks install luacheck
+      - name: Run luacheck
+        run: luacheck .
       - name: Run tests
         run: busted
