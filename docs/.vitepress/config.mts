@@ -21,7 +21,10 @@ export default defineConfig({
         ],
       },
     ],
-    
+    editLink: {
+      pattern: "https://github.com/luamod/mods/edit/main/docs/:path",
+      text: "Edit this page",
+    },
   },
     markdown: {
     config(md) {
