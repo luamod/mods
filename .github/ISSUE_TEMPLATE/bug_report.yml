@@ -44,7 +44,7 @@ body:
     id: lua_version
     attributes:
       label: Lua Version
-      description: e.g. 5.1, 5.2, 5.3, 5.4, LuaJIT
+      description: e.g. 5.1, 5.2, 5.3, 5.4, 5.5, LuaJIT
       placeholder: "5.4"
     validations:
       required: false
