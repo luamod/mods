@@ -7,7 +7,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /modules/
+      link: /getting-started
     - theme: alt
       text: Browse Modules
       link: /modules/
@@ -17,13 +17,30 @@ hero:
 
 Mods is a collection of small, focused Lua modules designed to be easy to use and easy to embed.
 
-## Quick Links
+## Modules
 
-- **List**: `mods.List` helpers for sequences. → /modules/list
-- **Set**: `mods.Set` for unique values and set operations. → /modules/set
-- **tbl**: `mods.tbl` utilities for plain Lua tables. → /modules/tbl
+- `mods.List`: helpers for sequences → /modules/list
+- `mods.Set`: unique values + set ops → /modules/set
+- `mods.tbl`: table utilities → /modules/tbl
 
-## Why Mods?
+## Why Mods
+
+- Minimal dependencies
+- Clear, consistent APIs
+- Works across Lua 5.1+
+
+## Start Fast
+
+```lua
+local List = require("mods.List")
+local Set = require("mods.Set")
+local tbl = require("mods.tbl")
+
+local l = List({ "a", "b", "a" })
+local u = l:uniq()      -- { "a", "b" }
+local s = Set({ "a", "b" })
+local k = tbl.keys({ a = 1, b = 2 })
+```
 
 - Minimal dependencies
 - Clear, consistent APIs
