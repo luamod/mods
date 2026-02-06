@@ -79,14 +79,6 @@ function Set:difference_update(set) end
 ---@return self self
 function Set:discard(v) end
 
----Alias for `discard`.
----
----**Example:**
----```lua
----local s = Set({ "a", "b" })
----s:remove("b")
------ result: s contains "a"
----```
 Set.remove = Set.discard
 
 ---Return elements common to both sets.

@@ -54,7 +54,7 @@ local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -77,7 +77,7 @@ local empty = Set({}):isempty()
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return boolean
@@ -99,7 +99,7 @@ local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -122,7 +122,7 @@ local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -145,7 +145,7 @@ local n = Set({ "a", "b" }):len()
 -- result: 2
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return integer
@@ -170,7 +170,7 @@ local c = s:copy()
 -- result: c is a new set with "a"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return mods.Set
@@ -193,7 +193,7 @@ local d = s:difference(Set({ "b" }))
 -- result: d contains "a"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -217,7 +217,7 @@ local i = s:intersection(Set({ "b", "c" }))
 -- result: i contains "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -240,7 +240,7 @@ local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
 -- result: s contains 10, 20
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param fn fun(v:T):any
@@ -264,7 +264,7 @@ local d = s:symmetric_difference(Set({ "b", "c" }))
 -- result: d contains "a", "c"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -287,7 +287,7 @@ local s = Set({ "a" }):union(Set({ "b" }))
 -- result: s contains "a", "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -310,7 +310,7 @@ local values = Set({ "a", "b" }):values()
 -- result: { "a", "b" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return mods.List values
@@ -335,7 +335,7 @@ s:add("b")
 -- result: s contains "a", "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param v any
@@ -358,7 +358,7 @@ s:clear()
 -- result: s is empty
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return self self
@@ -380,7 +380,7 @@ s:difference_update(Set({ "b" }))
 -- result: s contains "a"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set self
@@ -403,7 +403,7 @@ s:discard("b")
 -- result: s contains "a"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param v any
@@ -426,7 +426,7 @@ s:intersection_update(Set({ "b", "c" }))
 -- result: s contains "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set
@@ -448,7 +448,7 @@ local v = Set({ "a", "b" }):pop()
 -- result: v is either "a" or "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return any
@@ -470,7 +470,7 @@ s:symmetric_difference_update(Set({ "b", "c" }))
 -- result: s contains "a", "c"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set self
@@ -493,7 +493,7 @@ s:update(Set({ "b" }))
 -- result: s contains "a", "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param set mods.Set

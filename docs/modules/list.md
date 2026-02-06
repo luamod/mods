@@ -69,7 +69,7 @@ local ok = List({ 2, 4 }):all(is_even)
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param pred fun(v:any):boolean
@@ -93,7 +93,7 @@ local ok = List({ "a", "bb" }):any(has_len_2)
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param pred fun(v:any):boolean
@@ -116,7 +116,7 @@ local ok = List({ "a", "b" }):contains("b")
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param v any
@@ -139,9 +139,10 @@ local n = List({ "a", "b", "b" }):count("b")
 -- result: 2
 ```
 
-== Type
+== Signature
 
 ```lua
+---@return integer
 ---@nodiscard
 function count(v) end
 ```
@@ -160,7 +161,7 @@ local v = List({ "a", "b" }):first()
 -- result: "a"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return any
@@ -182,7 +183,7 @@ local i = List({ "a", "b", "c", "b" }):index("b")
 -- result: 2
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param v any
@@ -207,7 +208,7 @@ local i = List({ 1, 2, 3 }):index_if(gt_1)
 -- result: 2
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param pred fun(v:any):boolean
@@ -230,7 +231,7 @@ local v = List({ "a", "b" }):last()
 -- result: "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return any
@@ -252,9 +253,10 @@ local n = List({ "a", "b", "c" }):len()
 -- result: 3
 ```
 
-== Type
+== Signature
 
 ```lua
+---@return integer
 ---@nodiscard
 function len() end
 ```
@@ -275,9 +277,10 @@ local c = List({ "a", "b" }):copy()
 -- result: { "a", "b" }
 ```
 
-== Type
+== Signature
 
 ```lua
+---@return mods.List
 ---@nodiscard
 function copy() end
 ```
@@ -296,9 +299,11 @@ local d = List({ "a", "b", "c" }):difference({ "b" })
 -- result: { "a", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
+---@return mods.List
+---@nodiscard
 function difference(ls) end
 ```
 :::
@@ -316,7 +321,7 @@ local t = List({ "a", "b", "c" }):drop(1)
 -- result: { "b", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param n integer
@@ -341,7 +346,7 @@ local ex = l:extract(is_len_1)
 -- result: ex = { "a", "c" }, l = { "bb" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param pred fun(v:any):boolean
@@ -365,7 +370,7 @@ local f = List({ "a", "bb", "c" }):filter(is_len_1)
 -- result: { "a", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param pred fun(v:any):boolean
@@ -388,7 +393,7 @@ local f = List({ { "a", "b" }, { "c" } }):flatten()
 -- result: { "a", "b", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return mods.List
@@ -411,7 +416,7 @@ local g = List(words):group_by(string.len)
 -- result: { {"b"}, { "aa", "dd" }, { "ccc" } }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param fn fun(v:any):any
@@ -434,7 +439,7 @@ local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 -- result: { "a", "a", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param ls { [integer]: any }
@@ -457,10 +462,11 @@ local t = List({ "a", "b", "c" }):invert()
 -- result: { a = 1, b = 2, c = 3 }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return table
+---@nodiscard
 function invert() end
 ```
 :::
@@ -479,7 +485,7 @@ local m = List({ "a", "b" }):map(to_upper)
 -- result: { "A", "B" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param fn fun(v):any
@@ -501,9 +507,10 @@ local r = List({ "a", "b", "c" }):reverse()
 -- result: { "c", "b", "a" }
 ```
 
-== Type
+== Signature
 
 ```lua
+---@return mods.List
 ---@nodiscard
 function reverse() end
 ```
@@ -522,7 +529,7 @@ local s = List({ "a", "b", "a" }):setify()
 -- result: { a = true, b = true }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return mods.List
@@ -544,7 +551,7 @@ local t = List({ "a", "b", "c", "d" }):slice(2, 3)
 -- result: { "b", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param i? integer
@@ -568,7 +575,7 @@ local t = List({ "a", "b", "c" }):take(2)
 -- result: { "a", "b" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param n integer
@@ -591,7 +598,7 @@ local u = List({ "a", "b", "a", "c" }):uniq()
 -- result: { "a", "b", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return mods.List
@@ -613,7 +620,7 @@ local z = List({ "a", "b" }):zip({ 1, 2 })
 -- result: { {"a",1}, {"b",2} }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param other { [integer]: any }
@@ -638,7 +645,7 @@ local l = List({ "a" }):append("b")
 -- result: { "a", "b" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return self self
@@ -659,7 +666,7 @@ local l = List({ "a", "b" }):clear()
 -- result: { }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@return self self
@@ -681,9 +688,11 @@ l:extend({ "b", "c" })
 -- result: { "a", "b", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
+---@param ls any[]
+---@return self self
 function extend(ls) end
 ```
 :::
@@ -701,7 +710,7 @@ local l = List({ "a", "b" }):insert("b")
 -- result: { "a", "b", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param v any
@@ -724,7 +733,7 @@ local v = l:pop(2)
 -- result: v == "b"; l is { "a", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param pos integer
@@ -747,7 +756,7 @@ l:prepend("a")
 -- result: { "a", "b", "c" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param v any
@@ -773,7 +782,7 @@ sum = List({ 1, 2, 3 }):reduce(add, 10)
 -- result: 16
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param fn fun(acc:any, v:any):any
@@ -798,9 +807,11 @@ l:remove("b")
 -- result: { "a", "b" }
 ```
 
-== Type
+== Signature
 
 ```lua
+---@param v any
+---@return self
 function remove(v) end
 ```
 :::
@@ -819,10 +830,11 @@ l:sort()
 -- result: { 1, 2, 3 }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param comp? fun(a:T,b:T):boolean
+---@nodiscard
 function sort(comp) end
 ```
 :::

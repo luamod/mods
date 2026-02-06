@@ -50,7 +50,7 @@ clear(t)
 -- result: {}
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param t table
@@ -72,7 +72,7 @@ local t = copy({ a = 1, b = 2 })
 -- result: { a = 1, b = 2 }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T:table
@@ -96,7 +96,7 @@ local n = count({ a = 1, b = 2 })
 -- result: 2
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param t table
@@ -122,7 +122,7 @@ local t = deepcopy({ a = { b = 1 } })
 -- result: { a = { b = 1 } }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T
@@ -148,7 +148,7 @@ local key = find({ a = 1, b = 2, c = 2 }, 2)
 -- result: "b" or "c"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T1,T2
@@ -175,7 +175,7 @@ end)
 -- result: 2, "b"
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T1,T2
@@ -205,7 +205,7 @@ local v2 = get(t)
 -- result: { a = { b = { c = 1 } } }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param t table
@@ -229,7 +229,7 @@ local empty = isempty({})
 -- result: true
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param t table
@@ -256,7 +256,7 @@ end)
 -- result: { b = 2 }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@param t table
@@ -280,7 +280,7 @@ local t = invert({ a = 1, b = 2 })
 -- result: { [1] = "a", [2] = "b" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T1,T2
@@ -304,7 +304,7 @@ local keys = keys({ a = 1, b = 2 })
 -- result: { "a", "b" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T
@@ -330,7 +330,7 @@ end)
 -- result: { a = 10, b = 20 }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T1,T2,T3
@@ -357,7 +357,7 @@ end)
 -- result: { a = "a1", b = "b2" }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T1,T2,T3
@@ -383,7 +383,7 @@ update(t1, { b = 3, c = 4 })
 -- result: t1 is { a = 1, b = 3, c = 4 }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T:table
@@ -408,7 +408,7 @@ local vals = values({ a = 1, b = 2 })
 -- result: { 1, 2 }
 ```
 
-== Type
+== Signature
 
 ```lua
 ---@generic T

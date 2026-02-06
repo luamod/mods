@@ -38,20 +38,20 @@ function List:any(pred) end
 ---
 ---**Example:**
 ---```lua
----local l = List({ "a" })
----l:append("b")
+---local l = List({ "a" }):append("b")
 ----- result: { "a", "b" }
 ---```
+---@return self self
 function List:append(v) end
 
 ---Remove all elements from the list.
 ---
 ---**Example:**
 ---```lua
----local l = List({ "a", "b" })
----l:clear()
+---local l = List({ "a", "b" }):clear()
 ----- result: { }
 ---```
+---@return self self
 function List:clear() end
 
 ---Return true if the list contains the value.
@@ -61,6 +61,9 @@ function List:clear() end
 ---local ok = List({ "a", "b" }):contains("b")
 ----- result: true
 ---```
+---@param v any
+---@return any
+---@nodiscard
 function List:contains(v) end
 
 ---Return a shallow copy of the list.
@@ -70,6 +73,7 @@ function List:contains(v) end
 ---local c = List({ "a", "b" }):copy()
 ----- result: { "a", "b" }
 ---```
+---@return mods.List
 ---@nodiscard
 function List:copy() end
 
@@ -80,6 +84,7 @@ function List:copy() end
 ---local n = List({ "a", "b", "b" }):count("b")
 ----- result: 2
 ---```
+---@return integer
 ---@nodiscard
 function List:count(v) end
 
@@ -90,6 +95,8 @@ function List:count(v) end
 ---local d = List({ "a", "b", "c" }):difference({ "b" })
 ----- result: { "a", "c" }
 ---```
+---@return mods.List
+---@nodiscard
 function List:difference(ls) end
 
 ---Return a new list without the first n elements.
@@ -112,6 +119,8 @@ function List:drop(n) end
 ---l:extend({ "b", "c" })
 ----- result: { "a", "b", "c" }
 ---```
+---@param ls any[]
+---@return self self
 function List:extend(ls) end
 
 ---Extract values matching the predicate and remove them from the list.
@@ -257,6 +266,7 @@ function List:intersection(ls) end
 ----- result: { a = 1, b = 2, c = 3 }
 ---```
 ---@return table
+---@nodiscard
 function List:invert() end
 
 ---Join list values into a string.
@@ -267,6 +277,7 @@ function List:invert() end
 ----- result: "a,b,c"
 ---```
 ---@param sep? string
+---@nodiscard
 function List:join(sep) end
 
 ---Return the last element or nil if empty.
@@ -287,6 +298,7 @@ function List:last() end
 ---local n = List({ "a", "b", "c" }):len()
 ----- result: 3
 ---```
+---@return integer
 ---@nodiscard
 function List:len() end
 
@@ -363,6 +375,8 @@ function List:reduce(fn, init) end
 ---l:remove("b")
 ----- result: { "a", "b" }
 ---```
+---@param v any
+---@return self
 function List:remove(v) end
 
 ---Return a new list with items reversed.
@@ -372,6 +386,7 @@ function List:remove(v) end
 ---local r = List({ "a", "b", "c" }):reverse()
 ----- result: { "c", "b", "a" }
 ---```
+---@return mods.List
 ---@nodiscard
 function List:reverse() end
 
@@ -409,6 +424,7 @@ function List:slice(i, j) end
 ----- result: { 1, 2, 3 }
 ---```
 ---@param comp? fun(a:T,b:T):boolean
+---@nodiscard
 function List:sort(comp) end
 
 ---Return the first n elements as a new list.
