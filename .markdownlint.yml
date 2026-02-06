@@ -1,0 +1,3 @@
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+MD013: false  # line length
+MD033: false  # inline HTML (used for anchors)
