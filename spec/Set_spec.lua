@@ -1,11 +1,11 @@
 ---@diagnostic disable: undefined-global
 
-local Set = require("azrar.vendor.Set")
+local Set = require("mods.Set")
 local deepcopy = require("pl.tablex").deepcopy
 
 local upper = string.upper
 
-describe("azrar.vendor.Set", function()
+describe("mods.Set", function()
   ([[ _____ ___de _b_d_ _bcd_ a_c__ __c__
       a_c_e a___e abc__ abcd_ abcde
       ab_de ABC__ ]]):gsub("%S+", function(p)
