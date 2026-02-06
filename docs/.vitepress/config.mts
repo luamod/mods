@@ -1,5 +1,5 @@
 import { defineConfig } from "vitepress";
-import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
+import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 
 export default defineConfig({
   title: "Mods",
@@ -15,9 +15,7 @@ export default defineConfig({
     sidebar: [
       {
         text: "Start",
-        items: [
-          { text: "Getting Started", link: "/getting-started" },
-        ],
+        items: [{ text: "Getting Started", link: "/getting-started" }],
       },
       {
         text: "Modules",
@@ -39,13 +37,11 @@ export default defineConfig({
     search: {
       provider: "local",
     },
-    socialLinks: [
-      { icon: "github", link: "https://github.com/luamod/mods" },
-    ],
+    socialLinks: [{ icon: "github", link: "https://github.com/luamod/mods" }],
   },
-    markdown: {
+  markdown: {
     config(md) {
-      md.use(tabsMarkdownPlugin)
+      md.use(tabsMarkdownPlugin);
     },
   },
 });
