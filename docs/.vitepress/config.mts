@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import { tabsMarkdownPlugin } from 'vitepress-plugin-tabs'
 
 export default defineConfig({
   title: "Mods",
@@ -20,5 +21,11 @@ export default defineConfig({
         ],
       },
     ],
+    
+  },
+    markdown: {
+    config(md) {
+      md.use(tabsMarkdownPlugin)
+    },
   },
 });
