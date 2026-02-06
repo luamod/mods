@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  busted:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lua-version: ["5.1", "5.2", "5.3", "5.4", "luajit"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leafo/gh-actions-lua@v11
+        with:
+          luaVersion: ${{ matrix.lua-version }}
+      - uses: leafo/gh-actions-luarocks@v5
+      - name: Install dependencies
+        run: luarocks install busted
+      - name: Run tests
+        run: busted
