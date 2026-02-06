@@ -10,6 +10,7 @@ export default defineConfig({
       { text: "🏠 Home", link: "/" },
       { text: "Modules", link: "/modules/" },
     ],
+    logo: "/logo.svg",
     sidebar: [
       {
         text: "Modules",
