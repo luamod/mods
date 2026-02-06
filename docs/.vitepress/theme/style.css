@@ -1,0 +1,8 @@
+/* Remove underline from links in docs content */
+.VPDoc a {
+  text-decoration: none;
+}
+
+.VPDoc a:hover {
+  text-decoration: none;
+}
