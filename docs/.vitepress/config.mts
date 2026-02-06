@@ -7,7 +7,7 @@ export default defineConfig({
   themeConfig: {
     outline: [2, 4], // show h2-h4
     nav: [
-      { text: "🏠 Home", link: "/" },
+      { text: "Home", link: "/" },
       { text: "Get Started", link: "/getting-started" },
       { text: "Modules", link: "/modules/" },
     ],
@@ -27,6 +27,9 @@ export default defineConfig({
           { text: "Set", link: "/modules/set" },
           { text: "tbl", link: "/modules/tbl" },
         ],
+      },
+      {
+        text: "🇵🇸 Free Palestine",
       },
     ],
     editLink: {
