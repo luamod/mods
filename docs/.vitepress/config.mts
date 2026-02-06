@@ -4,6 +4,7 @@ import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 export default defineConfig({
   title: "Mods",
   description: "Pure standalone Lua modules.",
+  base: "/mods/",
   themeConfig: {
     outline: [2, 4], // show h2-h4
     nav: [
