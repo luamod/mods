@@ -27,15 +27,6 @@ jobs:
         with:
           luaVersion: ${{ matrix.lua-version }}
       - uses: leafo/gh-actions-luarocks@v5
-      - name: Cache LuaRocks
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/luarocks
-            ~/.luarocks
-          key: ${{ runner.os }}-luarocks-${{ matrix.lua-version }}-${{ hashFiles('**/*.rockspec') }}
-          restore-keys: |
-            ${{ runner.os }}-luarocks-${{ matrix.lua-version }}-
       - name: Install dependencies
         run: |
           luarocks install busted
