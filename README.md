@@ -18,6 +18,10 @@ local tbl = require("mods.tbl")
 - `mods.Set`: unique-value set operations
 - `mods.tbl`: utility functions for plain Lua tables
 
+## Status
+
+We are actively working on adding new modules.
+
 ## Tests
 
 ```sh
