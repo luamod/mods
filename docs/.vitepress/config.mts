@@ -7,7 +7,7 @@ export default defineConfig({
   themeConfig: {
     outline: [2, 4], // show h2-h4
     nav: [
-      { text: "Home", link: "/" },
+      { text: "🏠 Home", link: "/" },
       { text: "Modules", link: "/modules/" },
     ],
     sidebar: [
