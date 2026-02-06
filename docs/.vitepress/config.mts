@@ -4,6 +4,7 @@ export default defineConfig({
   title: "Mods",
   description: "Pure standalone Lua modules.",
   themeConfig: {
+    outline: [2, 3], // show h2 and h3
     nav: [
       { text: "Home", link: "/" },
       { text: "Modules", link: "/modules/" },
