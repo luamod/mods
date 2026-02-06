@@ -14,29 +14,30 @@ local keys = tbl.keys(t)
 
 ## Quick Reference
 
-| Function | Description |
-| --- | --- |
-| [`clear(t)`](#fn-cleart) | Remove all entries from the table. |
-| [`copy(t)`](#fn-copyt) | Create a shallow copy of the table. |
-| [`count(t)`](#fn-countt) | Return the number of keys in the table. |
-| [`deepcopy(v)`](#fn-deepcopyv) | Create a deep copy of a value. |
-| [`find(t, v)`](#fn-findt-v) | Find the first key whose value equals the given value. |
-| [`find_if(t, pred)`](#fn-find_ift-pred) | Find first value and key matching predicate. |
-| [`get(t, ...)`](#fn-gett) | Safely get nested value by keys. |
-| [`isempty(t)`](#fn-isemptyt) | Return true if table has no entries. |
-| [`filter(t, pred)`](#fn-filtert-pred) | Filter entries by a value predicate. |
-| [`invert(t)`](#fn-invertt) | Invert keys/values into new table. |
-| [`keys(t)`](#fn-keyst) | Return a list of all keys in the table. |
-| [`map(t, fn)`](#fn-mapt-fn) | Return a new table by mapping each value (keys preserved). |
-| [`pairmap(t, fn)`](#fn-pairmapt-fn) | Return a new table by mapping each key-value pair. |
-| [`update(t1, t2)`](#fn-updatet1-t2) | Merge entries from t2 into t1 and return t1. |
-| [`values(t)`](#fn-valuest) | Return a list of all values in the table. |
+| Function                                | Description                                                |
+| --------------------------------------- | ---------------------------------------------------------- |
+| [`clear(t)`](#fn-cleart)                | Remove all entries from the table.                         |
+| [`copy(t)`](#fn-copyt)                  | Create a shallow copy of the table.                        |
+| [`count(t)`](#fn-countt)                | Return the number of keys in the table.                    |
+| [`deepcopy(v)`](#fn-deepcopyv)          | Create a deep copy of a value.                             |
+| [`find(t, v)`](#fn-findt-v)             | Find the first key whose value equals the given value.     |
+| [`find_if(t, pred)`](#fn-find_ift-pred) | Find first value and key matching predicate.               |
+| [`get(t, ...)`](#fn-gett)               | Safely get nested value by keys.                           |
+| [`isempty(t)`](#fn-isemptyt)            | Return true if table has no entries.                       |
+| [`filter(t, pred)`](#fn-filtert-pred)   | Filter entries by a value predicate.                       |
+| [`invert(t)`](#fn-invertt)              | Invert keys/values into new table.                         |
+| [`keys(t)`](#fn-keyst)                  | Return a list of all keys in the table.                    |
+| [`map(t, fn)`](#fn-mapt-fn)             | Return a new table by mapping each value (keys preserved). |
+| [`pairmap(t, fn)`](#fn-pairmapt-fn)     | Return a new table by mapping each key-value pair.         |
+| [`update(t1, t2)`](#fn-updatet1-t2)     | Merge entries from t2 into t1 and return t1.               |
+| [`values(t)`](#fn-valuest)              | Return a list of all values in the table.                  |
 
 ## Functions
 
 ### Basics
 
 <a id="fn-cleart"></a>
+
 #### `clear(t)`
 
 Remove all entries from the table.
@@ -57,9 +58,11 @@ clear(t)
 ---@return nil
 function clear(t) end
 ```
+
 :::
 
 <a id="fn-copyt"></a>
+
 #### `copy(t)`
 
 Create a shallow copy of the table.
@@ -81,9 +84,11 @@ local t = copy({ a = 1, b = 2 })
 ---@nodiscard
 function copy(t) end
 ```
+
 :::
 
 <a id="fn-countt"></a>
+
 #### `count(t)`
 
 Return the number of keys in the table.
@@ -104,9 +109,11 @@ local n = count({ a = 1, b = 2 })
 ---@nodiscard
 function count(t) end
 ```
+
 :::
 
 <a id="fn-deepcopyv"></a>
+
 #### `deepcopy(v)`
 
 Create a deep copy of a value.
@@ -131,11 +138,13 @@ local t = deepcopy({ a = { b = 1 } })
 ---@nodiscard
 function deepcopy(v) end
 ```
+
 :::
 
 ### Query
 
 <a id="fn-findt-v"></a>
+
 #### `find(t, v)`
 
 Find the first key whose value equals the given value.
@@ -158,9 +167,11 @@ local key = find({ a = 1, b = 2, c = 2 }, 2)
 ---@nodiscard
 function find(t, v) end
 ```
+
 :::
 
 <a id="fn-find_ift-pred"></a>
+
 #### `find_if(t, pred)`
 
 Find first value and key matching predicate.
@@ -186,9 +197,11 @@ end)
 ---@nodiscard
 function find_if(t, pred) end
 ```
+
 :::
 
 <a id="fn-gett"></a>
+
 #### `get(t, ...)`
 
 Safely get nested value by keys.
@@ -214,9 +227,11 @@ local v2 = get(t)
 ---@nodiscard
 function get(t, ...) end
 ```
+
 :::
 
 <a id="fn-isemptyt"></a>
+
 #### `isempty(t)`
 
 Return true if table has no entries.
@@ -237,11 +252,13 @@ local empty = isempty({})
 ---@nodiscard
 function isempty(t) end
 ```
+
 :::
 
 ### Transform
 
 <a id="fn-filtert-pred"></a>
+
 #### `filter(t, pred)`
 
 Filter entries by a value predicate.
@@ -265,9 +282,11 @@ end)
 ---@nodiscard
 function filter(t, pred) end
 ```
+
 :::
 
 <a id="fn-invertt"></a>
+
 #### `invert(t)`
 
 Invert keys/values into new table.
@@ -289,9 +308,11 @@ local t = invert({ a = 1, b = 2 })
 ---@nodiscard
 function invert(t) end
 ```
+
 :::
 
 <a id="fn-keyst"></a>
+
 #### `keys(t)`
 
 Return a list of all keys in the table.
@@ -313,9 +334,11 @@ local keys = keys({ a = 1, b = 2 })
 ---@nodiscard
 function keys(t) end
 ```
+
 :::
 
 <a id="fn-mapt-fn"></a>
+
 #### `map(t, fn)`
 
 Return a new table by mapping each value (keys preserved).
@@ -340,9 +363,11 @@ end)
 ---@nodiscard
 function map(t, fn) end
 ```
+
 :::
 
 <a id="fn-pairmapt-fn"></a>
+
 #### `pairmap(t, fn)`
 
 Return a new table by mapping each key-value pair.
@@ -367,9 +392,11 @@ end)
 ---@nodiscard
 function pairmap(t, fn) end
 ```
+
 :::
 
 <a id="fn-updatet1-t2"></a>
+
 #### `update(t1, t2)`
 
 Merge entries from t2 into t1 and return t1.
@@ -393,9 +420,11 @@ update(t1, { b = 3, c = 4 })
 ---@nodiscard
 function update(t1, t2) end
 ```
+
 :::
 
 <a id="fn-valuest"></a>
+
 #### `values(t)`
 
 Return a list of all values in the table.
@@ -417,4 +446,5 @@ local vals = values({ a = 1, b = 2 })
 ---@nodiscard
 function values(t) end
 ```
+
 :::
