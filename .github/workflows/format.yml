@@ -28,6 +28,7 @@ jobs:
         with:
           version: latest
           args: src spec types
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
