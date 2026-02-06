@@ -25,4 +25,4 @@ jobs:
       - uses: actions/checkout@v6
       - name: Prettier check
         run: |
-          npx --yes prettier --check "**/*.ts" "**/*.mts" "**/*.yml" "**/*.yaml"
+          npx --yes prettier --check .
