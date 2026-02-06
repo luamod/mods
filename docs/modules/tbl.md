@@ -10,17 +10,19 @@ local tbl = require("mods.tbl")
 
 ## Functions
 
-### `clear(t)`
+### Basics
 
-Removes all entries from the table.
+#### `clear(t)`
+
+Remove all entries from the table.
 
 :::tabs
 == Example
 
 ```lua
 local t = { a = 1, b = 2 }
-tbl.clear(t)
--- t is {}
+clear(t)
+-- result: {}
 ```
 
 == Type
@@ -32,17 +34,16 @@ function clear(t) end
 ```
 :::
 
-### `copy(t)`
+#### `copy(t)`
 
-Creates a shallow copy of the table.
+Create a shallow copy of the table.
 
 :::tabs
 == Example
 
 ```lua
-local t = { a = 1, b = 2 }
-local c = tbl.copy(t)
--- c is { a = 1, b = 2 }
+local t = copy({ a = 1, b = 2 })
+-- result: { a = 1, b = 2 }
 ```
 
 == Type
@@ -56,16 +57,16 @@ function copy(t) end
 ```
 :::
 
-### `count(t)`
+#### `count(t)`
 
-Returns the number of keys in the table.
+Return the number of keys in the table.
 
 :::tabs
 == Example
 
 ```lua
-local n = tbl.count({ a = 1, b = 2 })
--- n == 2
+local n = count({ a = 1, b = 2 })
+-- result: 2
 ```
 
 == Type
@@ -78,17 +79,19 @@ function count(t) end
 ```
 :::
 
-### `deepcopy(v)`
+#### `deepcopy(v)`
 
-Creates a deep copy of a value. Tables are copied recursively.
+Create a deep copy of a value.
 
 :::tabs
 == Example
 
 ```lua
-local t = { a = { b = 1 } }
-local c = tbl.deepcopy(t)
--- c.a is a new table
+local n = deepcopy(42)
+-- result: 42
+
+local t = deepcopy({ a = { b = 1 } })
+-- result: { a = { b = 1 } }
 ```
 
 == Type
@@ -102,41 +105,18 @@ function deepcopy(v) end
 ```
 :::
 
-### `filter(t, pred)`
+### Query
 
-Filters entries by a value predicate.
+#### `find(t, v)`
 
-:::tabs
-== Example
-
-```lua
-local even = tbl.filter({ a = 1, b = 2, c = 3 }, function(v)
-  return v % 2 == 0
-end)
--- even is { b = 2 }
-```
-
-== Type
-
-```lua
----@param t table
----@param pred fun(v:any):boolean
----@return table
----@nodiscard
-function filter(t, pred) end
-```
-:::
-
-### `find(t, v)`
-
-Finds the first key whose value equals `v`.
+Find the first key whose value equals the given value.
 
 :::tabs
 == Example
 
 ```lua
-local k = tbl.find({ a = 1, b = 2, c = 2 }, 2)
--- k is "b" or "c"
+local key = find({ a = 1, b = 2, c = 2 }, 2)
+-- result: "b" or "c"
 ```
 
 == Type
@@ -151,18 +131,18 @@ function find(t, v) end
 ```
 :::
 
-### `find_if(t, pred)`
+#### `find_if(t, pred)`
 
-Finds the first value/key pair matching `pred`.
+Find first value and key matching predicate.
 
 :::tabs
 == Example
 
 ```lua
-local v, k = tbl.find_if({ a = 1, b = 2 }, function(v, k)
+local v, k = find_if({ a = 1, b = 2 }, function(v, k)
   return k == "b" and v == 2
 end)
--- v == 2, k == "b"
+-- result: 2, "b"
 ```
 
 == Type
@@ -178,17 +158,20 @@ function find_if(t, pred) end
 ```
 :::
 
-### `get(t, ...)`
+#### `get(t, ...)`
 
-Safely gets a nested value by keys. If no keys are provided, returns `t`.
+Safely get nested value by keys.
 
 :::tabs
 == Example
 
 ```lua
 local t = { a = { b = { c = 1 } } }
-local v = tbl.get(t, "a", "b", "c")
--- v == 1
+local v = get(t, "a", "b", "c")
+-- result: 1
+
+local v2 = get(t)
+-- result: { a = { b = { c = 1 } } }
 ```
 
 == Type
@@ -202,16 +185,65 @@ function get(t, ...) end
 ```
 :::
 
-### `invert(t)`
+#### `isempty(t)`
 
-Inverts keys and values into a new table.
+Return true if table has no entries.
 
 :::tabs
 == Example
 
 ```lua
-local inv = tbl.invert({ a = 1, b = 2 })
--- inv is { [1] = "a", [2] = "b" }
+local empty = isempty({})
+-- result: true
+```
+
+== Type
+
+```lua
+---@param t table
+---@return boolean
+---@nodiscard
+function isempty(t) end
+```
+:::
+
+### Transform
+
+#### `filter(t, pred)`
+
+Filter entries by a value predicate.
+
+:::tabs
+== Example
+
+```lua
+local even = filter({ a = 1, b = 2, c = 3 }, function(v)
+  return v % 2 == 0
+end)
+-- result: { b = 2 }
+```
+
+== Type
+
+```lua
+---@param t table
+---@param pred fun(v:any):boolean
+---@return table
+---@nodiscard
+function filter(t, pred) end
+```
+:::
+
+#### `invert(t)`
+
+Invert keys/values into new table.
+
+:::tabs
+== Example
+
+```lua
+local t = invert({ a = 1, b = 2 })
+-- result: { [1] = "a", [2] = "b" }
 ```
 
 == Type
@@ -225,38 +257,16 @@ function invert(t) end
 ```
 :::
 
-### `isempty(t)`
+#### `keys(t)`
 
-Returns true if the table has no entries.
-
-:::tabs
-== Example
-
-```lua
-local ok = tbl.isempty({})
--- ok == true
-```
-
-== Type
-
-```lua
----@param t table
----@return boolean
----@nodiscard
-function isempty(t) end
-```
-:::
-
-### `keys(t)`
-
-Returns a list of all keys.
+Return a list of all keys in the table.
 
 :::tabs
 == Example
 
 ```lua
-local keys = tbl.keys({ a = 1, b = 2 })
--- keys is { "a", "b" }
+local keys = keys({ a = 1, b = 2 })
+-- result: { "a", "b" }
 ```
 
 == Type
@@ -270,18 +280,18 @@ function keys(t) end
 ```
 :::
 
-### `map(t, fn)`
+#### `map(t, fn)`
 
-Maps each value through `fn` (keys preserved).
+Return a new table by mapping each value (keys preserved).
 
 :::tabs
 == Example
 
 ```lua
-local out = tbl.map({ a = 1, b = 2 }, function(v)
+local t = map({ a = 1, b = 2 }, function(v)
   return v * 10
 end)
--- out is { a = 10, b = 20 }
+-- result: { a = 10, b = 20 }
 ```
 
 == Type
@@ -296,18 +306,18 @@ function map(t, fn) end
 ```
 :::
 
-### `pairmap(t, fn)`
+#### `pairmap(t, fn)`
 
-Maps each key/value pair through `fn` (keys preserved).
+Return a new table by mapping each key-value pair.
 
 :::tabs
 == Example
 
 ```lua
-local out = tbl.pairmap({ a = 1, b = 2 }, function(k, v)
+local t = pairmap({ a = 1, b = 2 }, function(k, v)
   return k .. v
 end)
--- out is { a = "a1", b = "b2" }
+-- result: { a = "a1", b = "b2" }
 ```
 
 == Type
@@ -322,17 +332,17 @@ function pairmap(t, fn) end
 ```
 :::
 
-### `update(t1, t2)`
+#### `update(t1, t2)`
 
-Merges entries from `t2` into `t1` and returns `t1`.
+Merge entries from t2 into t1 and return t1.
 
 :::tabs
 == Example
 
 ```lua
 local t1 = { a = 1, b = 2 }
-tbl.update(t1, { b = 3, c = 4 })
--- t1 is { a = 1, b = 3, c = 4 }
+update(t1, { b = 3, c = 4 })
+-- result: t1 is { a = 1, b = 3, c = 4 }
 ```
 
 == Type
@@ -347,16 +357,16 @@ function update(t1, t2) end
 ```
 :::
 
-### `values(t)`
+#### `values(t)`
 
-Returns a list of all values.
+Return a list of all values in the table.
 
 :::tabs
 == Example
 
 ```lua
-local vals = tbl.values({ a = 1, b = 2 })
--- vals is { 1, 2 }
+local vals = values({ a = 1, b = 2 })
+-- result: { 1, 2 }
 ```
 
 == Type
