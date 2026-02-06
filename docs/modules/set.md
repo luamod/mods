@@ -6,12 +6,42 @@
 
 ```lua
 local Set = require("mods.Set")
+
+local s = Set({ "a", "b", "a" })
+local n = s:len()
+-- n == 2
 ```
+
+## Quick Reference
+
+| Function | Description |
+| --- | --- |
+| [`isdisjoint(set)`](#fn-isdisjointset) | Return true if sets have no elements in common. |
+| [`isempty()`](#fn-isempty) | Return true if the set has no elements. |
+| [`issubset(set)`](#fn-issubsetset) | Return true if all elements of this set are also in another set. |
+| [`issuperset(set)`](#fn-issupersetset) | Return true if this set contains all elements of another set. |
+| [`len()`](#fn-len) | Return the number of elements in the set. |
+| [`copy()`](#fn-copy) | Return a shallow copy of the set. |
+| [`difference(set)`](#fn-differenceset) | Return elements in this set but not in another. |
+| [`intersection(set)`](#fn-intersectionset) | Return elements common to both sets. |
+| [`map(fn)`](#fn-mapfn) | Return a new set by mapping each value. |
+| [`symmetric_difference(set)`](#fn-symmetric_differenceset) | Return elements not shared by both sets. |
+| [`union(set)`](#fn-unionset) | Return a new set with all elements from both. |
+| [`values()`](#fn-values) | Return a list of all values in the set. |
+| [`add(v)`](#fn-addv) | Add an element to the set. |
+| [`clear()`](#fn-clear) | Remove all elements from the set. |
+| [`difference_update(set)`](#fn-difference_updateset) | Remove elements found in another set (in place). |
+| [`discard(v)`](#fn-discardv) | Remove an element if present, do nothing otherwise. |
+| [`intersection_update(set)`](#fn-intersection_updateset) | Keep only elements common to both sets (in place). |
+| [`pop()`](#fn-pop) | Remove and return an arbitrary element. |
+| [`symmetric_difference_update(set)`](#fn-symmetric_difference_updateset) | Update the set with elements not shared by both (in place). |
+| [`update(set)`](#fn-updateset) | Add all elements from another set (in place). |
 
 ## Methods
 
 ### Query
 
+<a id="fn-isdisjointset"></a>
 #### `isdisjoint(set)`
 
 Return true if sets have no elements in common.
@@ -34,6 +64,7 @@ function isdisjoint(set) end
 ```
 :::
 
+<a id="fn-isempty"></a>
 #### `isempty()`
 
 Return true if the set has no elements.
@@ -55,6 +86,7 @@ function isempty() end
 ```
 :::
 
+<a id="fn-issubsetset"></a>
 #### `issubset(set)`
 
 Return true if all elements of this set are also in another set.
@@ -77,6 +109,7 @@ function issubset(set) end
 ```
 :::
 
+<a id="fn-issupersetset"></a>
 #### `issuperset(set)`
 
 Return true if this set contains all elements of another set.
@@ -99,6 +132,7 @@ function issuperset(set) end
 ```
 :::
 
+<a id="fn-len"></a>
 #### `len()`
 
 Return the number of elements in the set.
@@ -122,6 +156,7 @@ function len() end
 
 ### Transform
 
+<a id="fn-copy"></a>
 #### `copy()`
 
 Return a shallow copy of the set.
@@ -144,6 +179,7 @@ function copy() end
 ```
 :::
 
+<a id="fn-differenceset"></a>
 #### `difference(set)`
 
 Return elements in this set but not in another.
@@ -167,6 +203,7 @@ function difference(set) end
 ```
 :::
 
+<a id="fn-intersectionset"></a>
 #### `intersection(set)`
 
 Return elements common to both sets.
@@ -190,6 +227,7 @@ function intersection(set) end
 ```
 :::
 
+<a id="fn-mapfn"></a>
 #### `map(fn)`
 
 Return a new set by mapping each value.
@@ -212,6 +250,7 @@ function map(fn) end
 ```
 :::
 
+<a id="fn-symmetric_differenceset"></a>
 #### `symmetric_difference(set)`
 
 Return elements not shared by both sets.
@@ -235,6 +274,7 @@ function symmetric_difference(set) end
 ```
 :::
 
+<a id="fn-unionset"></a>
 #### `union(set)`
 
 Return a new set with all elements from both.
@@ -257,6 +297,7 @@ function union(set) end
 ```
 :::
 
+<a id="fn-values"></a>
 #### `values()`
 
 Return a list of all values in the set.
@@ -280,6 +321,7 @@ function values() end
 
 ### In-place
 
+<a id="fn-addv"></a>
 #### `add(v)`
 
 Add an element to the set.
@@ -302,6 +344,7 @@ function add(v) end
 ```
 :::
 
+<a id="fn-clear"></a>
 #### `clear()`
 
 Remove all elements from the set.
@@ -323,6 +366,7 @@ function clear() end
 ```
 :::
 
+<a id="fn-difference_updateset"></a>
 #### `difference_update(set)`
 
 Remove elements found in another set (in place).
@@ -345,6 +389,7 @@ function difference_update(set) end
 ```
 :::
 
+<a id="fn-discardv"></a>
 #### `discard(v)`
 
 Remove an element if present, do nothing otherwise.
@@ -367,6 +412,7 @@ function discard(v) end
 ```
 :::
 
+<a id="fn-intersection_updateset"></a>
 #### `intersection_update(set)`
 
 Keep only elements common to both sets (in place).
@@ -389,6 +435,7 @@ function intersection_update(set) end
 ```
 :::
 
+<a id="fn-pop"></a>
 #### `pop()`
 
 Remove and return an arbitrary element.
@@ -409,6 +456,7 @@ function pop() end
 ```
 :::
 
+<a id="fn-symmetric_difference_updateset"></a>
 #### `symmetric_difference_update(set)`
 
 Update the set with elements not shared by both (in place).
@@ -431,6 +479,7 @@ function symmetric_difference_update(set) end
 ```
 :::
 
+<a id="fn-updateset"></a>
 #### `update(set)`
 
 Add all elements from another set (in place).

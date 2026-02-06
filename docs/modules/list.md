@@ -7,13 +7,55 @@
 ```lua
 local List = require("mods.List")
 
-local l = List({ "a", "b", "c" })
+local l = List({ "a", "b", "a" })
+local u = l:uniq()
+-- u is { "a", "b" }
 ```
+
+## Quick Reference
+
+| Function | Description |
+| --- | --- |
+| [`all(pred)`](#fn-allpred) | Return true if all values match the predicate. |
+| [`any(pred)`](#fn-anypred) | Return true if any value matches the predicate. |
+| [`contains(v)`](#fn-containsv) | Return true if the list contains the value. |
+| [`count(v)`](#fn-countv) | Count how many times a value appears. |
+| [`first()`](#fn-first) | Return the first element or nil if empty. |
+| [`index(v)`](#fn-indexv) | Return the index of the first matching value. |
+| [`index_if(pred)`](#fn-index_ifpred) | Return the index of the first value matching the predicate. |
+| [`last()`](#fn-last) | Return the last element or nil if empty. |
+| [`len()`](#fn-len) | Return the number of elements in the list. |
+| [`copy()`](#fn-copy) | Return a shallow copy of the list. |
+| [`difference(ls)`](#fn-differencels) | Return a new list with values not in the given list. |
+| [`drop(n)`](#fn-dropn) | Return a new list without the first n elements. |
+| [`extract(pred)`](#fn-extractpred) | Extract values matching the predicate and remove them from the list. |
+| [`filter(pred)`](#fn-filterpred) | Return a new list with values matching the predicate. |
+| [`flatten()`](#fn-flatten) | Flatten one level of nested lists. |
+| [`group_by(fn)`](#fn-group_byfn) | Group list values by a computed key. |
+| [`intersection(ls)`](#fn-intersectionls) | Return values that are also present in the given list. |
+| [`invert()`](#fn-invert) | Invert values to indices in a new table. |
+| [`map(fn)`](#fn-mapfn) | Return a new list by mapping each value. |
+| [`reverse()`](#fn-reverse) | Return a new list with items reversed. |
+| [`setify()`](#fn-setify) | Convert the list to a set. |
+| [`slice(i, j)`](#fn-slicei-j) | Return a new list containing items from i to j (inclusive). |
+| [`take(n)`](#fn-taken) | Return the first n elements as a new list. |
+| [`uniq()`](#fn-uniq) | Return a new list with duplicates removed (first occurrence kept). |
+| [`zip(other)`](#fn-zipother) | Zip two lists into a list of 2-element tables. |
+| [`append(v)`](#fn-appendv) | Append a value to the end of the list. |
+| [`clear()`](#fn-clear) | Remove all elements from the list. |
+| [`extend(ls)`](#fn-extendls) | Extend the list with another list. |
+| [`insert(v)`](#fn-insertv) | Append a value to the end of the list. |
+| [`pop(pos)`](#fn-poppos) | Remove and return the element at the given position. |
+| [`prepend(v)`](#fn-prependv) | Insert a value at the start of the list. |
+| [`reduce(fn, init)`](#fn-reducefn-init) | Reduce the list to a single value using an accumulator. |
+| [`remove(v)`](#fn-removev) | Remove the first matching value. |
+| [`sort(comp)`](#fn-sortcomp) | Sort the list in place. |
 
 ## Methods
 
 ### Query
 
+<a id="fn-allpred"></a>
 #### `all(pred)`
 
 Return true if all values match the predicate.
@@ -37,6 +79,7 @@ function all(pred) end
 ```
 :::
 
+<a id="fn-anypred"></a>
 #### `any(pred)`
 
 Return true if any value matches the predicate.
@@ -60,6 +103,7 @@ function any(pred) end
 ```
 :::
 
+<a id="fn-containsv"></a>
 #### `contains(v)`
 
 Return true if the list contains the value.
@@ -79,6 +123,7 @@ function contains(v) end
 ```
 :::
 
+<a id="fn-countv"></a>
 #### `count(v)`
 
 Count how many times a value appears.
@@ -99,6 +144,7 @@ function count(v) end
 ```
 :::
 
+<a id="fn-first"></a>
 #### `first()`
 
 Return the first element or nil if empty.
@@ -120,6 +166,7 @@ function first() end
 ```
 :::
 
+<a id="fn-indexv"></a>
 #### `index(v)`
 
 Return the index of the first matching value.
@@ -143,6 +190,7 @@ function index(v) end
 ```
 :::
 
+<a id="fn-index_ifpred"></a>
 #### `index_if(pred)`
 
 Return the index of the first value matching the predicate.
@@ -166,6 +214,7 @@ function index_if(pred) end
 ```
 :::
 
+<a id="fn-last"></a>
 #### `last()`
 
 Return the last element or nil if empty.
@@ -187,6 +236,7 @@ function last() end
 ```
 :::
 
+<a id="fn-len"></a>
 #### `len()`
 
 Return the number of elements in the list.
@@ -209,6 +259,7 @@ function len() end
 
 ### Transform
 
+<a id="fn-copy"></a>
 #### `copy()`
 
 Return a shallow copy of the list.
@@ -229,6 +280,7 @@ function copy() end
 ```
 :::
 
+<a id="fn-differencels"></a>
 #### `difference(ls)`
 
 Return a new list with values not in the given list.
@@ -248,6 +300,7 @@ function difference(ls) end
 ```
 :::
 
+<a id="fn-dropn"></a>
 #### `drop(n)`
 
 Return a new list without the first n elements.
@@ -270,6 +323,7 @@ function drop(n) end
 ```
 :::
 
+<a id="fn-extractpred"></a>
 #### `extract(pred)`
 
 Extract values matching the predicate and remove them from the list.
@@ -294,6 +348,7 @@ function extract(pred) end
 ```
 :::
 
+<a id="fn-filterpred"></a>
 #### `filter(pred)`
 
 Return a new list with values matching the predicate.
@@ -317,6 +372,7 @@ function filter(pred) end
 ```
 :::
 
+<a id="fn-flatten"></a>
 #### `flatten()`
 
 Flatten one level of nested lists.
@@ -338,6 +394,7 @@ function flatten() end
 ```
 :::
 
+<a id="fn-group_byfn"></a>
 #### `group_by(fn)`
 
 Group list values by a computed key.
@@ -361,6 +418,7 @@ function group_by(fn) end
 ```
 :::
 
+<a id="fn-intersectionls"></a>
 #### `intersection(ls)`
 
 Return values that are also present in the given list.
@@ -383,6 +441,7 @@ function intersection(ls) end
 ```
 :::
 
+<a id="fn-invert"></a>
 #### `invert()`
 
 Invert values to indices in a new table.
@@ -403,6 +462,7 @@ function invert() end
 ```
 :::
 
+<a id="fn-mapfn"></a>
 #### `map(fn)`
 
 Return a new list by mapping each value.
@@ -425,6 +485,7 @@ function map(fn) end
 ```
 :::
 
+<a id="fn-reverse"></a>
 #### `reverse()`
 
 Return a new list with items reversed.
@@ -445,6 +506,7 @@ function reverse() end
 ```
 :::
 
+<a id="fn-setify"></a>
 #### `setify()`
 
 Convert the list to a set.
@@ -466,6 +528,7 @@ function setify() end
 ```
 :::
 
+<a id="fn-slicei-j"></a>
 #### `slice(i, j)`
 
 Return a new list containing items from i to j (inclusive).
@@ -489,6 +552,7 @@ function slice(i, j) end
 ```
 :::
 
+<a id="fn-taken"></a>
 #### `take(n)`
 
 Return the first n elements as a new list.
@@ -511,6 +575,7 @@ function take(n) end
 ```
 :::
 
+<a id="fn-uniq"></a>
 #### `uniq()`
 
 Return a new list with duplicates removed (first occurrence kept).
@@ -532,6 +597,7 @@ function uniq() end
 ```
 :::
 
+<a id="fn-zipother"></a>
 #### `zip(other)`
 
 Zip two lists into a list of 2-element tables.
@@ -556,6 +622,7 @@ function zip(other) end
 
 ### In-place
 
+<a id="fn-appendv"></a>
 #### `append(v)`
 
 Append a value to the end of the list.
@@ -576,6 +643,7 @@ function append(v) end
 ```
 :::
 
+<a id="fn-clear"></a>
 #### `clear()`
 
 Remove all elements from the list.
@@ -596,6 +664,7 @@ function clear() end
 ```
 :::
 
+<a id="fn-extendls"></a>
 #### `extend(ls)`
 
 Extend the list with another list.
@@ -616,6 +685,7 @@ function extend(ls) end
 ```
 :::
 
+<a id="fn-insertv"></a>
 #### `insert(v)`
 
 Append a value to the end of the list.
@@ -637,6 +707,7 @@ function insert(v) end
 ```
 :::
 
+<a id="fn-poppos"></a>
 #### `pop(pos)`
 
 Remove and return the element at the given position.
@@ -659,6 +730,7 @@ function pop(pos) end
 ```
 :::
 
+<a id="fn-prependv"></a>
 #### `prepend(v)`
 
 Insert a value at the start of the list.
@@ -681,6 +753,7 @@ function prepend(v) end
 ```
 :::
 
+<a id="fn-reducefn-init"></a>
 #### `reduce(fn, init)`
 
 Reduce the list to a single value using an accumulator.
@@ -708,6 +781,7 @@ function reduce(fn, init) end
 ```
 :::
 
+<a id="fn-removev"></a>
 #### `remove(v)`
 
 Remove the first matching value.
@@ -728,6 +802,7 @@ function remove(v) end
 ```
 :::
 
+<a id="fn-sortcomp"></a>
 #### `sort(comp)`
 
 Sort the list in place.
