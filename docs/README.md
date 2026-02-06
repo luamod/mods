@@ -16,7 +16,7 @@ npm install
 npm run build
 ```
 
-2. Once built, preview it locally by running:
+1. Once built, preview it locally by running:
 
 ```bash
 npm run preview
@@ -24,7 +24,7 @@ npm run preview
 
 The `preview` command will boot up a local static web server that will serve the output directory `docs/.vitepress/dist` at `http://localhost:4173`. You can use this to make sure everything looks good before pushing to production.
 
-3. You can configure the port of the server by passing `--port` as an argument in `package.json`.
+1. You can configure the port of the server by passing `--port` as an argument in `package.json`.
 
 ```json
 {

@@ -13,6 +13,8 @@ hero:
       link: /modules/
 ---
 
+# Mods
+
 ## What is Mods?
 
 Mods is a collection of small, focused Lua modules designed to be easy to use and easy to embed.
@@ -41,10 +43,6 @@ local u = l:uniq()      -- { "a", "b" }
 local s = Set({ "a", "b" })
 local k = tbl.keys({ a = 1, b = 2 })
 ```
-
-- Minimal dependencies
-- Clear, consistent APIs
-- Portable across Lua runtimes
 
 ## Next steps
 
