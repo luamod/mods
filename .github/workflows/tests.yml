@@ -4,7 +4,15 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "src/**"
+      - "spec/**"
+      - ".github/workflows/tests.yml"
   pull_request:
+    paths:
+      - "src/**"
+      - "spec/**"
+      - ".github/workflows/tests.yml"
 
 jobs:
   busted:
