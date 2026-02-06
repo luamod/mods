@@ -24,6 +24,6 @@ jobs:
           luarocks install busted
           luarocks install luacheck
       - name: Run luacheck
-        run: luacheck src/mods
+        run: luacheck .
       - name: Run tests
         run: busted

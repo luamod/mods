@@ -1,1 +1,1 @@
-exclude_files = { "types", "spec" }
+include_files = { "src" }
