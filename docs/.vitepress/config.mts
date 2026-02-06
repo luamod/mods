@@ -6,12 +6,25 @@ export default defineConfig({
   description: "Pure standalone Lua modules.",
   base: "/mods/",
   head: [
+    ["link", { rel: "icon", type: "image/svg+xml", href: "/logo.svg" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:title", content: "Mods" }],
-    ["meta", { property: "og:description", content: "Pure standalone Lua modules." }],
-    ["meta", { property: "og:image", content: "https://luamod.github.io/mods/og.svg" }],
+    [
+      "meta",
+      { property: "og:description", content: "Pure standalone Lua modules." },
+    ],
+    [
+      "meta",
+      { property: "og:image", content: "https://luamod.github.io/mods/og.svg" },
+    ],
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
-    ["meta", { name: "twitter:image", content: "https://luamod.github.io/mods/og.svg" }],
+    [
+      "meta",
+      {
+        name: "twitter:image",
+        content: "https://luamod.github.io/mods/og.svg",
+      },
+    ],
   ],
   themeConfig: {
     outline: [2, 4], // show h2-h4
