@@ -25,6 +25,9 @@ export default defineConfig({
       pattern: "https://github.com/luamod/mods/edit/main/docs/:path",
       text: "Edit this page",
     },
+    search: {
+      provider: "local",
+    },
   },
     markdown: {
     config(md) {
