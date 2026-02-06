@@ -8,10 +8,17 @@ export default defineConfig({
     outline: [2, 4], // show h2-h4
     nav: [
       { text: "🏠 Home", link: "/" },
+      { text: "Get Started", link: "/getting-started" },
       { text: "Modules", link: "/modules/" },
     ],
     logo: "/logo.svg",
     sidebar: [
+      {
+        text: "Start",
+        items: [
+          { text: "Getting Started", link: "/getting-started" },
+        ],
+      },
       {
         text: "Modules",
         items: [
@@ -29,6 +36,9 @@ export default defineConfig({
     search: {
       provider: "local",
     },
+    socialLinks: [
+      { icon: "github", link: "https://github.com/luamod/mods" },
+    ],
   },
     markdown: {
     config(md) {
