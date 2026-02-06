@@ -1,0 +1,30 @@
+rockspec_format = "3.0"
+
+package = "mods"
+version = "0.1.0-1"
+source = {
+  url = "git+https://github.com/luamod/mods.git",
+  branch = "main",
+}
+
+description = {
+  summary = "Pure standalone Lua modules",
+  detailed = [[
+Mods provides small, focused Lua modules: List, Set, and table utilities.
+]],
+  homepage = "https://github.com/luamod/mods",
+  license = "MIT",
+}
+
+dependencies = {
+  "lua >= 5.1",
+}
+
+build = {
+  type = "builtin",
+  modules = {
+    ["mods.List"] = "src/mods/List.lua",
+    ["mods.Set"]  = "src/mods/Set.lua",
+    ["mods.tbl"]  = "src/mods/tbl.lua",
+  },
+}
