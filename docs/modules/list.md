@@ -554,7 +554,7 @@ function zip(other) end
 ```
 :::
 
-### Mutate
+### In-place
 
 #### `append(v)`
 
