@@ -119,6 +119,9 @@ local ok = List({ "a", "b" }):contains("b")
 == Type
 
 ```lua
+---@param v any
+---@return any
+---@nodiscard
 function contains(v) end
 ```
 :::
@@ -631,14 +634,14 @@ Append a value to the end of the list.
 == Example
 
 ```lua
-local l = List({ "a" })
-l:append("b")
+local l = List({ "a" }):append("b")
 -- result: { "a", "b" }
 ```
 
 == Type
 
 ```lua
+---@return self self
 function append(v) end
 ```
 :::
@@ -652,14 +655,14 @@ Remove all elements from the list.
 == Example
 
 ```lua
-local l = List({ "a", "b" })
-l:clear()
+local l = List({ "a", "b" }):clear()
 -- result: { }
 ```
 
 == Type
 
 ```lua
+---@return self self
 function clear() end
 ```
 :::
