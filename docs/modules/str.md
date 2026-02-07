@@ -4,7 +4,7 @@ editLinkTarget: types/str.lua
 
 # str
 
-`mods.str` Return copy with first character capitalized and the rest lowercased.
+`mods.str` String utility helpers modeled after Python's `str`.
 
 ## Quick Reference
 
