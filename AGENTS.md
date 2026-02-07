@@ -32,11 +32,6 @@ These instructions apply to automated agents working in this repo.
 
 - Add or update tests when behavior changes and tests exist.
 
-## Pull request guidelines
-
-- Open an issue for bugs or feature ideas when scope is unclear.
-- Submit a PR with clear scope and tests when possible.
-
 ## Security considerations
 
 - Follow `SECURITY.md` for vulnerability reporting (use GitHub Security Advisories).
