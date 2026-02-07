@@ -155,7 +155,7 @@ Get acronym of words in string (first letters only).
 == Example
 
 ```lua
-M.acronym("Hyper Text Markup Language") --> "HTML"
+acronym("Hyper Text Markup Language") --> "HTML"
 ```
 
 == Signature
@@ -178,7 +178,7 @@ Convert string to Title Case (first letter of each word capitalized).
 == Example
 
 ```lua
-M.title("hello world") --> "Hello World"
+title("hello world") --> "Hello World"
 ```
 
 == Signature
@@ -201,7 +201,7 @@ Convert string to CONSTANT_CASE (uppercase snake_case).
 == Example
 
 ```lua
-M.constant("hello world") --> "HELLO_WORLD"
+constant("hello world") --> "HELLO_WORLD"
 ```
 
 == Signature
@@ -224,7 +224,7 @@ Convert string to PascalCase.
 == Example
 
 ```lua
-M.pascal("hello world") --> "HelloWorld"
+pascal("hello world") --> "HelloWorld"
 ```
 
 == Signature
@@ -247,7 +247,7 @@ Convert string to kebab-case.
 == Example
 
 ```lua
-M.kebab("hello world") --> "hello-world"
+kebab("hello world") --> "hello-world"
 ```
 
 == Signature
@@ -270,7 +270,7 @@ Convert string to dot.case.
 == Example
 
 ```lua
-M.dot("hello world") --> "hello.world"
+dot("hello world") --> "hello.world"
 ```
 
 == Signature
@@ -293,7 +293,7 @@ Convert string to space case (spaces between words).
 == Example
 
 ```lua
-M.space("hello_world") --> "hello world"
+space("hello_world") --> "hello world"
 ```
 
 == Signature
@@ -316,7 +316,7 @@ Convert string to path/case (slashes between words).
 == Example
 
 ```lua
-M.path("hello world") --> "hello/world"
+path("hello world") --> "hello/world"
 ```
 
 == Signature
@@ -339,7 +339,7 @@ Swap case of each letter.
 == Example
 
 ```lua
-M.swap("Hello World") --> "hELLO wORLD"
+swap("Hello World") --> "hELLO wORLD"
 ```
 
 == Signature
@@ -362,7 +362,7 @@ Capitalize the first letter and lowercase the rest.
 == Example
 
 ```lua
-M.capital("hELLO") --> "Hello"
+capital("hELLO") --> "Hello"
 ```
 
 == Signature
@@ -385,7 +385,7 @@ Convert string to sentence case (first letter uppercase, rest lowercase).
 == Example
 
 ```lua
-M.sentence("hELLO WORLD") --> "Hello world"
+sentence("hELLO WORLD") --> "Hello world"
 ```
 
 == Signature
