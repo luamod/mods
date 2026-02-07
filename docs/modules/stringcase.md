@@ -8,24 +8,24 @@ editLinkTarget: types/stringcase.lua
 
 ## Quick Reference
 
-| Function | Description |
-| --- | --- |
-| [`lower(s)`](#fn-lowers) | Convert string to all lowercase. |
-| [`upper(s)`](#fn-uppers) | Convert string to all uppercase. |
-| [`snake(s)`](#fn-snakes) | Convert string to snake_case. |
-| [`camel(s)`](#fn-camels) | Convert string to camelCase. |
+| Function                              | Description                                                               |
+| ------------------------------------- | ------------------------------------------------------------------------- |
+| [`lower(s)`](#fn-lowers)              | Convert string to all lowercase.                                          |
+| [`upper(s)`](#fn-uppers)              | Convert string to all uppercase.                                          |
+| [`snake(s)`](#fn-snakes)              | Convert string to snake_case.                                             |
+| [`camel(s)`](#fn-camels)              | Convert string to camelCase.                                              |
 | [`replace(s, sep)`](#fn-replaces-sep) | Replace underscores in snake_case with a given separator (default empty). |
-| [`acronym(s)`](#fn-acronyms) | Get acronym of words in string (first letters only). |
-| [`title(s)`](#fn-titles) | Convert string to Title Case (first letter of each word capitalized). |
-| [`constant(s)`](#fn-constants) | Convert string to CONSTANT_CASE (uppercase snake_case). |
-| [`pascal(s)`](#fn-pascals) | Convert string to PascalCase. |
-| [`kebab(s)`](#fn-kebabs) | Convert string to kebab-case. |
-| [`dot(s)`](#fn-dots) | Convert string to dot.case. |
-| [`space(s)`](#fn-spaces) | Convert string to space case (spaces between words). |
-| [`path(s)`](#fn-paths) | Convert string to path/case (slashes between words). |
-| [`swap(s)`](#fn-swaps) | Swap case of each letter. |
-| [`capital(s)`](#fn-capitals) | Capitalize the first letter and lowercase the rest. |
-| [`sentence(s)`](#fn-sentences) | Convert string to sentence case (first letter uppercase, rest lowercase). |
+| [`acronym(s)`](#fn-acronyms)          | Get acronym of words in string (first letters only).                      |
+| [`title(s)`](#fn-titles)              | Convert string to Title Case (first letter of each word capitalized).     |
+| [`constant(s)`](#fn-constants)        | Convert string to CONSTANT_CASE (uppercase snake_case).                   |
+| [`pascal(s)`](#fn-pascals)            | Convert string to PascalCase.                                             |
+| [`kebab(s)`](#fn-kebabs)              | Convert string to kebab-case.                                             |
+| [`dot(s)`](#fn-dots)                  | Convert string to dot.case.                                               |
+| [`space(s)`](#fn-spaces)              | Convert string to space case (spaces between words).                      |
+| [`path(s)`](#fn-paths)                | Convert string to path/case (slashes between words).                      |
+| [`swap(s)`](#fn-swaps)                | Swap case of each letter.                                                 |
+| [`capital(s)`](#fn-capitals)          | Capitalize the first letter and lowercase the rest.                       |
+| [`sentence(s)`](#fn-sentences)        | Convert string to sentence case (first letter uppercase, rest lowercase). |
 
 ## Functions
 
@@ -36,6 +36,7 @@ editLinkTarget: types/stringcase.lua
 Convert string to all lowercase.
 
 **Example**:
+
 ```lua
 lower("Hello World") --> "hello world"
 ```
@@ -58,6 +59,7 @@ function lower(s) end
 Convert string to all uppercase.
 
 **Example**:
+
 ```lua
 upper("Hello World") --> "HELLO WORLD"
 ```
@@ -80,6 +82,7 @@ function upper(s) end
 Convert string to snake_case.
 
 **Example**:
+
 ```lua
 snake("Hello World") --> "hello_world"
 ```
@@ -102,6 +105,7 @@ function snake(s) end
 Convert string to camelCase.
 
 **Example**:
+
 ```lua
 camel("Hello World") --> "helloWorld"
 ```
@@ -124,6 +128,7 @@ function camel(s) end
 Replace underscores in snake_case with a given separator (default empty).
 
 **Example**:
+
 ```lua
 replace("hello_world", "-") --> "hello-world"
 ```
@@ -147,6 +152,7 @@ function replace(s, sep) end
 Get acronym of words in string (first letters only).
 
 **Example**:
+
 ```lua
 M.acronym("Hyper Text Markup Language") --> "HTML"
 ```
@@ -169,6 +175,7 @@ function acronym(s) end
 Convert string to Title Case (first letter of each word capitalized).
 
 **Example**:
+
 ```lua
 M.title("hello world") --> "Hello World"
 ```
@@ -191,6 +198,7 @@ function title(s) end
 Convert string to CONSTANT_CASE (uppercase snake_case).
 
 **Example**:
+
 ```lua
 M.constant("hello world") --> "HELLO_WORLD"
 ```
@@ -213,6 +221,7 @@ function constant(s) end
 Convert string to PascalCase.
 
 **Example**:
+
 ```lua
 M.pascal("hello world") --> "HelloWorld"
 ```
@@ -235,6 +244,7 @@ function pascal(s) end
 Convert string to kebab-case.
 
 **Example**:
+
 ```lua
 M.kebab("hello world") --> "hello-world"
 ```
@@ -257,6 +267,7 @@ function kebab(s) end
 Convert string to dot.case.
 
 **Example**:
+
 ```lua
 M.dot("hello world") --> "hello.world"
 ```
@@ -279,6 +290,7 @@ function dot(s) end
 Convert string to space case (spaces between words).
 
 **Example**:
+
 ```lua
 M.space("hello_world") --> "hello world"
 ```
@@ -301,6 +313,7 @@ function space(s) end
 Convert string to path/case (slashes between words).
 
 **Example**:
+
 ```lua
 M.path("hello world") --> "hello/world"
 ```
@@ -323,6 +336,7 @@ function path(s) end
 Swap case of each letter.
 
 **Example**:
+
 ```lua
 M.swap("Hello World") --> "hELLO wORLD"
 ```
@@ -345,6 +359,7 @@ function swap(s) end
 Capitalize the first letter and lowercase the rest.
 
 **Example**:
+
 ```lua
 M.capital("hELLO") --> "Hello"
 ```
@@ -367,6 +382,7 @@ function capital(s) end
 Convert string to sentence case (first letter uppercase, rest lowercase).
 
 **Example**:
+
 ```lua
 M.sentence("hELLO WORLD") --> "Hello world"
 ```
