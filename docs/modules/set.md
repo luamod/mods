@@ -8,28 +8,28 @@ editLinkTarget: types/Set.lua
 
 ## Quick Reference
 
-| Function                                   | Description                                                      |
-| ------------------------------------------ | ---------------------------------------------------------------- |
-| [`add(v)`](#fn-addv)                       | Add an element to the set.                                       |
-| [`clear()`](#fn-clear)                     | Remove all elements from the set.                                |
-| [`copy()`](#fn-copy)                       | Return a shallow copy of the set.                                |
-| [`difference(set)`](#fn-differenceset)     | Return elements in this set but not in another.                  |
-| [`update(set)`](#fn-updateset)             | Remove elements found in another set (in place).                 |
-| [`discard(v)`](#fn-discardv)               | Remove an element if present, do nothing otherwise.              |
-| [`intersection(set)`](#fn-intersectionset) | Return elements common to both sets.                             |
-| [`update(set)`](#fn-updateset)             | Keep only elements common to both sets (in place).               |
-| [`isdisjoint(set)`](#fn-isdisjointset)     | Return true if sets have no elements in common.                  |
-| [`isempty()`](#fn-isempty)                 | Return true if the set has no elements.                          |
-| [`issubset(set)`](#fn-issubsetset)         | Return true if all elements of this set are also in another set. |
-| [`issuperset(set)`](#fn-issupersetset)     | Return true if this set contains all elements of another set.    |
-| [`len()`](#fn-len)                         | Return the number of elements in the set.                        |
-| [`map(fn)`](#fn-mapfn)                     | Return a new set by mapping each value.                          |
-| [`pop()`](#fn-pop)                         | Remove and return an arbitrary element.                          |
-| [`difference(set)`](#fn-differenceset)     | Return elements not shared by both sets.                         |
-| [`update(set)`](#fn-updateset)             | Update the set with elements not shared by both (in place).      |
-| [`union(set)`](#fn-unionset)               | Return a new set with all elements from both.                    |
-| [`update(set)`](#fn-updateset)             | Add all elements from another set (in place).                    |
-| [`values()`](#fn-values)                   | Return a list of all values in the set.                          |
+| Function | Description |
+| --- | --- |
+| [`add(v)`](#fn-addv) | Add an element to the set. |
+| [`clear()`](#fn-clear) | Remove all elements from the set. |
+| [`copy()`](#fn-copy) | Return a shallow copy of the set. |
+| [`difference(set)`](#fn-differenceset) | Return elements in this set but not in another. |
+| [`update(set)`](#fn-updateset) | Remove elements found in another set (in place). |
+| [`discard(v)`](#fn-discardv) | Remove an element if present, do nothing otherwise. |
+| [`intersection(set)`](#fn-intersectionset) | Return elements common to both sets. |
+| [`update(set)`](#fn-updateset) | Keep only elements common to both sets (in place). |
+| [`isdisjoint(set)`](#fn-isdisjointset) | Return true if sets have no elements in common. |
+| [`isempty()`](#fn-isempty) | Return true if the set has no elements. |
+| [`issubset(set)`](#fn-issubsetset) | Return true if all elements of this set are also in another set. |
+| [`issuperset(set)`](#fn-issupersetset) | Return true if this set contains all elements of another set. |
+| [`len()`](#fn-len) | Return the number of elements in the set. |
+| [`map(fn)`](#fn-mapfn) | Return a new set by mapping each value. |
+| [`pop()`](#fn-pop) | Remove and return an arbitrary element. |
+| [`difference(set)`](#fn-differenceset) | Return elements not shared by both sets. |
+| [`update(set)`](#fn-updateset) | Update the set with elements not shared by both (in place). |
+| [`union(set)`](#fn-unionset) | Return a new set with all elements from both. |
+| [`update(set)`](#fn-updateset) | Add all elements from another set (in place). |
+| [`values()`](#fn-values) | Return a list of all values in the set. |
 
 ## Functions
 
@@ -51,8 +51,8 @@ s:add("b")
 == Signature
 
 ```lua
----@@param v any
----@@return self self
+---@param v any
+---@return self self
 function add(v) end
 ```
 
@@ -76,7 +76,7 @@ s:clear()
 == Signature
 
 ```lua
----@@return self self
+---@return self self
 function clear() end
 ```
 
@@ -100,8 +100,8 @@ local c = s:copy()
 == Signature
 
 ```lua
----@@return mods.Set
----@@nodiscard
+---@return mods.Set
+---@nodiscard
 function copy() end
 ```
 
@@ -125,9 +125,9 @@ local d = s:difference(Set({ "b" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return mods.Set
----@@nodiscard
+---@param set mods.Set
+---@return mods.Set
+---@nodiscard
 function difference(set) end
 ```
 
@@ -151,8 +151,8 @@ s:difference_update(Set({ "b" }))
 == Signature
 
 ```lua
----@@param set self
----@@return self self
+---@param set self
+---@return self self
 function update(set) end
 ```
 
@@ -176,8 +176,8 @@ s:discard("b")
 == Signature
 
 ```lua
----@@param v any
----@@return self self
+---@param v any
+---@return self self
 function discard(v) end
 ```
 
@@ -201,9 +201,9 @@ local i = s:intersection(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return mods.Set
----@@nodiscard
+---@param set mods.Set
+---@return mods.Set
+---@nodiscard
 function intersection(set) end
 ```
 
@@ -227,8 +227,8 @@ s:intersection_update(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return self self
+---@param set mods.Set
+---@return self self
 function update(set) end
 ```
 
@@ -251,9 +251,9 @@ local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return boolean
----@@nodiscard
+---@param set mods.Set
+---@return boolean
+---@nodiscard
 function isdisjoint(set) end
 ```
 
@@ -276,8 +276,8 @@ local empty = Set({}):isempty()
 == Signature
 
 ```lua
----@@return boolean
----@@nodiscard
+---@return boolean
+---@nodiscard
 function isempty() end
 ```
 
@@ -300,9 +300,9 @@ local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return boolean
----@@nodiscard
+---@param set mods.Set
+---@return boolean
+---@nodiscard
 function issubset(set) end
 ```
 
@@ -325,9 +325,9 @@ local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return boolean
----@@nodiscard
+---@param set mods.Set
+---@return boolean
+---@nodiscard
 function issuperset(set) end
 ```
 
@@ -350,8 +350,8 @@ local n = Set({ "a", "b" }):len()
 == Signature
 
 ```lua
----@@return integer
----@@nodiscard
+---@return integer
+---@nodiscard
 function len() end
 ```
 
@@ -374,9 +374,9 @@ local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
 == Signature
 
 ```lua
----@@param fn fun(v:T):any
----@@return mods.Set
----@@nodiscard
+---@param fn fun(v:T):any
+---@return mods.Set
+---@nodiscard
 function map(fn) end
 ```
 
@@ -399,7 +399,7 @@ local v = Set({ "a", "b" }):pop()
 == Signature
 
 ```lua
----@@return any
+---@return any
 function pop() end
 ```
 
@@ -423,9 +423,9 @@ local d = s:symmetric_difference(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return mods.Set
----@@nodiscard
+---@param set mods.Set
+---@return mods.Set
+---@nodiscard
 function difference(set) end
 ```
 
@@ -449,8 +449,8 @@ s:symmetric_difference_update(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@@param set self
----@@return self self
+---@param set self
+---@return self self
 function update(set) end
 ```
 
@@ -473,9 +473,9 @@ local s = Set({ "a" }):union(Set({ "b" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return mods.Set
----@@nodiscard
+---@param set mods.Set
+---@return mods.Set
+---@nodiscard
 function union(set) end
 ```
 
@@ -499,8 +499,8 @@ s:update(Set({ "b" }))
 == Signature
 
 ```lua
----@@param set mods.Set
----@@return self self
+---@param set mods.Set
+---@return self self
 function update(set) end
 ```
 
@@ -523,8 +523,8 @@ local values = Set({ "a", "b" }):values()
 == Signature
 
 ```lua
----@@return mods.List values
----@@nodiscard
+---@return mods.List values
+---@nodiscard
 function values() end
 ```
 

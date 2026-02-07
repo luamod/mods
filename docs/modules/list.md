@@ -8,46 +8,46 @@ editLinkTarget: types/List.lua
 
 ## Quick Reference
 
-| Function                                 | Description                                                          |
-| ---------------------------------------- | -------------------------------------------------------------------- |
-| [`all(pred)`](#fn-allpred)               | Return true if all values match the predicate.                       |
-| [`any(pred)`](#fn-anypred)               | Return true if any value matches the predicate.                      |
-| [`append(v)`](#fn-appendv)               | Append a value to the end of the list.                               |
-| [`clear()`](#fn-clear)                   | Remove all elements from the list.                                   |
-| [`contains(v)`](#fn-containsv)           | Return true if the list contains the value.                          |
-| [`copy()`](#fn-copy)                     | Return a shallow copy of the list.                                   |
-| [`count(v)`](#fn-countv)                 | Count how many times a value appears.                                |
-| [`difference(ls)`](#fn-differencels)     | Return a new list with values not in the given list.                 |
-| [`drop(n)`](#fn-dropn)                   | Return a new list without the first n elements.                      |
-| [`extend(ls)`](#fn-extendls)             | Extend the list with another list.                                   |
-| [`extract(pred)`](#fn-extractpred)       | Extract values matching the predicate and remove them from the list. |
-| [`filter(pred)`](#fn-filterpred)         | Return a new list with values matching the predicate.                |
-| [`first()`](#fn-first)                   | Return the first element or nil if empty.                            |
-| [`flatten()`](#fn-flatten)               | Flatten one level of nested lists.                                   |
-| [`foreach(fn)`](#fn-foreachfn)           | Apply a function to each element (for side effects).                 |
-| [`by(fn)`](#fn-byfn)                     | Group list values by a computed key.                                 |
-| [`index(v)`](#fn-indexv)                 | Return the index of the first matching value.                        |
-| [`if(pred)`](#fn-ifpred)                 | Return the index of the first value matching the predicate.          |
-| [`insert(pos, v)`](#fn-insertpos-v)      | Insert a value at the given position.                                |
-| [`insert(v)`](#fn-insertv)               | Append a value to the end of the list.                               |
-| [`intersection(ls)`](#fn-intersectionls) | Return values that are also present in the given list.               |
-| [`invert()`](#fn-invert)                 | Invert values to indices in a new table.                             |
-| [`join(sep)`](#fn-joinsep)               | Join list values into a string.                                      |
-| [`last()`](#fn-last)                     | Return the last element or nil if empty.                             |
-| [`len()`](#fn-len)                       | Return the number of elements in the list.                           |
-| [`map(fn)`](#fn-mapfn)                   | Return a new list by mapping each value.                             |
-| [`pop()`](#fn-pop)                       | Remove and return the last element.                                  |
-| [`pop(pos)`](#fn-poppos)                 | Remove and return the element at the given position.                 |
-| [`prepend(v)`](#fn-prependv)             | Insert a value at the start of the list.                             |
-| [`reduce(fn, init)`](#fn-reducefn-init)  | Reduce the list to a single value using an accumulator.              |
-| [`remove(v)`](#fn-removev)               | Remove the first matching value.                                     |
-| [`reverse()`](#fn-reverse)               | Return a new list with items reversed.                               |
-| [`setify()`](#fn-setify)                 | Convert the list to a set.                                           |
-| [`slice(i, j)`](#fn-slicei-j)            | Return a new list containing items from i to j (inclusive).          |
-| [`sort(comp)`](#fn-sortcomp)             | Sort the list in place.                                              |
-| [`take(n)`](#fn-taken)                   | Return the first n elements as a new list.                           |
-| [`uniq()`](#fn-uniq)                     | Return a new list with duplicates removed (first occurrence kept).   |
-| [`zip(other)`](#fn-zipother)             | Zip two lists into a list of 2-element tables.                       |
+| Function | Description |
+| --- | --- |
+| [`all(pred)`](#fn-allpred) | Return true if all values match the predicate. |
+| [`any(pred)`](#fn-anypred) | Return true if any value matches the predicate. |
+| [`append(v)`](#fn-appendv) | Append a value to the end of the list. |
+| [`clear()`](#fn-clear) | Remove all elements from the list. |
+| [`contains(v)`](#fn-containsv) | Return true if the list contains the value. |
+| [`copy()`](#fn-copy) | Return a shallow copy of the list. |
+| [`count(v)`](#fn-countv) | Count how many times a value appears. |
+| [`difference(ls)`](#fn-differencels) | Return a new list with values not in the given list. |
+| [`drop(n)`](#fn-dropn) | Return a new list without the first n elements. |
+| [`extend(ls)`](#fn-extendls) | Extend the list with another list. |
+| [`extract(pred)`](#fn-extractpred) | Extract values matching the predicate and remove them from the list. |
+| [`filter(pred)`](#fn-filterpred) | Return a new list with values matching the predicate. |
+| [`first()`](#fn-first) | Return the first element or nil if empty. |
+| [`flatten()`](#fn-flatten) | Flatten one level of nested lists. |
+| [`foreach(fn)`](#fn-foreachfn) | Apply a function to each element (for side effects). |
+| [`by(fn)`](#fn-byfn) | Group list values by a computed key. |
+| [`index(v)`](#fn-indexv) | Return the index of the first matching value. |
+| [`if(pred)`](#fn-ifpred) | Return the index of the first value matching the predicate. |
+| [`insert(pos, v)`](#fn-insertpos-v) | Insert a value at the given position. |
+| [`insert(v)`](#fn-insertv) | Append a value to the end of the list. |
+| [`intersection(ls)`](#fn-intersectionls) | Return values that are also present in the given list. |
+| [`invert()`](#fn-invert) | Invert values to indices in a new table. |
+| [`join(sep)`](#fn-joinsep) | Join list values into a string. |
+| [`last()`](#fn-last) | Return the last element or nil if empty. |
+| [`len()`](#fn-len) | Return the number of elements in the list. |
+| [`map(fn)`](#fn-mapfn) | Return a new list by mapping each value. |
+| [`pop()`](#fn-pop) | Remove and return the last element. |
+| [`pop(pos)`](#fn-poppos) | Remove and return the element at the given position. |
+| [`prepend(v)`](#fn-prependv) | Insert a value at the start of the list. |
+| [`reduce(fn, init)`](#fn-reducefn-init) | Reduce the list to a single value using an accumulator. |
+| [`remove(v)`](#fn-removev) | Remove the first matching value. |
+| [`reverse()`](#fn-reverse) | Return a new list with items reversed. |
+| [`setify()`](#fn-setify) | Convert the list to a set. |
+| [`slice(i, j)`](#fn-slicei-j) | Return a new list containing items from i to j (inclusive). |
+| [`sort(comp)`](#fn-sortcomp) | Sort the list in place. |
+| [`take(n)`](#fn-taken) | Return the first n elements as a new list. |
+| [`uniq()`](#fn-uniq) | Return a new list with duplicates removed (first occurrence kept). |
+| [`zip(other)`](#fn-zipother) | Zip two lists into a list of 2-element tables. |
 
 ## Functions
 
@@ -70,9 +70,10 @@ local ok = List({ 2, 4 }):all(is_even)
 == Signature
 
 ```lua
----@@param pred fun(v:any):boolean
----@@return boolean
----@@nodiscard
+---@param self mods.List
+---@param pred fun(v:any):boolean
+---@return boolean
+---@nodiscard
 function all(pred) end
 ```
 
@@ -96,9 +97,10 @@ local ok = List({ "a", "bb" }):any(has_len_2)
 == Signature
 
 ```lua
----@@param pred fun(v:any):boolean
----@@return boolean
----@@nodiscard
+---@param self mods.List
+---@param pred fun(v:any):boolean
+---@return boolean
+---@nodiscard
 function any(pred) end
 ```
 
@@ -121,7 +123,8 @@ local l = List({ "a" }):append("b")
 == Signature
 
 ```lua
----@@return self self
+---@param self mods.List
+---@return mods.List self
 function append(v) end
 ```
 
@@ -144,7 +147,8 @@ local l = List({ "a", "b" }):clear()
 == Signature
 
 ```lua
----@@return self self
+---@param self mods.List
+---@return mods.List self
 function clear() end
 ```
 
@@ -167,9 +171,10 @@ local ok = List({ "a", "b" }):contains("b")
 == Signature
 
 ```lua
----@@param v any
----@@return any
----@@nodiscard
+---@param self mods.List
+---@param v any
+---@return any
+---@nodiscard
 function contains(v) end
 ```
 
@@ -192,8 +197,9 @@ local c = List({ "a", "b" }):copy()
 == Signature
 
 ```lua
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@return mods.List
+---@nodiscard
 function copy() end
 ```
 
@@ -216,8 +222,9 @@ local n = List({ "a", "b", "b" }):count("b")
 == Signature
 
 ```lua
----@@return integer
----@@nodiscard
+---@param self mods.List
+---@return integer
+---@nodiscard
 function count(v) end
 ```
 
@@ -240,8 +247,9 @@ local d = List({ "a", "b", "c" }):difference({ "b" })
 == Signature
 
 ```lua
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@return mods.List
+---@nodiscard
 function difference(ls) end
 ```
 
@@ -264,9 +272,10 @@ local t = List({ "a", "b", "c" }):drop(1)
 == Signature
 
 ```lua
----@@param n integer
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@param n integer
+---@return mods.List
+---@nodiscard
 function drop(n) end
 ```
 
@@ -290,8 +299,9 @@ l:extend({ "b", "c" })
 == Signature
 
 ```lua
----@@param ls any[]
----@@return self self
+---@param self mods.List
+---@param ls any[]
+---@return mods.List self
 function extend(ls) end
 ```
 
@@ -316,9 +326,10 @@ local ex = l:extract(is_len_1)
 == Signature
 
 ```lua
----@@param pred fun(v:any):boolean
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@param pred fun(v:any):boolean
+---@return mods.List
+---@nodiscard
 function extract(pred) end
 ```
 
@@ -342,9 +353,10 @@ local f = List({ "a", "bb", "c" }):filter(is_len_1)
 == Signature
 
 ```lua
----@@param pred fun(v:any):boolean
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@param pred fun(v:any):boolean
+---@return mods.List
+---@nodiscard
 function filter(pred) end
 ```
 
@@ -367,8 +379,9 @@ local v = List({ "a", "b" }):first()
 == Signature
 
 ```lua
----@@return any
----@@nodiscard
+---@param self mods.List
+---@return any
+---@nodiscard
 function first() end
 ```
 
@@ -391,8 +404,9 @@ local f = List({ { "a", "b" }, { "c" } }):flatten()
 == Signature
 
 ```lua
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@return mods.List
+---@nodiscard
 function flatten() end
 ```
 
@@ -415,8 +429,9 @@ List({ "a", "b" }):foreach(print)
 == Signature
 
 ```lua
----@@param fn fun(v:any)
----@@return nil
+---@param self mods.List
+---@param fn fun(v:any)
+---@return nil
 function foreach(fn) end
 ```
 
@@ -440,9 +455,10 @@ local g = List(words):group_by(string.len)
 == Signature
 
 ```lua
----@@param fn fun(v:any):any
----@@return table<any, mods.List>
----@@nodiscard
+---@param self mods.List
+---@param fn fun(v:any):any
+---@return table<any, mods.List>
+---@nodiscard
 function by(fn) end
 ```
 
@@ -465,10 +481,11 @@ local i = List({ "a", "b", "c", "b" }):index("b")
 == Signature
 
 ```lua
----@@param v any
----@@return any value
----@@return integer? index
----@@nodiscard
+---@param self mods.List
+---@param v any
+---@return any value
+---@return integer? index
+---@nodiscard
 function index(v) end
 ```
 
@@ -492,9 +509,10 @@ local i = List({ 1, 2, 3 }):index_if(gt_1)
 == Signature
 
 ```lua
----@@param pred fun(v:any):boolean
----@@return integer? index
----@@nodiscard
+---@param self mods.List
+---@param pred fun(v:any):boolean
+---@return integer? index
+---@nodiscard
 function if(pred) end
 ```
 
@@ -517,9 +535,10 @@ local l = List({ "a", "c" }):insert(2, "b")
 == Signature
 
 ```lua
----@@param pos integer
----@@param v any
----@@return self
+---@param self mods.List
+---@param pos integer
+---@param v any
+---@return mods.List self
 function insert(pos, v) end
 ```
 
@@ -542,8 +561,9 @@ local l = List({ "a", "b" }):insert("b")
 == Signature
 
 ```lua
----@@param v any
----@@return self
+---@param self mods.List
+---@param v any
+---@return mods.List self
 function insert(v) end
 ```
 
@@ -567,9 +587,10 @@ local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 == Signature
 
 ```lua
----@@param ls { [integer]: any }
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@param ls { [integer]: any }
+---@return mods.List
+---@nodiscard
 function intersection(ls) end
 ```
 
@@ -592,8 +613,9 @@ local t = List({ "a", "b", "c" }):invert()
 == Signature
 
 ```lua
----@@return table
----@@nodiscard
+---@param self mods.List
+---@return table
+---@nodiscard
 function invert() end
 ```
 
@@ -616,8 +638,9 @@ local s = List({ "a", "b", "c" }):join(",")
 == Signature
 
 ```lua
----@@param sep? string
----@@nodiscard
+---@param self mods.List
+---@param sep? string
+---@nodiscard
 function join(sep) end
 ```
 
@@ -640,8 +663,9 @@ local v = List({ "a", "b" }):last()
 == Signature
 
 ```lua
----@@return any
----@@nodiscard
+---@param self mods.List
+---@return any
+---@nodiscard
 function last() end
 ```
 
@@ -664,8 +688,9 @@ local n = List({ "a", "b", "c" }):len()
 == Signature
 
 ```lua
----@@return integer
----@@nodiscard
+---@param self mods.List
+---@return integer
+---@nodiscard
 function len() end
 ```
 
@@ -689,8 +714,9 @@ local m = List({ "a", "b" }):map(to_upper)
 == Signature
 
 ```lua
----@@param fn fun(v):any
----@@nodiscard
+---@param self mods.List
+---@param fn fun(v):any
+---@nodiscard
 function map(fn) end
 ```
 
@@ -714,7 +740,8 @@ local v = l:pop()
 == Signature
 
 ```lua
----@@return any
+---@param self mods.List
+---@return any
 function pop() end
 ```
 
@@ -738,8 +765,9 @@ local v = l:pop(2)
 == Signature
 
 ```lua
----@@param pos integer
----@@return any
+---@param self mods.List
+---@param pos integer
+---@return any
 function pop(pos) end
 ```
 
@@ -763,8 +791,9 @@ l:prepend("a")
 == Signature
 
 ```lua
----@@param v any
----@@return self
+---@param self mods.List
+---@param v any
+---@return mods.List self
 function prepend(v) end
 ```
 
@@ -793,10 +822,11 @@ sum = List({ 1, 2, 3 }):reduce(add, 10)
 == Signature
 
 ```lua
----@@param fn fun(acc:any, v:any):any
----@@param init? any
----@@return any
----@@nodiscard
+---@param self mods.List
+---@param fn fun(acc:any, v:any):any
+---@param init? any
+---@return any
+---@nodiscard
 function reduce(fn, init) end
 ```
 
@@ -820,8 +850,9 @@ l:remove("b")
 == Signature
 
 ```lua
----@@param v any
----@@return self
+---@param self mods.List
+---@param v any
+---@return mods.List self
 function remove(v) end
 ```
 
@@ -844,8 +875,9 @@ local r = List({ "a", "b", "c" }):reverse()
 == Signature
 
 ```lua
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@return mods.List
+---@nodiscard
 function reverse() end
 ```
 
@@ -868,8 +900,9 @@ local s = List({ "a", "b", "a" }):setify()
 == Signature
 
 ```lua
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@return mods.List
+---@nodiscard
 function setify() end
 ```
 
@@ -893,10 +926,11 @@ local t = List({ "a", "b", "c", "d" }):slice(2, 3)
 == Signature
 
 ```lua
----@@param i? integer
----@@param j? integer
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@param i? integer
+---@param j? integer
+---@return mods.List
+---@nodiscard
 function slice(i, j) end
 ```
 
@@ -920,8 +954,9 @@ l:sort()
 == Signature
 
 ```lua
----@@param comp? fun(a:T,b:T):boolean
----@@nodiscard
+---@param self mods.List
+---@param comp? fun(a:T,b:T):boolean
+---@return mods.List self
 function sort(comp) end
 ```
 
@@ -944,9 +979,10 @@ local t = List({ "a", "b", "c" }):take(2)
 == Signature
 
 ```lua
----@@param n integer
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@param n integer
+---@return mods.List
+---@nodiscard
 function take(n) end
 ```
 
@@ -969,8 +1005,9 @@ local u = List({ "a", "b", "a", "c" }):uniq()
 == Signature
 
 ```lua
----@@return mods.List
----@@nodiscard
+---@param self mods.List
+---@return mods.List
+---@nodiscard
 function uniq() end
 ```
 
@@ -994,9 +1031,10 @@ local z = List({ "a", "b" }):zip({ 1, 2 })
 == Signature
 
 ```lua
----@@param other { [integer]: any }
----@@return mods.List<{[integer]: any}>
----@@nodiscard
+---@param self mods.List
+---@param other { [integer]: any }
+---@return mods.List<{[integer]: any}>
+---@nodiscard
 function zip(other) end
 ```
 
