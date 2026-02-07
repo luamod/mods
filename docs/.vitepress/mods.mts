@@ -1,7 +1,6 @@
 export const moduleNav = {
   text: "Modules",
   items: [
-    { text: "Overview", link: "/modules/" },
     { text: "List", link: "/modules/list" },
     { text: "Set", link: "/modules/set" },
     { text: "Stringcase", link: "/modules/stringcase" },
@@ -12,7 +11,6 @@ export const moduleNav = {
 export const moduleSidebar = {
   text: "Modules",
   items: [
-    { text: "Overview", link: "/modules/" },
     { text: "List", link: "/modules/list" },
     { text: "Set", link: "/modules/set" },
     { text: "Stringcase", link: "/modules/stringcase" },

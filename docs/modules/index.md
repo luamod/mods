@@ -1,7 +1,3 @@
----
-editLink: false
----
-
 # API Overview
 
 | Module | Description |
