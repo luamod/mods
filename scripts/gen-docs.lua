@@ -272,7 +272,6 @@ local function render_modules_ts(docs)
     local function push_item(v)
       items:append(v)
     end
-    push_item({ text = "Overview", link = "/modules/" })
     for _, doc in ipairs(docs) do
       local short = module_short_name(doc.meta)
       if short then
