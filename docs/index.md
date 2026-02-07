@@ -1,35 +1,21 @@
----
-layout: home
-hero:
-  name: Mods
-  text: Pure standalone Lua modules.
-  tagline: Simple building blocks for Lua projects.
-  actions:
-    - theme: brand
-      text: Get Started
-      link: /getting-started
-    - theme: alt
-      text: Browse Modules
-      link: /modules/
----
-
 # Mods
 
-## What is Mods?
+Pure standalone Lua modules.
+
+## What Is Mods?
 
 Mods is a collection of small, focused Lua modules designed to be easy to use and easy to embed.
 
-## Modules
-
-- `mods.List`: helpers for sequences → /modules/list
-- `mods.Set`: unique values + set ops → /modules/set
-- `mods.tbl`: table utilities → /modules/tbl
-
 ## Why Mods
 
-- Minimal dependencies
-- Clear, consistent APIs
+- Minimal dependencies and small footprint
+- Designed to use standalone or as a collection: drop a single file into your project without extra dependencies
+- Familiar, predictable API patterns across modules
 - Works across Lua 5.1+
+
+## Modules
+
+<!-- @include: ./modules/index.md -->
 
 ## Start Fast
 
@@ -43,7 +29,3 @@ local u = l:uniq()      -- { "a", "b" }
 local s = Set({ "a", "b" })
 local k = tbl.keys({ a = 1, b = 2 })
 ```
-
-## Next steps
-
-Start with the docs once we add them.

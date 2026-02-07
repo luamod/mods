@@ -35,7 +35,10 @@ export default defineConfig({
     sidebar: [
       {
         text: "Start",
-        items: [{ text: "Getting Started", link: "/getting-started" }],
+        items: [
+          { text: "What Is Mods?", link: "/" },
+          { text: "Getting Started", link: "/getting-started" },
+        ],
       },
       moduleSidebar,
       { text: "🇵🇸 Free Palestine" },

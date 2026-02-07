@@ -42,7 +42,6 @@ local u = l:uniq()       -- { "a", "b" }
 local keys = tbl.keys({ a = 1, b = 2 })
 ```
 
-## Next Steps
+## Modules
 
-- Explore modules: `/modules/`
-- Browse List, Set, and tbl docs
+<!-- @include: ./modules/index.md -->
