@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
+import { moduleNav, moduleSidebar } from "./mods.mts";
 
 export default defineConfig({
   title: "Mods",
@@ -26,27 +27,17 @@ export default defineConfig({
     outline: [2, 4], // show h2-h4
     search: { provider: "local" },
     socialLinks: [{ icon: "github", link: "https://github.com/luamod/mods" }],
-    // prettier-ignore
     nav: [
-      { text: "Home"       , link: "/" },
+      { text: "Home", link: "/" },
       { text: "Get Started", link: "/getting-started" },
-      { text: "Modules"    , link: "/modules/" },
+      moduleNav,
     ],
     sidebar: [
       {
         text: "Start",
         items: [{ text: "Getting Started", link: "/getting-started" }],
       },
-      {
-        text: "Modules",
-        // prettier-ignore
-        items: [
-          { text: "Overview", link: "/modules/" },
-          { text: "List"    , link: "/modules/list" },
-          { text: "Set"     , link: "/modules/set" },
-          { text: "tbl"     , link: "/modules/tbl" },
-        ],
-      },
+      moduleSidebar,
       { text: "🇵🇸 Free Palestine" },
     ],
     editLink: {
