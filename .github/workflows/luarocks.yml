@@ -1,0 +1,46 @@
+name: Publish LuaRocks
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Git tag to publish (e.g. v1.2.3)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish-luarocks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+
+      - name: Set up Lua
+        uses: leafo/gh-actions-lua@v11
+        with:
+          luaVersion: "5.1"
+
+      - name: Set up LuaRocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Prepare rockspec
+        run: |
+          set -euo pipefail
+          TAG="${{ inputs.tag }}"
+          VERSION="${TAG#v}"
+          ROCKSPEC="mods-${VERSION}-1.rockspec"
+          cp mods-0.1.0-1.rockspec "$ROCKSPEC"
+          sed -i "s/^version = .*/version = \"${VERSION}-1\"/" "$ROCKSPEC"
+          sed -i "s/^  branch = .*/  tag = \"${TAG}\",/" "$ROCKSPEC"
+          echo "ROCKSPEC=$ROCKSPEC" >> "$GITHUB_ENV"
+
+      - name: Upload to LuaRocks
+        env:
+          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
+        run: |
+          luarocks upload "$ROCKSPEC" --api-key "$LUAROCKS_API_KEY"
