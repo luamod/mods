@@ -63,7 +63,7 @@ function M.replace(s, sep) end
 ---
 ---**Example:**
 ---```lua
----M.acronym("Hyper Text Markup Language") --> "HTML"
+---acronym("Hyper Text Markup Language") --> "HTML"
 ---```
 ---
 ---@param s string
@@ -74,7 +74,7 @@ function M.acronym(s) end
 ---
 ---**Example:**
 ---```lua
----M.title("hello world") --> "Hello World"
+---title("hello world") --> "Hello World"
 ---```
 ---
 ---@param s string
@@ -85,7 +85,7 @@ function M.title(s) end
 ---
 ---**Example:**
 ---```lua
----M.constant("hello world") --> "HELLO_WORLD"
+---constant("hello world") --> "HELLO_WORLD"
 ---```
 ---
 ---@param s string
@@ -96,7 +96,7 @@ function M.constant(s) end
 ---
 ---**Example:**
 ---```lua
----M.pascal("hello world") --> "HelloWorld"
+---pascal("hello world") --> "HelloWorld"
 ---```
 ---
 ---@param s string
@@ -107,7 +107,7 @@ function M.pascal(s) end
 ---
 ---**Example:**
 ---```lua
----M.kebab("hello world") --> "hello-world"
+---kebab("hello world") --> "hello-world"
 ---```
 ---
 ---@param s string
@@ -118,7 +118,7 @@ function M.kebab(s) end
 ---
 ---**Example:**
 ---```lua
----M.dot("hello world") --> "hello.world"
+---dot("hello world") --> "hello.world"
 ---```
 ---
 ---@param s string
@@ -129,7 +129,7 @@ function M.dot(s) end
 ---
 ---**Example:**
 ---```lua
----M.space("hello_world") --> "hello world"
+---space("hello_world") --> "hello world"
 ---```
 ---
 ---@param s string
@@ -140,7 +140,7 @@ function M.space(s) end
 ---
 ---**Example:**
 ---```lua
----M.path("hello world") --> "hello/world"
+---path("hello world") --> "hello/world"
 ---```
 ---
 ---@param s string
@@ -151,7 +151,7 @@ function M.path(s) end
 ---
 ---**Example:**
 ---```lua
----M.swap("Hello World") --> "hELLO wORLD"
+---swap("Hello World") --> "hELLO wORLD"
 ---```
 ---
 ---@param s string
@@ -162,7 +162,7 @@ function M.swap(s) end
 ---
 ---**Example:**
 ---```lua
----M.capital("hELLO") --> "Hello"
+---capital("hELLO") --> "Hello"
 ---```
 ---
 ---@param s string
@@ -173,7 +173,7 @@ function M.capital(s) end
 ---
 ---**Example:**
 ---```lua
----M.sentence("hELLO WORLD") --> "Hello world"
+---sentence("hELLO WORLD") --> "Hello world"
 ---```
 ---
 ---@param s string
