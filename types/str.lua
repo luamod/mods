@@ -1,5 +1,6 @@
 ---@meta mods.str
 
+---String utility helpers modeled after Python's `str`.
 ---@class mods.str
 local M = {}
 
