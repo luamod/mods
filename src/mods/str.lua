@@ -406,65 +406,6 @@ function M.replace(s, old, new, count)
   return concat(out)
 end
 
-function M.maketransDict(map)
-  local out = {}
-  for k, v in pairs(map) do
-    local key
-    local kt = type(k)
-    if kt == "number" then
-      key = k
-    elseif kt == "string" then
-      if #k ~= 1 then
-        error("string key must be length 1")
-      end
-      key = byte(k)
-    else
-      error("invalid key type")
-    end
-
-    if v == false then
-      out[key] = false
-    elseif v ~= nil then
-      local vt = type(v)
-      if vt == "number" or vt == "string" then
-        out[key] = v
-      else
-        error("invalid value type")
-      end
-    end
-  end
-  return out
-end
-
-function M.maketrans(x, y, z)
-  if type(x) == "table" and y == nil and z == nil then
-    return M.maketransDict(x)
-  end
-  if type(x) ~= "string" or type(y) ~= "string" then
-    error("x and y must be strings")
-  end
-  if #x ~= #y then
-    error("x and y must be the same length")
-  end
-
-  local out = {}
-  local len = #x
-  for i = 1, len do
-    out[byte(x, i)] = sub(y, i, i)
-  end
-
-  if z ~= nil then
-    if type(z) ~= "string" then
-      error("z must be a string")
-    end
-    local zlen = #z
-    for i = 1, zlen do
-      out[byte(z, i)] = false
-    end
-  end
-  return out
-end
-
 function M.rfind(s, subp, start, stop)
   local a, b = norm_range(s, start, stop)
   if subp == "" then

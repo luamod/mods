@@ -4,7 +4,7 @@ local str = require("mods.str")
 local byte = string.byte
 local unpack = table.unpack
 
-describe("mods,str", function()
+describe("mods.str", function()
   -- stylua: ignore
   local tests=  {
     -------fname-----|------string-----|----------args---------|-------expected--------|collect----
@@ -222,9 +222,6 @@ describe("mods,str", function()
     { "translate"    , "ab"            , { { [byte("a")] = byte("c") }          } , "cb"      },
     { "translate"    , "abc"           , { { [byte("a")] = "x", ["b"] = false } } , "xc"      },
     { "translate"    , "acd"           , { { [byte("a")] = "b", ["c"] = false, [byte("d")] = byte("e") } } , "be" },
-    { "maketrans"    , "abc"           , { "xyz"              } , { [97] = "x", [98] = "y", [99] = "z" } },
-    { "maketrans"    , "abc"           , { "xyz", "b"         } , { [97] = "x", [98] = false, [99] = "z" } },
-    { "maketransDict", { a = "b", [byte("c")] = false } , { } , { [97] = "b", [99] = false } },
   }
 
   for _, t in ipairs(tests) do
