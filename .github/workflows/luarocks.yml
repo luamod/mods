@@ -35,6 +35,9 @@ jobs:
       - name: Set up LuaRocks
         uses: leafo/gh-actions-luarocks@v4
 
+      - name: Install JSON dependency
+        run: luarocks install dkjson
+
       - name: Prepare rockspec
         run: |
           set -euo pipefail
