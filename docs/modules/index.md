@@ -1,9 +1,12 @@
+---
+editLink: false
+---
+
 # API Overview
 
-Mods ships three core building blocks:
-
-- `mods.List`: a Python-style list with fluent helpers for mapping, filtering, and slicing.
-- `mods.Set`: a Python-style set for unique values and set algebra.
-- `mods.tbl`: utility functions for plain Lua tables.
-
-Use the sidebar to jump into each module.
+| Module | Description |
+| --- | --- |
+| [`mods.List`](/modules/list) | A Python-style list class providing common operations to create, |
+| [`mods.Set`](/modules/set) | A Python-style set class providing common operations to create, |
+| [`mods.stringcase`](/modules/stringcase) | Convert string to all lowercase. |
+| [`mods.tbl`](/modules/tbl) | Utility functions for working with Lua tables. |

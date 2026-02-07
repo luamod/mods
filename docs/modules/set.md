@@ -1,350 +1,37 @@
-# Set
+---
+editLinkTarget: types/Set.lua
+---
 
-`mods.Set` provides common operations for set values.
+# set
 
-## Usage
-
-```lua
-local Set = require("mods.Set")
-
-local s = Set({ "a", "b", "a" })
-local n = s:len()
--- n == 2
-```
+`mods.Set` A Python-style set class providing common operations to create,
 
 ## Quick Reference
 
-| Function                                                                 | Description                                                      |
-| ------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| [`isdisjoint(set)`](#fn-isdisjointset)                                   | Return true if sets have no elements in common.                  |
-| [`isempty()`](#fn-isempty)                                               | Return true if the set has no elements.                          |
-| [`issubset(set)`](#fn-issubsetset)                                       | Return true if all elements of this set are also in another set. |
-| [`issuperset(set)`](#fn-issupersetset)                                   | Return true if this set contains all elements of another set.    |
-| [`len()`](#fn-len)                                                       | Return the number of elements in the set.                        |
-| [`copy()`](#fn-copy)                                                     | Return a shallow copy of the set.                                |
-| [`difference(set)`](#fn-differenceset)                                   | Return elements in this set but not in another.                  |
-| [`intersection(set)`](#fn-intersectionset)                               | Return elements common to both sets.                             |
-| [`map(fn)`](#fn-mapfn)                                                   | Return a new set by mapping each value.                          |
-| [`symmetric_difference(set)`](#fn-symmetric_differenceset)               | Return elements not shared by both sets.                         |
-| [`union(set)`](#fn-unionset)                                             | Return a new set with all elements from both.                    |
-| [`values()`](#fn-values)                                                 | Return a list of all values in the set.                          |
-| [`add(v)`](#fn-addv)                                                     | Add an element to the set.                                       |
-| [`clear()`](#fn-clear)                                                   | Remove all elements from the set.                                |
-| [`difference_update(set)`](#fn-difference_updateset)                     | Remove elements found in another set (in place).                 |
-| [`discard(v)`](#fn-discardv)                                             | Remove an element if present, do nothing otherwise.              |
-| [`remove(v)`](#fn-removev)                                               | Same behavior as [`discard`](#fn-discardv).                      |
-| [`intersection_update(set)`](#fn-intersection_updateset)                 | Keep only elements common to both sets (in place).               |
-| [`pop()`](#fn-pop)                                                       | Remove and return an arbitrary element.                          |
-| [`symmetric_difference_update(set)`](#fn-symmetric_difference_updateset) | Update the set with elements not shared by both (in place).      |
-| [`update(set)`](#fn-updateset)                                           | Add all elements from another set (in place).                    |
-
-## Methods
-
-### Query
-
-<a id="fn-isdisjointset"></a>
-
-#### `isdisjoint(set)`
-
-Return true if sets have no elements in common.
-
-:::tabs
-== Example
-
-```lua
-local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
--- result: true
-```
-
-== Signature
-
-```lua
----@param set mods.Set
----@return boolean
----@nodiscard
-function isdisjoint(set) end
-```
-
-:::
-
-<a id="fn-isempty"></a>
-
-#### `isempty()`
-
-Return true if the set has no elements.
-
-:::tabs
-== Example
-
-```lua
-local empty = Set({}):isempty()
--- result: true
-```
-
-== Signature
-
-```lua
----@return boolean
----@nodiscard
-function isempty() end
-```
-
-:::
-
-<a id="fn-issubsetset"></a>
-
-#### `issubset(set)`
-
-Return true if all elements of this set are also in another set.
-
-:::tabs
-== Example
-
-```lua
-local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
--- result: true
-```
-
-== Signature
-
-```lua
----@param set mods.Set
----@return boolean
----@nodiscard
-function issubset(set) end
-```
-
-:::
-
-<a id="fn-issupersetset"></a>
-
-#### `issuperset(set)`
-
-Return true if this set contains all elements of another set.
-
-:::tabs
-== Example
-
-```lua
-local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
--- result: true
-```
-
-== Signature
-
-```lua
----@param set mods.Set
----@return boolean
----@nodiscard
-function issuperset(set) end
-```
-
-:::
-
-<a id="fn-len"></a>
-
-#### `len()`
-
-Return the number of elements in the set.
-
-:::tabs
-== Example
-
-```lua
-local n = Set({ "a", "b" }):len()
--- result: 2
-```
-
-== Signature
-
-```lua
----@return integer
----@nodiscard
-function len() end
-```
-
-:::
-
-### Transform
-
-<a id="fn-copy"></a>
-
-#### `copy()`
-
-Return a shallow copy of the set.
-
-:::tabs
-== Example
-
-```lua
-local s = Set({ "a" })
-local c = s:copy()
--- result: c is a new set with "a"
-```
-
-== Signature
-
-```lua
----@return mods.Set
----@nodiscard
-function copy() end
-```
-
-:::
-
-<a id="fn-differenceset"></a>
-
-#### `difference(set)`
-
-Return elements in this set but not in another.
-
-:::tabs
-== Example
-
-```lua
-local s = Set({ "a", "b" })
-local d = s:difference(Set({ "b" }))
--- result: d contains "a"
-```
-
-== Signature
-
-```lua
----@param set mods.Set
----@return mods.Set
----@nodiscard
-function difference(set) end
-```
-
-:::
-
-<a id="fn-intersectionset"></a>
-
-#### `intersection(set)`
-
-Return elements common to both sets.
-
-:::tabs
-== Example
-
-```lua
-local s = Set({ "a", "b" })
-local i = s:intersection(Set({ "b", "c" }))
--- result: i contains "b"
-```
-
-== Signature
-
-```lua
----@param set mods.Set
----@return mods.Set
----@nodiscard
-function intersection(set) end
-```
-
-:::
-
-<a id="fn-mapfn"></a>
-
-#### `map(fn)`
-
-Return a new set by mapping each value.
-
-:::tabs
-== Example
-
-```lua
-local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
--- result: s contains 10, 20
-```
-
-== Signature
-
-```lua
----@param fn fun(v:T):any
----@return mods.Set
----@nodiscard
-function map(fn) end
-```
-
-:::
-
-<a id="fn-symmetric_differenceset"></a>
-
-#### `symmetric_difference(set)`
-
-Return elements not shared by both sets.
-
-:::tabs
-== Example
-
-```lua
-local s = Set({ "a", "b" })
-local d = s:symmetric_difference(Set({ "b", "c" }))
--- result: d contains "a", "c"
-```
-
-== Signature
-
-```lua
----@param set mods.Set
----@return mods.Set
----@nodiscard
-function symmetric_difference(set) end
-```
-
-:::
-
-<a id="fn-unionset"></a>
-
-#### `union(set)`
-
-Return a new set with all elements from both.
-
-:::tabs
-== Example
-
-```lua
-local s = Set({ "a" }):union(Set({ "b" }))
--- result: s contains "a", "b"
-```
-
-== Signature
-
-```lua
----@param set mods.Set
----@return mods.Set
----@nodiscard
-function union(set) end
-```
-
-:::
-
-<a id="fn-values"></a>
-
-#### `values()`
-
-Return a list of all values in the set.
-
-:::tabs
-== Example
-
-```lua
-local values = Set({ "a", "b" }):values()
--- result: { "a", "b" }
-```
-
-== Signature
-
-```lua
----@return mods.List values
----@nodiscard
-function values() end
-```
-
-:::
-
-### In-place
+| Function | Description |
+| --- | --- |
+| [`add(v)`](#fn-addv) | Add an element to the set. |
+| [`clear()`](#fn-clear) | Remove all elements from the set. |
+| [`copy()`](#fn-copy) | Return a shallow copy of the set. |
+| [`difference(set)`](#fn-differenceset) | Return elements in this set but not in another. |
+| [`update(set)`](#fn-updateset) | Remove elements found in another set (in place). |
+| [`discard(v)`](#fn-discardv) | Remove an element if present, do nothing otherwise. |
+| [`intersection(set)`](#fn-intersectionset) | Return elements common to both sets. |
+| [`update(set)`](#fn-updateset) | Keep only elements common to both sets (in place). |
+| [`isdisjoint(set)`](#fn-isdisjointset) | Return true if sets have no elements in common. |
+| [`isempty()`](#fn-isempty) | Return true if the set has no elements. |
+| [`issubset(set)`](#fn-issubsetset) | Return true if all elements of this set are also in another set. |
+| [`issuperset(set)`](#fn-issupersetset) | Return true if this set contains all elements of another set. |
+| [`len()`](#fn-len) | Return the number of elements in the set. |
+| [`map(fn)`](#fn-mapfn) | Return a new set by mapping each value. |
+| [`pop()`](#fn-pop) | Remove and return an arbitrary element. |
+| [`difference(set)`](#fn-differenceset) | Return elements not shared by both sets. |
+| [`update(set)`](#fn-updateset) | Update the set with elements not shared by both (in place). |
+| [`union(set)`](#fn-unionset) | Return a new set with all elements from both. |
+| [`update(set)`](#fn-updateset) | Add all elements from another set (in place). |
+| [`values()`](#fn-values) | Return a list of all values in the set. |
+
+## Functions
 
 <a id="fn-addv"></a>
 
@@ -364,8 +51,8 @@ s:add("b")
 == Signature
 
 ```lua
----@param v any
----@return self self
+---@@param v any
+---@@return self self
 function add(v) end
 ```
 
@@ -389,15 +76,66 @@ s:clear()
 == Signature
 
 ```lua
----@return self self
+---@@return self self
 function clear() end
 ```
 
 :::
 
-<a id="fn-difference_updateset"></a>
+<a id="fn-copy"></a>
 
-#### `difference_update(set)`
+#### `copy()`
+
+Return a shallow copy of the set.
+
+:::tabs
+== Example
+
+```lua
+local s = Set({ "a" })
+local c = s:copy()
+-- result: c is a new set with "a"
+```
+
+== Signature
+
+```lua
+---@@return mods.Set
+---@@nodiscard
+function copy() end
+```
+
+:::
+
+<a id="fn-differenceset"></a>
+
+#### `difference(set)`
+
+Return elements in this set but not in another.
+
+:::tabs
+== Example
+
+```lua
+local s = Set({ "a", "b" })
+local d = s:difference(Set({ "b" }))
+-- result: d contains "a"
+```
+
+== Signature
+
+```lua
+---@@param set mods.Set
+---@@return mods.Set
+---@@nodiscard
+function difference(set) end
+```
+
+:::
+
+<a id="fn-updateset"></a>
+
+#### `update(set)`
 
 Remove elements found in another set (in place).
 
@@ -413,9 +151,9 @@ s:difference_update(Set({ "b" }))
 == Signature
 
 ```lua
----@param set self
----@return self self
-function difference_update(set) end
+---@@param set self
+---@@return self self
+function update(set) end
 ```
 
 :::
@@ -438,22 +176,42 @@ s:discard("b")
 == Signature
 
 ```lua
----@param v any
----@return self self
+---@@param v any
+---@@return self self
 function discard(v) end
 ```
 
 :::
 
-<a id="fn-removev"></a>
+<a id="fn-intersectionset"></a>
 
-#### `remove(v)`
+#### `intersection(set)`
 
-Same behavior as [`discard`](#fn-discardv).
+Return elements common to both sets.
 
-<a id="fn-intersection_updateset"></a>
+:::tabs
+== Example
 
-#### `intersection_update(set)`
+```lua
+local s = Set({ "a", "b" })
+local i = s:intersection(Set({ "b", "c" }))
+-- result: i contains "b"
+```
+
+== Signature
+
+```lua
+---@@param set mods.Set
+---@@return mods.Set
+---@@nodiscard
+function intersection(set) end
+```
+
+:::
+
+<a id="fn-updateset"></a>
+
+#### `update(set)`
 
 Keep only elements common to both sets (in place).
 
@@ -469,9 +227,157 @@ s:intersection_update(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return self self
-function intersection_update(set) end
+---@@param set mods.Set
+---@@return self self
+function update(set) end
+```
+
+:::
+
+<a id="fn-isdisjointset"></a>
+
+#### `isdisjoint(set)`
+
+Return true if sets have no elements in common.
+
+:::tabs
+== Example
+
+```lua
+local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
+-- result: true
+```
+
+== Signature
+
+```lua
+---@@param set mods.Set
+---@@return boolean
+---@@nodiscard
+function isdisjoint(set) end
+```
+
+:::
+
+<a id="fn-isempty"></a>
+
+#### `isempty()`
+
+Return true if the set has no elements.
+
+:::tabs
+== Example
+
+```lua
+local empty = Set({}):isempty()
+-- result: true
+```
+
+== Signature
+
+```lua
+---@@return boolean
+---@@nodiscard
+function isempty() end
+```
+
+:::
+
+<a id="fn-issubsetset"></a>
+
+#### `issubset(set)`
+
+Return true if all elements of this set are also in another set.
+
+:::tabs
+== Example
+
+```lua
+local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
+-- result: true
+```
+
+== Signature
+
+```lua
+---@@param set mods.Set
+---@@return boolean
+---@@nodiscard
+function issubset(set) end
+```
+
+:::
+
+<a id="fn-issupersetset"></a>
+
+#### `issuperset(set)`
+
+Return true if this set contains all elements of another set.
+
+:::tabs
+== Example
+
+```lua
+local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
+-- result: true
+```
+
+== Signature
+
+```lua
+---@@param set mods.Set
+---@@return boolean
+---@@nodiscard
+function issuperset(set) end
+```
+
+:::
+
+<a id="fn-len"></a>
+
+#### `len()`
+
+Return the number of elements in the set.
+
+:::tabs
+== Example
+
+```lua
+local n = Set({ "a", "b" }):len()
+-- result: 2
+```
+
+== Signature
+
+```lua
+---@@return integer
+---@@nodiscard
+function len() end
+```
+
+:::
+
+<a id="fn-mapfn"></a>
+
+#### `map(fn)`
+
+Return a new set by mapping each value.
+
+:::tabs
+== Example
+
+```lua
+local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
+-- result: s contains 10, 20
+```
+
+== Signature
+
+```lua
+---@@param fn fun(v:T):any
+---@@return mods.Set
+---@@nodiscard
+function map(fn) end
 ```
 
 :::
@@ -493,15 +399,41 @@ local v = Set({ "a", "b" }):pop()
 == Signature
 
 ```lua
----@return any
+---@@return any
 function pop() end
 ```
 
 :::
 
-<a id="fn-symmetric_difference_updateset"></a>
+<a id="fn-differenceset"></a>
 
-#### `symmetric_difference_update(set)`
+#### `difference(set)`
+
+Return elements not shared by both sets.
+
+:::tabs
+== Example
+
+```lua
+local s = Set({ "a", "b" })
+local d = s:symmetric_difference(Set({ "b", "c" }))
+-- result: d contains "a", "c"
+```
+
+== Signature
+
+```lua
+---@@param set mods.Set
+---@@return mods.Set
+---@@nodiscard
+function difference(set) end
+```
+
+:::
+
+<a id="fn-updateset"></a>
+
+#### `update(set)`
 
 Update the set with elements not shared by both (in place).
 
@@ -517,9 +449,34 @@ s:symmetric_difference_update(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@param set self
----@return self self
-function symmetric_difference_update(set) end
+---@@param set self
+---@@return self self
+function update(set) end
+```
+
+:::
+
+<a id="fn-unionset"></a>
+
+#### `union(set)`
+
+Return a new set with all elements from both.
+
+:::tabs
+== Example
+
+```lua
+local s = Set({ "a" }):union(Set({ "b" }))
+-- result: s contains "a", "b"
+```
+
+== Signature
+
+```lua
+---@@param set mods.Set
+---@@return mods.Set
+---@@nodiscard
+function union(set) end
 ```
 
 :::
@@ -542,9 +499,33 @@ s:update(Set({ "b" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return self self
+---@@param set mods.Set
+---@@return self self
 function update(set) end
+```
+
+:::
+
+<a id="fn-values"></a>
+
+#### `values()`
+
+Return a list of all values in the set.
+
+:::tabs
+== Example
+
+```lua
+local values = Set({ "a", "b" }):values()
+-- result: { "a", "b" }
+```
+
+== Signature
+
+```lua
+---@@return mods.List values
+---@@nodiscard
+function values() end
 ```
 
 :::
