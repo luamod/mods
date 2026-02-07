@@ -1,9 +1,0 @@
-{
-  "packages": {
-    ".": {
-      "release-type": "simple",
-      "package-name": "mods",
-      "changelog-path": "CHANGELOG.md"
-    }
-  }
-}
