@@ -18,6 +18,8 @@ These instructions apply to automated agents working in this repo.
 - Match existing Lua style in `src` and `spec`.
 - Keep Lua formatting stable; only touch formatting when the change requires it.
 - Respect existing `-- stylua: ignore` blocks.
+- Ensure code is compatible with all supported Lua versions (5.1+).
+- Prefer simple, efficient implementations; avoid unnecessary allocations or slow paths in hot code.
 
 ## Commit messages
 
