@@ -47,6 +47,7 @@ lower("Hello World") --> "hello world"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function lower(s) end
 ```
 
@@ -70,6 +71,7 @@ upper("Hello World") --> "HELLO WORLD"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function upper(s) end
 ```
 
@@ -93,6 +95,7 @@ snake("Hello World") --> "hello_world"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function snake(s) end
 ```
 
@@ -116,6 +119,7 @@ camel("Hello World") --> "helloWorld"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function camel(s) end
 ```
 
@@ -140,6 +144,7 @@ replace("hello_world", "-") --> "hello-world"
 ---@param s string
 ---@param sep? string
 ---@return string
+---@nodiscard
 function replace(s, sep) end
 ```
 
@@ -163,6 +168,7 @@ acronym("Hyper Text Markup Language") --> "HTML"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function acronym(s) end
 ```
 
@@ -186,6 +192,7 @@ title("hello world") --> "Hello World"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function title(s) end
 ```
 
@@ -209,6 +216,7 @@ constant("hello world") --> "HELLO_WORLD"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function constant(s) end
 ```
 
@@ -232,6 +240,7 @@ pascal("hello world") --> "HelloWorld"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function pascal(s) end
 ```
 
@@ -255,6 +264,7 @@ kebab("hello world") --> "hello-world"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function kebab(s) end
 ```
 
@@ -278,6 +288,7 @@ dot("hello world") --> "hello.world"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function dot(s) end
 ```
 
@@ -301,6 +312,7 @@ space("hello_world") --> "hello world"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function space(s) end
 ```
 
@@ -324,6 +336,7 @@ path("hello world") --> "hello/world"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function path(s) end
 ```
 
@@ -347,6 +360,7 @@ swap("Hello World") --> "hELLO wORLD"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function swap(s) end
 ```
 
@@ -370,6 +384,7 @@ capital("hELLO") --> "Hello"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function capital(s) end
 ```
 
@@ -393,6 +408,7 @@ sentence("hELLO WORLD") --> "Hello world"
 ```lua
 ---@param s string
 ---@return string
+---@nodiscard
 function sentence(s) end
 ```
 
