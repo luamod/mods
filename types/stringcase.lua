@@ -5,7 +5,7 @@ local M = {}
 
 ---Convert string to all lowercase.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---lower("Hello World") --> "hello world"
 ---```
@@ -16,7 +16,7 @@ function M.lower(s) end
 
 ---Convert string to all uppercase.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---upper("Hello World") --> "HELLO WORLD"
 ---```
@@ -27,7 +27,7 @@ function M.upper(s) end
 
 ---Convert string to snake_case.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---snake("Hello World") --> "hello_world"
 ---```
@@ -38,7 +38,7 @@ function M.snake(s) end
 
 ---Convert string to camelCase.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---camel("Hello World") --> "helloWorld"
 ---```
@@ -49,7 +49,7 @@ function M.camel(s) end
 
 ---Replace underscores in snake_case with a given separator (default empty).
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---replace("hello_world", "-") --> "hello-world"
 ---```
@@ -61,7 +61,7 @@ function M.replace(s, sep) end
 
 ---Get acronym of words in string (first letters only).
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.acronym("Hyper Text Markup Language") --> "HTML"
 ---```
@@ -72,7 +72,7 @@ function M.acronym(s) end
 
 ---Convert string to Title Case (first letter of each word capitalized).
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.title("hello world") --> "Hello World"
 ---```
@@ -83,7 +83,7 @@ function M.title(s) end
 
 ---Convert string to CONSTANT_CASE (uppercase snake_case).
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.constant("hello world") --> "HELLO_WORLD"
 ---```
@@ -94,7 +94,7 @@ function M.constant(s) end
 
 ---Convert string to PascalCase.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.pascal("hello world") --> "HelloWorld"
 ---```
@@ -105,7 +105,7 @@ function M.pascal(s) end
 
 ---Convert string to kebab-case.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.kebab("hello world") --> "hello-world"
 ---```
@@ -116,7 +116,7 @@ function M.kebab(s) end
 
 ---Convert string to dot.case.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.dot("hello world") --> "hello.world"
 ---```
@@ -127,7 +127,7 @@ function M.dot(s) end
 
 ---Convert string to space case (spaces between words).
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.space("hello_world") --> "hello world"
 ---```
@@ -138,7 +138,7 @@ function M.space(s) end
 
 ---Convert string to path/case (slashes between words).
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.path("hello world") --> "hello/world"
 ---```
@@ -149,7 +149,7 @@ function M.path(s) end
 
 ---Swap case of each letter.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.swap("Hello World") --> "hELLO wORLD"
 ---```
@@ -160,7 +160,7 @@ function M.swap(s) end
 
 ---Capitalize the first letter and lowercase the rest.
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.capital("hELLO") --> "Hello"
 ---```
@@ -171,7 +171,7 @@ function M.capital(s) end
 
 ---Convert string to sentence case (first letter uppercase, rest lowercase).
 ---
----**Example**:
+---**Example:**
 ---```lua
 ---M.sentence("hELLO WORLD") --> "Hello world"
 ---```
