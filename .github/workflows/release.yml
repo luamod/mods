@@ -21,9 +21,8 @@ jobs:
       - name: Release Please
         uses: googleapis/release-please-action@v4
         with:
-          release-type: simple
-          package-name: mods
-          changelog-path: CHANGELOG.md
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
   publish-luarocks:
     if: github.event_name == 'release'
