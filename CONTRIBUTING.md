@@ -42,3 +42,7 @@ npm run build
 - Keep changes focused and small.
 - Update docs or types where appropriate.
 - Add or update tests when behavior changes.
+
+## Commit Messages
+
+- Use Conventional Commits 1.0.0 (e.g., `feat: ...`, `fix: ...`, `chore: ...`).
