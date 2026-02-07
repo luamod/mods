@@ -1,7 +1,6 @@
-local lfs = require("lfs")
-
 package.path = "src/?.lua;src/?/init.lua;" .. package.path
 
+local lfs = require("lfs")
 local List = require("mods.List")
 
 local TYPES_DIR = "types"
@@ -18,10 +17,6 @@ local function read_file(path)
 end
 
 local function write_file(path, data)
-  local dir = path:match("^(.*)/[^/]+$")
-  if dir and lfs.attributes(dir, "mode") ~= "directory" then
-    lfs.mkdir(dir)
-  end
   local f = assert(io.open(path, "w"))
   f:write(data)
   f:close()
@@ -83,24 +78,18 @@ end
 
 local function parse_types_file(path)
   local lines = {}
-  local function push_line(v)
-    table.insert(lines, v)
-  end
   for line in read_file(path):gmatch("[^\n]*\n?") do
     if line == "" then
       break
     end
     local cleaned = line:gsub("\n$", "")
-    push_line(cleaned)
+    lines[#lines + 1] = cleaned
   end
 
   local meta
   local module_desc
   local block = nil
   local funcs = {}
-  local function push_func(v)
-    table.insert(funcs, v)
-  end
 
   local function flush_block()
     if block and #block > 0 then
@@ -128,12 +117,13 @@ local function parse_types_file(path)
       if fn_full then
         local name = fn_full:match("[^%._:]+$")
         local doc = parse_block(block or {})
-        push_func({
+        funcs[#funcs + 1] = {
           name = name,
           params = trim(params),
           doc = doc,
           annotations = doc.annotations,
-        })
+        }
+
         block = nil
       else
         flush_block()
@@ -218,7 +208,8 @@ local function render_module(doc)
       push("")
       push("```lua")
       for _, anno in ipairs(fn.annotations or {}) do
-        push("---@" .. anno)
+        local cleaned = anno:gsub("^@", "")
+        push("---@" .. cleaned)
       end
       local signature = string.format("function %s(%s) end", fn.name, fn.params)
       push(signature)
@@ -303,23 +294,19 @@ local function render_modules_ts(docs)
   return table.concat(out, "\n")
 end
 
-local function iter_files(dir)
-  local files = {}
+local function list_lua_files(dir)
+  local files = List()
   for file in lfs.dir(dir) do
     if file ~= "." and file ~= ".." and file:match("%.lua$") then
-      table.insert(files, dir .. "/" .. file)
+      files:append(dir .. "/" .. file)
     end
   end
-  table.sort(files)
-  return files
+  return files:sort()
 end
 
 local function main()
-  local files = iter_files(TYPES_DIR)
+  local files = list_lua_files(TYPES_DIR)
   local docs = {}
-  local function push_doc(v)
-    table.insert(docs, v)
-  end
   for _, path in ipairs(files) do
     local doc = parse_types_file(path)
     local short = module_short_name(doc.meta)
@@ -328,7 +315,7 @@ local function main()
       local content = render_module(doc)
       write_file(out_path, content)
       print("wrote", out_path)
-      push_doc(doc)
+      docs[#docs + 1] = doc
     end
   end
 
