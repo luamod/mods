@@ -2,11 +2,6 @@ name: Publish LuaRocks
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Git tag to publish (e.g. v1.2.3)"
-        required: true
-        type: string
 
 permissions:
   contents: read
@@ -18,7 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+
+      - name: Resolve latest tag
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+          TAG="$(git tag --sort=-v:refname | head -n1)"
+          if [ -z "$TAG" ]; then
+            echo "No git tags found."
+            exit 1
+          fi
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          git checkout "$TAG"
 
       - name: Set up Lua
         uses: leafo/gh-actions-lua@v11
@@ -31,7 +38,6 @@ jobs:
       - name: Prepare rockspec
         run: |
           set -euo pipefail
-          TAG="${{ inputs.tag }}"
           VERSION="${TAG#v}"
           ROCKSPEC="mods-${VERSION}-1.rockspec"
           cp mods-0.1.0-1.rockspec "$ROCKSPEC"
