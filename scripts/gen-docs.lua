@@ -241,7 +241,6 @@ local function render_index(docs)
     end
   end
 
-  push("---", "editLink: false", "---", "")
   push("# API Overview", "")
   push("| Module | Description |", "| --- | --- |")
   for _, doc in ipairs(docs) do
