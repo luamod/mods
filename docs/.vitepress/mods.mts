@@ -3,6 +3,7 @@ export const moduleNav = {
   items: [
     { text: "List", link: "/modules/list" },
     { text: "Set", link: "/modules/set" },
+    { text: "Str", link: "/modules/str" },
     { text: "Stringcase", link: "/modules/stringcase" },
     { text: "tbl", link: "/modules/tbl" },
   ],
@@ -13,6 +14,7 @@ export const moduleSidebar = {
   items: [
     { text: "List", link: "/modules/list" },
     { text: "Set", link: "/modules/set" },
+    { text: "Str", link: "/modules/str" },
     { text: "Stringcase", link: "/modules/stringcase" },
     { text: "tbl", link: "/modules/tbl" },
   ],
