@@ -39,8 +39,6 @@ editLinkTarget: types/str.lua
 | [`removeprefix(s, prefix)`](#fn-removeprefixs-prefix)                     | Remove prefix if present.                                                                    |
 | [`removesuffix(s, suffix)`](#fn-removesuffixs-suffix)                     | Remove suffix if present.                                                                    |
 | [`replace(s, old, new, count)`](#fn-replaces-old-new-count)               | Return a copy of the string with all occurrences of a substring replaced.                    |
-| [`maketransDict(map)`](#fn-maketransdictmap)                              | Create translation table from a mapping.                                                     |
-| [`maketrans(x, y, z)`](#fn-maketransx-y-z)                                | Create translation table from pairs of strings.                                              |
 | [`rfind(s, sub, start, stop)`](#fn-rfinds-sub-start-stop)                 | Return highest index of substring or nil if not found.                                       |
 | [`rindex(s, sub, start, stop)`](#fn-rindexs-sub-start-stop)               | Like rfind but raises on failure (placeholder).                                              |
 | [`rjust(s, width, fillchar)`](#fn-rjusts-width-fillchar)                  | Right-justify string in a field of given width.                                              |
@@ -844,59 +842,6 @@ local s = replace("a-b-c", "-", "_", 1)
 ---@return string
 ---@nodiscard
 function replace(s, old, new, count) end
-```
-
-:::
-
-<a id="fn-maketransdictmap"></a>
-
-#### `maketransDict(map)`
-
-Create translation table from a mapping.
-
-:::tabs
-== Example
-
-```lua
-local map = maketransDict({ a = "b", [string.byte("c")] = false })
--- result: { [97] = "b", [99] = false }
-```
-
-== Signature
-
-```lua
----@param map table
----@return table
----@nodiscard
-function maketransDict(map) end
-```
-
-:::
-
-<a id="fn-maketransx-y-z"></a>
-
-#### `maketrans(x, y, z)`
-
-Create translation table from pairs of strings.
-If passed a table, behaves like maketransDict.
-
-:::tabs
-== Example
-
-```lua
-local map = maketrans("abc", "xyz", "d")
--- result: { [97] = "x", [98] = "y", [99] = "z", [100] = false }
-```
-
-== Signature
-
-```lua
----@param x string|table
----@param y? string
----@param z? string
----@return table
----@nodiscard
-function maketrans(x, y, z) end
 ```
 
 :::
