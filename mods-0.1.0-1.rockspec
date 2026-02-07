@@ -25,6 +25,7 @@ build = {
   modules = {
     ["mods.List"] = "src/mods/List.lua",
     ["mods.Set"]  = "src/mods/Set.lua",
+    ["mods.stringcase"] = "src/mods/stringcase.lua",
     ["mods.tbl"]  = "src/mods/tbl.lua",
   },
 }
