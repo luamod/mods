@@ -8,46 +8,46 @@ editLinkTarget: types/List.lua
 
 ## Quick Reference
 
-| Function                                 | Description                                                          |
-| ---------------------------------------- | -------------------------------------------------------------------- |
-| [`all(pred)`](#fn-allpred)               | Return true if all values match the predicate.                       |
-| [`any(pred)`](#fn-anypred)               | Return true if any value matches the predicate.                      |
-| [`append(v)`](#fn-appendv)               | Append a value to the end of the list.                               |
-| [`clear()`](#fn-clear)                   | Remove all elements from the list.                                   |
-| [`contains(v)`](#fn-containsv)           | Return true if the list contains the value.                          |
-| [`copy()`](#fn-copy)                     | Return a shallow copy of the list.                                   |
-| [`count(v)`](#fn-countv)                 | Count how many times a value appears.                                |
-| [`difference(ls)`](#fn-differencels)     | Return a new list with values not in the given list.                 |
-| [`drop(n)`](#fn-dropn)                   | Return a new list without the first n elements.                      |
-| [`extend(ls)`](#fn-extendls)             | Extend the list with another list.                                   |
-| [`extract(pred)`](#fn-extractpred)       | Extract values matching the predicate and remove them from the list. |
-| [`filter(pred)`](#fn-filterpred)         | Return a new list with values matching the predicate.                |
-| [`first()`](#fn-first)                   | Return the first element or nil if empty.                            |
-| [`flatten()`](#fn-flatten)               | Flatten one level of nested lists.                                   |
-| [`foreach(fn)`](#fn-foreachfn)           | Apply a function to each element (for side effects).                 |
-| [`by(fn)`](#fn-byfn)                     | Group list values by a computed key.                                 |
-| [`index(v)`](#fn-indexv)                 | Return the index of the first matching value.                        |
-| [`if(pred)`](#fn-ifpred)                 | Return the index of the first value matching the predicate.          |
-| [`insert(pos, v)`](#fn-insertpos-v)      | Insert a value at the given position.                                |
-| [`insert(v)`](#fn-insertv)               | Append a value to the end of the list.                               |
-| [`intersection(ls)`](#fn-intersectionls) | Return values that are also present in the given list.               |
-| [`invert()`](#fn-invert)                 | Invert values to indices in a new table.                             |
-| [`join(sep)`](#fn-joinsep)               | Join list values into a string.                                      |
-| [`last()`](#fn-last)                     | Return the last element or nil if empty.                             |
-| [`len()`](#fn-len)                       | Return the number of elements in the list.                           |
-| [`map(fn)`](#fn-mapfn)                   | Return a new list by mapping each value.                             |
-| [`pop()`](#fn-pop)                       | Remove and return the last element.                                  |
-| [`pop(pos)`](#fn-poppos)                 | Remove and return the element at the given position.                 |
-| [`prepend(v)`](#fn-prependv)             | Insert a value at the start of the list.                             |
-| [`reduce(fn, init)`](#fn-reducefn-init)  | Reduce the list to a single value using an accumulator.              |
-| [`remove(v)`](#fn-removev)               | Remove the first matching value.                                     |
-| [`reverse()`](#fn-reverse)               | Return a new list with items reversed.                               |
-| [`setify()`](#fn-setify)                 | Convert the list to a set.                                           |
-| [`slice(i, j)`](#fn-slicei-j)            | Return a new list containing items from i to j (inclusive).          |
-| [`sort(comp)`](#fn-sortcomp)             | Sort the list in place.                                              |
-| [`take(n)`](#fn-taken)                   | Return the first n elements as a new list.                           |
-| [`uniq()`](#fn-uniq)                     | Return a new list with duplicates removed (first occurrence kept).   |
-| [`zip(other)`](#fn-zipother)             | Zip two lists into a list of 2-element tables.                       |
+| Function | Description |
+| --- | --- |
+| [`all(pred)`](#fn-allpred) | Return true if all values match the predicate. |
+| [`any(pred)`](#fn-anypred) | Return true if any value matches the predicate. |
+| [`append(v)`](#fn-appendv) | Append a value to the end of the list. |
+| [`clear()`](#fn-clear) | Remove all elements from the list. |
+| [`contains(v)`](#fn-containsv) | Return true if the list contains the value. |
+| [`copy()`](#fn-copy) | Return a shallow copy of the list. |
+| [`count(v)`](#fn-countv) | Count how many times a value appears. |
+| [`difference(ls)`](#fn-differencels) | Return a new list with values not in the given list. |
+| [`drop(n)`](#fn-dropn) | Return a new list without the first n elements. |
+| [`extend(ls)`](#fn-extendls) | Extend the list with another list. |
+| [`extract(pred)`](#fn-extractpred) | Extract values matching the predicate and remove them from the list. |
+| [`filter(pred)`](#fn-filterpred) | Return a new list with values matching the predicate. |
+| [`first()`](#fn-first) | Return the first element or nil if empty. |
+| [`flatten()`](#fn-flatten) | Flatten one level of nested lists. |
+| [`foreach(fn)`](#fn-foreachfn) | Apply a function to each element (for side effects). |
+| [`by(fn)`](#fn-byfn) | Group list values by a computed key. |
+| [`index(v)`](#fn-indexv) | Return the index of the first matching value. |
+| [`if(pred)`](#fn-ifpred) | Return the index of the first value matching the predicate. |
+| [`insert(pos, v)`](#fn-insertpos-v) | Insert a value at the given position. |
+| [`insert(v)`](#fn-insertv) | Append a value to the end of the list. |
+| [`intersection(ls)`](#fn-intersectionls) | Return values that are also present in the given list. |
+| [`invert()`](#fn-invert) | Invert values to indices in a new table. |
+| [`join(sep)`](#fn-joinsep) | Join list values into a string. |
+| [`last()`](#fn-last) | Return the last element or nil if empty. |
+| [`len()`](#fn-len) | Return the number of elements in the list. |
+| [`map(fn)`](#fn-mapfn) | Return a new list by mapping each value. |
+| [`pop()`](#fn-pop) | Remove and return the last element. |
+| [`pop(pos)`](#fn-poppos) | Remove and return the element at the given position. |
+| [`prepend(v)`](#fn-prependv) | Insert a value at the start of the list. |
+| [`reduce(fn, init)`](#fn-reducefn-init) | Reduce the list to a single value using an accumulator. |
+| [`remove(v)`](#fn-removev) | Remove the first matching value. |
+| [`reverse()`](#fn-reverse) | Return a new list with items reversed. |
+| [`setify()`](#fn-setify) | Convert the list to a set. |
+| [`slice(i, j)`](#fn-slicei-j) | Return a new list containing items from i to j (inclusive). |
+| [`sort(comp)`](#fn-sortcomp) | Sort the list in place. |
+| [`take(n)`](#fn-taken) | Return the first n elements as a new list. |
+| [`uniq()`](#fn-uniq) | Return a new list with duplicates removed (first occurrence kept). |
+| [`zip(other)`](#fn-zipother) | Zip two lists into a list of 2-element tables. |
 
 ## Functions
 
