@@ -1,23 +1,18 @@
-# Pull Request
-
 ## Summary
 
-- What does this PR change? (1-3 bullets)
+-
+
+## Related Issue
+
 -
 
 ## Changes
 
-- Key files/areas touched
 -
 
-## Testing
+## Checklist
 
-- [ ] Not run (explain below)
-- [ ] Unit tests (`npm test` / `busted` / etc.)
-- [ ] Lint (`npm run lint` / `luacheck` / etc.)
-- [ ] Other (describe below)
-
-## Notes
-
-- Anything reviewers should know (edge cases, follow-ups, migrations)
--
+- [ ] Self-review completed
+- [ ] Types updated (`types/`)
+- [ ] Tests updated or run
+- [ ] Docs updated (`docs/`)
