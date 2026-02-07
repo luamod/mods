@@ -12,6 +12,7 @@ local M = {}
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.lower(s) end
 
 ---Convert string to all uppercase.
@@ -23,6 +24,7 @@ function M.lower(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.upper(s) end
 
 ---Convert string to snake_case.
@@ -34,6 +36,7 @@ function M.upper(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.snake(s) end
 
 ---Convert string to camelCase.
@@ -45,6 +48,7 @@ function M.snake(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.camel(s) end
 
 ---Replace underscores in snake_case with a given separator (default empty).
@@ -57,6 +61,7 @@ function M.camel(s) end
 ---@param s string
 ---@param sep? string
 ---@return string
+---@nodiscard
 function M.replace(s, sep) end
 
 ---Get acronym of words in string (first letters only).
@@ -68,6 +73,7 @@ function M.replace(s, sep) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.acronym(s) end
 
 ---Convert string to Title Case (first letter of each word capitalized).
@@ -79,6 +85,7 @@ function M.acronym(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.title(s) end
 
 ---Convert string to CONSTANT_CASE (uppercase snake_case).
@@ -90,6 +97,7 @@ function M.title(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.constant(s) end
 
 ---Convert string to PascalCase.
@@ -101,6 +109,7 @@ function M.constant(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.pascal(s) end
 
 ---Convert string to kebab-case.
@@ -112,6 +121,7 @@ function M.pascal(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.kebab(s) end
 
 ---Convert string to dot.case.
@@ -123,6 +133,7 @@ function M.kebab(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.dot(s) end
 
 ---Convert string to space case (spaces between words).
@@ -134,6 +145,7 @@ function M.dot(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.space(s) end
 
 ---Convert string to path/case (slashes between words).
@@ -145,6 +157,7 @@ function M.space(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.path(s) end
 
 ---Swap case of each letter.
@@ -156,6 +169,7 @@ function M.path(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.swap(s) end
 
 ---Capitalize the first letter and lowercase the rest.
@@ -167,6 +181,7 @@ function M.swap(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.capital(s) end
 
 ---Convert string to sentence case (first letter uppercase, rest lowercase).
@@ -178,6 +193,7 @@ function M.capital(s) end
 ---
 ---@param s string
 ---@return string
+---@nodiscard
 function M.sentence(s) end
 
 return M
