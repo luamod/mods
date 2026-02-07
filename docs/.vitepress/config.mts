@@ -24,6 +24,8 @@ export default defineConfig({
   themeConfig: {
     logo: "/logo.svg",
     outline: [2, 4], // show h2-h4
+    search: { provider: "local" },
+    socialLinks: [{ icon: "github", link: "https://github.com/luamod/mods" }],
     // prettier-ignore
     nav: [
       { text: "Home"       , link: "/" },
@@ -48,11 +50,19 @@ export default defineConfig({
       { text: "🇵🇸 Free Palestine" },
     ],
     editLink: {
-      pattern: "https://github.com/luamod/mods/edit/main/docs/:path",
+      pattern: ({ filePath, frontmatter }) => {
+        const repoEditBase = "https://github.com/luamod/mods/edit/main";
+        if (!filePath) {
+          return `${repoEditBase}/docs`;
+        }
+        const target = frontmatter?.editLinkTarget;
+        if (typeof target === "string" && target.length > 0) {
+          return `${repoEditBase}/${target}`;
+        }
+        return `${repoEditBase}/${filePath}`;
+      },
       text: "Edit this page",
     },
-    search: { provider: "local" },
-    socialLinks: [{ icon: "github", link: "https://github.com/luamod/mods" }],
   },
   markdown: {
     config(md) {
