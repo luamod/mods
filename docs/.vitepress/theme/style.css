@@ -1,3 +1,9 @@
+:root {
+  --vp-font-family-mono:
+    "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
 /* Remove underline from links in docs content */
 .VPDoc a {
   text-decoration: none;
@@ -5,11 +11,6 @@
 
 .VPDoc a:hover {
   text-decoration: none;
-}
-:root {
-  --vp-font-family-mono:
-    "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
 }
 
 /* Make inline code use normal text color */
