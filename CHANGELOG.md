@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Initial release.
 - `mods.List`, Python-style list helpers.
 - `mods.Set`, set operations and helpers.
 - `mods.str`, string utilities modeled after Python's `str`.
