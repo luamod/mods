@@ -120,7 +120,7 @@ local function parse_types_file(path)
     else
       local fn_full, params = line:match("^function%s+([%w%._:]+)%s*%(([^)]*)%)")
       if fn_full then
-        local name = fn_full:match("[^%._:]+$")
+        local name = fn_full:match("[^%.:]+$")
         local doc = parse_block(block or {})
         funcs[#funcs + 1] = {
           name = name,
