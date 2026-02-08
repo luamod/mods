@@ -46,3 +46,4 @@ npm run build
 ## Commit Messages
 
 - Use Conventional Commits 1.0.0 (e.g., `feat: ...`, `fix: ...`, `chore: ...`).
+- Spec: https://www.conventionalcommits.org/en/v1.0.0/
