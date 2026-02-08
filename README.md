@@ -49,6 +49,7 @@ Available modules:
 ## Examples
 
 See the runnable scripts in [`examples/`](examples).
+The [docs](https://luamod.github.io/mods) site also includes examples.
 
 [`List`]: https://luamod.github.io/mods/modules/list
 [`Set`]: https://luamod.github.io/mods/modules/set

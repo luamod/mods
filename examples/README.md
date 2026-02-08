@@ -1,5 +1,7 @@
 # Examples
 
+Quick, runnable scripts showcasing module usage.
+
 Run from the repo root:
 
 ```sh
