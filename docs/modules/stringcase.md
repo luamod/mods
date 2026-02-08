@@ -4,7 +4,7 @@ editLinkTarget: types/stringcase.lua
 
 # stringcase
 
-`mods.stringcase` Convert string to all lowercase.
+`mods.stringcase`
 
 ## Quick Reference
 
