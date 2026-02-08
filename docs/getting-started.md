@@ -20,6 +20,9 @@ git clone git@github.com:luamod/mods.git
 Copy the files you need from [`src/mods`](https://github.com/luamod/mods/tree/main/src/mods) into your project and require them.
 :::
 
+> [!NOTE]
+> [LLS](https://github.com/LuaLS/lua-language-server) type stubs are available in [`types/`](https://github.com/luamod/mods/tree/main/types).
+
 ## Basic Usage
 
 ```lua
