@@ -25,9 +25,9 @@ A Python-style list class providing common operations to create, modify, and que
 | [`first()`](#fn-first)                   | Return the first element or nil if empty.                            |
 | [`flatten()`](#fn-flatten)               | Flatten one level of nested lists.                                   |
 | [`foreach(fn)`](#fn-foreachfn)           | Apply a function to each element (for side effects).                 |
-| [`by(fn)`](#fn-byfn)                     | Group list values by a computed key.                                 |
+| [`group_by(fn)`](#fn-group_byfn)         | Group list values by a computed key.                                 |
 | [`index(v)`](#fn-indexv)                 | Return the index of the first matching value.                        |
-| [`if(pred)`](#fn-ifpred)                 | Return the index of the first value matching the predicate.          |
+| [`index_if(pred)`](#fn-index_ifpred)     | Return the index of the first value matching the predicate.          |
 | [`insert(pos, v)`](#fn-insertpos-v)      | Insert a value at the given position.                                |
 | [`insert(v)`](#fn-insertv)               | Append a value to the end of the list.                               |
 | [`intersection(ls)`](#fn-intersectionls) | Return values that are also present in the given list.               |
@@ -422,7 +422,7 @@ function foreach(fn) end
 
 :::
 
-#### `by(fn)` {#fn-byfn}
+#### `group_by(fn)` {#fn-group_byfn}
 
 Group list values by a computed key.
 
@@ -443,7 +443,7 @@ local g = List(words):group_by(string.len)
 ---@param fn fun(v:any):any
 ---@return table<any, T>
 ---@nodiscard
-function by(fn) end
+function group_by(fn) end
 ```
 
 :::
@@ -474,7 +474,7 @@ function index(v) end
 
 :::
 
-#### `if(pred)` {#fn-ifpred}
+#### `index_if(pred)` {#fn-index_ifpred}
 
 Return the index of the first value matching the predicate.
 
@@ -495,7 +495,7 @@ local i = List({ 1, 2, 3 }):index_if(gt_1)
 ---@param pred fun(v:any):boolean
 ---@return integer? index
 ---@nodiscard
-function if(pred) end
+function index_if(pred) end
 ```
 
 :::

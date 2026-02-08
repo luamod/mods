@@ -16,7 +16,7 @@ String utility helpers modeled after Python's `str`.
 | [`endswith(s, suffix, start, stop)`](#fn-endswiths-suffix-start-stop)     | Return true if string ends with suffix.                                                      |
 | [`expandtabs(s, tabsize)`](#fn-expandtabss-tabsize)                       | Expand tabs to spaces using given tabsize.                                                   |
 | [`find(s, sub, start, stop)`](#fn-finds-sub-start-stop)                   | Return lowest index of substring or nil if not found.                                        |
-| [`map(s, mapping)`](#fn-maps-mapping)                                     | Format string with mapping (key-based) replacement.                                          |
+| [`format_map(s, mapping)`](#fn-format_maps-mapping)                       | Format string with mapping (key-based) replacement.                                          |
 | [`isalnum(s)`](#fn-isalnums)                                              | Return true if all characters are alphanumeric and string is non-empty.                      |
 | [`isalpha(s)`](#fn-isalphas)                                              | Return true if all characters are alphabetic and string is non-empty.                        |
 | [`isascii(s)`](#fn-isasciis)                                              | Return true if all characters are ASCII and string is non-empty.                             |
@@ -216,7 +216,7 @@ function find(s, sub, start, stop) end
 
 :::
 
-#### `map(s, mapping)` {#fn-maps-mapping}
+#### `format_map(s, mapping)` {#fn-format_maps-mapping}
 
 Format string with mapping (key-based) replacement.
 
@@ -235,7 +235,7 @@ local s = format_map("hi {name}", { name = "bob" })
 ---@param mapping table
 ---@return string
 ---@nodiscard
-function map(s, mapping) end
+function format_map(s, mapping) end
 ```
 
 :::
