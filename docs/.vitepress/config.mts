@@ -1,6 +1,6 @@
 import { defineConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
-import { moduleNav, moduleSidebar } from "./mods.mts";
+import moduleItems from "./modules.json";
 
 export default defineConfig({
   title: "Mods",
@@ -30,7 +30,7 @@ export default defineConfig({
     nav: [
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/getting-started" },
-      moduleNav,
+      { text: "Modules", items: moduleItems },
     ],
     sidebar: [
       {
@@ -40,7 +40,7 @@ export default defineConfig({
           { text: "Getting Started", link: "/getting-started" },
         ],
       },
-      moduleSidebar,
+      { text: "Modules", items: moduleItems },
       { text: "🇵🇸 Free Palestine" },
     ],
     editLink: {

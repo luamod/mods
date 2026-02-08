@@ -11,8 +11,6 @@ local fmt = string.format
 local TYPES_DIR = "types"
 local OUT_DIR = "docs/modules"
 local INDEX_OUT = OUT_DIR .. "/index.md"
-local GENERATED_DIR = "docs/.vitepress"
-local MODULES_OUT = GENERATED_DIR .. "/mods.mts"
 
 local function push_all(list, ...)
   for i = 1, select("#", ...) do
@@ -209,41 +207,6 @@ local function render_index(docs)
   return table.concat(out, "\n")
 end
 
-local function render_modules_ts(docs)
-  local out = List()
-
-  local function module_items()
-    local items = {}
-    for _, doc in ipairs(docs) do
-      local short = module_short_name(doc.meta)
-      if short then
-        local label = short == "tbl" and "tbl" or (short:gsub("^%l", string.upper))
-        items[#items + 1] = { text = label, link = "/modules/" .. short }
-      end
-    end
-    return items
-  end
-
-  local function emit_items(items)
-    push_all(out, "  items: [")
-    for _, item in ipairs(items) do
-      push_all(out, fmt('    { text: "%s", link: "%s" },', item.text, item.link))
-    end
-    push_all(out, "  ],")
-  end
-
-  local items = module_items()
-
-  push_all(out, "export const moduleNav = {", '  text: "Modules",')
-  emit_items(items)
-  push_all(out, "};", "")
-
-  push_all(out, "export const moduleSidebar = {", '  text: "Modules",')
-  emit_items(items)
-  push_all(out, "};", "")
-
-  return table.concat(out, "\n")
-end
 
 local function list_lua_files(dir)
   local files = List()
@@ -274,9 +237,6 @@ local function main()
   write_file(INDEX_OUT, index)
   print("wrote", INDEX_OUT)
 
-  local modules_ts = render_modules_ts(docs)
-  write_file(MODULES_OUT, modules_ts)
-  print("wrote", MODULES_OUT)
 end
 
 main()
