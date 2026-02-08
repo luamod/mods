@@ -523,7 +523,7 @@ local values = Set({ "a", "b" }):values()
 == Signature
 
 ```lua
----@return mods.List values
+---@return mods.List<T>|T[] values
 ---@nodiscard
 function values() end
 ```

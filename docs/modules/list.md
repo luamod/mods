@@ -901,7 +901,7 @@ local s = List({ "a", "b", "a" }):setify()
 
 ```lua
 ---@param self mods.List
----@return mods.List
+---@return mods.Set|{any:true}
 ---@nodiscard
 function setify() end
 ```

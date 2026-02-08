@@ -29,7 +29,7 @@ editLinkTarget: types/str.lua
 | [`isspace(s)`](#fn-isspaces)                                              | Return true if all characters are whitespace and string is non-empty.                        |
 | [`istitle(s)`](#fn-istitles)                                              | Return true if string is titlecased.                                                         |
 | [`isupper(s)`](#fn-isuppers)                                              | Return true if all cased characters are uppercase and there is at least one cased character. |
-| [`join(sep, list)`](#fn-joinsep-list)                                     | Join an iterable of strings using this string as separator.                                  |
+| [`join(sep, ls)`](#fn-joinsep-ls)                                         | Join an iterable of strings using this string as separator.                                  |
 | [`ljust(s, width, fillchar)`](#fn-ljusts-width-fillchar)                  | Left-justify string in a field of given width.                                               |
 | [`lower(s)`](#fn-lowers)                                                  | Return lowercased copy.                                                                      |
 | [`lstrip(s, chars)`](#fn-lstrips-chars)                                   | Remove leading characters (default: whitespace).                                             |
@@ -66,7 +66,7 @@ Return copy with first character capitalized and the rest lowercased.
 
 ```lua
 local s = capitalize("hello WORLD")
--- result: "Hello world"
+--result: "Hello world"
 ```
 
 == Signature
@@ -91,7 +91,7 @@ Center string within width, padded with fill characters.
 
 ```lua
 local s = center("hi", 6, "-")
--- result: "--hi--"
+--result: "--hi--"
 ```
 
 == Signature
@@ -118,17 +118,17 @@ Count non-overlapping occurrences of a substring.
 
 ```lua
 local n = count("aaaa", "aa")
--- result: 2
+--result: 2
 ```
 
 ```lua
 local n = count("aaaa", "a", 2, -1)
--- result: 2
+--result: 2
 ```
 
 ```lua
 local n = count("abcd", "")
--- result: 5
+--result: 5
 ```
 
 == Signature
@@ -157,7 +157,7 @@ If suffix is a list, return true if any suffix matches.
 
 ```lua
 local ok = endswith("hello.lua", ".lua")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -185,7 +185,7 @@ Expand tabs to spaces using given tabsize.
 
 ```lua
 local s = expandtabs("a\tb", 4)
--- result: "a   b"
+--result: "a   b"
 ```
 
 == Signature
@@ -211,7 +211,7 @@ Return lowest index of substring or nil if not found.
 
 ```lua
 local i = find("hello", "ll")
--- result: 3
+--result: 3
 ```
 
 == Signature
@@ -239,7 +239,7 @@ Format string with mapping (key-based) replacement.
 
 ```lua
 local s = format_map("hi {name}", { name = "bob" })
--- result: "hi bob"
+--result: "hi bob"
 ```
 
 == Signature
@@ -265,7 +265,7 @@ Return true if all characters are alphanumeric and string is non-empty.
 
 ```lua
 local ok = isalnum("abc123")
--- result: true
+--result: true
 ```
 
 > [!NOTE]
@@ -299,7 +299,7 @@ Return true if all characters are alphabetic and string is non-empty.
 
 ```lua
 local ok = isalpha("abc")
--- result: true
+--result: true
 ```
 
 > [!NOTE]
@@ -333,7 +333,7 @@ Return true if all characters are ASCII and string is non-empty.
 
 ```lua
 local ok = isascii("hello")
--- result: true
+--result: true
 ```
 
 > [!NOTE]
@@ -361,7 +361,7 @@ Return true if all characters are decimal characters and string is non-empty.
 
 ```lua
 local ok = isdecimal("123")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -386,7 +386,7 @@ Return true if all characters are digits and string is non-empty.
 
 ```lua
 local ok = isdigit("123")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -411,13 +411,13 @@ Return true if string is a valid identifier and not a reserved keyword.
 
 ```lua
 local ok = isidentifier("foo_bar")
--- result: true
+--result: true
 
 ok = isidentifier("2var")
--- result: false
+--result: false
 
 ok = isidentifier("end")
--- result: false (keyword)
+--result: false (keyword)
 ```
 
 == Signature
@@ -442,7 +442,7 @@ Return true if all cased characters are lowercase and there is at least one case
 
 ```lua
 local ok = islower("hello")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -467,7 +467,7 @@ Return true if all characters are numeric and string is non-empty.
 
 ```lua
 local ok = isnumeric("123")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -492,7 +492,7 @@ Return true if all characters are printable and string is non-empty.
 
 ```lua
 local ok = isprintable("abc!")
--- result: true
+--result: true
 ```
 
 > [!NOTE]
@@ -520,7 +520,7 @@ Return true if all characters are whitespace and string is non-empty.
 
 ```lua
 local ok = isspace(" \t")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -545,7 +545,7 @@ Return true if string is titlecased.
 
 ```lua
 local ok = istitle("Hello World")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -570,7 +570,7 @@ Return true if all cased characters are uppercase and there is at least one case
 
 ```lua
 local ok = isupper("HELLO")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -584,9 +584,9 @@ function isupper(s) end
 
 :::
 
-<a id="fn-joinsep-list"></a>
+<a id="fn-joinsep-ls"></a>
 
-#### `join(sep, list)`
+#### `join(sep, ls)`
 
 Join an iterable of strings using this string as separator.
 
@@ -595,17 +595,17 @@ Join an iterable of strings using this string as separator.
 
 ```lua
 local s = join(",", { "a", "b", "c" })
--- result: "a,b,c"
+--result: "a,b,c"
 ```
 
 == Signature
 
 ```lua
 ---@param sep string
----@param list string[]
+---@param ls string[]
 ---@return string
 ---@nodiscard
-function join(sep, list) end
+function join(sep, ls) end
 ```
 
 :::
@@ -621,7 +621,7 @@ Left-justify string in a field of given width.
 
 ```lua
 local s = ljust("hi", 5, ".")
--- result: "hi..."
+--result: "hi..."
 ```
 
 == Signature
@@ -648,7 +648,7 @@ Return lowercased copy.
 
 ```lua
 local s = lower("HeLLo")
--- result: "hello"
+--result: "hello"
 ```
 
 == Signature
@@ -673,7 +673,7 @@ Remove leading characters (default: whitespace).
 
 ```lua
 local s = lstrip("  hello")
--- result: "hello"
+--result: "hello"
 ```
 
 == Signature
@@ -699,7 +699,7 @@ Remove trailing characters (default: whitespace).
 
 ```lua
 local s = rstrip("hello  ")
--- result: "hello"
+--result: "hello"
 ```
 
 == Signature
@@ -725,7 +725,7 @@ Remove leading and trailing characters (default: whitespace).
 
 ```lua
 local s = strip("  hello  ")
--- result: "hello"
+--result: "hello"
 ```
 
 == Signature
@@ -751,7 +751,7 @@ Partition string into head, sep, tail from left.
 
 ```lua
 local a, b, c = partition("a-b-c", "-")
--- result: "a", "-", "b-c"
+--result: "a", "-", "b-c"
 ```
 
 == Signature
@@ -777,7 +777,7 @@ Remove prefix if present.
 
 ```lua
 local s = removeprefix("foobar", "foo")
--- result: "bar"
+--result: "bar"
 ```
 
 == Signature
@@ -803,7 +803,7 @@ Remove suffix if present.
 
 ```lua
 local s = removesuffix("foobar", "bar")
--- result: "foo"
+--result: "foo"
 ```
 
 == Signature
@@ -829,7 +829,7 @@ Return a copy of the string with all occurrences of a substring replaced.
 
 ```lua
 local s = replace("a-b-c", "-", "_", 1)
--- result: "a_b-c"
+--result: "a_b-c"
 ```
 
 == Signature
@@ -857,7 +857,7 @@ Return highest index of substring or nil if not found.
 
 ```lua
 local i = rfind("ababa", "ba")
--- result: 4
+--result: 4
 ```
 
 == Signature
@@ -885,7 +885,7 @@ Like rfind but raises on failure (placeholder).
 
 ```lua
 local i = rindex("ababa", "ba")
--- result: 4
+--result: 4
 ```
 
 == Signature
@@ -913,7 +913,7 @@ Right-justify string in a field of given width.
 
 ```lua
 local s = rjust("hi", 5, ".")
--- result: "...hi"
+--result: "...hi"
 ```
 
 == Signature
@@ -940,7 +940,7 @@ Partition string into head, sep, tail from right.
 
 ```lua
 local a, b, c = rpartition("a-b-c", "-")
--- result: "a-b", "-", "c"
+--result: "a-b", "-", "c"
 ```
 
 == Signature
@@ -966,7 +966,7 @@ Split from the right by separator, up to maxsplit.
 
 ```lua
 local parts = rsplit("a,b,c", ",", 1)
--- result: { "a,b", "c" }
+--result: { "a,b", "c" }
 ```
 
 == Signature
@@ -975,7 +975,7 @@ local parts = rsplit("a,b,c", ",", 1)
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
----@return string[]
+---@return mods.List|string[]
 ---@nodiscard
 function rsplit(s, sep, maxsplit) end
 ```
@@ -993,7 +993,7 @@ Split by separator (or whitespace) up to maxsplit.
 
 ```lua
 local parts = split("a,b,c", ",")
--- result: { "a", "b", "c" }
+--result: { "a", "b", "c" }
 ```
 
 == Signature
@@ -1002,7 +1002,7 @@ local parts = split("a,b,c", ",")
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
----@return string[]
+---@return mods.List|string[]
 ---@nodiscard
 function split(s, sep, maxsplit) end
 ```
@@ -1020,7 +1020,7 @@ Split on line boundaries.
 
 ```lua
 local lines = splitlines("a\nb\r\nc")
--- result: { "a", "b", "c" }
+--result: { "a", "b", "c" }
 ```
 
 == Signature
@@ -1028,7 +1028,7 @@ local lines = splitlines("a\nb\r\nc")
 ```lua
 ---@param s string
 ---@param keepends? boolean
----@return string[]
+---@return mods.List|string[]
 ---@nodiscard
 function splitlines(s, keepends) end
 ```
@@ -1046,7 +1046,7 @@ Return a copy with case of alphabetic characters swapped.
 
 ```lua
 local s = swapcase("AbC")
--- result: "aBc"
+--result: "aBc"
 ```
 
 == Signature
@@ -1072,7 +1072,7 @@ If prefix is a list, return true if any prefix matches.
 
 ```lua
 local ok = startswith("hello.lua", "he")
--- result: true
+--result: true
 ```
 
 == Signature
@@ -1100,7 +1100,7 @@ Return titlecased copy.
 
 ```lua
 local s = title("hello world")
--- result: "Hello World"
+--result: "Hello World"
 ```
 
 == Signature
@@ -1126,7 +1126,7 @@ Translate characters using a mapping table.
 ```lua
 local map = { [string.byte("a")] = "b", ["c"] = false }
 local s = translate("abc", map)
--- result: "bb"
+--result: "bb"
 ```
 
 == Signature
@@ -1152,7 +1152,7 @@ Return uppercased copy.
 
 ```lua
 local s = upper("Hello")
--- result: "HELLO"
+--result: "HELLO"
 ```
 
 == Signature
@@ -1177,7 +1177,7 @@ Pad numeric string on the left with zeros.
 
 ```lua
 local s = zfill("42", 5)
--- result: "00042"
+--result: "00042"
 ```
 
 == Signature

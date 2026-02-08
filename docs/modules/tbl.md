@@ -320,7 +320,7 @@ local keys = keys({ a = 1, b = 2 })
 ```lua
 ---@generic T
 ---@param t {[any]:T}
----@return mods.List<T>
+---@return mods.List<T>|T[]
 ---@nodiscard
 function keys(t) end
 ```
@@ -433,7 +433,7 @@ local vals = values({ a = 1, b = 2 })
 ```lua
 ---@generic T
 ---@param t {[any]:T}
----@return mods.List<T>
+---@return mods.List<T>|T[]
 ---@nodiscard
 function values(t) end
 ```
