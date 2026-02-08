@@ -53,7 +53,7 @@ export default defineConfig({
         if (typeof target === "string" && target.length > 0) {
           return `${repoEditBase}/${target}`;
         }
-        return `${repoEditBase}/${filePath}`;
+        return `${repoEditBase}/docs/${filePath}`;
       },
       text: "Edit this page",
     },

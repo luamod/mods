@@ -4,28 +4,13 @@ Pure standalone Lua modules.
 
 ## What Is Mods?
 
-Mods is a collection of small, focused Lua modules designed to be easy to use and easy to embed.
+Mods is a set of small, focused Lua modules for easy embedding.
+Minimal dependencies, predictable APIs, and Lua 5.1+ support.
+Use modules standalone or together by dropping a single file into your project.
 
-## Why Mods
-
-- Minimal dependencies and small footprint
-- Designed to use standalone or as a collection: drop a single file into your project without extra dependencies
-- Familiar, predictable API patterns across modules
-- Works across Lua 5.1+
+> [!NOTE]
+> We are still working on adding new modules.
 
 ## Modules
 
 <!-- @include: ./modules/index.md -->
-
-## Start Fast
-
-```lua
-local List = require("mods.List")
-local Set = require("mods.Set")
-local tbl = require("mods.tbl")
-
-local l = List({ "a", "b", "a" })
-local u = l:uniq()      -- { "a", "b" }
-local s = Set({ "a", "b" })
-local k = tbl.keys({ a = 1, b = 2 })
-```
