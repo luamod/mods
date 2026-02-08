@@ -51,8 +51,10 @@ s:add("b")
 == Signature
 
 ```lua
+---@generic T:mods.Set|table<any,true>
+---@param self T
 ---@param v any
----@return self self
+---@return T self
 function add(v) end
 ```
 
@@ -76,7 +78,9 @@ s:clear()
 == Signature
 
 ```lua
----@return self self
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@return T self
 function clear() end
 ```
 
@@ -100,7 +104,9 @@ local c = s:copy()
 == Signature
 
 ```lua
----@return mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@return T set
 ---@nodiscard
 function copy() end
 ```
@@ -125,8 +131,10 @@ local d = s:difference(Set({ "b" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T set
 ---@nodiscard
 function difference(set) end
 ```
@@ -151,8 +159,10 @@ s:difference_update(Set({ "b" }))
 == Signature
 
 ```lua
----@param set self
----@return self self
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T self
 function update(set) end
 ```
 
@@ -176,8 +186,10 @@ s:discard("b")
 == Signature
 
 ```lua
+---@generic T:mods.Set|table<any,true>
+---@param self T
 ---@param v any
----@return self self
+---@return T self
 function discard(v) end
 ```
 
@@ -201,8 +213,10 @@ local i = s:intersection(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T set
 ---@nodiscard
 function intersection(set) end
 ```
@@ -227,8 +241,10 @@ s:intersection_update(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return self self
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T self
 function update(set) end
 ```
 
@@ -251,7 +267,9 @@ local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
 == Signature
 
 ```lua
----@param set mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
 ---@return boolean
 ---@nodiscard
 function isdisjoint(set) end
@@ -276,6 +294,8 @@ local empty = Set({}):isempty()
 == Signature
 
 ```lua
+---@generic T:mods.Set|table<any,true>
+---@param self T
 ---@return boolean
 ---@nodiscard
 function isempty() end
@@ -300,7 +320,9 @@ local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
 == Signature
 
 ```lua
----@param set mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
 ---@return boolean
 ---@nodiscard
 function issubset(set) end
@@ -325,7 +347,9 @@ local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
 == Signature
 
 ```lua
----@param set mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
 ---@return boolean
 ---@nodiscard
 function issuperset(set) end
@@ -350,6 +374,8 @@ local n = Set({ "a", "b" }):len()
 == Signature
 
 ```lua
+---@generic T:mods.Set|table<any,true>
+---@param self T
 ---@return integer
 ---@nodiscard
 function len() end
@@ -374,8 +400,10 @@ local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
 == Signature
 
 ```lua
----@param fn fun(v:T):any
----@return mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param fn fun(v:any):any
+---@return T set
 ---@nodiscard
 function map(fn) end
 ```
@@ -399,6 +427,8 @@ local v = Set({ "a", "b" }):pop()
 == Signature
 
 ```lua
+---@generic T:mods.Set|table<any,true>
+---@param self T
 ---@return any
 function pop() end
 ```
@@ -423,8 +453,10 @@ local d = s:symmetric_difference(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T set
 ---@nodiscard
 function difference(set) end
 ```
@@ -449,8 +481,10 @@ s:symmetric_difference_update(Set({ "b", "c" }))
 == Signature
 
 ```lua
----@param set self
----@return self self
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T self
 function update(set) end
 ```
 
@@ -473,8 +507,10 @@ local s = Set({ "a" }):union(Set({ "b" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return mods.Set
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T set
 ---@nodiscard
 function union(set) end
 ```
@@ -499,8 +535,10 @@ s:update(Set({ "b" }))
 == Signature
 
 ```lua
----@param set mods.Set
----@return self self
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T self
 function update(set) end
 ```
 
@@ -523,7 +561,9 @@ local values = Set({ "a", "b" }):values()
 == Signature
 
 ```lua
----@return mods.List<T>|T[] values
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@return mods.List|any[] values
 ---@nodiscard
 function values() end
 ```

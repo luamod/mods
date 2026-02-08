@@ -47,7 +47,7 @@ editLinkTarget: types/List.lua
 | [`sort(comp)`](#fn-sortcomp)             | Sort the list in place.                                              |
 | [`take(n)`](#fn-taken)                   | Return the first n elements as a new list.                           |
 | [`uniq()`](#fn-uniq)                     | Return a new list with duplicates removed (first occurrence kept).   |
-| [`zip(other)`](#fn-zipother)             | Zip two lists into a list of 2-element tables.                       |
+| [`zip(ls)`](#fn-zipls)                   | Zip two lists into a list of 2-element tables.                       |
 
 ## Functions
 
@@ -70,7 +70,8 @@ local ok = List({ 2, 4 }):all(is_even)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param pred fun(v:any):boolean
 ---@return boolean
 ---@nodiscard
@@ -97,7 +98,8 @@ local ok = List({ "a", "bb" }):any(has_len_2)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param pred fun(v:any):boolean
 ---@return boolean
 ---@nodiscard
@@ -123,8 +125,9 @@ local l = List({ "a" }):append("b")
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.List self
+---@generic T:mods.List|any[]
+---@param self T
+---@return T self
 function append(v) end
 ```
 
@@ -147,8 +150,9 @@ local l = List({ "a", "b" }):clear()
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.List self
+---@generic T:mods.List|any[]
+---@param self T
+---@return T self
 function clear() end
 ```
 
@@ -171,7 +175,8 @@ local ok = List({ "a", "b" }):contains("b")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param v any
 ---@return any
 ---@nodiscard
@@ -197,8 +202,9 @@ local c = List({ "a", "b" }):copy()
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.List
+---@generic T:mods.List|any[]
+---@param self T
+---@return T ls
 ---@nodiscard
 function copy() end
 ```
@@ -222,7 +228,8 @@ local n = List({ "a", "b", "b" }):count("b")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@return integer
 ---@nodiscard
 function count(v) end
@@ -247,8 +254,9 @@ local d = List({ "a", "b", "c" }):difference({ "b" })
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.List
+---@generic T:mods.List|any[]
+---@param self T
+---@return T ls
 ---@nodiscard
 function difference(ls) end
 ```
@@ -272,9 +280,10 @@ local t = List({ "a", "b", "c" }):drop(1)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param n integer
----@return mods.List
+---@return T ls
 ---@nodiscard
 function drop(n) end
 ```
@@ -299,9 +308,10 @@ l:extend({ "b", "c" })
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param ls any[]
----@return mods.List self
+---@return T self
 function extend(ls) end
 ```
 
@@ -326,9 +336,10 @@ local ex = l:extract(is_len_1)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param pred fun(v:any):boolean
----@return mods.List
+---@return T self
 ---@nodiscard
 function extract(pred) end
 ```
@@ -353,9 +364,10 @@ local f = List({ "a", "bb", "c" }):filter(is_len_1)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param pred fun(v:any):boolean
----@return mods.List
+---@return T ls
 ---@nodiscard
 function filter(pred) end
 ```
@@ -379,7 +391,8 @@ local v = List({ "a", "b" }):first()
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@return any
 ---@nodiscard
 function first() end
@@ -404,8 +417,9 @@ local f = List({ { "a", "b" }, { "c" } }):flatten()
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.List
+---@generic T:mods.List|any[]
+---@param self T
+---@return T self
 ---@nodiscard
 function flatten() end
 ```
@@ -429,7 +443,8 @@ List({ "a", "b" }):foreach(print)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param fn fun(v:any)
 ---@return nil
 function foreach(fn) end
@@ -455,9 +470,10 @@ local g = List(words):group_by(string.len)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param fn fun(v:any):any
----@return table<any, mods.List>
+---@return table<any, T>
 ---@nodiscard
 function by(fn) end
 ```
@@ -481,7 +497,8 @@ local i = List({ "a", "b", "c", "b" }):index("b")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param v any
 ---@return any value
 ---@return integer? index
@@ -509,7 +526,8 @@ local i = List({ 1, 2, 3 }):index_if(gt_1)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param pred fun(v:any):boolean
 ---@return integer? index
 ---@nodiscard
@@ -535,10 +553,11 @@ local l = List({ "a", "c" }):insert(2, "b")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param pos integer
 ---@param v any
----@return mods.List self
+---@return T self
 function insert(pos, v) end
 ```
 
@@ -561,9 +580,10 @@ local l = List({ "a", "b" }):insert("b")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param v any
----@return mods.List self
+---@return T self
 function insert(v) end
 ```
 
@@ -587,9 +607,10 @@ local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 == Signature
 
 ```lua
----@param self mods.List
----@param ls { [integer]: any }
----@return mods.List
+---@generic T:mods.List|any[]
+---@param self T
+---@param ls T
+---@return T self
 ---@nodiscard
 function intersection(ls) end
 ```
@@ -613,7 +634,8 @@ local t = List({ "a", "b", "c" }):invert()
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@return table
 ---@nodiscard
 function invert() end
@@ -638,8 +660,10 @@ local s = List({ "a", "b", "c" }):join(",")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param sep? string
+---@return string
 ---@nodiscard
 function join(sep) end
 ```
@@ -663,7 +687,8 @@ local v = List({ "a", "b" }):last()
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@return any
 ---@nodiscard
 function last() end
@@ -688,7 +713,8 @@ local n = List({ "a", "b", "c" }):len()
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@return integer
 ---@nodiscard
 function len() end
@@ -714,8 +740,10 @@ local m = List({ "a", "b" }):map(to_upper)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param fn fun(v):any
+---@return T ls
 ---@nodiscard
 function map(fn) end
 ```
@@ -740,7 +768,8 @@ local v = l:pop()
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@return any
 function pop() end
 ```
@@ -765,7 +794,8 @@ local v = l:pop(2)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param pos integer
 ---@return any
 function pop(pos) end
@@ -791,9 +821,10 @@ l:prepend("a")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param v any
----@return mods.List self
+---@return T self
 function prepend(v) end
 ```
 
@@ -822,7 +853,8 @@ sum = List({ 1, 2, 3 }):reduce(add, 10)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param fn fun(acc:any, v:any):any
 ---@param init? any
 ---@return any
@@ -850,9 +882,10 @@ l:remove("b")
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param v any
----@return mods.List self
+---@return T self
 function remove(v) end
 ```
 
@@ -875,8 +908,9 @@ local r = List({ "a", "b", "c" }):reverse()
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.List
+---@generic T:mods.List|any[]
+---@param self T
+---@return T ls
 ---@nodiscard
 function reverse() end
 ```
@@ -900,8 +934,9 @@ local s = List({ "a", "b", "a" }):setify()
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.Set|{any:true}
+---@generic T:mods.List|any[]
+---@param self T
+---@return mods.Set|table<any,true>
 ---@nodiscard
 function setify() end
 ```
@@ -926,10 +961,11 @@ local t = List({ "a", "b", "c", "d" }):slice(2, 3)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param i? integer
 ---@param j? integer
----@return mods.List
+---@return T ls
 ---@nodiscard
 function slice(i, j) end
 ```
@@ -954,9 +990,10 @@ l:sort()
 == Signature
 
 ```lua
----@param self mods.List
----@param comp? fun(a:T,b:T):boolean
----@return mods.List self
+---@generic T:mods.List|any[]
+---@param self T
+---@param comp? fun(a,b):boolean
+---@return T self
 function sort(comp) end
 ```
 
@@ -979,9 +1016,10 @@ local t = List({ "a", "b", "c" }):take(2)
 == Signature
 
 ```lua
----@param self mods.List
+---@generic T:mods.List|any[]
+---@param self T
 ---@param n integer
----@return mods.List
+---@return T ls
 ---@nodiscard
 function take(n) end
 ```
@@ -1005,17 +1043,18 @@ local u = List({ "a", "b", "a", "c" }):uniq()
 == Signature
 
 ```lua
----@param self mods.List
----@return mods.List
+---@generic T:mods.List|any[]
+---@param self T
+---@return T ls
 ---@nodiscard
 function uniq() end
 ```
 
 :::
 
-<a id="fn-zipother"></a>
+<a id="fn-zipls"></a>
 
-#### `zip(other)`
+#### `zip(ls)`
 
 Zip two lists into a list of 2-element tables.
 Length is the minimum of both lists.
@@ -1031,11 +1070,12 @@ local z = List({ "a", "b" }):zip({ 1, 2 })
 == Signature
 
 ```lua
----@param self mods.List
----@param other { [integer]: any }
----@return mods.List<{[integer]: any}>
+---@generic T:mods.List|any[]
+---@param self T
+---@param ls T
+---@return T ls
 ---@nodiscard
-function zip(other) end
+function zip(ls) end
 ```
 
 :::
