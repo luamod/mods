@@ -38,7 +38,9 @@ jobs:
           TAG="${{ github.event.release.tag_name }}"
           VERSION="${TAG#v}"
           ROCKSPEC="mods-${VERSION}-1.rockspec"
-          cp mods-0.1.0-1.rockspec "$ROCKSPEC"
+          if [ "$ROCKSPEC" != "mods-0.1.0-1.rockspec" ]; then
+            cp mods-0.1.0-1.rockspec "$ROCKSPEC"
+          fi
           sed -i "s/^version = .*/version = \"${VERSION}-1\"/" "$ROCKSPEC"
           sed -i "s/^  branch = .*/  tag = \"${TAG}\",/" "$ROCKSPEC"
           echo "ROCKSPEC=$ROCKSPEC" >> "$GITHUB_ENV"
