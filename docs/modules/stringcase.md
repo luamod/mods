@@ -29,9 +29,7 @@ String case conversion helpers.
 
 ## Functions
 
-<a id="fn-lowers"></a>
-
-#### `lower(s)`
+#### `lower(s)` {#fn-lowers}
 
 Convert string to all lowercase.
 
@@ -53,9 +51,7 @@ function lower(s) end
 
 :::
 
-<a id="fn-uppers"></a>
-
-#### `upper(s)`
+#### `upper(s)` {#fn-uppers}
 
 Convert string to all uppercase.
 
@@ -77,9 +73,7 @@ function upper(s) end
 
 :::
 
-<a id="fn-snakes"></a>
-
-#### `snake(s)`
+#### `snake(s)` {#fn-snakes}
 
 Convert string to snake_case.
 
@@ -101,9 +95,7 @@ function snake(s) end
 
 :::
 
-<a id="fn-camels"></a>
-
-#### `camel(s)`
+#### `camel(s)` {#fn-camels}
 
 Convert string to camelCase.
 
@@ -125,9 +117,7 @@ function camel(s) end
 
 :::
 
-<a id="fn-replaces-sep"></a>
-
-#### `replace(s, sep)`
+#### `replace(s, sep)` {#fn-replaces-sep}
 
 Replace underscores in snake_case with a given separator (default empty).
 
@@ -150,9 +140,7 @@ function replace(s, sep) end
 
 :::
 
-<a id="fn-acronyms"></a>
-
-#### `acronym(s)`
+#### `acronym(s)` {#fn-acronyms}
 
 Get acronym of words in string (first letters only).
 
@@ -174,9 +162,7 @@ function acronym(s) end
 
 :::
 
-<a id="fn-titles"></a>
-
-#### `title(s)`
+#### `title(s)` {#fn-titles}
 
 Convert string to Title Case (first letter of each word capitalized).
 
@@ -198,9 +184,7 @@ function title(s) end
 
 :::
 
-<a id="fn-constants"></a>
-
-#### `constant(s)`
+#### `constant(s)` {#fn-constants}
 
 Convert string to CONSTANT_CASE (uppercase snake_case).
 
@@ -222,9 +206,7 @@ function constant(s) end
 
 :::
 
-<a id="fn-pascals"></a>
-
-#### `pascal(s)`
+#### `pascal(s)` {#fn-pascals}
 
 Convert string to PascalCase.
 
@@ -246,9 +228,7 @@ function pascal(s) end
 
 :::
 
-<a id="fn-kebabs"></a>
-
-#### `kebab(s)`
+#### `kebab(s)` {#fn-kebabs}
 
 Convert string to kebab-case.
 
@@ -270,9 +250,7 @@ function kebab(s) end
 
 :::
 
-<a id="fn-dots"></a>
-
-#### `dot(s)`
+#### `dot(s)` {#fn-dots}
 
 Convert string to dot.case.
 
@@ -294,9 +272,7 @@ function dot(s) end
 
 :::
 
-<a id="fn-spaces"></a>
-
-#### `space(s)`
+#### `space(s)` {#fn-spaces}
 
 Convert string to space case (spaces between words).
 
@@ -318,9 +294,7 @@ function space(s) end
 
 :::
 
-<a id="fn-paths"></a>
-
-#### `path(s)`
+#### `path(s)` {#fn-paths}
 
 Convert string to path/case (slashes between words).
 
@@ -342,9 +316,7 @@ function path(s) end
 
 :::
 
-<a id="fn-swaps"></a>
-
-#### `swap(s)`
+#### `swap(s)` {#fn-swaps}
 
 Swap case of each letter.
 
@@ -366,9 +338,7 @@ function swap(s) end
 
 :::
 
-<a id="fn-capitals"></a>
-
-#### `capital(s)`
+#### `capital(s)` {#fn-capitals}
 
 Capitalize the first letter and lowercase the rest.
 
@@ -390,9 +360,7 @@ function capital(s) end
 
 :::
 
-<a id="fn-sentences"></a>
-
-#### `sentence(s)`
+#### `sentence(s)` {#fn-sentences}
 
 Convert string to sentence case (first letter uppercase, rest lowercase).
 

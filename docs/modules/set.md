@@ -33,9 +33,7 @@ A Python-style set class providing common operations to create, modify, and quer
 
 ## Functions
 
-<a id="fn-addv"></a>
-
-#### `add(v)`
+#### `add(v)` {#fn-addv}
 
 Add an element to the set.
 
@@ -60,9 +58,7 @@ function add(v) end
 
 :::
 
-<a id="fn-clear"></a>
-
-#### `clear()`
+#### `clear()` {#fn-clear}
 
 Remove all elements from the set.
 
@@ -86,9 +82,7 @@ function clear() end
 
 :::
 
-<a id="fn-copy"></a>
-
-#### `copy()`
+#### `copy()` {#fn-copy}
 
 Return a shallow copy of the set.
 
@@ -113,9 +107,7 @@ function copy() end
 
 :::
 
-<a id="fn-differenceset"></a>
-
-#### `difference(set)`
+#### `difference(set)` {#fn-differenceset}
 
 Return elements in this set but not in another.
 
@@ -141,9 +133,7 @@ function difference(set) end
 
 :::
 
-<a id="fn-updateset"></a>
-
-#### `update(set)`
+#### `update(set)` {#fn-updateset}
 
 Remove elements found in another set (in place).
 
@@ -168,9 +158,7 @@ function update(set) end
 
 :::
 
-<a id="fn-discardv"></a>
-
-#### `discard(v)`
+#### `discard(v)` {#fn-discardv}
 
 Remove an element if present, do nothing otherwise.
 
@@ -195,9 +183,7 @@ function discard(v) end
 
 :::
 
-<a id="fn-intersectionset"></a>
-
-#### `intersection(set)`
+#### `intersection(set)` {#fn-intersectionset}
 
 Return elements common to both sets.
 
@@ -223,9 +209,7 @@ function intersection(set) end
 
 :::
 
-<a id="fn-updateset"></a>
-
-#### `update(set)`
+#### `update(set)` {#fn-updateset}
 
 Keep only elements common to both sets (in place).
 
@@ -250,9 +234,7 @@ function update(set) end
 
 :::
 
-<a id="fn-isdisjointset"></a>
-
-#### `isdisjoint(set)`
+#### `isdisjoint(set)` {#fn-isdisjointset}
 
 Return true if sets have no elements in common.
 
@@ -277,9 +259,7 @@ function isdisjoint(set) end
 
 :::
 
-<a id="fn-isempty"></a>
-
-#### `isempty()`
+#### `isempty()` {#fn-isempty}
 
 Return true if the set has no elements.
 
@@ -303,9 +283,7 @@ function isempty() end
 
 :::
 
-<a id="fn-issubsetset"></a>
-
-#### `issubset(set)`
+#### `issubset(set)` {#fn-issubsetset}
 
 Return true if all elements of this set are also in another set.
 
@@ -330,9 +308,7 @@ function issubset(set) end
 
 :::
 
-<a id="fn-issupersetset"></a>
-
-#### `issuperset(set)`
+#### `issuperset(set)` {#fn-issupersetset}
 
 Return true if this set contains all elements of another set.
 
@@ -357,9 +333,7 @@ function issuperset(set) end
 
 :::
 
-<a id="fn-len"></a>
-
-#### `len()`
+#### `len()` {#fn-len}
 
 Return the number of elements in the set.
 
@@ -383,9 +357,7 @@ function len() end
 
 :::
 
-<a id="fn-mapfn"></a>
-
-#### `map(fn)`
+#### `map(fn)` {#fn-mapfn}
 
 Return a new set by mapping each value.
 
@@ -410,9 +382,7 @@ function map(fn) end
 
 :::
 
-<a id="fn-pop"></a>
-
-#### `pop()`
+#### `pop()` {#fn-pop}
 
 Remove and return an arbitrary element.
 
@@ -435,9 +405,7 @@ function pop() end
 
 :::
 
-<a id="fn-differenceset"></a>
-
-#### `difference(set)`
+#### `difference(set)` {#fn-differenceset}
 
 Return elements not shared by both sets.
 
@@ -463,9 +431,7 @@ function difference(set) end
 
 :::
 
-<a id="fn-updateset"></a>
-
-#### `update(set)`
+#### `update(set)` {#fn-updateset}
 
 Update the set with elements not shared by both (in place).
 
@@ -490,9 +456,7 @@ function update(set) end
 
 :::
 
-<a id="fn-unionset"></a>
-
-#### `union(set)`
+#### `union(set)` {#fn-unionset}
 
 Return a new set with all elements from both.
 
@@ -517,9 +481,7 @@ function union(set) end
 
 :::
 
-<a id="fn-updateset"></a>
-
-#### `update(set)`
+#### `update(set)` {#fn-updateset}
 
 Add all elements from another set (in place).
 
@@ -544,9 +506,7 @@ function update(set) end
 
 :::
 
-<a id="fn-values"></a>
-
-#### `values()`
+#### `values()` {#fn-values}
 
 Return a list of all values in the set.
 

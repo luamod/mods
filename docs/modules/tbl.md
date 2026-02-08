@@ -28,9 +28,7 @@ Utility functions for working with Lua tables.
 
 ## Functions
 
-<a id="fn-cleart"></a>
-
-#### `clear(t)`
+#### `clear(t)` {#fn-cleart}
 
 Remove all entries from the table.
 
@@ -53,9 +51,7 @@ function clear(t) end
 
 :::
 
-<a id="fn-copyt"></a>
-
-#### `copy(t)`
+#### `copy(t)` {#fn-copyt}
 
 Create a shallow copy of the table.
 
@@ -79,9 +75,7 @@ function copy(t) end
 
 :::
 
-<a id="fn-countt"></a>
-
-#### `count(t)`
+#### `count(t)` {#fn-countt}
 
 Return the number of keys in the table.
 
@@ -104,9 +98,7 @@ function count(t) end
 
 :::
 
-<a id="fn-deepcopyv"></a>
-
-#### `deepcopy(v)`
+#### `deepcopy(v)` {#fn-deepcopyv}
 
 Create a deep copy of a value.
 If `v` is a table, all nested tables are copied recursively; other types are returned as-is.
@@ -134,9 +126,7 @@ function deepcopy(v) end
 
 :::
 
-<a id="fn-filtert-pred"></a>
-
-#### `filter(t, pred)`
+#### `filter(t, pred)` {#fn-filtert-pred}
 
 Filter entries by a value predicate.
 
@@ -162,9 +152,7 @@ function filter(t, pred) end
 
 :::
 
-<a id="fn-findt-v"></a>
-
-#### `find(t, v)`
+#### `find(t, v)` {#fn-findt-v}
 
 Find the first key whose value equals the given value.
 
@@ -189,9 +177,7 @@ function find(t, v) end
 
 :::
 
-<a id="fn-ift-pred"></a>
-
-#### `if(t, pred)`
+#### `if(t, pred)` {#fn-ift-pred}
 
 Find first value and key matching predicate.
 
@@ -219,9 +205,7 @@ function if(t, pred) end
 
 :::
 
-<a id="fn-gett-..."></a>
-
-#### `get(t, ...)`
+#### `get(t, ...)` {#fn-gett-...}
 
 Safely get nested value by keys.
 If no keys are provided, returns the input table.
@@ -250,9 +234,7 @@ function get(t, ...) end
 
 :::
 
-<a id="fn-invertt"></a>
-
-#### `invert(t)`
+#### `invert(t)` {#fn-invertt}
 
 Invert keys/values into new table.
 
@@ -276,9 +258,7 @@ function invert(t) end
 
 :::
 
-<a id="fn-isemptyt"></a>
-
-#### `isempty(t)`
+#### `isempty(t)` {#fn-isemptyt}
 
 Return true if table has no entries.
 
@@ -301,9 +281,7 @@ function isempty(t) end
 
 :::
 
-<a id="fn-keyst"></a>
-
-#### `keys(t)`
+#### `keys(t)` {#fn-keyst}
 
 Return a list of all keys in the table.
 
@@ -327,9 +305,7 @@ function keys(t) end
 
 :::
 
-<a id="fn-mapt-fn"></a>
-
-#### `map(t, fn)`
+#### `map(t, fn)` {#fn-mapt-fn}
 
 Return a new table by mapping each value (keys preserved).
 
@@ -356,9 +332,7 @@ function map(t, fn) end
 
 :::
 
-<a id="fn-pairmapt-fn"></a>
-
-#### `pairmap(t, fn)`
+#### `pairmap(t, fn)` {#fn-pairmapt-fn}
 
 Return a new table by mapping each key-value pair.
 The resulting table keeps the same keys, with values transformed by `fn`.
@@ -386,9 +360,7 @@ function pairmap(t, fn) end
 
 :::
 
-<a id="fn-updatet1-t2"></a>
-
-#### `update(t1, t2)`
+#### `update(t1, t2)` {#fn-updatet1-t2}
 
 Merge entries from t2 into t1 and return t1.
 
@@ -414,9 +386,7 @@ function update(t1, t2) end
 
 :::
 
-<a id="fn-valuest"></a>
-
-#### `values(t)`
+#### `values(t)` {#fn-valuest}
 
 Return a list of all values in the table.
 

@@ -55,9 +55,7 @@ String utility helpers modeled after Python's `str`.
 
 ## Functions
 
-<a id="fn-capitalizes"></a>
-
-#### `capitalize(s)`
+#### `capitalize(s)` {#fn-capitalizes}
 
 Return copy with first character capitalized and the rest lowercased.
 
@@ -80,9 +78,7 @@ function capitalize(s) end
 
 :::
 
-<a id="fn-centers-width-fillchar"></a>
-
-#### `center(s, width, fillchar)`
+#### `center(s, width, fillchar)` {#fn-centers-width-fillchar}
 
 Center string within width, padded with fill characters.
 
@@ -107,9 +103,7 @@ function center(s, width, fillchar) end
 
 :::
 
-<a id="fn-counts-sub-start-stop"></a>
-
-#### `count(s, sub, start, stop)`
+#### `count(s, sub, start, stop)` {#fn-counts-sub-start-stop}
 
 Count non-overlapping occurrences of a substring.
 
@@ -145,9 +139,7 @@ function count(s, sub, start, stop) end
 
 :::
 
-<a id="fn-endswiths-suffix-start-stop"></a>
-
-#### `endswith(s, suffix, start, stop)`
+#### `endswith(s, suffix, start, stop)` {#fn-endswiths-suffix-start-stop}
 
 Return true if string ends with suffix.
 If suffix is a list, return true if any suffix matches.
@@ -174,9 +166,7 @@ function endswith(s, suffix, start, stop) end
 
 :::
 
-<a id="fn-expandtabss-tabsize"></a>
-
-#### `expandtabs(s, tabsize)`
+#### `expandtabs(s, tabsize)` {#fn-expandtabss-tabsize}
 
 Expand tabs to spaces using given tabsize.
 
@@ -200,9 +190,7 @@ function expandtabs(s, tabsize) end
 
 :::
 
-<a id="fn-finds-sub-start-stop"></a>
-
-#### `find(s, sub, start, stop)`
+#### `find(s, sub, start, stop)` {#fn-finds-sub-start-stop}
 
 Return lowest index of substring or nil if not found.
 
@@ -228,9 +216,7 @@ function find(s, sub, start, stop) end
 
 :::
 
-<a id="fn-maps-mapping"></a>
-
-#### `map(s, mapping)`
+#### `map(s, mapping)` {#fn-maps-mapping}
 
 Format string with mapping (key-based) replacement.
 
@@ -254,9 +240,7 @@ function map(s, mapping) end
 
 :::
 
-<a id="fn-isalnums"></a>
-
-#### `isalnum(s)`
+#### `isalnum(s)` {#fn-isalnums}
 
 Return true if all characters are alphanumeric and string is non-empty.
 
@@ -288,9 +272,7 @@ function isalnum(s) end
 
 :::
 
-<a id="fn-isalphas"></a>
-
-#### `isalpha(s)`
+#### `isalpha(s)` {#fn-isalphas}
 
 Return true if all characters are alphabetic and string is non-empty.
 
@@ -322,9 +304,7 @@ function isalpha(s) end
 
 :::
 
-<a id="fn-isasciis"></a>
-
-#### `isascii(s)`
+#### `isascii(s)` {#fn-isasciis}
 
 Return true if all characters are ASCII and string is non-empty.
 
@@ -350,9 +330,7 @@ function isascii(s) end
 
 :::
 
-<a id="fn-isdecimals"></a>
-
-#### `isdecimal(s)`
+#### `isdecimal(s)` {#fn-isdecimals}
 
 Return true if all characters are decimal characters and string is non-empty.
 
@@ -375,9 +353,7 @@ function isdecimal(s) end
 
 :::
 
-<a id="fn-isdigits"></a>
-
-#### `isdigit(s)`
+#### `isdigit(s)` {#fn-isdigits}
 
 Return true if all characters are digits and string is non-empty.
 
@@ -400,9 +376,7 @@ function isdigit(s) end
 
 :::
 
-<a id="fn-isidentifiers"></a>
-
-#### `isidentifier(s)`
+#### `isidentifier(s)` {#fn-isidentifiers}
 
 Return true if string is a valid identifier and not a reserved keyword.
 
@@ -431,9 +405,7 @@ function isidentifier(s) end
 
 :::
 
-<a id="fn-islowers"></a>
-
-#### `islower(s)`
+#### `islower(s)` {#fn-islowers}
 
 Return true if all cased characters are lowercase and there is at least one cased character.
 
@@ -456,9 +428,7 @@ function islower(s) end
 
 :::
 
-<a id="fn-isnumerics"></a>
-
-#### `isnumeric(s)`
+#### `isnumeric(s)` {#fn-isnumerics}
 
 Return true if all characters are numeric and string is non-empty.
 
@@ -481,9 +451,7 @@ function isnumeric(s) end
 
 :::
 
-<a id="fn-isprintables"></a>
-
-#### `isprintable(s)`
+#### `isprintable(s)` {#fn-isprintables}
 
 Return true if all characters are printable and string is non-empty.
 
@@ -509,9 +477,7 @@ function isprintable(s) end
 
 :::
 
-<a id="fn-isspaces"></a>
-
-#### `isspace(s)`
+#### `isspace(s)` {#fn-isspaces}
 
 Return true if all characters are whitespace and string is non-empty.
 
@@ -534,9 +500,7 @@ function isspace(s) end
 
 :::
 
-<a id="fn-istitles"></a>
-
-#### `istitle(s)`
+#### `istitle(s)` {#fn-istitles}
 
 Return true if string is titlecased.
 
@@ -559,9 +523,7 @@ function istitle(s) end
 
 :::
 
-<a id="fn-isuppers"></a>
-
-#### `isupper(s)`
+#### `isupper(s)` {#fn-isuppers}
 
 Return true if all cased characters are uppercase and there is at least one cased character.
 
@@ -584,9 +546,7 @@ function isupper(s) end
 
 :::
 
-<a id="fn-joinsep-ls"></a>
-
-#### `join(sep, ls)`
+#### `join(sep, ls)` {#fn-joinsep-ls}
 
 Join an iterable of strings using this string as separator.
 
@@ -610,9 +570,7 @@ function join(sep, ls) end
 
 :::
 
-<a id="fn-ljusts-width-fillchar"></a>
-
-#### `ljust(s, width, fillchar)`
+#### `ljust(s, width, fillchar)` {#fn-ljusts-width-fillchar}
 
 Left-justify string in a field of given width.
 
@@ -637,9 +595,7 @@ function ljust(s, width, fillchar) end
 
 :::
 
-<a id="fn-lowers"></a>
-
-#### `lower(s)`
+#### `lower(s)` {#fn-lowers}
 
 Return lowercased copy.
 
@@ -662,9 +618,7 @@ function lower(s) end
 
 :::
 
-<a id="fn-lstrips-chars"></a>
-
-#### `lstrip(s, chars)`
+#### `lstrip(s, chars)` {#fn-lstrips-chars}
 
 Remove leading characters (default: whitespace).
 
@@ -688,9 +642,7 @@ function lstrip(s, chars) end
 
 :::
 
-<a id="fn-rstrips-chars"></a>
-
-#### `rstrip(s, chars)`
+#### `rstrip(s, chars)` {#fn-rstrips-chars}
 
 Remove trailing characters (default: whitespace).
 
@@ -714,9 +666,7 @@ function rstrip(s, chars) end
 
 :::
 
-<a id="fn-strips-chars"></a>
-
-#### `strip(s, chars)`
+#### `strip(s, chars)` {#fn-strips-chars}
 
 Remove leading and trailing characters (default: whitespace).
 
@@ -740,9 +690,7 @@ function strip(s, chars) end
 
 :::
 
-<a id="fn-partitions-sep"></a>
-
-#### `partition(s, sep)`
+#### `partition(s, sep)` {#fn-partitions-sep}
 
 Partition string into head, sep, tail from left.
 
@@ -766,9 +714,7 @@ function partition(s, sep) end
 
 :::
 
-<a id="fn-removeprefixs-prefix"></a>
-
-#### `removeprefix(s, prefix)`
+#### `removeprefix(s, prefix)` {#fn-removeprefixs-prefix}
 
 Remove prefix if present.
 
@@ -792,9 +738,7 @@ function removeprefix(s, prefix) end
 
 :::
 
-<a id="fn-removesuffixs-suffix"></a>
-
-#### `removesuffix(s, suffix)`
+#### `removesuffix(s, suffix)` {#fn-removesuffixs-suffix}
 
 Remove suffix if present.
 
@@ -818,9 +762,7 @@ function removesuffix(s, suffix) end
 
 :::
 
-<a id="fn-replaces-old-new-count"></a>
-
-#### `replace(s, old, new, count)`
+#### `replace(s, old, new, count)` {#fn-replaces-old-new-count}
 
 Return a copy of the string with all occurrences of a substring replaced.
 
@@ -846,9 +788,7 @@ function replace(s, old, new, count) end
 
 :::
 
-<a id="fn-rfinds-sub-start-stop"></a>
-
-#### `rfind(s, sub, start, stop)`
+#### `rfind(s, sub, start, stop)` {#fn-rfinds-sub-start-stop}
 
 Return highest index of substring or nil if not found.
 
@@ -874,9 +814,7 @@ function rfind(s, sub, start, stop) end
 
 :::
 
-<a id="fn-rindexs-sub-start-stop"></a>
-
-#### `rindex(s, sub, start, stop)`
+#### `rindex(s, sub, start, stop)` {#fn-rindexs-sub-start-stop}
 
 Like rfind but raises on failure (placeholder).
 
@@ -902,9 +840,7 @@ function rindex(s, sub, start, stop) end
 
 :::
 
-<a id="fn-rjusts-width-fillchar"></a>
-
-#### `rjust(s, width, fillchar)`
+#### `rjust(s, width, fillchar)` {#fn-rjusts-width-fillchar}
 
 Right-justify string in a field of given width.
 
@@ -929,9 +865,7 @@ function rjust(s, width, fillchar) end
 
 :::
 
-<a id="fn-rpartitions-sep"></a>
-
-#### `rpartition(s, sep)`
+#### `rpartition(s, sep)` {#fn-rpartitions-sep}
 
 Partition string into head, sep, tail from right.
 
@@ -955,9 +889,7 @@ function rpartition(s, sep) end
 
 :::
 
-<a id="fn-rsplits-sep-maxsplit"></a>
-
-#### `rsplit(s, sep, maxsplit)`
+#### `rsplit(s, sep, maxsplit)` {#fn-rsplits-sep-maxsplit}
 
 Split from the right by separator, up to maxsplit.
 
@@ -982,9 +914,7 @@ function rsplit(s, sep, maxsplit) end
 
 :::
 
-<a id="fn-splits-sep-maxsplit"></a>
-
-#### `split(s, sep, maxsplit)`
+#### `split(s, sep, maxsplit)` {#fn-splits-sep-maxsplit}
 
 Split by separator (or whitespace) up to maxsplit.
 
@@ -1009,9 +939,7 @@ function split(s, sep, maxsplit) end
 
 :::
 
-<a id="fn-splitliness-keepends"></a>
-
-#### `splitlines(s, keepends)`
+#### `splitlines(s, keepends)` {#fn-splitliness-keepends}
 
 Split on line boundaries.
 
@@ -1035,9 +963,7 @@ function splitlines(s, keepends) end
 
 :::
 
-<a id="fn-swapcases"></a>
-
-#### `swapcase(s)`
+#### `swapcase(s)` {#fn-swapcases}
 
 Return a copy with case of alphabetic characters swapped.
 
@@ -1060,9 +986,7 @@ function swapcase(s) end
 
 :::
 
-<a id="fn-startswiths-prefix-start-stop"></a>
-
-#### `startswith(s, prefix, start, stop)`
+#### `startswith(s, prefix, start, stop)` {#fn-startswiths-prefix-start-stop}
 
 Return true if string starts with prefix.
 If prefix is a list, return true if any prefix matches.
@@ -1089,9 +1013,7 @@ function startswith(s, prefix, start, stop) end
 
 :::
 
-<a id="fn-titles"></a>
-
-#### `title(s)`
+#### `title(s)` {#fn-titles}
 
 Return titlecased copy.
 
@@ -1114,9 +1036,7 @@ function title(s) end
 
 :::
 
-<a id="fn-translates-table_map"></a>
-
-#### `translate(s, table_map)`
+#### `translate(s, table_map)` {#fn-translates-table_map}
 
 Translate characters using a mapping table.
 
@@ -1141,9 +1061,7 @@ function translate(s, table_map) end
 
 :::
 
-<a id="fn-uppers"></a>
-
-#### `upper(s)`
+#### `upper(s)` {#fn-uppers}
 
 Return uppercased copy.
 
@@ -1166,9 +1084,7 @@ function upper(s) end
 
 :::
 
-<a id="fn-zfills-width"></a>
-
-#### `zfill(s, width)`
+#### `zfill(s, width)` {#fn-zfills-width}
 
 Pad numeric string on the left with zeros.
 
