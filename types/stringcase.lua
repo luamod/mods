@@ -1,5 +1,6 @@
 ---@meta mods.stringcase
 
+---String case conversion helpers.
 ---@class mods.stringcase
 local M = {}
 

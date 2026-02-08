@@ -241,7 +241,7 @@ local function render_index(docs)
   for _, doc in ipairs(docs) do
     local short = module_short_name(doc.meta)
     if short then
-      local name = doc.meta or short
+      local name = doc.meta and doc.meta:gsub("^mods%.", "") or short
       local desc = doc.module_desc or ""
       local link = string.format("/modules/%s", short)
       push(string.format("| [`%s`](%s) | %s |", name, link, desc))
