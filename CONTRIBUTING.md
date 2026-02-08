@@ -4,16 +4,8 @@ Thanks for your interest in contributing!
 
 ## How to Contribute
 
-- Open an issue to discuss bugs or feature ideas.
-- Submit a pull request with clear scope and tests when possible.
-
-## Development Setup
-
-- Install dependencies:
-
-```sh
-npm install
-```
+- Open an [issue](https://github.com/luamod/mods/issues) to discuss bugs or feature ideas.
+- Submit a [pull request](https://github.com/luamod/mods/pulls) with clear scope and tests when possible.
 
 ## Tests
 
@@ -32,10 +24,7 @@ luacheck .
 ## Documentation
 
 - Docs are built with VitePress.
-
-```sh
-npm run build
-```
+- Docs live in `docs/` (see `docs/README.md`).
 
 ## Pull Request Checklist
 
