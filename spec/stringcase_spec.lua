@@ -1,3 +1,5 @@
+---@diagnostic disable: missing-parameter
+
 local stringcase = require("mods.stringcase")
 
 describe("mods.stringcase", function()
@@ -21,8 +23,8 @@ describe("mods.stringcase", function()
     { "constant" , {         "FOO_BAR_BAZ"         } },
   }
 
-  for _, t in ipairs(tests) do
-    local fname, expected = table.unpack(t)
+  for i = 1, #tests do
+    local fname, expected = unpack(tests[i])
     for j, s in ipairs({ "foo_bar-baz", "FooBar baz" }) do
       it(("converts to %s(%q)"):format(fname, s), function()
         local res = stringcase[fname](s)

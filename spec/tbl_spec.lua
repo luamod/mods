@@ -56,11 +56,11 @@ describe("mods.tbl", function()
   }
   -- stylua: ignore end
 
-  for _, t in ipairs(tests) do
-    local fname, args, expected, same_ref = table.unpack(t)
+  for i = 1, #tests do
+    local fname, args, expected, same_ref = unpack(tests[i])
     it(fname .. "() returns correct value", function()
       args = deepcopy(args)
-      local res = tbl[fname](table.unpack(args))
+      local res = tbl[fname](unpack(args))
       local actual = res
 
       if expected == nil then

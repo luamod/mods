@@ -2,7 +2,6 @@
 
 local str = require("mods.str")
 local byte = string.byte
-local unpack = table.unpack
 
 describe("mods.str", function()
   -- stylua: ignore
@@ -224,8 +223,8 @@ describe("mods.str", function()
     { "translate"    , "acd"           , { { [byte("a")] = "b", ["c"] = false, [byte("d")] = byte("e") } } , "be" },
   }
 
-  for _, t in ipairs(tests) do
-    local fname, s, args, expected, collect = unpack(t)
+  for i = 1, #tests do
+    local fname, s, args, expected, collect = unpack(tests[i])
     it(("%s(%q) returns correct value"):format(fname, s), function()
       local res
       if collect then

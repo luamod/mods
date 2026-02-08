@@ -98,11 +98,11 @@ describe("mods.List", function()
   }
   -- stylua: ignore end
 
-  for _, t in ipairs(tests) do
-    local fname, ls, args, expected, same_ref = table.unpack(t)
+  for i = 1, #tests do
+    local fname, ls, args, expected, same_ref = unpack(tests[i])
     ls = deepcopy(List(ls))
     it(fname .. "() returns correct value", function()
-      local res = ls[fname](ls, table.unpack(args))
+      local res = ls[fname](ls, unpack(args))
       assert.are_same(expected, res)
       if same_ref then
         assert.are_equal(ls, res, "Expected same list reference")

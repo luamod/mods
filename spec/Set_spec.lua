@@ -47,8 +47,8 @@ describe("mods.Set", function()
     { "values"                      , _____ , nil   , {}       ,         },
   }
 
-  for _, t in ipairs(tests) do
-    local fname, set, arg_, expected, same_ref = table.unpack(t)
+  for i = 1, #tests do
+    local fname, set, arg_, expected, same_ref = unpack(tests[i])
     it(fname .. "() returns correct value", function()
       set = deepcopy(set)
       local res = set[fname](set, arg_)
