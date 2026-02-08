@@ -4,12 +4,19 @@ package.path = "src/?.lua;src/?/init.lua;" .. package.path
 
 local lfs = require("lfs")
 local List = require("mods.List")
+local str = require("mods.str")
 
 local TYPES_DIR = "types"
 local OUT_DIR = "docs/modules"
 local INDEX_OUT = OUT_DIR .. "/index.md"
 local GENERATED_DIR = "docs/.vitepress"
 local MODULES_OUT = GENERATED_DIR .. "/mods.mts"
+
+local function push_all(list, ...)
+  for i = 1, select("#", ...) do
+    list:append(select(i, ...))
+  end
+end
 
 local function read_file(path)
   local f = assert(io.open(path, "r"))
@@ -24,17 +31,13 @@ local function write_file(path, data)
   f:close()
 end
 
-local function trim(s)
-  return (s:gsub("^%s+", ""):gsub("%s+$", ""))
-end
-
 local function slugify_anchor(name, params)
   local base = name .. "(" .. params .. ")"
   base = base:gsub("[()]", "")
   base = base:gsub("%s* ,%s*", "-")
   base = base:gsub(",%s*", "-")
   base = base:gsub("%s+", "")
-  return "fn-" .. base:lower()
+  return "fn-" .. str.lower(base)
 end
 
 local function parse_block(block_lines)
@@ -42,20 +45,14 @@ local function parse_block(block_lines)
   local anno_lines = {}
   local example_lines = {}
   local in_example = false
-  local in_fence = false
 
   for _, line in ipairs(block_lines) do
-    if line:match("^@") then
+    if str.startswith(line, "@") then
       table.insert(anno_lines, line)
     elseif line:match("^%*%*Example:%*%*") then
       in_example = true
     elseif in_example then
-      if line:match("^```") then
-        in_fence = not in_fence
-        table.insert(example_lines, line)
-      else
-        table.insert(example_lines, line)
-      end
+      table.insert(example_lines, line)
     elseif line == "" then
       if #desc_lines > 0 and desc_lines[#desc_lines] ~= "" then
         table.insert(desc_lines, "")
@@ -65,10 +62,10 @@ local function parse_block(block_lines)
     end
   end
 
-  local desc = trim(table.concat(desc_lines, "\n"))
+  local desc = str.strip(table.concat(desc_lines, "\n"))
   local example = nil
   if #example_lines > 0 then
-    example = trim(table.concat(example_lines, "\n"))
+    example = str.strip(table.concat(example_lines, "\n"))
   end
 
   return {
@@ -76,6 +73,10 @@ local function parse_block(block_lines)
     annotations = anno_lines,
     example = example,
   }
+end
+
+local function display_name(meta)
+  return meta and meta:gsub("^mods%.", "") or nil
 end
 
 local function parse_types_file(path)
@@ -95,14 +96,12 @@ local function parse_types_file(path)
   local seen_class = false
 
   local function flush_block()
-    if block and #block > 0 then
-      block = nil
-    end
+    block = nil
   end
 
   for _, raw in ipairs(lines) do
     local line = raw
-    if line:match("^%-%-%-") then
+    if str.startswith(line, "---") then
       local text = line:gsub("^%-%-%-%s?", "")
       if text:match("^@meta%s+") then
         meta = text:gsub("^@meta%s+", "")
@@ -123,7 +122,7 @@ local function parse_types_file(path)
         local doc = parse_block(block or {})
         funcs[#funcs + 1] = {
           name = name,
-          params = trim(params),
+          params = str.strip(params),
           doc = doc,
           annotations = doc.annotations,
         }
@@ -135,7 +134,7 @@ local function parse_types_file(path)
     end
   end
 
-  local module_desc = trim(table.concat(module_desc_lines, " ")):gsub("%s+", " ")
+  local module_desc = str.strip(table.concat(module_desc_lines, " ")):gsub("%s+", " ")
   return {
     meta = meta,
     module_desc = module_desc or "",
@@ -144,80 +143,52 @@ local function parse_types_file(path)
 end
 
 local function module_short_name(meta)
-  if not meta then
-    return nil
-  end
-  local short = meta:match("[^%.]+$")
-  return short and short:lower() or nil
+  local name = display_name(meta)
+  return name and name:lower() or nil
 end
 
 local function render_module(doc)
   local short = module_short_name(doc.meta) or "module"
   local out = List()
 
-  local function push(...)
-    for i = 1, select("#", ...) do
-      out:append(select(i, ...))
-    end
-  end
-
   if doc.meta and doc.meta ~= "" then
-    local type_name = doc.meta:gsub("^mods%.", "")
-    push("---")
-    push("editLinkTarget: types/" .. type_name .. ".lua")
-    push("---")
-    push("")
+    local type_name = display_name(doc.meta)
+    push_all(out, "---", "editLinkTarget: types/" .. type_name .. ".lua", "---", "")
   end
 
-  push("# " .. short)
-  push("")
-  push(doc.module_desc)
-  push("")
+  push_all(out, "# " .. short, "", doc.module_desc, "")
 
   if #doc.functions > 0 then
-    push("## Quick Reference")
-    push("")
-    push("| Function | Description |")
-    push("| --- | --- |")
+    push_all(out, "## Quick Reference", "", "| Function | Description |", "| --- | --- |")
     for _, fn in ipairs(doc.functions) do
       local desc = fn.doc.desc:gsub("\n.*", "")
       local anchor = slugify_anchor(fn.name, fn.params)
-      push(string.format("| [`%s(%s)`](#%s) | %s |", fn.name, fn.params, anchor, desc))
+      push_all(out, string.format("| [`%s(%s)`](#%s) | %s |", fn.name, fn.params, anchor, desc))
     end
-    push("")
-
-    push("## Functions")
-    push("")
+    push_all(out, "", "## Functions", "")
     for _, fn in ipairs(doc.functions) do
       local anchor = slugify_anchor(fn.name, fn.params)
-      push(string.format('<a id="%s"></a>', anchor))
-      push("")
-      push(string.format("#### `%s(%s)`", fn.name, fn.params))
-      push("")
+      push_all(
+        out,
+        string.format('<a id="%s"></a>', anchor),
+        "",
+        string.format("#### `%s(%s)`", fn.name, fn.params),
+        ""
+      )
       if fn.doc.desc ~= "" then
-        push(fn.doc.desc)
-        push("")
+        push_all(out, fn.doc.desc, "")
       end
-      push(":::tabs")
+      push_all(out, ":::tabs")
       if fn.doc.example and fn.doc.example ~= "" then
-        push("== Example")
-        push("")
-        push(fn.doc.example)
-        push("")
+        push_all(out, "== Example", "", fn.doc.example, "")
       end
-      push("== Signature")
-      push("")
-      push("```lua")
+      push_all(out, "== Signature", "", "```lua")
       for _, anno in ipairs(fn.annotations or {}) do
         local cleaned = anno:gsub("^@", "")
-        push("---@" .. cleaned)
+        push_all(out, "---@" .. cleaned)
       end
       local signature = string.format("function %s(%s) end", fn.name, fn.params)
-      push(signature)
-      push("```")
-      push("")
-      push(":::")
-      push("")
+      push_all(out, signature, "```", "", ":::", "")
     end
   end
 
@@ -227,23 +198,17 @@ end
 local function render_index(docs)
   local out = List()
 
-  local function push(...)
-    for i = 1, select("#", ...) do
-      out:append(select(i, ...))
-    end
-  end
-
-  push("| Module | Description |", "| --- | --- |")
+  push_all(out, "| Module | Description |", "| --- | --- |")
   for _, doc in ipairs(docs) do
     local short = module_short_name(doc.meta)
     if short then
-      local name = doc.meta and doc.meta:gsub("^mods%.", "") or short
+      local name = display_name(doc.meta) or short
       local desc = doc.module_desc or ""
       local link = string.format("/modules/%s", short)
-      push(string.format("| [`%s`](%s) | %s |", name, link, desc))
+      push_all(out, string.format("| [`%s`](%s) | %s |", name, link, desc))
     end
   end
-  push("")
+  push_all(out, "")
 
   return table.concat(out, "\n")
 end
@@ -251,46 +216,35 @@ end
 local function render_modules_ts(docs)
   local out = List()
 
-  local function push(...)
-    for i = 1, select("#", ...) do
-      out:append(select(i, ...))
-    end
-  end
-
   local function module_items()
-    local items = List()
-    local function push_item(v)
-      items:append(v)
-    end
+    local items = {}
     for _, doc in ipairs(docs) do
       local short = module_short_name(doc.meta)
       if short then
         local label = short == "tbl" and "tbl" or (short:gsub("^%l", string.upper))
-        push_item({ text = label, link = "/modules/" .. short })
+        items[#items + 1] = { text = label, link = "/modules/" .. short }
       end
     end
     return items
   end
 
   local function emit_items(items)
-    push("  items: [")
+    push_all(out, "  items: [")
     for _, item in ipairs(items) do
-      push(string.format('    { text: "%s", link: "%s" },', item.text, item.link))
+      push_all(out, string.format('    { text: "%s", link: "%s" },', item.text, item.link))
     end
-    push("  ],")
+    push_all(out, "  ],")
   end
 
   local items = module_items()
 
-  push("export const moduleNav = {")
-  push('  text: "Modules",')
+  push_all(out, "export const moduleNav = {", '  text: "Modules",')
   emit_items(items)
-  push("};", "")
+  push_all(out, "};", "")
 
-  push("export const moduleSidebar = {")
-  push('  text: "Modules",')
+  push_all(out, "export const moduleSidebar = {", '  text: "Modules",')
   emit_items(items)
-  push("};", "")
+  push_all(out, "};", "")
 
   return table.concat(out, "\n")
 end
