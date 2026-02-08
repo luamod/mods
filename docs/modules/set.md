@@ -55,7 +55,7 @@ s:add("b")
 ---@param self T
 ---@param v any
 ---@return T self
-function add(self, v) end
+function add(v) end
 ```
 
 :::
@@ -81,7 +81,7 @@ s:clear()
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return T self
-function clear(self) end
+function clear() end
 ```
 
 :::
@@ -108,7 +108,7 @@ local c = s:copy()
 ---@param self T
 ---@return T set
 ---@nodiscard
-function copy(self) end
+function copy() end
 ```
 
 :::
@@ -136,7 +136,7 @@ local d = s:difference(Set({ "b" }))
 ---@param set T
 ---@return T set
 ---@nodiscard
-function difference(self, set) end
+function difference(set) end
 ```
 
 :::
@@ -163,7 +163,7 @@ s:difference_update(Set({ "b" }))
 ---@param self T
 ---@param set T
 ---@return T self
-function update(self, set) end
+function update(set) end
 ```
 
 :::
@@ -190,7 +190,7 @@ s:discard("b")
 ---@param self T
 ---@param v any
 ---@return T self
-function discard(self, v) end
+function discard(v) end
 ```
 
 :::
@@ -218,7 +218,7 @@ local i = s:intersection(Set({ "b", "c" }))
 ---@param set T
 ---@return T set
 ---@nodiscard
-function intersection(self, set) end
+function intersection(set) end
 ```
 
 :::
@@ -245,7 +245,7 @@ s:intersection_update(Set({ "b", "c" }))
 ---@param self T
 ---@param set T
 ---@return T self
-function update(self, set) end
+function update(set) end
 ```
 
 :::
@@ -272,7 +272,7 @@ local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
 ---@param set T
 ---@return boolean
 ---@nodiscard
-function isdisjoint(self, set) end
+function isdisjoint(set) end
 ```
 
 :::
@@ -298,7 +298,7 @@ local empty = Set({}):isempty()
 ---@param self T
 ---@return boolean
 ---@nodiscard
-function isempty(self) end
+function isempty() end
 ```
 
 :::
@@ -325,7 +325,7 @@ local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
 ---@param set T
 ---@return boolean
 ---@nodiscard
-function issubset(self, set) end
+function issubset(set) end
 ```
 
 :::
@@ -352,7 +352,7 @@ local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
 ---@param set T
 ---@return boolean
 ---@nodiscard
-function issuperset(self, set) end
+function issuperset(set) end
 ```
 
 :::
@@ -378,7 +378,7 @@ local n = Set({ "a", "b" }):len()
 ---@param self T
 ---@return integer
 ---@nodiscard
-function len(self) end
+function len() end
 ```
 
 :::
@@ -405,7 +405,7 @@ local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
 ---@param fn fun(v:any):any
 ---@return T set
 ---@nodiscard
-function map(self, fn) end
+function map(fn) end
 ```
 
 :::
@@ -430,7 +430,7 @@ local v = Set({ "a", "b" }):pop()
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return any
-function pop(self) end
+function pop() end
 ```
 
 :::
@@ -458,7 +458,7 @@ local d = s:symmetric_difference(Set({ "b", "c" }))
 ---@param set T
 ---@return T set
 ---@nodiscard
-function difference(self, set) end
+function difference(set) end
 ```
 
 :::
@@ -485,7 +485,7 @@ s:symmetric_difference_update(Set({ "b", "c" }))
 ---@param self T
 ---@param set T
 ---@return T self
-function update(self, set) end
+function update(set) end
 ```
 
 :::
@@ -512,7 +512,7 @@ local s = Set({ "a" }):union(Set({ "b" }))
 ---@param set T
 ---@return T set
 ---@nodiscard
-function union(self, set) end
+function union(set) end
 ```
 
 :::
@@ -539,7 +539,7 @@ s:update(Set({ "b" }))
 ---@param self T
 ---@param set T
 ---@return T self
-function update(self, set) end
+function update(set) end
 ```
 
 :::
@@ -565,7 +565,7 @@ local values = Set({ "a", "b" }):values()
 ---@param self T
 ---@return mods.List|any[] values
 ---@nodiscard
-function values(self) end
+function values() end
 ```
 
 :::

@@ -75,7 +75,7 @@ local ok = List({ 2, 4 }):all(is_even)
 ---@param pred fun(v:any):boolean
 ---@return boolean
 ---@nodiscard
-function all(self, pred) end
+function all(pred) end
 ```
 
 :::
@@ -103,7 +103,7 @@ local ok = List({ "a", "bb" }):any(has_len_2)
 ---@param pred fun(v:any):boolean
 ---@return boolean
 ---@nodiscard
-function any(self, pred) end
+function any(pred) end
 ```
 
 :::
@@ -128,7 +128,7 @@ local l = List({ "a" }):append("b")
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T self
-function append(self, v) end
+function append(v) end
 ```
 
 :::
@@ -153,7 +153,7 @@ local l = List({ "a", "b" }):clear()
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T self
-function clear(self) end
+function clear() end
 ```
 
 :::
@@ -180,7 +180,7 @@ local ok = List({ "a", "b" }):contains("b")
 ---@param v any
 ---@return any
 ---@nodiscard
-function contains(self, v) end
+function contains(v) end
 ```
 
 :::
@@ -206,7 +206,7 @@ local c = List({ "a", "b" }):copy()
 ---@param self T
 ---@return T ls
 ---@nodiscard
-function copy(self) end
+function copy() end
 ```
 
 :::
@@ -232,7 +232,7 @@ local n = List({ "a", "b", "b" }):count("b")
 ---@param self T
 ---@return integer
 ---@nodiscard
-function count(self, v) end
+function count(v) end
 ```
 
 :::
@@ -258,7 +258,7 @@ local d = List({ "a", "b", "c" }):difference({ "b" })
 ---@param self T
 ---@return T ls
 ---@nodiscard
-function difference(self, ls) end
+function difference(ls) end
 ```
 
 :::
@@ -285,7 +285,7 @@ local t = List({ "a", "b", "c" }):drop(1)
 ---@param n integer
 ---@return T ls
 ---@nodiscard
-function drop(self, n) end
+function drop(n) end
 ```
 
 :::
@@ -312,7 +312,7 @@ l:extend({ "b", "c" })
 ---@param self T
 ---@param ls any[]
 ---@return T self
-function extend(self, ls) end
+function extend(ls) end
 ```
 
 :::
@@ -341,7 +341,7 @@ local ex = l:extract(is_len_1)
 ---@param pred fun(v:any):boolean
 ---@return T self
 ---@nodiscard
-function extract(self, pred) end
+function extract(pred) end
 ```
 
 :::
@@ -369,7 +369,7 @@ local f = List({ "a", "bb", "c" }):filter(is_len_1)
 ---@param pred fun(v:any):boolean
 ---@return T ls
 ---@nodiscard
-function filter(self, pred) end
+function filter(pred) end
 ```
 
 :::
@@ -395,7 +395,7 @@ local v = List({ "a", "b" }):first()
 ---@param self T
 ---@return any
 ---@nodiscard
-function first(self) end
+function first() end
 ```
 
 :::
@@ -421,7 +421,7 @@ local f = List({ { "a", "b" }, { "c" } }):flatten()
 ---@param self T
 ---@return T self
 ---@nodiscard
-function flatten(self) end
+function flatten() end
 ```
 
 :::
@@ -447,7 +447,7 @@ List({ "a", "b" }):foreach(print)
 ---@param self T
 ---@param fn fun(v:any)
 ---@return nil
-function foreach(self, fn) end
+function foreach(fn) end
 ```
 
 :::
@@ -475,7 +475,7 @@ local g = List(words):group_by(string.len)
 ---@param fn fun(v:any):any
 ---@return table<any, T>
 ---@nodiscard
-function by(self, fn) end
+function by(fn) end
 ```
 
 :::
@@ -503,7 +503,7 @@ local i = List({ "a", "b", "c", "b" }):index("b")
 ---@return any value
 ---@return integer? index
 ---@nodiscard
-function index(self, v) end
+function index(v) end
 ```
 
 :::
@@ -531,7 +531,7 @@ local i = List({ 1, 2, 3 }):index_if(gt_1)
 ---@param pred fun(v:any):boolean
 ---@return integer? index
 ---@nodiscard
-function if(self, pred) end
+function if(pred) end
 ```
 
 :::
@@ -558,7 +558,7 @@ local l = List({ "a", "c" }):insert(2, "b")
 ---@param pos integer
 ---@param v any
 ---@return T self
-function insert(self, pos, v) end
+function insert(pos, v) end
 ```
 
 :::
@@ -584,7 +584,7 @@ local l = List({ "a", "b" }):insert("b")
 ---@param self T
 ---@param v any
 ---@return T self
-function insert(self, v) end
+function insert(v) end
 ```
 
 :::
@@ -612,7 +612,7 @@ local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 ---@param ls T
 ---@return T self
 ---@nodiscard
-function intersection(self, ls) end
+function intersection(ls) end
 ```
 
 :::
@@ -638,7 +638,7 @@ local t = List({ "a", "b", "c" }):invert()
 ---@param self T
 ---@return table
 ---@nodiscard
-function invert(self) end
+function invert() end
 ```
 
 :::
@@ -665,7 +665,7 @@ local s = List({ "a", "b", "c" }):join(",")
 ---@param sep? string
 ---@return string
 ---@nodiscard
-function join(self, sep) end
+function join(sep) end
 ```
 
 :::
@@ -691,7 +691,7 @@ local v = List({ "a", "b" }):last()
 ---@param self T
 ---@return any
 ---@nodiscard
-function last(self) end
+function last() end
 ```
 
 :::
@@ -717,7 +717,7 @@ local n = List({ "a", "b", "c" }):len()
 ---@param self T
 ---@return integer
 ---@nodiscard
-function len(self) end
+function len() end
 ```
 
 :::
@@ -745,7 +745,7 @@ local m = List({ "a", "b" }):map(to_upper)
 ---@param fn fun(v):any
 ---@return T ls
 ---@nodiscard
-function map(self, fn) end
+function map(fn) end
 ```
 
 :::
@@ -771,7 +771,7 @@ local v = l:pop()
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return any
-function pop(self) end
+function pop() end
 ```
 
 :::
@@ -798,7 +798,7 @@ local v = l:pop(2)
 ---@param self T
 ---@param pos integer
 ---@return any
-function pop(self, pos) end
+function pop(pos) end
 ```
 
 :::
@@ -825,7 +825,7 @@ l:prepend("a")
 ---@param self T
 ---@param v any
 ---@return T self
-function prepend(self, v) end
+function prepend(v) end
 ```
 
 :::
@@ -859,7 +859,7 @@ sum = List({ 1, 2, 3 }):reduce(add, 10)
 ---@param init? any
 ---@return any
 ---@nodiscard
-function reduce(self, fn, init) end
+function reduce(fn, init) end
 ```
 
 :::
@@ -886,7 +886,7 @@ l:remove("b")
 ---@param self T
 ---@param v any
 ---@return T self
-function remove(self, v) end
+function remove(v) end
 ```
 
 :::
@@ -912,7 +912,7 @@ local r = List({ "a", "b", "c" }):reverse()
 ---@param self T
 ---@return T ls
 ---@nodiscard
-function reverse(self) end
+function reverse() end
 ```
 
 :::
@@ -938,7 +938,7 @@ local s = List({ "a", "b", "a" }):setify()
 ---@param self T
 ---@return mods.Set|table<any,true>
 ---@nodiscard
-function setify(self) end
+function setify() end
 ```
 
 :::
@@ -967,7 +967,7 @@ local t = List({ "a", "b", "c", "d" }):slice(2, 3)
 ---@param j? integer
 ---@return T ls
 ---@nodiscard
-function slice(self, i, j) end
+function slice(i, j) end
 ```
 
 :::
@@ -994,7 +994,7 @@ l:sort()
 ---@param self T
 ---@param comp? fun(a,b):boolean
 ---@return T self
-function sort(self, comp) end
+function sort(comp) end
 ```
 
 :::
@@ -1021,7 +1021,7 @@ local t = List({ "a", "b", "c" }):take(2)
 ---@param n integer
 ---@return T ls
 ---@nodiscard
-function take(self, n) end
+function take(n) end
 ```
 
 :::
@@ -1047,7 +1047,7 @@ local u = List({ "a", "b", "a", "c" }):uniq()
 ---@param self T
 ---@return T ls
 ---@nodiscard
-function uniq(self) end
+function uniq() end
 ```
 
 :::
@@ -1075,7 +1075,7 @@ local z = List({ "a", "b" }):zip({ 1, 2 })
 ---@param ls T
 ---@return T ls
 ---@nodiscard
-function zip(self, ls) end
+function zip(ls) end
 ```
 
 :::
