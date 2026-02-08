@@ -89,9 +89,10 @@ local function parse_types_file(path)
   end
 
   local meta
-  local module_desc
+  local module_desc_lines = {}
   local block = nil
   local funcs = {}
+  local seen_class = false
 
   local function flush_block()
     if block and #block > 0 then
@@ -107,11 +108,12 @@ local function parse_types_file(path)
         meta = text:gsub("^@meta%s+", "")
       elseif text:match("^@class%s+") then
         flush_block()
+        seen_class = true
       else
         block = block or {}
         table.insert(block, text)
-        if not module_desc and meta and text ~= "" and not text:match("^@") then
-          module_desc = (module_desc or text)
+        if meta and not seen_class and text ~= "" and not text:match("^@") then
+          module_desc_lines[#module_desc_lines + 1] = text
         end
       end
     else
@@ -133,6 +135,7 @@ local function parse_types_file(path)
     end
   end
 
+  local module_desc = trim(table.concat(module_desc_lines, " ")):gsub("%s+", " ")
   return {
     meta = meta,
     module_desc = module_desc or "",
