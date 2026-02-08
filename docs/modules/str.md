@@ -4,7 +4,7 @@ editLinkTarget: types/str.lua
 
 # str
 
-`mods.str` String utility helpers modeled after Python's `str`.
+String utility helpers modeled after Python's `str`.
 
 ## Quick Reference
 

@@ -4,7 +4,7 @@ editLinkTarget: types/Set.lua
 
 # set
 
-`mods.Set` A Python-style set class providing common operations to create, modify, and query collections of unique values.
+A Python-style set class providing common operations to create, modify, and query collections of unique values.
 
 ## Quick Reference
 

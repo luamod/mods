@@ -4,7 +4,7 @@ editLinkTarget: types/tbl.lua
 
 # tbl
 
-`mods.tbl` Utility functions for working with Lua tables.
+Utility functions for working with Lua tables.
 
 ## Quick Reference
 
