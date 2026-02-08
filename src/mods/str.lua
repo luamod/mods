@@ -1,3 +1,6 @@
+local ok, mod = pcall(require, "mods.List")
+local List = ok and mod or nil
+
 local byte = string.byte
 local char = string.char
 local concat = table.concat
@@ -144,8 +147,8 @@ end
 
 function M.endswith(s, suffix, start, stop)
   if type(suffix) == "table" then
-    for _, v in ipairs(suffix) do
-      if M.endswith(s, v, start, stop) then
+    for i = 1, #suffix do
+      if M.endswith(s, suffix[i], start, stop) then
         return true
       end
     end
@@ -517,7 +520,7 @@ function M.rsplit(s, sep, maxsplit)
   end
 
   parts[#parts + 1] = sub(s, 1, pos)
-  local out = {}
+  local out = List and List() or {}
   for i = #parts, 1, -1 do
     out[#out + 1] = parts[i]
   end
@@ -533,7 +536,7 @@ function M.split(s, sep, maxsplit)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
       return parts
     end
-    local out = {}
+    local out = List and List or {}
     local keep = maxsplit + 1
     for i = 1, keep - 1 do
       out[#out + 1] = parts[i]
@@ -567,7 +570,7 @@ end
 
 function M.splitlines(s, keepends)
   local len = #s
-  local out = {}
+  local out = List and List() or {}
   local i = 1
   while i <= len do
     local j = i
@@ -624,8 +627,8 @@ end
 
 function M.startswith(s, prefix, start, stop)
   if type(prefix) == "table" then
-    for _, v in ipairs(prefix) do
-      if M.startswith(s, v, start, stop) then
+    for i = 1, #prefix do
+      if M.startswith(s, prefix[i], start, stop) then
         return true
       end
     end
