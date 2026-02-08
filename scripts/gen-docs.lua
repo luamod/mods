@@ -171,11 +171,7 @@ local function render_module(doc)
 
   push("# " .. short)
   push("")
-  if doc.meta and doc.meta ~= "" then
-    push("`" .. doc.meta .. "`" .. (doc.module_desc ~= "" and " " .. doc.module_desc or ""))
-  else
-    push(doc.module_desc)
-  end
+  push(doc.module_desc)
   push("")
 
   if #doc.functions > 0 then
