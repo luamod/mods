@@ -6,6 +6,8 @@ local lfs = require("lfs")
 local List = require("mods.List")
 local str = require("mods.str")
 
+local fmt = string.format
+
 local TYPES_DIR = "types"
 local OUT_DIR = "docs/modules"
 local INDEX_OUT = OUT_DIR .. "/index.md"
@@ -163,18 +165,12 @@ local function render_module(doc)
     for _, fn in ipairs(doc.functions) do
       local desc = fn.doc.desc:gsub("\n.*", "")
       local anchor = slugify_anchor(fn.name, fn.params)
-      push_all(out, string.format("| [`%s(%s)`](#%s) | %s |", fn.name, fn.params, anchor, desc))
+      push_all(out, fmt("| [`%s(%s)`](#%s) | %s |", fn.name, fn.params, anchor, desc))
     end
     push_all(out, "", "## Functions", "")
     for _, fn in ipairs(doc.functions) do
       local anchor = slugify_anchor(fn.name, fn.params)
-      push_all(
-        out,
-        string.format('<a id="%s"></a>', anchor),
-        "",
-        string.format("#### `%s(%s)`", fn.name, fn.params),
-        ""
-      )
+      push_all(out, fmt('<a id="%s"></a>', anchor), "", fmt("#### `%s(%s)`", fn.name, fn.params), "")
       if fn.doc.desc ~= "" then
         push_all(out, fn.doc.desc, "")
       end
@@ -187,12 +183,12 @@ local function render_module(doc)
         local cleaned = anno:gsub("^@", "")
         push_all(out, "---@" .. cleaned)
       end
-      local signature = string.format("function %s(%s) end", fn.name, fn.params)
+      local signature = fmt("function %s(%s) end", fn.name, fn.params)
       push_all(out, signature, "```", "", ":::", "")
     end
   end
 
-  return table.concat(out, "\n")
+  return out:join("\n")
 end
 
 local function render_index(docs)
@@ -204,8 +200,8 @@ local function render_index(docs)
     if short then
       local name = display_name(doc.meta) or short
       local desc = doc.module_desc or ""
-      local link = string.format("/modules/%s", short)
-      push_all(out, string.format("| [`%s`](%s) | %s |", name, link, desc))
+      local link = fmt("/modules/%s", short)
+      push_all(out, fmt("| [`%s`](%s) | %s |", name, link, desc))
     end
   end
   push_all(out, "")
@@ -231,7 +227,7 @@ local function render_modules_ts(docs)
   local function emit_items(items)
     push_all(out, "  items: [")
     for _, item in ipairs(items) do
-      push_all(out, string.format('    { text: "%s", link: "%s" },', item.text, item.link))
+      push_all(out, fmt('    { text: "%s", link: "%s" },', item.text, item.link))
     end
     push_all(out, "  ],")
   end
@@ -252,7 +248,7 @@ end
 local function list_lua_files(dir)
   local files = List()
   for file in lfs.dir(dir) do
-    if file ~= "." and file ~= ".." and file:match("%.lua$") then
+    if file ~= "." and file ~= ".." and str.endswith(file, ".lua") then
       files:append(dir .. "/" .. file)
     end
   end
