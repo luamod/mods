@@ -24,7 +24,6 @@ luarocks install mods
 
 ```sh
 git clone https://github.com/luamod/mods.git
-cd mods
 ```
 
 ### Manual copy
