@@ -14,3 +14,7 @@ Use modules standalone or together by dropping a single file into your project.
 ## Modules
 
 <!-- @include: ./modules/index.md -->
+
+## Contribute
+
+Have an idea or found a bug? Open an [issue](https://github.com/luamod/mods/issues), start a [discussion](https://github.com/luamod/mods/discussions), or submit a [pull request](https://github.com/luamod/mods/pulls).
