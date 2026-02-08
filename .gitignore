@@ -1,7 +1,7 @@
-node_modules/
-docs/.vitepress/cache/
-docs/.vitepress/dist/
 *.rock
 *.rockspec.zip
-.luarocks/
 .lua/
+.luarocks/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+node_modules/
