@@ -12,7 +12,7 @@ description = {
   detailed = [[
 Mods provides small, focused Lua modules: List, Set, str, stringcase, and table utilities.
 ]],
-  homepage = "https://github.com/luamod/mods",
+  homepage = "https://luamod.github.io/mods",
   license = "MIT",
 }
 
