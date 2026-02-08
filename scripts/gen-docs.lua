@@ -122,7 +122,6 @@ local function parse_types_file(path)
         funcs[#funcs + 1] = {
           name = name,
           params = trim(params),
-          is_method = fn_full:find(":", 1, true) ~= nil,
           doc = doc,
           annotations = doc.annotations,
         }
@@ -214,15 +213,7 @@ local function render_module(doc)
         local cleaned = anno:gsub("^@", "")
         push("---@" .. cleaned)
       end
-      local sig_params = fn.params
-      if fn.is_method then
-        if sig_params == "" then
-          sig_params = "self"
-        else
-          sig_params = "self, " .. sig_params
-        end
-      end
-      local signature = string.format("function %s(%s) end", fn.name, sig_params)
+      local signature = string.format("function %s(%s) end", fn.name, fn.params)
       push(signature)
       push("```")
       push("")
