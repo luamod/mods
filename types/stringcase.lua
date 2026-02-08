@@ -8,7 +8,8 @@ local M = {}
 ---
 ---**Example:**
 ---```lua
----lower("Hello World") --> "hello world"
+---lower("foo_bar-baz") --> "foo_bar-baz"
+---lower("FooBar baz") --> "foobar baz"
 ---```
 ---
 ---@param s string
@@ -20,7 +21,8 @@ function M.lower(s) end
 ---
 ---**Example:**
 ---```lua
----upper("Hello World") --> "HELLO WORLD"
+---upper("foo_bar-baz") --> "FOO_BAR-BAZ"
+---upper("FooBar baz") --> "FOOBAR BAZ"
 ---```
 ---
 ---@param s string
@@ -32,7 +34,8 @@ function M.upper(s) end
 ---
 ---**Example:**
 ---```lua
----snake("Hello World") --> "hello_world"
+---snake("foo_bar-baz") --> "foo_bar_baz"
+---snake("FooBar baz") --> "foo_bar_baz"
 ---```
 ---
 ---@param s string
@@ -44,7 +47,8 @@ function M.snake(s) end
 ---
 ---**Example:**
 ---```lua
----camel("Hello World") --> "helloWorld"
+---camel("foo_bar-baz") --> "fooBarBaz"
+---camel("FooBar baz") --> "fooBarBaz"
 ---```
 ---
 ---@param s string
@@ -56,7 +60,8 @@ function M.camel(s) end
 ---
 ---**Example:**
 ---```lua
----replace("hello_world", "-") --> "hello-world"
+---replace("foo_bar-baz", "-") --> "foo-bar-baz"
+---replace("FooBar baz", "-") --> "foo-bar-baz"
 ---```
 ---
 ---@param s string
@@ -69,7 +74,7 @@ function M.replace(s, sep) end
 ---
 ---**Example:**
 ---```lua
----acronym("Hyper Text Markup Language") --> "HTML"
+---acronym("foo_bar-baz") --> "FBB"
 ---```
 ---
 ---@param s string
@@ -81,7 +86,8 @@ function M.acronym(s) end
 ---
 ---**Example:**
 ---```lua
----title("hello world") --> "Hello World"
+---title("foo_bar-baz") --> "Foo Bar Baz"
+---title("FooBar baz") --> "Foo Bar Baz"
 ---```
 ---
 ---@param s string
@@ -93,7 +99,7 @@ function M.title(s) end
 ---
 ---**Example:**
 ---```lua
----constant("hello world") --> "HELLO_WORLD"
+---constant("foo_bar-baz") --> "FOO_BAR_BAZ"
 ---```
 ---
 ---@param s string
@@ -105,7 +111,8 @@ function M.constant(s) end
 ---
 ---**Example:**
 ---```lua
----pascal("hello world") --> "HelloWorld"
+---pascal("foo_bar-baz") --> "FooBarBaz"
+---pascal("FooBar baz") --> "FooBarBaz"
 ---```
 ---
 ---@param s string
@@ -117,7 +124,8 @@ function M.pascal(s) end
 ---
 ---**Example:**
 ---```lua
----kebab("hello world") --> "hello-world"
+---kebab("foo_bar-baz") --> "foo-bar-baz"
+---kebab("FooBar baz") --> "foo-bar-baz"
 ---```
 ---
 ---@param s string
@@ -129,7 +137,8 @@ function M.kebab(s) end
 ---
 ---**Example:**
 ---```lua
----dot("hello world") --> "hello.world"
+---dot("foo_bar-baz") --> "foo.bar.baz"
+---dot("FooBar baz") --> "foo.bar.baz"
 ---```
 ---
 ---@param s string
@@ -141,7 +150,8 @@ function M.dot(s) end
 ---
 ---**Example:**
 ---```lua
----space("hello_world") --> "hello world"
+---space("foo_bar-baz") --> "foo bar baz"
+---space("FooBar baz") --> "foo bar baz"
 ---```
 ---
 ---@param s string
@@ -153,7 +163,8 @@ function M.space(s) end
 ---
 ---**Example:**
 ---```lua
----path("hello world") --> "hello/world"
+---path("foo_bar-baz") --> "foo/bar/baz"
+---path("FooBar baz") --> "foo/bar/baz"
 ---```
 ---
 ---@param s string
@@ -165,7 +176,8 @@ function M.path(s) end
 ---
 ---**Example:**
 ---```lua
----swap("Hello World") --> "hELLO wORLD"
+---swap("foo_bar-baz") --> "FOO_BAR-BAZ"
+---swap("FooBar baz") --> "fOObAR BAZ"
 ---```
 ---
 ---@param s string
@@ -177,7 +189,8 @@ function M.swap(s) end
 ---
 ---**Example:**
 ---```lua
----capital("hELLO") --> "Hello"
+---capital("foo_bar-baz") --> "Foo_bar-baz"
+---capital("FooBar baz") --> "Foobar baz"
 ---```
 ---
 ---@param s string
@@ -189,7 +202,8 @@ function M.capital(s) end
 ---
 ---**Example:**
 ---```lua
----sentence("hELLO WORLD") --> "Hello world"
+---sentence("foo_bar-baz") --> "Foo_bar-baz"
+---sentence("FooBar baz") --> "FooBar baz"
 ---```
 ---
 ---@param s string
