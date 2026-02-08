@@ -170,7 +170,7 @@ local function render_module(doc)
     push_all(out, "", "## Functions", "")
     for _, fn in ipairs(doc.functions) do
       local anchor = slugify_anchor(fn.name, fn.params)
-      push_all(out, fmt('<a id="%s"></a>', anchor), "", fmt("#### `%s(%s)`", fn.name, fn.params), "")
+      push_all(out, fmt("#### `%s(%s)` {#%s}", fn.name, fn.params, anchor), "")
       if fn.doc.desc ~= "" then
         push_all(out, fn.doc.desc, "")
       end
