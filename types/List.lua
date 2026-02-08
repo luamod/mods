@@ -430,7 +430,7 @@ function List:reverse() end
 ----- result: { a = true, b = true }
 ---```
 ---@param self mods.List
----@return mods.List
+---@return mods.Set|{any:true}
 ---@nodiscard
 function List:setify() end
 

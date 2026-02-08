@@ -242,7 +242,7 @@ function Set:update(set) end
 ---local values = Set({ "a", "b" }):values()
 ----- result: { "a", "b" }
 ---```
----@return mods.List values
+---@return mods.List<T>|T[] values
 ---@nodiscard
 function Set:values() end
 

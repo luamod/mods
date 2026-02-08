@@ -480,7 +480,7 @@ function M.rpartition(s, sep) end
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
----@return mods.List
+---@return mods.List|string[]
 ---@nodiscard
 function M.rsplit(s, sep, maxsplit) end
 
@@ -494,7 +494,7 @@ function M.rsplit(s, sep, maxsplit) end
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
----@return mods.List
+---@return mods.List|string[]
 ---@nodiscard
 function M.split(s, sep, maxsplit) end
 
@@ -507,7 +507,7 @@ function M.split(s, sep, maxsplit) end
 ---```
 ---@param s string
 ---@param keepends? boolean
----@return mods.List
+---@return mods.List|string[]
 ---@nodiscard
 function M.splitlines(s, keepends) end
 
