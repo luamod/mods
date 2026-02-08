@@ -33,6 +33,8 @@ Copy individual modules from [`src/mods/`](src/mods) into your project and `requ
 
 ## Modules
 
+Available modules:
+
 | Module         | Description                                                    |
 | -------------- | -------------------------------------------------------------- |
 | [`List`]       | Python-style list helpers for mapping, filtering, and slicing. |
@@ -41,11 +43,15 @@ Copy individual modules from [`src/mods/`](src/mods) into your project and `requ
 | [`tbl`]        | Utility functions for plain Lua tables.                        |
 | [`stringcase`] | String case conversion helpers.                                |
 
+> [!NOTE]
+> We are still working on adding new modules.
+
+## Examples
+
+See the runnable scripts in [`examples/`](examples).
+
 [`List`]: https://luamod.github.io/mods/modules/list
 [`Set`]: https://luamod.github.io/mods/modules/set
 [`str`]: https://luamod.github.io/mods/modules/str
 [`tbl`]: https://luamod.github.io/mods/modules/tbl
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase
-
-> [!NOTE]
-> We are still working on adding new modules.
