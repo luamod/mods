@@ -11,3 +11,8 @@
     "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 }
+
+/* Make inline code use normal text color */
+.VPDoc :not(pre) > code {
+  color: inherit;
+}
