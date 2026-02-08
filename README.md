@@ -12,6 +12,25 @@ Use modules standalone or together by dropping a single file into your project.
 
 Guides, module overviews, and examples live in the [docs](https://luamod.github.io/mods).
 
+## Installation
+
+### LuaRocks
+
+```sh
+luarocks install mods
+```
+
+### Clone
+
+```sh
+git clone https://github.com/luamod/mods.git
+cd mods
+```
+
+### Manual copy
+
+Copy individual modules from [`src/mods/`](src/mods) into your project and `require("mods.List")`, `require("mods.str")`, etc.
+
 ## Modules
 
 | Module         | Description                                                    |
