@@ -10,7 +10,7 @@ source = {
 description = {
   summary = "Pure standalone Lua modules",
   detailed = [[
-Mods provides small, focused Lua modules: List, Set, and table utilities.
+Mods provides small, focused Lua modules: List, Set, str, stringcase, and table utilities.
 ]],
   homepage = "https://github.com/luamod/mods",
   license = "MIT",
@@ -23,8 +23,10 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
+    ["mods"] = "src/mods/init.lua",
     ["mods.List"] = "src/mods/List.lua",
     ["mods.Set"]  = "src/mods/Set.lua",
+    ["mods.str"]  = "src/mods/str.lua",
     ["mods.stringcase"] = "src/mods/stringcase.lua",
     ["mods.tbl"]  = "src/mods/tbl.lua",
   },
