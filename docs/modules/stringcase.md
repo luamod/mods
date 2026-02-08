@@ -4,7 +4,7 @@ editLinkTarget: types/stringcase.lua
 
 # stringcase
 
-`mods.stringcase`
+`mods.stringcase` String case conversion helpers.
 
 ## Quick Reference
 
