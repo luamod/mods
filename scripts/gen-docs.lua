@@ -207,7 +207,8 @@ local function render_index(docs)
     local short = module_short_name(doc.meta)
     if short then
       local name = display_name(doc.meta) or short
-      local desc = doc.module_desc or ""
+      local flat = (doc.module_desc or ""):gsub("%s+", " "):gsub("^%s+", ""):gsub("%s+$", "")
+      local desc = flat:match("^(.-%.)%s") or flat:match("^(.-%.)$") or flat
       local link = fmt("/modules/%s", short)
       push_all(out, fmt("| [`%s`](%s) | %s |", name, link, desc))
     end
