@@ -8,25 +8,44 @@ Utility functions for working with Lua tables.
 
 ## Quick Reference
 
-| Function                                | Description                                                |
-| --------------------------------------- | ---------------------------------------------------------- |
-| [`clear(t)`](#fn-cleart)                | Remove all entries from the table.                         |
-| [`copy(t)`](#fn-copyt)                  | Create a shallow copy of the table.                        |
-| [`count(t)`](#fn-countt)                | Return the number of keys in the table.                    |
-| [`deepcopy(v)`](#fn-deepcopyv)          | Create a deep copy of a value.                             |
-| [`filter(t, pred)`](#fn-filtert-pred)   | Filter entries by a value predicate.                       |
-| [`find(t, v)`](#fn-findt-v)             | Find the first key whose value equals the given value.     |
-| [`find_if(t, pred)`](#fn-find_ift-pred) | Find first value and key matching predicate.               |
-| [`get(t, ...)`](#fn-gett-...)           | Safely get nested value by keys.                           |
-| [`invert(t)`](#fn-invertt)              | Invert keys/values into new table.                         |
-| [`isempty(t)`](#fn-isemptyt)            | Return true if table has no entries.                       |
-| [`keys(t)`](#fn-keyst)                  | Return a list of all keys in the table.                    |
-| [`map(t, fn)`](#fn-mapt-fn)             | Return a new table by mapping each value (keys preserved). |
-| [`pairmap(t, fn)`](#fn-pairmapt-fn)     | Return a new table by mapping each key-value pair.         |
-| [`update(t1, t2)`](#fn-updatet1-t2)     | Merge entries from t2 into t1 and return t1.               |
-| [`values(t)`](#fn-valuest)              | Return a list of all values in the table.                  |
+**Basics**
+
+| Function                 | Description                             |
+| ------------------------ | --------------------------------------- |
+| [`clear(t)`](#fn-cleart) | Remove all entries from the table.      |
+| [`count(t)`](#fn-countt) | Return the number of keys in the table. |
+
+**Copying**
+
+| Function                       | Description                         |
+| ------------------------------ | ----------------------------------- |
+| [`copy(t)`](#fn-copyt)         | Create a shallow copy of the table. |
+| [`deepcopy(v)`](#fn-deepcopyv) | Create a deep copy of a value.      |
+
+**Query**
+
+| Function                                | Description                                            |
+| --------------------------------------- | ------------------------------------------------------ |
+| [`filter(t, pred)`](#fn-filtert-pred)   | Filter entries by a value predicate.                   |
+| [`find(t, v)`](#fn-findt-v)             | Find the first key whose value equals the given value. |
+| [`find_if(t, pred)`](#fn-find_ift-pred) | Find first value and key matching predicate.           |
+| [`get(t, ...)`](#fn-gett-...)           | Safely get nested value by keys.                       |
+
+**Transforms**
+
+| Function                            | Description                                                |
+| ----------------------------------- | ---------------------------------------------------------- |
+| [`invert(t)`](#fn-invertt)          | Invert keys/values into new table.                         |
+| [`isempty(t)`](#fn-isemptyt)        | Return true if table has no entries.                       |
+| [`keys(t)`](#fn-keyst)              | Return a list of all keys in the table.                    |
+| [`map(t, fn)`](#fn-mapt-fn)         | Return a new table by mapping each value (keys preserved). |
+| [`pairmap(t, fn)`](#fn-pairmapt-fn) | Return a new table by mapping each key-value pair.         |
+| [`update(t1, t2)`](#fn-updatet1-t2) | Merge entries from t2 into t1 and return t1.               |
+| [`values(t)`](#fn-valuest)          | Return a list of all values in the table.                  |
 
 ## Functions
+
+### Basics
 
 #### `clear(t)` {#fn-cleart}
 
@@ -51,6 +70,31 @@ function clear(t) end
 
 :::
 
+#### `count(t)` {#fn-countt}
+
+Return the number of keys in the table.
+
+:::tabs
+== Example
+
+```lua
+local n = count({ a = 1, b = 2 })
+-- result: 2
+```
+
+== Signature
+
+```lua
+---@param t table
+---@return integer
+---@nodiscard
+function count(t) end
+```
+
+:::
+
+### Copying
+
 #### `copy(t)` {#fn-copyt}
 
 Create a shallow copy of the table.
@@ -71,29 +115,6 @@ local t = copy({ a = 1, b = 2 })
 ---@return T
 ---@nodiscard
 function copy(t) end
-```
-
-:::
-
-#### `count(t)` {#fn-countt}
-
-Return the number of keys in the table.
-
-:::tabs
-== Example
-
-```lua
-local n = count({ a = 1, b = 2 })
--- result: 2
-```
-
-== Signature
-
-```lua
----@param t table
----@return integer
----@nodiscard
-function count(t) end
 ```
 
 :::
@@ -125,6 +146,8 @@ function deepcopy(v) end
 ```
 
 :::
+
+### Query
 
 #### `filter(t, pred)` {#fn-filtert-pred}
 
@@ -233,6 +256,8 @@ function get(t, ...) end
 ```
 
 :::
+
+### Transforms
 
 #### `invert(t)` {#fn-invertt}
 

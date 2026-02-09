@@ -8,26 +8,40 @@ String case conversion helpers.
 
 ## Quick Reference
 
-| Function                              | Description                                                               |
-| ------------------------------------- | ------------------------------------------------------------------------- |
-| [`lower(s)`](#fn-lowers)              | Convert string to all lowercase.                                          |
-| [`upper(s)`](#fn-uppers)              | Convert string to all uppercase.                                          |
-| [`snake(s)`](#fn-snakes)              | Convert string to snake_case.                                             |
-| [`camel(s)`](#fn-camels)              | Convert string to camelCase.                                              |
-| [`replace(s, sep)`](#fn-replaces-sep) | Normalize to snake_case, then replace underscores with a separator.       |
-| [`acronym(s)`](#fn-acronyms)          | Get acronym of words in string (first letters only).                      |
-| [`title(s)`](#fn-titles)              | Convert string to Title Case (first letter of each word capitalized).     |
-| [`constant(s)`](#fn-constants)        | Convert string to CONSTANT_CASE (uppercase snake_case).                   |
-| [`pascal(s)`](#fn-pascals)            | Convert string to PascalCase.                                             |
-| [`kebab(s)`](#fn-kebabs)              | Convert string to kebab-case.                                             |
-| [`dot(s)`](#fn-dots)                  | Convert string to dot.case.                                               |
-| [`space(s)`](#fn-spaces)              | Convert string to space case (spaces between words).                      |
-| [`path(s)`](#fn-paths)                | Convert string to path/case (slashes between words).                      |
-| [`swap(s)`](#fn-swaps)                | Swap case of each letter.                                                 |
-| [`capital(s)`](#fn-capitals)          | Capitalize the first letter and lowercase the rest.                       |
-| [`sentence(s)`](#fn-sentences)        | Convert string to sentence case (first letter uppercase, rest lowercase). |
+**Basic**
+
+| Function                 | Description                      |
+| ------------------------ | -------------------------------- |
+| [`lower(s)`](#fn-lowers) | Convert string to all lowercase. |
+| [`upper(s)`](#fn-uppers) | Convert string to all uppercase. |
+
+**Word Case**
+
+| Function                              | Description                                                           |
+| ------------------------------------- | --------------------------------------------------------------------- |
+| [`snake(s)`](#fn-snakes)              | Convert string to snake_case.                                         |
+| [`camel(s)`](#fn-camels)              | Convert string to camelCase.                                          |
+| [`replace(s, sep)`](#fn-replaces-sep) | Normalize to snake_case, then replace underscores with a separator.   |
+| [`acronym(s)`](#fn-acronyms)          | Get acronym of words in string (first letters only).                  |
+| [`title(s)`](#fn-titles)              | Convert string to Title Case (first letter of each word capitalized). |
+| [`constant(s)`](#fn-constants)        | Convert string to CONSTANT_CASE (uppercase snake_case).               |
+| [`pascal(s)`](#fn-pascals)            | Convert string to PascalCase.                                         |
+| [`kebab(s)`](#fn-kebabs)              | Convert string to kebab-case.                                         |
+| [`dot(s)`](#fn-dots)                  | Convert string to dot.case.                                           |
+| [`space(s)`](#fn-spaces)              | Convert string to space case (spaces between words).                  |
+| [`path(s)`](#fn-paths)                | Convert string to path/case (slashes between words).                  |
+
+**Letter Case**
+
+| Function                       | Description                                                               |
+| ------------------------------ | ------------------------------------------------------------------------- |
+| [`swap(s)`](#fn-swaps)         | Swap case of each letter.                                                 |
+| [`capital(s)`](#fn-capitals)   | Capitalize the first letter and lowercase the rest.                       |
+| [`sentence(s)`](#fn-sentences) | Convert string to sentence case (first letter uppercase, rest lowercase). |
 
 ## Functions
+
+### Basic
 
 #### `lower(s)` {#fn-lowers}
 
@@ -74,6 +88,8 @@ function upper(s) end
 ```
 
 :::
+
+### Word Case
 
 #### `snake(s)` {#fn-snakes}
 
@@ -326,6 +342,8 @@ function path(s) end
 ```
 
 :::
+
+### Letter Case
 
 #### `swap(s)` {#fn-swaps}
 

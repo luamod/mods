@@ -14,32 +14,46 @@ supported type name.
 
 ## Quick Reference
 
-| Function                       | Description                                             |
-| ------------------------------ | ------------------------------------------------------- |
-| [`boolean(v)`](#fn-booleanv)   | Returns `true` when `v` is a boolean.                   |
-| [`Function(v)`](#fn-functionv) | Returns `true` when `v` is a function.                  |
-| [`Nil(v)`](#fn-nilv)           | Returns `true` when `v` is `nil`.                       |
-| [`number(v)`](#fn-numberv)     | Returns `true` when `v` is a number.                    |
-| [`string(v)`](#fn-stringv)     | Returns `true` when `v` is a string.                    |
-| [`table(v)`](#fn-tablev)       | Returns `true` when `v` is a table.                     |
-| [`thread(v)`](#fn-threadv)     | Returns `true` when `v` is a thread.                    |
-| [`userdata(v)`](#fn-userdatav) | Returns `true` when `v` is userdata.                    |
-| [`False(v)`](#fn-falsev)       | Returns `true` when `v` is exactly `false`.             |
-| [`True(v)`](#fn-truev)         | Returns `true` when `v` is exactly `true`.              |
-| [`falsy(v)`](#fn-falsyv)       | Returns `true` when `v` is falsy.                       |
-| [`callable(v)`](#fn-callablev) | Returns `true` when `v` is callable.                    |
-| [`integer(v)`](#fn-integerv)   | Returns `true` when `v` is an integer.                  |
-| [`truthy(v)`](#fn-truthyv)     | Returns `true` when `v` is truthy.                      |
-| [`block(v)`](#fn-blockv)       | Returns `true` when `v` is a block device path.         |
-| [`char(v)`](#fn-charv)         | Returns `true` when `v` is a char device path.          |
-| [`device(v)`](#fn-devicev)     | Returns `true` when `v` is a block or char device path. |
-| [`dir(v)`](#fn-dirv)           | Returns `true` when `v` is a directory path.            |
-| [`fifo(v)`](#fn-fifov)         | Returns `true` when `v` is a FIFO path.                 |
-| [`file(v)`](#fn-filev)         | Returns `true` when `v` is a file path.                 |
-| [`link(v)`](#fn-linkv)         | Returns `true` when `v` is a symlink path.              |
-| [`socket(v)`](#fn-socketv)     | Returns `true` when `v` is a socket path.               |
+**Type Checks**
+
+| Function                       | Description                            |
+| ------------------------------ | -------------------------------------- |
+| [`boolean(v)`](#fn-booleanv)   | Returns `true` when `v` is a boolean.  |
+| [`Function(v)`](#fn-functionv) | Returns `true` when `v` is a function. |
+| [`Nil(v)`](#fn-nilv)           | Returns `true` when `v` is `nil`.      |
+| [`number(v)`](#fn-numberv)     | Returns `true` when `v` is a number.   |
+| [`string(v)`](#fn-stringv)     | Returns `true` when `v` is a string.   |
+| [`table(v)`](#fn-tablev)       | Returns `true` when `v` is a table.    |
+| [`thread(v)`](#fn-threadv)     | Returns `true` when `v` is a thread.   |
+| [`userdata(v)`](#fn-userdatav) | Returns `true` when `v` is userdata.   |
+
+**Value Checks**
+
+| Function                       | Description                                 |
+| ------------------------------ | ------------------------------------------- |
+| [`False(v)`](#fn-falsev)       | Returns `true` when `v` is exactly `false`. |
+| [`True(v)`](#fn-truev)         | Returns `true` when `v` is exactly `true`.  |
+| [`falsy(v)`](#fn-falsyv)       | Returns `true` when `v` is falsy.           |
+| [`callable(v)`](#fn-callablev) | Returns `true` when `v` is callable.        |
+| [`integer(v)`](#fn-integerv)   | Returns `true` when `v` is an integer.      |
+| [`truthy(v)`](#fn-truthyv)     | Returns `true` when `v` is truthy.          |
+
+**Path Checks**
+
+| Function                   | Description                                             |
+| -------------------------- | ------------------------------------------------------- |
+| [`block(v)`](#fn-blockv)   | Returns `true` when `v` is a block device path.         |
+| [`char(v)`](#fn-charv)     | Returns `true` when `v` is a char device path.          |
+| [`device(v)`](#fn-devicev) | Returns `true` when `v` is a block or char device path. |
+| [`dir(v)`](#fn-dirv)       | Returns `true` when `v` is a directory path.            |
+| [`fifo(v)`](#fn-fifov)     | Returns `true` when `v` is a FIFO path.                 |
+| [`file(v)`](#fn-filev)     | Returns `true` when `v` is a file path.                 |
+| [`link(v)`](#fn-linkv)     | Returns `true` when `v` is a symlink path.              |
+| [`socket(v)`](#fn-socketv) | Returns `true` when `v` is a socket path.               |
 
 ## Functions
+
+### Type Checks
 
 #### `boolean(v)` {#fn-booleanv}
 
@@ -217,6 +231,8 @@ function userdata(v) end
 
 :::
 
+### Value Checks
+
 #### `False(v)` {#fn-falsev}
 
 Returns `true` when `v` is exactly `false`.
@@ -348,6 +364,8 @@ function truthy(v) end
 ```
 
 :::
+
+### Path Checks
 
 #### `block(v)` {#fn-blockv}
 
