@@ -40,13 +40,11 @@ function M.center(s, width, fillchar) end
 ---```lua
 ---local n = count("aaaa", "aa")
 -----result: 2
----```
----```lua
----local n = count("aaaa", "a", 2, -1)
+---
+---n = count("aaaa", "a", 2, -1)
 -----result: 2
----```
----```lua
----local n = count("abcd", "")
+---
+---n = count("abcd", "")
 -----result: 5
 ---```
 ---@param s string
@@ -131,7 +129,7 @@ function M.format_map(s, mapping) end
 --->
 --->```lua
 ---> isalnum("á1")` --> `false`
----```
+--->```
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -150,7 +148,7 @@ function M.isalnum(s) end
 --->
 --->```lua
 ---> isalpha("á")` --> `false`
----```
+--->```
 ---@param s string
 ---@return boolean
 ---@nodiscard
