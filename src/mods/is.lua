@@ -1,7 +1,5 @@
 local type = type
 local getmt = getmetatable
-local gsub = string.gsub
-local upper = string.upper
 
 local lfs
 
@@ -78,7 +76,7 @@ function M.socket(v) return type(v) == "string" and attrs(v, "mode") == "socket"
 -- stylua: ignore end
 
 local function capitalize(s)
-  return gsub(s, "^%l", upper)
+  return s:gsub("^%l", string.upper)
 end
 
 local aliases = {}
