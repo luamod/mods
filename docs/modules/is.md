@@ -11,15 +11,15 @@ Type predicates for Lua values and filesystem path kinds. You can also call `is(
 | Function                       | Description                                             |
 | ------------------------------ | ------------------------------------------------------- |
 | [`boolean(v)`](#fn-booleanv)   | Returns `true` when `v` is a boolean.                   |
-| [`function(v)`](#fn-functionv) | Returns `true` when `v` is a function.                  |
-| [`nil(v)`](#fn-nilv)           | Returns `true` when `v` is `nil`.                       |
+| [`Function(v)`](#fn-functionv) | Returns `true` when `v` is a function.                  |
+| [`Nil(v)`](#fn-nilv)           | Returns `true` when `v` is `nil`.                       |
 | [`number(v)`](#fn-numberv)     | Returns `true` when `v` is a number.                    |
 | [`string(v)`](#fn-stringv)     | Returns `true` when `v` is a string.                    |
 | [`table(v)`](#fn-tablev)       | Returns `true` when `v` is a table.                     |
 | [`thread(v)`](#fn-threadv)     | Returns `true` when `v` is a thread.                    |
 | [`userdata(v)`](#fn-userdatav) | Returns `true` when `v` is userdata.                    |
-| [`false(v)`](#fn-falsev)       | Returns `true` when `v` is exactly `false`.             |
-| [`true(v)`](#fn-truev)         | Returns `true` when `v` is exactly `true`.              |
+| [`False(v)`](#fn-falsev)       | Returns `true` when `v` is exactly `false`.             |
+| [`True(v)`](#fn-truev)         | Returns `true` when `v` is exactly `true`.              |
 | [`falsy(v)`](#fn-falsyv)       | Returns `true` when `v` is falsy.                       |
 | [`callable(v)`](#fn-callablev) | Returns `true` when `v` is callable.                    |
 | [`integer(v)`](#fn-integerv)   | Returns `true` when `v` is an integer.                  |
@@ -57,7 +57,7 @@ function boolean(v) end
 
 :::
 
-#### `function(v)` {#fn-functionv}
+#### `Function(v)` {#fn-functionv}
 
 Returns `true` when `v` is a function.
 
@@ -74,12 +74,12 @@ is["function"](function() end)
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-function function(v) end
+function Function(v) end
 ```
 
 :::
 
-#### `nil(v)` {#fn-nilv}
+#### `Nil(v)` {#fn-nilv}
 
 Returns `true` when `v` is `nil`.
 
@@ -96,7 +96,7 @@ is["nil"](nil)
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-function nil(v) end
+function Nil(v) end
 ```
 
 :::
@@ -211,7 +211,7 @@ function userdata(v) end
 
 :::
 
-#### `false(v)` {#fn-falsev}
+#### `False(v)` {#fn-falsev}
 
 Returns `true` when `v` is exactly `false`.
 
@@ -228,12 +228,12 @@ is["false"](false)
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-function false(v) end
+function False(v) end
 ```
 
 :::
 
-#### `true(v)` {#fn-truev}
+#### `True(v)` {#fn-truev}
 
 Returns `true` when `v` is exactly `true`.
 
@@ -250,7 +250,7 @@ is["true"](true)
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-function true(v) end
+function True(v) end
 ```
 
 :::
