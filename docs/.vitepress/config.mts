@@ -7,13 +7,17 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const modulesDir = path.resolve(__dirname, "..", "modules");
 
+// Build nav/sidebar modules list from docs/modules at build time.
 const moduleItems = fs
   .readdirSync(modulesDir)
   .filter((name) => name.endsWith(".md") && name !== "index.md")
   .map((name) => name.replace(/\.md$/, ""))
   .sort((a, b) => a.localeCompare(b))
   .map((name) => ({
-    text: name === "list" || name === "set" ? name[0].toUpperCase() + name.slice(1) : name,
+    text:
+      name === "list" || name === "set"
+        ? name[0].toUpperCase() + name.slice(1)
+        : name,
     link: `/modules/${name}`,
   }));
 
