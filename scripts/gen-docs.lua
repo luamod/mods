@@ -111,8 +111,14 @@ local function parse_types_file(path)
         seen_class = true
       else
         local section = text:match("^##%s+(.+)$")
-        if section then
-          current_section = section
+        if not section then
+          local tail = line:match("%-+$")
+          if tail and #tail >= 3 then
+            section = text:match("^%-*%s*(.-)%s*%-+$")
+          end
+        end
+        if section and section ~= "" then
+          current_section = str.strip(section)
         else
         block = block or {}
         table.insert(block, text)
@@ -192,7 +198,7 @@ local function render_module(doc)
       if has_sections then
         if fn.section ~= current_section then
           current_section = fn.section or "Other"
-          push_all(out, "### " .. current_section, "", "| Function | Description |", "| --- | --- |")
+          push_all(out, "**" .. current_section .. "**", "", "| Function | Description |", "| --- | --- |")
         end
       end
       local desc = fn.doc.desc:gsub("\n.*", "")
