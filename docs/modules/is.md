@@ -65,7 +65,7 @@ Returns `true` when `v` is a function.
 == Example
 
 ```lua
-is["function"](function() end)
+is.Function(function() end)
 ```
 
 == Signature
@@ -87,7 +87,7 @@ Returns `true` when `v` is `nil`.
 == Example
 
 ```lua
-is["nil"](nil)
+is.Nil(nil)
 ```
 
 == Signature
@@ -219,7 +219,7 @@ Returns `true` when `v` is exactly `false`.
 == Example
 
 ```lua
-is["false"](false)
+is.False(false)
 ```
 
 == Signature
@@ -241,7 +241,7 @@ Returns `true` when `v` is exactly `true`.
 == Example
 
 ```lua
-is["true"](true)
+is.True(true)
 ```
 
 == Signature
