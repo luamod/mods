@@ -111,7 +111,7 @@ local function parse_types_file(path)
       else
         block = block or {}
         table.insert(block, text)
-        if meta and not seen_class and text ~= "" and not text:match("^@") then
+        if meta and not seen_class and text ~= "" and not text:match("^@") and not text:match("^|") then
           module_desc_lines[#module_desc_lines + 1] = text
         end
       end
