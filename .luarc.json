@@ -1,7 +1,11 @@
 {
   "diagnostics": {
-    "globals": ["_TEST", "utf8", "inspect"],
+    "globals": ["_TEST", "pretty"],
     "disable": ["deprecated"]
   },
-  "workspace.library": ["~/.cache/lua/luassert", "~/.cache/lua/busted"]
+  "workspace.library": [
+    "~/.cache/lua/luassert",
+    "~/.cache/lua/busted",
+    "~/.cache/lua/pl"
+  ]
 }
