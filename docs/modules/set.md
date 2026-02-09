@@ -4,7 +4,8 @@ editLinkTarget: types/Set.lua
 
 # `Set`
 
-A Python-style set class providing common operations to create, modify, and query collections of unique values.
+A Python-style set class providing common operations to create,
+modify, and query collections of unique values.
 
 ## Quick Reference
 

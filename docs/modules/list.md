@@ -4,7 +4,8 @@ editLinkTarget: types/List.lua
 
 # `List`
 
-A Python-style list class providing common operations to create, modify, and query sequences of values.
+A Python-style list class providing common operations to create,
+modify, and query sequences of values.
 
 ## Quick Reference
 
