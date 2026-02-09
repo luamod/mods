@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import llmstxtPlugin from "vitepress-plugin-llmstxt";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import fs from "node:fs";
 import path from "node:path";
@@ -25,6 +26,9 @@ export default defineConfig({
   title: "Mods",
   description: "Pure standalone Lua modules.",
   base: "/mods/",
+  sitemap: {
+    hostname: "https://luamod.github.io/mods/",
+  },
   // prettier-ignore
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
@@ -82,5 +86,8 @@ export default defineConfig({
     config(md) {
       md.use(tabsMarkdownPlugin);
     },
+  },
+  vite: {
+    plugins: [llmstxtPlugin({ hostname: "https://luamod.github.io/mods/" })],
   },
 });

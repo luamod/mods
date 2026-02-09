@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "@types/node": "^22.10.2",
     "vitepress": "^1.6.4",
+    "vitepress-plugin-llmstxt": "^0.4.2",
     "vitepress-plugin-tabs": "^0.7.3"
   },
   "scripts": {
