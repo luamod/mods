@@ -40,6 +40,12 @@ Type predicates for Lua values and filesystem path kinds. You can also call `is(
 Returns `true` when `v` is a boolean.
 
 :::tabs
+== Example
+
+```lua
+is.boolean(true)
+```
+
 == Signature
 
 ```lua
@@ -56,6 +62,12 @@ function boolean(v) end
 Returns `true` when `v` is a function.
 
 :::tabs
+== Example
+
+```lua
+is["function"](function() end)
+```
+
 == Signature
 
 ```lua
@@ -72,6 +84,12 @@ function function(v) end
 Returns `true` when `v` is `nil`.
 
 :::tabs
+== Example
+
+```lua
+is["nil"](nil)
+```
+
 == Signature
 
 ```lua
@@ -88,6 +106,12 @@ function nil(v) end
 Returns `true` when `v` is a number.
 
 :::tabs
+== Example
+
+```lua
+is.number(3.14)
+```
+
 == Signature
 
 ```lua
@@ -104,6 +128,12 @@ function number(v) end
 Returns `true` when `v` is a string.
 
 :::tabs
+== Example
+
+```lua
+is.string("hello")
+```
+
 == Signature
 
 ```lua
@@ -120,6 +150,12 @@ function string(v) end
 Returns `true` when `v` is a table.
 
 :::tabs
+== Example
+
+```lua
+is.table({})
+```
+
 == Signature
 
 ```lua
@@ -136,6 +172,12 @@ function table(v) end
 Returns `true` when `v` is a thread.
 
 :::tabs
+== Example
+
+```lua
+is.thread(coroutine.create(function() end))
+```
+
 == Signature
 
 ```lua
@@ -152,6 +194,12 @@ function thread(v) end
 Returns `true` when `v` is userdata.
 
 :::tabs
+== Example
+
+```lua
+is.userdata(io.stdout)
+```
+
 == Signature
 
 ```lua
@@ -168,6 +216,12 @@ function userdata(v) end
 Returns `true` when `v` is exactly `false`.
 
 :::tabs
+== Example
+
+```lua
+is["false"](false)
+```
+
 == Signature
 
 ```lua
@@ -184,6 +238,12 @@ function false(v) end
 Returns `true` when `v` is exactly `true`.
 
 :::tabs
+== Example
+
+```lua
+is["true"](true)
+```
+
 == Signature
 
 ```lua
@@ -200,6 +260,12 @@ function true(v) end
 Returns `true` when `v` is falsy.
 
 :::tabs
+== Example
+
+```lua
+is.falsy(false)
+```
+
 == Signature
 
 ```lua
@@ -216,6 +282,12 @@ function falsy(v) end
 Returns `true` when `v` is callable.
 
 :::tabs
+== Example
+
+```lua
+is.callable(function() end)
+```
+
 == Signature
 
 ```lua
@@ -232,6 +304,12 @@ function callable(v) end
 Returns `true` when `v` is an integer.
 
 :::tabs
+== Example
+
+```lua
+is.integer(42)
+```
+
 == Signature
 
 ```lua
@@ -248,6 +326,12 @@ function integer(v) end
 Returns `true` when `v` is truthy.
 
 :::tabs
+== Example
+
+```lua
+is.truthy("non-empty")
+```
+
 == Signature
 
 ```lua
@@ -266,6 +350,12 @@ Returns `true` when `v` is a block device path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.block("/dev/sda")
+```
+
 == Signature
 
 ```lua
@@ -284,6 +374,12 @@ Returns `true` when `v` is a char device path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.char("/dev/null")
+```
+
 == Signature
 
 ```lua
@@ -302,6 +398,12 @@ Returns `true` when `v` is a block or char device path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.device("/dev/null")
+```
+
 == Signature
 
 ```lua
@@ -320,6 +422,12 @@ Returns `true` when `v` is a directory path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.dir("/tmp")
+```
+
 == Signature
 
 ```lua
@@ -338,6 +446,12 @@ Returns `true` when `v` is a FIFO path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.fifo("/path/to/fifo")
+```
+
 == Signature
 
 ```lua
@@ -356,6 +470,12 @@ Returns `true` when `v` is a file path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.file("README.md")
+```
+
 == Signature
 
 ```lua
@@ -374,6 +494,12 @@ Returns `true` when `v` is a symlink path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.link("/path/to/link")
+```
+
 == Signature
 
 ```lua
@@ -392,6 +518,12 @@ Returns `true` when `v` is a socket path.
 **Important**: Requires `lfs`.
 
 :::tabs
+== Example
+
+```lua
+is.socket("/path/to/socket")
+```
+
 == Signature
 
 ```lua
