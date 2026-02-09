@@ -111,8 +111,14 @@ local function parse_types_file(path)
       else
         block = block or {}
         table.insert(block, text)
-        if meta and not seen_class and text ~= "" and not text:match("^@") and not text:match("^|") then
-          module_desc_lines[#module_desc_lines + 1] = text
+        if meta and not seen_class and not text:match("^@") and not text:match("^|") then
+          if text == "" then
+            if #module_desc_lines > 0 and module_desc_lines[#module_desc_lines] ~= "" then
+              module_desc_lines[#module_desc_lines + 1] = ""
+            end
+          else
+            module_desc_lines[#module_desc_lines + 1] = text
+          end
         end
       end
     else
@@ -137,7 +143,7 @@ local function parse_types_file(path)
     end
   end
 
-  local module_desc = str.strip(table.concat(module_desc_lines, " ")):gsub("%s+", " ")
+  local module_desc = str.strip(table.concat(module_desc_lines, "\n"))
   return {
     meta = meta,
     module_desc = module_desc or "",
