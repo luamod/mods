@@ -222,7 +222,7 @@ M.Link = M.link
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-M.socket = function(v) end
+function M.socket(v) end
 M.Socket = M.socket
 
 return M
