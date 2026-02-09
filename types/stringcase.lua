@@ -56,7 +56,7 @@ function M.snake(s) end
 ---@nodiscard
 function M.camel(s) end
 
----Replace underscores in snake_case with a given separator (default empty).
+---Normalize to snake_case, then replace underscores with a separator (default empty).
 ---
 ---**Example:**
 ---```lua
