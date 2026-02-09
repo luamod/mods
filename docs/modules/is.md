@@ -4,7 +4,7 @@ editLinkTarget: types/is.lua
 
 # `is`
 
-Type predicates for Lua values and filesystem path kinds. You can also call `is(v, tp)` with a string type name.
+Type predicates for Lua values and filesystem path kinds. Function names exist in both lowercase and capitalized forms (for example, `is.table` or `is.Table`). `is` is callable as `is(v, tp)` where `v` is the value and `tp` is any supported type name.
 
 ## Quick Reference
 
