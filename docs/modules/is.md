@@ -347,7 +347,7 @@ function truthy(v) end
 
 Returns `true` when `v` is a block device path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
@@ -371,7 +371,7 @@ function block(v) end
 
 Returns `true` when `v` is a char device path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
@@ -395,7 +395,7 @@ function char(v) end
 
 Returns `true` when `v` is a block or char device path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
@@ -419,7 +419,7 @@ function device(v) end
 
 Returns `true` when `v` is a directory path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
@@ -443,7 +443,7 @@ function dir(v) end
 
 Returns `true` when `v` is a FIFO path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
@@ -467,7 +467,7 @@ function fifo(v) end
 
 Returns `true` when `v` is a file path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
@@ -491,7 +491,7 @@ function file(v) end
 
 Returns `true` when `v` is a symlink path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
@@ -515,7 +515,7 @@ function link(v) end
 
 Returns `true` when `v` is a socket path.
 
-**Important**: Requires `lfs`.
+**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 
 :::tabs
 == Example
