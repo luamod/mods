@@ -76,8 +76,8 @@ M.Boolean = M.boolean
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-M["function"] = function(v) end
-M.Function = M["function"]
+M.Function = function(v) end
+M["function"] = M.Function
 
 ---Returns `true` when `v` is `nil`.
 ---
@@ -88,8 +88,8 @@ M.Function = M["function"]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-M["nil"] = function(v) end
-M.Nil = M["nil"]
+M.Nil = function(v) end
+M["nil"] = M.Nil
 
 ---Returns `true` when `v` is a number.
 ---
@@ -160,8 +160,8 @@ M.Userdata = M.userdata
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-M["false"] = function(v) end
-M.False = M["false"]
+M.False = function(v) end
+M["false"] = M.False
 
 ---Returns `true` when `v` is exactly `true`.
 ---
@@ -172,8 +172,8 @@ M.False = M["false"]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
-M["true"] = function(v) end
-M.True = M["true"]
+M.True = function(v) end
+M["true"] = M.True
 
 ---Returns `true` when `v` is falsy.
 ---
