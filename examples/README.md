@@ -2,7 +2,7 @@
 
 Quick, runnable scripts showcasing module usage.
 
-Run from the repo root:
+Run from the repo root (no install required):
 
 ```sh
 lua -e 'package.path="src/?.lua;src/?/init.lua;"..package.path' examples/list.lua
