@@ -40,6 +40,7 @@ Available modules:
 | -------------- | -------------------------------------------------------------- |
 | [`List`]       | Python-style list helpers for mapping, filtering, and slicing. |
 | [`Set`]        | Set operations and helpers for unique values.                  |
+| [`is`]         | Type predicates for Lua values and filesystem path kinds.      |
 | [`str`]        | String utility helpers modeled after Python's `str`.           |
 | [`tbl`]        | Utility functions for plain Lua tables.                        |
 | [`stringcase`] | String case conversion helpers.                                |
@@ -54,6 +55,7 @@ The [docs](https://luamod.github.io/mods) site also includes examples.
 
 [`List`]: https://luamod.github.io/mods/modules/list
 [`Set`]: https://luamod.github.io/mods/modules/set
+[`is`]: https://luamod.github.io/mods/modules/is
 [`str`]: https://luamod.github.io/mods/modules/str
 [`tbl`]: https://luamod.github.io/mods/modules/tbl
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase
