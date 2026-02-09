@@ -1,3 +1,36 @@
-unpack = table.unpack or unpack
+local say = require("say")
+local assert = require("luassert")
+local callable = require("luassert.util").callable
+
+_G.unpack = table.unpack or unpack
+
+local function quote(s)
+  return '"' .. s .. '"'
+end
+
+local concat = table.concat
+_G.pretty = function(v)
+  local tp = type(v)
+  if tp == "string" then
+    return quote(v)
+  elseif tp ~= "table" then
+    return tostring(v)
+  end
+
+  local out = {}
+  for i = 1, #v do
+    out[i] = tostring(v[i])
+  end
+  return "{" .. concat(out, ", ") .. "}"
+end
+
+local positive_msg = "assertion.callable.positive"
+local negative_msg = "assertion.callable.negative"
+say:set(positive_msg, "Expected object to be callable.\nPassed in:\n%s\nExpected:\ncallable object")
+say:set(negative_msg, "Expected object to not be callable.\nPassed in:\n%s\nDid not expect:\ncallable object")
+
+assert:register("assertion", "callable", function(_, args)
+  return callable(args[1])
+end, positive_msg, negative_msg)
 
 return {}
