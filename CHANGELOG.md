@@ -9,17 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Lazy-load bundled modules on access.
+- Lazy-load bundled modules on access. ([d7d6fac](https://github.com/luamod/mods/commit/d7d6fac)).
 
 ## [0.1.0] - 2026-02-08
 
 ### Added
 
-- `mods.List`, Python-style list helpers.
-- `mods.Set`, set operations and helpers.
-- `mods.str`, string utilities modeled after Python's `str`.
-- `mods.stringcase`, string case conversion helpers.
-- `mods.tbl`, table utilities.
+- `mods.List`, Python-style list helpers. ([7d2f3c8](https://github.com/luamod/mods/commit/7d2f3c8)).
+- `mods.Set`, set operations and helpers. ([ec0d08d](https://github.com/luamod/mods/commit/ec0d08d)).
+- `mods.str`, string utilities modeled after Python's `str`. ([244838a](https://github.com/luamod/mods/commit/244838a)).
+- `mods.stringcase`, string case conversion helpers. ([4a02745](https://github.com/luamod/mods/commit/4a02745)).
+- `mods.tbl`, table utilities. ([f4cbf78](https://github.com/luamod/mods/commit/f4cbf78)).
 
 [Unreleased]: https://github.com/luamod/mods/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/luamod/mods/releases/tag/v0.1.0
