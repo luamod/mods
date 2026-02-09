@@ -1,6 +1,21 @@
 import { defineConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
-import moduleItems from "./modules.json";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const modulesDir = path.resolve(__dirname, "..", "modules");
+
+const moduleItems = fs
+  .readdirSync(modulesDir)
+  .filter((name) => name.endsWith(".md") && name !== "index.md")
+  .map((name) => name.replace(/\.md$/, ""))
+  .sort((a, b) => a.localeCompare(b))
+  .map((name) => ({
+    text: name === "list" || name === "set" ? name[0].toUpperCase() + name.slice(1) : name,
+    link: `/modules/${name}`,
+  }));
 
 export default defineConfig({
   title: "Mods",
