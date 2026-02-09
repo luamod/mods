@@ -1,5 +1,12 @@
 local mods = {}
-for _, name in ipairs({ "List", "Set", "str", "stringcase", "tbl" }) do
+for _, name in ipairs({
+  "is",
+  "List",
+  "Set",
+  "str",
+  "stringcase",
+  "tbl",
+}) do
   mods[name] = "mods." .. name
 end
 
