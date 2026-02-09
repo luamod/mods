@@ -50,19 +50,19 @@ String utility helpers modeled after Python's `str`.
 
 **Split & Replace**
 
-| Function                                                    | Description                                                                   |
-| ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [`partition(s, sep)`](#fn-partitions-sep)                   | ----------------------------------------------------------------------------- |
-| [`removeprefix(s, prefix)`](#fn-removeprefixs-prefix)       | Remove prefix if present.                                                     |
-| [`removesuffix(s, suffix)`](#fn-removesuffixs-suffix)       | Remove suffix if present.                                                     |
-| [`replace(s, old, new, count)`](#fn-replaces-old-new-count) | Return a copy of the string with all occurrences of a substring replaced.     |
-| [`rfind(s, sub, start, stop)`](#fn-rfinds-sub-start-stop)   | Return highest index of substring or nil if not found.                        |
-| [`rindex(s, sub, start, stop)`](#fn-rindexs-sub-start-stop) | Like rfind but raises on failure (placeholder).                               |
-| [`rjust(s, width, fillchar)`](#fn-rjusts-width-fillchar)    | Right-justify string in a field of given width.                               |
-| [`rpartition(s, sep)`](#fn-rpartitions-sep)                 | Partition string into head, sep, tail from right.                             |
-| [`rsplit(s, sep, maxsplit)`](#fn-rsplits-sep-maxsplit)      | Split from the right by separator, up to maxsplit.                            |
-| [`split(s, sep, maxsplit)`](#fn-splits-sep-maxsplit)        | Split by separator (or whitespace) up to maxsplit.                            |
-| [`splitlines(s, keepends)`](#fn-splitliness-keepends)       | Split on line boundaries.                                                     |
+| Function                                                    | Description                                                               |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [`partition(s, sep)`](#fn-partitions-sep)                   | Partition string into head, sep, tail from left.                          |
+| [`removeprefix(s, prefix)`](#fn-removeprefixs-prefix)       | Remove prefix if present.                                                 |
+| [`removesuffix(s, suffix)`](#fn-removesuffixs-suffix)       | Remove suffix if present.                                                 |
+| [`replace(s, old, new, count)`](#fn-replaces-old-new-count) | Return a copy of the string with all occurrences of a substring replaced. |
+| [`rfind(s, sub, start, stop)`](#fn-rfinds-sub-start-stop)   | Return highest index of substring or nil if not found.                    |
+| [`rindex(s, sub, start, stop)`](#fn-rindexs-sub-start-stop) | Like rfind but raises on failure (placeholder).                           |
+| [`rjust(s, width, fillchar)`](#fn-rjusts-width-fillchar)    | Right-justify string in a field of given width.                           |
+| [`rpartition(s, sep)`](#fn-rpartitions-sep)                 | Partition string into head, sep, tail from right.                         |
+| [`rsplit(s, sep, maxsplit)`](#fn-rsplits-sep-maxsplit)      | Split from the right by separator, up to maxsplit.                        |
+| [`split(s, sep, maxsplit)`](#fn-splits-sep-maxsplit)        | Split by separator (or whitespace) up to maxsplit.                        |
+| [`splitlines(s, keepends)`](#fn-splitliness-keepends)       | Split on line boundaries.                                                 |
 
 **Casing & Transform**
 
@@ -137,15 +137,11 @@ Count non-overlapping occurrences of a substring.
 ```lua
 local n = count("aaaa", "aa")
 --result: 2
-```
 
-```lua
-local n = count("aaaa", "a", 2, -1)
+n = count("aaaa", "a", 2, -1)
 --result: 2
-```
 
-```lua
-local n = count("abcd", "")
+n = count("abcd", "")
 --result: 5
 ```
 
@@ -285,8 +281,6 @@ local ok = isalnum("abc123")
 > isalnum("á1")` --> `false`
 > ```
 
-````
-
 == Signature
 
 ```lua
@@ -294,7 +288,7 @@ local ok = isalnum("abc123")
 ---@return boolean
 ---@nodiscard
 function isalnum(s) end
-````
+```
 
 :::
 
@@ -317,8 +311,6 @@ local ok = isalpha("abc")
 > isalpha("á")` --> `false`
 > ```
 
-````
-
 == Signature
 
 ```lua
@@ -326,7 +318,7 @@ local ok = isalpha("abc")
 ---@return boolean
 ---@nodiscard
 function isalpha(s) end
-````
+```
 
 :::
 
@@ -721,10 +713,6 @@ function strip(s, chars) end
 ### Split & Replace
 
 #### `partition(s, sep)` {#fn-partitions-sep}
-
----
-
----
 
 Partition string into head, sep, tail from left.
 
