@@ -1,6 +1,7 @@
 [
   { "text": "List", "link": "/modules/list" },
   { "text": "Set", "link": "/modules/set" },
+  { "text": "is", "link": "/modules/is" },
   { "text": "str", "link": "/modules/str" },
   { "text": "stringcase", "link": "/modules/stringcase" },
   { "text": "tbl", "link": "/modules/tbl" }
