@@ -2,6 +2,8 @@
 
 Pure standalone Lua modules.
 
+If this project helps you, consider starring the repo ⭐.
+
 ## What Is Mods?
 
 Mods is a set of small, focused Lua modules for easy embedding.
