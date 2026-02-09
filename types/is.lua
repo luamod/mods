@@ -225,7 +225,7 @@ M.Truthy = M.truthy
 
 ---Returns `true` when `v` is a block device path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
@@ -239,7 +239,7 @@ M.Block = M.block
 
 ---Returns `true` when `v` is a char device path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
@@ -253,7 +253,7 @@ M.Char = M.char
 
 ---Returns `true` when `v` is a block or char device path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
@@ -267,7 +267,7 @@ M.Device = M.device
 
 ---Returns `true` when `v` is a directory path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
@@ -281,7 +281,7 @@ M.Dir = M.dir
 
 ---Returns `true` when `v` is a FIFO path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
@@ -295,7 +295,7 @@ M.Fifo = M.fifo
 
 ---Returns `true` when `v` is a file path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
@@ -309,7 +309,7 @@ M.File = M.file
 
 ---Returns `true` when `v` is a symlink path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
@@ -323,7 +323,7 @@ M.Link = M.link
 
 ---Returns `true` when `v` is a socket path.
 ---
----**Important**: Requires `lfs`.
+---**Important**: Requires `lfs` ([LuaFileSystem](https://github.com/lunarmodules/luafilesystem)).
 ---
 ---**Example:**
 ---```lua
