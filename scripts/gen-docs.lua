@@ -94,6 +94,7 @@ local function parse_types_file(path)
   local block = nil
   local funcs = {}
   local seen_class = false
+  local current_section = nil
 
   local function flush_block()
     block = nil
@@ -109,6 +110,10 @@ local function parse_types_file(path)
         flush_block()
         seen_class = true
       else
+        local section = text:match("^##%s+(.+)$")
+        if section then
+          current_section = section
+        else
         block = block or {}
         table.insert(block, text)
         if meta and not seen_class and not text:match("^@") and not text:match("^|") then
@@ -119,6 +124,7 @@ local function parse_types_file(path)
           else
             module_desc_lines[#module_desc_lines + 1] = text
           end
+        end
         end
       end
     else
@@ -132,6 +138,7 @@ local function parse_types_file(path)
         funcs[#funcs + 1] = {
           name = name,
           params = str.strip(params),
+          section = current_section,
           doc = doc,
           annotations = doc.annotations,
         }
@@ -169,14 +176,36 @@ local function render_module(doc)
   push_all(out, "# `" .. title .. "`", "", doc.module_desc, "")
 
   if #doc.functions > 0 then
-    push_all(out, "## Quick Reference", "", "| Function | Description |", "| --- | --- |")
+    push_all(out, "## Quick Reference", "")
+    local current_section = nil
+    local has_sections = false
     for _, fn in ipairs(doc.functions) do
+      if fn.section then
+        has_sections = true
+        break
+      end
+    end
+    if not has_sections then
+      push_all(out, "| Function | Description |", "| --- | --- |")
+    end
+    for _, fn in ipairs(doc.functions) do
+      if has_sections then
+        if fn.section ~= current_section then
+          current_section = fn.section or "Other"
+          push_all(out, "### " .. current_section, "", "| Function | Description |", "| --- | --- |")
+        end
+      end
       local desc = fn.doc.desc:gsub("\n.*", "")
       local anchor = slugify_anchor(fn.name, fn.params)
       push_all(out, fmt("| [`%s(%s)`](#%s) | %s |", fn.name, fn.params, anchor, desc))
     end
     push_all(out, "", "## Functions", "")
+    local current_section = nil
     for _, fn in ipairs(doc.functions) do
+      if fn.section and fn.section ~= current_section then
+        current_section = fn.section
+        push_all(out, "### " .. current_section, "")
+      end
       local anchor = slugify_anchor(fn.name, fn.params)
       push_all(out, fmt("#### `%s(%s)` {#%s}", fn.name, fn.params, anchor), "")
       if fn.doc.desc ~= "" then
