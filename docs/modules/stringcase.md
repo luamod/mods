@@ -2,7 +2,7 @@
 editLinkTarget: types/stringcase.lua
 ---
 
-# stringcase
+# `stringcase`
 
 String case conversion helpers.
 

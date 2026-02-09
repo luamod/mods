@@ -2,7 +2,7 @@
 editLinkTarget: types/tbl.lua
 ---
 
-# tbl
+# `tbl`
 
 Utility functions for working with Lua tables.
 

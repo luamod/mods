@@ -2,7 +2,7 @@
 editLinkTarget: types/str.lua
 ---
 
-# str
+# `str`
 
 String utility helpers modeled after Python's `str`.
 
