@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `mods.is`, type predicates for Lua values and filesystem paths. ([afd88a7](https://github.com/luamod/mods/commit/afd88a7)).
+
 ### Changed
 
 - Lazy-load bundled modules on access. ([d7d6fac](https://github.com/luamod/mods/commit/d7d6fac)).
