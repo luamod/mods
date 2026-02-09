@@ -71,7 +71,7 @@ M.Boolean = M.boolean
 ---
 ---**Example:**
 ---```lua
----is["function"](function() end)
+---is.Function(function() end)
 ---```
 ---@param v any
 ---@return boolean ok
@@ -83,7 +83,7 @@ M["function"] = M.Function
 ---
 ---**Example:**
 ---```lua
----is["nil"](nil)
+---is.Nil(nil)
 ---```
 ---@param v any
 ---@return boolean ok
@@ -155,7 +155,7 @@ M.Userdata = M.userdata
 ---
 ---**Example:**
 ---```lua
----is["false"](false)
+---is.False(false)
 ---```
 ---@param v any
 ---@return boolean ok
@@ -167,7 +167,7 @@ M["false"] = M.False
 ---
 ---**Example:**
 ---```lua
----is["true"](true)
+---is.True(true)
 ---```
 ---@param v any
 ---@return boolean ok
