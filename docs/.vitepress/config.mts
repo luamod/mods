@@ -27,10 +27,12 @@ export default defineConfig({
     outline: [2, 4], // show h2-h4
     search: { provider: "local" },
     socialLinks: [{ icon: "github", link: "https://github.com/luamod/mods" }],
+    // prettier-ignore
     nav: [
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/getting-started" },
       { text: "Modules", items: moduleItems },
+      { text: "🇵🇸 Free Palestine", link: "https://techforpalestine.org/learn-more" },
     ],
     sidebar: [
       {
@@ -41,7 +43,6 @@ export default defineConfig({
         ],
       },
       { text: "Modules", items: moduleItems },
-      { text: "🇵🇸 Free Palestine" },
     ],
     editLink: {
       pattern: ({ filePath, frontmatter }) => {
