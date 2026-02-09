@@ -2,7 +2,7 @@
 editLinkTarget: types/List.lua
 ---
 
-# list
+# List
 
 A Python-style list class providing common operations to create, modify, and query sequences of values.
 
