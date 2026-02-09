@@ -224,7 +224,7 @@ describe("mods.str", function()
   }
 
   for i = 1, #tests do
-    local fname, s, args, expected, collect = unpack(tests[i])
+    local fname, s, args, expected, collect = unpack(tests[i], 1, 5)
     it(("%s(%q) returns correct value"):format(fname, s), function()
       local res
       if collect then

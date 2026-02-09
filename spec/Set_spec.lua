@@ -48,7 +48,7 @@ describe("mods.Set", function()
   }
 
   for i = 1, #tests do
-    local fname, set, arg_, expected, same_ref = unpack(tests[i])
+    local fname, set, arg_, expected, same_ref = unpack(tests[i], 1, 5)
     it(fname .. "() returns correct value", function()
       set = deepcopy(set)
       local res = set[fname](set, arg_)

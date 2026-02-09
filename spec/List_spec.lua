@@ -99,7 +99,7 @@ describe("mods.List", function()
   -- stylua: ignore end
 
   for i = 1, #tests do
-    local fname, ls, args, expected, same_ref = unpack(tests[i])
+    local fname, ls, args, expected, same_ref = unpack(tests[i], 1, 5)
     ls = deepcopy(List(ls))
     it(fname .. "() returns correct value", function()
       local res = ls[fname](ls, unpack(args))

@@ -57,7 +57,7 @@ describe("mods.tbl", function()
   -- stylua: ignore end
 
   for i = 1, #tests do
-    local fname, args, expected, same_ref = unpack(tests[i])
+    local fname, args, expected, same_ref = unpack(tests[i], 1, 4)
     it(fname .. "() returns correct value", function()
       args = deepcopy(args)
       local res = tbl[fname](unpack(args))
