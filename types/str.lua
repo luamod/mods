@@ -4,6 +4,10 @@
 ---@class mods.str
 local M = {}
 
+--------------------------------------------------------------------------------
+----------------------------------- Formatting ---------------------------------
+--------------------------------------------------------------------------------
+
 ---Return copy with first character capitalized and the rest lowercased.
 ---
 ---**Example:**
@@ -109,6 +113,11 @@ function M.find(s, sub, start, stop) end
 ---@return string
 ---@nodiscard
 function M.format_map(s, mapping) end
+
+--------------------------------------------------------------------------------
+---------------------------------- Predicates ----------------------------------
+--------------------------------------------------------------------------------
+
 ---Return true if all characters are alphanumeric and string is non-empty.
 ---
 ---**Example:**
@@ -281,6 +290,10 @@ function M.istitle(s) end
 ---@nodiscard
 function M.isupper(s) end
 
+--------------------------------------------------------------------------------
+------------------------------------ Layout ------------------------------------
+--------------------------------------------------------------------------------
+
 ---Join an iterable of strings using this string as separator.
 ---
 ---**Example:**
@@ -359,6 +372,9 @@ function M.rstrip(s, chars) end
 ---@nodiscard
 function M.strip(s, chars) end
 
+--------------------------------------------------------------------------------
+------------------------------- Split & Replace --------------------------------
+--------------------------------------------------------------------------------
 ---Partition string into head, sep, tail from left.
 ---
 ---**Example:**
@@ -510,6 +526,10 @@ function M.split(s, sep, maxsplit) end
 ---@return mods.List|string[]
 ---@nodiscard
 function M.splitlines(s, keepends) end
+
+--------------------------------------------------------------------------------
+------------------------------ Casing & Transform ------------------------------
+--------------------------------------------------------------------------------
 
 ---Return a copy with case of alphabetic characters swapped.
 ---

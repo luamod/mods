@@ -7,6 +7,10 @@
 local List = {}
 List.__index = List
 
+--------------------------------------------------------------------------------
+---------------------------------- Predicates ----------------------------------
+--------------------------------------------------------------------------------
+
 ---Return true if all values match the predicate.
 ---Empty lists return true.
 ---
@@ -38,6 +42,10 @@ function List:all(pred) end
 ---@nodiscard
 function List:any(pred) end
 
+--------------------------------------------------------------------------------
+----------------------------------- Mutation -----------------------------------
+--------------------------------------------------------------------------------
+
 ---Append a value to the end of the list.
 ---
 ---**Example:**
@@ -61,73 +69,6 @@ function List:append(v) end
 ---@param self T
 ---@return T self
 function List:clear() end
-
----Return true if the list contains the value.
----
----**Example:**
----```lua
----local ok = List({ "a", "b" }):contains("b")
------ result: true
----```
----@generic T:mods.List|any[]
----@param self T
----@param v any
----@return any
----@nodiscard
-function List:contains(v) end
-
----Return a shallow copy of the list.
----
----**Example:**
----```lua
----local c = List({ "a", "b" }):copy()
------ result: { "a", "b" }
----```
----@generic T:mods.List|any[]
----@param self T
----@return T ls
----@nodiscard
-function List:copy() end
-
----Count how many times a value appears.
----
----**Example:**
----```lua
----local n = List({ "a", "b", "b" }):count("b")
------ result: 2
----```
----@generic T:mods.List|any[]
----@param self T
----@return integer
----@nodiscard
-function List:count(v) end
-
----Return a new list with values not in the given list.
----
----**Example:**
----```lua
----local d = List({ "a", "b", "c" }):difference({ "b" })
------ result: { "a", "c" }
----```
----@generic T:mods.List|any[]
----@param self T
----@return T ls
----@nodiscard
-function List:difference(ls) end
-
----Return a new list without the first n elements.
----
----**Example:**
----```lua
----local t = List({ "a", "b", "c" }):drop(1)
------ result: { "b", "c" }
----```
----@generic T:mods.List|any[]
----@param self T
----@param n integer
----@return T ls
----@nodiscard
-function List:drop(n) end
 
 ---Extend the list with another list.
 ---
@@ -159,6 +100,253 @@ function List:extend(ls) end
 ---@nodiscard
 function List:extract(pred) end
 
+---Insert a value at the given position.
+---
+---**Example:**
+---```lua
+---local l = List({ "a", "c" }):insert(2, "b")
+----- result: { "a", "b", "c" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param pos integer
+---@param v any
+---@return T self
+function List:insert(pos, v) end
+
+---Append a value to the end of the list.
+---
+---**Example:**
+---```lua
+---local l = List({ "a", "b" }):insert("b")
+----- result: { "a", "b", "c" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param v any
+---@return T self
+function List:insert(v) end
+
+---Remove and return the last element.
+---**Example:**
+---```lua
+---local l = List({ "a", "b" })
+---local v = l:pop()
+----- result: v == "b"; l is { "a" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@return any
+function List:pop() end
+
+---Remove and return the element at the given position.
+---
+---**Example:**
+---```lua
+---local l = List({ "a", "b", "c" })
+---local v = l:pop(2)
+----- result: v == "b"; l is { "a", "c" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param pos integer
+---@return any
+function List:pop(pos) end
+
+---Insert a value at the start of the list.
+---
+---**Example:**
+---```lua
+---local l = List({ "b", "c" })
+---l:prepend("a")
+----- result: { "a", "b", "c" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param v any
+---@return T self
+function List:prepend(v) end
+
+---Remove the first matching value.
+---
+---**Example:**
+---```lua
+---local l = List({ "a", "b", "b" })
+---l:remove("b")
+----- result: { "a", "b" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param v any
+---@return T self
+function List:remove(v) end
+
+---Sort the list in place.
+---
+---**Example:**
+---```lua
+---local l = List({ 3, 1, 2 })
+---l:sort()
+----- result: { 1, 2, 3 }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param comp? fun(a,b):boolean
+---@return T self
+function List:sort(comp) end
+
+--------------------------------------------------------------------------------
+----------------------------------- Copying ------------------------------------
+--------------------------------------------------------------------------------
+
+---Return a shallow copy of the list.
+---
+---**Example:**
+---```lua
+---local c = List({ "a", "b" }):copy()
+----- result: { "a", "b" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@return T ls
+---@nodiscard
+function List:copy() end
+
+--------------------------------------------------------------------------------
+------------------------------------- Query ------------------------------------
+--------------------------------------------------------------------------------
+
+---Return true if the list contains the value.
+---
+---**Example:**
+---```lua
+---local ok = List({ "a", "b" }):contains("b")
+----- result: true
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param v any
+---@return any
+---@nodiscard
+function List:contains(v) end
+
+---Count how many times a value appears.
+---
+---**Example:**
+---```lua
+---local n = List({ "a", "b", "b" }):count("b")
+----- result: 2
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@return integer
+---@nodiscard
+function List:count(v) end
+
+---Return the index of the first matching value.
+---
+---**Example:**
+---```lua
+---local i = List({ "a", "b", "c", "b" }):index("b")
+----- result: 2
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param v any
+---@return any value
+---@return integer? index
+---@nodiscard
+function List:index(v) end
+
+---Return the index of the first value matching the predicate.
+---
+---**Example:**
+---```lua
+---local gt_1 = function(x) return x > 1 end
+---local i = List({ 1, 2, 3 }):index_if(gt_1)
+----- result: 2
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param pred fun(v:any):boolean
+---@return integer? index
+---@nodiscard
+function List:index_if(pred) end
+
+---Return the number of elements in the list.
+---
+---**Example:**
+---```lua
+---local n = List({ "a", "b", "c" }):len()
+----- result: 3
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@return integer
+---@nodiscard
+function List:len() end
+
+--------------------------------------------------------------------------------
+------------------------------------ Access ------------------------------------
+--------------------------------------------------------------------------------
+
+---Return the first element or nil if empty.
+---
+---**Example:**
+---```lua
+---local v = List({ "a", "b" }):first()
+----- result: "a"
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@return any
+---@nodiscard
+function List:first() end
+
+---Return the last element or nil if empty.
+---
+---**Example:**
+---```lua
+---local v = List({ "a", "b" }):last()
+----- result: "b"
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@return any
+---@nodiscard
+function List:last() end
+
+--------------------------------------------------------------------------------
+--------------------------------- Transform ------------------------------------
+--------------------------------------------------------------------------------
+
+---Return a new list with values not in the given list.
+---
+---**Example:**
+---```lua
+---local d = List({ "a", "b", "c" }):difference({ "b" })
+----- result: { "a", "c" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@return T ls
+---@nodiscard
+function List:difference(ls) end
+
+---Return a new list without the first n elements.
+---
+---**Example:**
+---```lua
+---local t = List({ "a", "b", "c" }):drop(1)
+----- result: { "b", "c" }
+---```
+---@generic T:mods.List|any[]
+---@param self T
+---@param n integer
+---@return T ls
+---@nodiscard
+function List:drop(n) end
+
 ---Return a new list with values matching the predicate.
 ---
 ---**Example:**
@@ -173,19 +361,6 @@ function List:extract(pred) end
 ---@return T ls
 ---@nodiscard
 function List:filter(pred) end
-
----Return the first element or nil if empty.
----
----**Example:**
----```lua
----local v = List({ "a", "b" }):first()
------ result: "a"
----```
----@generic T:mods.List|any[]
----@param self T
----@return any
----@nodiscard
-function List:first() end
 
 ---Flatten one level of nested lists.
 ---
@@ -227,63 +402,6 @@ function List:foreach(fn) end
 ---@return table<any, T>
 ---@nodiscard
 function List:group_by(fn) end
-
----Return the index of the first matching value.
----
----**Example:**
----```lua
----local i = List({ "a", "b", "c", "b" }):index("b")
------ result: 2
----```
----@generic T:mods.List|any[]
----@param self T
----@param v any
----@return any value
----@return integer? index
----@nodiscard
-function List:index(v) end
-
----Return the index of the first value matching the predicate.
----
----**Example:**
----```lua
----local gt_1 = function(x) return x > 1 end
----local i = List({ 1, 2, 3 }):index_if(gt_1)
------ result: 2
----```
----@generic T:mods.List|any[]
----@param self T
----@param pred fun(v:any):boolean
----@return integer? index
----@nodiscard
-function List:index_if(pred) end
-
----Insert a value at the given position.
----
----**Example:**
----```lua
----local l = List({ "a", "c" }):insert(2, "b")
------ result: { "a", "b", "c" }
----```
----@generic T:mods.List|any[]
----@param self T
----@param pos integer
----@param v any
----@return T self
-function List:insert(pos, v) end
-
----Append a value to the end of the list.
----
----**Example:**
----```lua
----local l = List({ "a", "b" }):insert("b")
------ result: { "a", "b", "c" }
----```
----@generic T:mods.List|any[]
----@param self T
----@param v any
----@return T self
-function List:insert(v) end
 
 ---Return values that are also present in the given list.
 ---Order is preserved from the original list.
@@ -327,32 +445,6 @@ function List:invert() end
 ---@nodiscard
 function List:join(sep) end
 
----Return the last element or nil if empty.
----
----**Example:**
----```lua
----local v = List({ "a", "b" }):last()
------ result: "b"
----```
----@generic T:mods.List|any[]
----@param self T
----@return any
----@nodiscard
-function List:last() end
-
----Return the number of elements in the list.
----
----**Example:**
----```lua
----local n = List({ "a", "b", "c" }):len()
------ result: 3
----```
----@generic T:mods.List|any[]
----@param self T
----@return integer
----@nodiscard
-function List:len() end
-
 ---Return a new list by mapping each value.
 ---
 ---**Example:**
@@ -367,46 +459,6 @@ function List:len() end
 ---@return T ls
 ---@nodiscard
 function List:map(fn) end
-
----Remove and return the last element.
----**Example:**
----```lua
----local l = List({ "a", "b" })
----local v = l:pop()
------ result: v == "b"; l is { "a" }
----```
----@generic T:mods.List|any[]
----@param self T
----@return any
-function List:pop() end
-
----Remove and return the element at the given position.
----
----**Example:**
----```lua
----local l = List({ "a", "b", "c" })
----local v = l:pop(2)
------ result: v == "b"; l is { "a", "c" }
----```
----@generic T:mods.List|any[]
----@param self T
----@param pos integer
----@return any
-function List:pop(pos) end
-
----Insert a value at the start of the list.
----
----**Example:**
----```lua
----local l = List({ "b", "c" })
----l:prepend("a")
------ result: { "a", "b", "c" }
----```
----@generic T:mods.List|any[]
----@param self T
----@param v any
----@return T self
-function List:prepend(v) end
 
 ---Reduce the list to a single value using an accumulator.
 ---If init is nil, the first element is used as the initial value.
@@ -428,20 +480,6 @@ function List:prepend(v) end
 ---@return any
 ---@nodiscard
 function List:reduce(fn, init) end
-
----Remove the first matching value.
----
----**Example:**
----```lua
----local l = List({ "a", "b", "b" })
----l:remove("b")
------ result: { "a", "b" }
----```
----@generic T:mods.List|any[]
----@param self T
----@param v any
----@return T self
-function List:remove(v) end
 
 ---Return a new list with items reversed.
 ---
@@ -484,20 +522,6 @@ function List:setify() end
 ---@return T ls
 ---@nodiscard
 function List:slice(i, j) end
-
----Sort the list in place.
----
----**Example:**
----```lua
----local l = List({ 3, 1, 2 })
----l:sort()
------ result: { 1, 2, 3 }
----```
----@generic T:mods.List|any[]
----@param self T
----@param comp? fun(a,b):boolean
----@return T self
-function List:sort(comp) end
 
 ---Return the first n elements as a new list.
 ---

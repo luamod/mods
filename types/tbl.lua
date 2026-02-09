@@ -4,6 +4,10 @@
 ---@class mods.tbl
 local M = {}
 
+--------------------------------------------------------------------------------
+------------------------------------ Basics ------------------------------------
+--------------------------------------------------------------------------------
+
 ---Remove all entries from the table.
 ---
 ---**Example:**
@@ -15,6 +19,22 @@ local M = {}
 ---@param t table
 ---@return nil
 function M.clear(t) end
+
+---Return the number of keys in the table.
+---
+---**Example:**
+---```lua
+---local n = count({ a = 1, b = 2 })
+----- result: 2
+---```
+---@param t table
+---@return integer
+---@nodiscard
+function M.count(t) end
+
+--------------------------------------------------------------------------------
+------------------------------------ Copying -----------------------------------
+--------------------------------------------------------------------------------
 
 ---Create a shallow copy of the table.
 ---
@@ -28,18 +48,6 @@ function M.clear(t) end
 ---@return T
 ---@nodiscard
 function M.copy(t) end
-
----Return the number of keys in the table.
----
----**Example:**
----```lua
----local n = count({ a = 1, b = 2 })
------ result: 2
----```
----@param t table
----@return integer
----@nodiscard
-function M.count(t) end
 
 ---Create a deep copy of a value.
 ---If `v` is a table, all nested tables are copied recursively; other types are returned as-is.
@@ -57,6 +65,10 @@ function M.count(t) end
 ---@return T
 ---@nodiscard
 function M.deepcopy(v) end
+
+--------------------------------------------------------------------------------
+------------------------------------- Query ------------------------------------
+--------------------------------------------------------------------------------
 
 ---Filter entries by a value predicate.
 ---
@@ -121,6 +133,10 @@ function M.find_if(t, pred) end
 ---@return any
 ---@nodiscard
 function M.get(t, ...) end
+
+--------------------------------------------------------------------------------
+---------------------------------- Transforms ----------------------------------
+--------------------------------------------------------------------------------
 
 ---Invert keys/values into new table.
 ---

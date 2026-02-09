@@ -7,6 +7,10 @@
 local Set = {}
 Set.__index = Set
 
+--------------------------------------------------------------------------------
+----------------------------------- Mutation -----------------------------------
+--------------------------------------------------------------------------------
+
 ---Add an element to the set.
 ---
 ---**Example:**
@@ -33,35 +37,6 @@ function Set:add(v) end
 ---@param self T
 ---@return T self
 function Set:clear() end
-
----Return a shallow copy of the set.
----
----**Example:**
----```lua
----local s = Set({ "a" })
----local c = s:copy()
------ result: c is a new set with "a"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@return T set
----@nodiscard
-function Set:copy() end
-
----Return elements in this set but not in another.
----
----**Example:**
----```lua
----local s = Set({ "a", "b" })
----local d = s:difference(Set({ "b" }))
------ result: d contains "a"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T set
----@nodiscard
-function Set:difference(set) end
 
 ---Remove elements found in another set (in place).
 ---
@@ -91,7 +66,94 @@ function Set:difference_update(set) end
 ---@return T self
 function Set:discard(v) end
 
-Set.remove = Set.discard
+---Keep only elements common to both sets (in place).
+---
+---**Example:**
+---```lua
+---local s = Set({ "a", "b" })
+---s:intersection_update(Set({ "b", "c" }))
+----- result: s contains "b"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T self
+function Set:intersection_update(set) end
+
+---Remove and return an arbitrary element.
+---
+---**Example:**
+---```lua
+---local v = Set({ "a", "b" }):pop()
+----- result: v is either "a" or "b"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@return any
+function Set:pop() end
+
+---Update the set with elements not shared by both (in place).
+---
+---**Example:**
+---```lua
+---local s = Set({ "a", "b" })
+---s:symmetric_difference_update(Set({ "b", "c" }))
+----- result: s contains "a", "c"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T self
+function Set:symmetric_difference_update(set) end
+
+---Add all elements from another set (in place).
+---
+---**Example:**
+---```lua
+---local s = Set({ "a" })
+---s:update(Set({ "b" }))
+----- result: s contains "a", "b"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T self
+function Set:update(set) end
+
+--------------------------------------------------------------------------------
+----------------------------------- Copying ------------------------------------
+--------------------------------------------------------------------------------
+
+---Return a shallow copy of the set.
+---
+---**Example:**
+---```lua
+---local s = Set({ "a" })
+---local c = s:copy()
+----- result: c is a new set with "a"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@return T set
+---@nodiscard
+function Set:copy() end
+
+--- Set Operations ---
+
+---Return elements in this set but not in another.
+---
+---**Example:**
+---```lua
+---local s = Set({ "a", "b" })
+---local d = s:difference(Set({ "b" }))
+----- result: d contains "a"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T set
+---@nodiscard
+function Set:difference(set) end
 
 ---Return elements common to both sets.
 ---
@@ -108,19 +170,38 @@ Set.remove = Set.discard
 ---@nodiscard
 function Set:intersection(set) end
 
----Keep only elements common to both sets (in place).
+---Return elements not shared by both sets.
 ---
 ---**Example:**
 ---```lua
 ---local s = Set({ "a", "b" })
----s:intersection_update(Set({ "b", "c" }))
------ result: s contains "b"
+---local d = s:symmetric_difference(Set({ "b", "c" }))
+----- result: d contains "a", "c"
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
----@return T self
-function Set:intersection_update(set) end
+---@return T set
+---@nodiscard
+function Set:symmetric_difference(set) end
+
+---Return a new set with all elements from both.
+---
+---**Example:**
+---```lua
+---local s = Set({ "a" }):union(Set({ "b" }))
+----- result: s contains "a", "b"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param set T
+---@return T set
+---@nodiscard
+function Set:union(set) end
+
+--------------------------------------------------------------------------------
+---------------------------------- Predicates ----------------------------------
+--------------------------------------------------------------------------------
 
 ---Return true if sets have no elements in common.
 ---
@@ -177,6 +258,10 @@ function Set:issubset(set) end
 ---@nodiscard
 function Set:issuperset(set) end
 
+--------------------------------------------------------------------------------
+------------------------------------- Query ------------------------------------
+--------------------------------------------------------------------------------
+
 ---Return the number of elements in the set.
 ---
 ---**Example:**
@@ -189,6 +274,10 @@ function Set:issuperset(set) end
 ---@return integer
 ---@nodiscard
 function Set:len() end
+
+--------------------------------------------------------------------------------
+----------------------------------- Transform ----------------------------------
+--------------------------------------------------------------------------------
 
 ---Return a new set by mapping each value.
 ---
@@ -204,75 +293,6 @@ function Set:len() end
 ---@nodiscard
 function Set:map(fn) end
 
----Remove and return an arbitrary element.
----
----**Example:**
----```lua
----local v = Set({ "a", "b" }):pop()
------ result: v is either "a" or "b"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@return any
-function Set:pop() end
-
----Return elements not shared by both sets.
----
----**Example:**
----```lua
----local s = Set({ "a", "b" })
----local d = s:symmetric_difference(Set({ "b", "c" }))
------ result: d contains "a", "c"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T set
----@nodiscard
-function Set:symmetric_difference(set) end
-
----Update the set with elements not shared by both (in place).
----
----**Example:**
----```lua
----local s = Set({ "a", "b" })
----s:symmetric_difference_update(Set({ "b", "c" }))
------ result: s contains "a", "c"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T self
-function Set:symmetric_difference_update(set) end
-
----Return a new set with all elements from both.
----
----**Example:**
----```lua
----local s = Set({ "a" }):union(Set({ "b" }))
------ result: s contains "a", "b"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T set
----@nodiscard
-function Set:union(set) end
-
----Add all elements from another set (in place).
----
----**Example:**
----```lua
----local s = Set({ "a" })
----s:update(Set({ "b" }))
------ result: s contains "a", "b"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T self
-function Set:update(set) end
-
 ---Return a list of all values in the set.
 ---
 ---**Example:**
@@ -285,5 +305,7 @@ function Set:update(set) end
 ---@return mods.List|any[] values
 ---@nodiscard
 function Set:values() end
+
+Set.remove = Set.discard
 
 return Set
