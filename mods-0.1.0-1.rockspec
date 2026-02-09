@@ -24,6 +24,7 @@ build = {
   type = "builtin",
   modules = {
     ["mods"] = "src/mods/init.lua",
+    ["mods.is"] = "src/mods/is.lua",
     ["mods.List"] = "src/mods/List.lua",
     ["mods.Set"]  = "src/mods/Set.lua",
     ["mods.str"]  = "src/mods/str.lua",
