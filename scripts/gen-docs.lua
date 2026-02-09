@@ -149,6 +149,7 @@ end
 
 local function render_module(doc)
   local short = module_short_name(doc.meta) or "module"
+  local title = display_name(doc.meta) or short
   local out = List()
 
   if doc.meta and doc.meta ~= "" then
@@ -156,7 +157,7 @@ local function render_module(doc)
     push_all(out, "---", "editLinkTarget: types/" .. type_name .. ".lua", "---", "")
   end
 
-  push_all(out, "# " .. short, "", doc.module_desc, "")
+  push_all(out, "# " .. title, "", doc.module_desc, "")
 
   if #doc.functions > 0 then
     push_all(out, "## Quick Reference", "", "| Function | Description |", "| --- | --- |")
