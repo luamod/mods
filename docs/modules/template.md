@@ -6,8 +6,6 @@ editLinkTarget: types/template.lua
 
 Render a simple template using the provided context.
 
-**example:**
-
 ```lua
 local view = {
  user = { name = "Ada" },
