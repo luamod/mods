@@ -7,4 +7,4 @@
 | [`str`](/modules/str)               | String utility helpers modeled after Python's `str`.                                                            |
 | [`stringcase`](/modules/stringcase) | String case conversion helpers.                                                                                 |
 | [`tbl`](/modules/tbl)               | Utility functions for working with Lua tables.                                                                  |
-| [`template`](/modules/template)     | Render a simple template with the given view.                                                                   |
+| [`template`](/modules/template)     | Render a simple template using the provided context.                                                            |

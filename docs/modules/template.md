@@ -4,7 +4,7 @@ editLinkTarget: types/template.lua
 
 # `template`
 
-Render a simple template with the given view.
+Render a simple template using the provided context.
 
 **example:**
 
