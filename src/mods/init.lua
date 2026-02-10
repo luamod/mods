@@ -2,6 +2,7 @@ local mods = {}
 for _, name in ipairs({
   "is",
   "List",
+  "operator",
   "Set",
   "str",
   "stringcase",
