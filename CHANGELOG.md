@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Lazy-load bundled modules on access ([d7d6fac](https://github.com/luamod/mods/commit/d7d6fac)).
-- Lazy-load `mods.List` and `mods.Set` dependencies in `mods.List`, `mods.Set`, `mods.str`, and `mods.tbl` ([b13f656](https://github.com/luamod/mods/commit/b13f656)).
+- Lazy-load `mods.List` and `mods.Set` dependencies in `mods.List`, `mods.Set`, `mods.str`, and `mods.tbl` ([1e66b3c](https://github.com/luamod/mods/commit/1e66b3c)).
 
 ## [0.1.0] - 2026-02-08
 
