@@ -7,36 +7,38 @@ describe("mods.operator", function()
   local function sum(a, b) return a + b end
   local tbl = { a = 1 }
   local tests = {
-    ---operator--|--------args------|-expected---
-    { "add"      , { 3, 4         } , 7       },
-    { "sub"      , { 3, 4         } , -1      },
-    { "mul"      , { 3, 4         } , 12      },
-    { "div"      , { 10, 4        } , 2.5     },
-    { "idiv"     , { 5, 2         } , 2       },
-    { "mod"      , { 5, 2         } , 1       },
-    { "pow"      , { 2, 4         } , 16      },
-    { "unm"      , { -3           } , 3       },
+    ---operator--|---------args---------|-expected---
+    { "add"      , { 3, 4             } , 7       },
+    { "sub"      , { 3, 4             } , -1      },
+    { "mul"      , { 3, 4             } , 12      },
+    { "div"      , { 10, 4            } , 2.5     },
+    { "idiv"     , { 5, 2             } , 2       },
+    { "mod"      , { 5, 2             } , 1       },
+    { "pow"      , { 2, 4             } , 16      },
+    { "unm"      , { -3               } , 3       },
 
-    { "eq"       , { 1, 1         } , true    },
-    { "neq"      , { 1, 2         } , true    },
-    { "lt"       , { 1, 2         } , true    },
-    { "le"       , { 2, 2         } , true    },
-    { "gt"       , { 3, 2         } , true    },
-    { "ge"       , { 2, 2         } , true    },
+    { "eq"       , { 1, 1             } , true    },
+    { "neq"      , { 1, 2             } , true    },
+    { "lt"       , { 1, 2             } , true    },
+    { "le"       , { 2, 2             } , true    },
+    { "gt"       , { 3, 2             } , true    },
+    { "ge"       , { 2, 2             } , true    },
 
-    { "land"     , { false, true  } , false   },
-    { "land"     , { true,  true  } , true    },
-    { "lor"      , { false, true  } , true    },
-    { "lor"      , { false, false } , false   },
-    { "lnot"     , { true         } , false   },
+    { "land"     , { "hello", "world" } , "world" },
+    { "land"     , { false, true      } , false   },
+    { "land"     , { true,  true      } , true    },
+    { "lnot"     , { true             } , false   },
+    { "lor"      , { "hello", "world" } , "hello" },
+    { "lor"      , { false, false     } , false   },
+    { "lor"      , { false, true      } , true    },
 
-    { "concat"   , { "a", "b"     } , "ab"    },
-    { "len"      , { "abc"        } , 3       },
+    { "concat"   , { "a", "b"         } , "ab"    },
+    { "len"      , { "abc"            } , 3       },
 
-    { "index"    , { tbl, "a"     } , 1       },
-    { "index"    , { tbl, "b"     } , nil     },
-    { "call"     , { sum, 1, 2    } , 3       },
-    { "setindex" , { tbl, "a", 2  } , 2       },
+    { "index"    , { tbl, "a"         } , 1       },
+    { "index"    , { tbl, "b"         } , nil     },
+    { "call"     , { sum, 1, 2        } , 3       },
+    { "setindex" , { tbl, "a", 2      } , 2       },
   }
   -- stylua: ignore end
 
