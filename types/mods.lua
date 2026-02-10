@@ -9,6 +9,7 @@
 ---@field str mods.str
 ---@field stringcase mods.stringcase
 ---@field tbl mods.tbl
+---@field template mods.template
 local M = {}
 
 return M

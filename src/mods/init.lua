@@ -7,6 +7,7 @@ for _, name in ipairs({
   "str",
   "stringcase",
   "tbl",
+  "template",
 }) do
   mods[name] = "mods." .. name
 end

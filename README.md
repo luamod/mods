@@ -36,15 +36,18 @@ Copy individual modules from [`src/mods/`](src/mods) into your project and `requ
 
 Available modules:
 
+<!-- Keep module names in this list sorted alphabetically. -->
+
 | Module         | Description                                                    |
 | -------------- | -------------------------------------------------------------- |
-| [`List`]       | Python-style list helpers for mapping, filtering, and slicing. |
-| [`Set`]        | Set operations and helpers for unique values.                  |
 | [`is`]         | Type predicates for Lua values and filesystem path kinds.      |
+| [`List`]       | Python-style list helpers for mapping, filtering, and slicing. |
 | [`operator`]   | Operator helpers as functions.                                 |
+| [`Set`]        | Set operations and helpers for unique values.                  |
 | [`str`]        | String utility helpers modeled after Python's `str`.           |
-| [`tbl`]        | Utility functions for plain Lua tables.                        |
 | [`stringcase`] | String case conversion helpers.                                |
+| [`tbl`]        | Utility functions for plain Lua tables.                        |
+| [`template`]   | Simple template rendering with value replacement.              |
 
 > [!NOTE]
 > We are still working on adding new modules.
@@ -54,10 +57,13 @@ Available modules:
 See the runnable scripts in [`examples/`](examples).
 The [docs](https://luamod.github.io/mods) site also includes examples.
 
-[`List`]: https://luamod.github.io/mods/modules/list
-[`Set`]: https://luamod.github.io/mods/modules/set
+<!-- Keep module names in this list sorted alphabetically. -->
+
 [`is`]: https://luamod.github.io/mods/modules/is
+[`List`]: https://luamod.github.io/mods/modules/list
 [`operator`]: https://luamod.github.io/mods/modules/operator
+[`Set`]: https://luamod.github.io/mods/modules/set
 [`str`]: https://luamod.github.io/mods/modules/str
-[`tbl`]: https://luamod.github.io/mods/modules/tbl
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase
+[`tbl`]: https://luamod.github.io/mods/modules/tbl
+[`template`]: https://luamod.github.io/mods/modules/template
