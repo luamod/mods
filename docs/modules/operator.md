@@ -67,7 +67,7 @@ Returns `a + b`.
 == Example
 
 ```lua
-operator.add(1, 2) -- 3
+add(1, 2) -- 3
 ```
 
 == Signature
@@ -75,7 +75,7 @@ operator.add(1, 2) -- 3
 ```lua
 ---@param a number
 ---@param b number
----@return number
+---@return number sum
 ---@nodiscard
 function add(a, b) end
 ```
@@ -90,7 +90,7 @@ Returns `a - b`.
 == Example
 
 ```lua
-operator.sub(5, 3) -- 2
+sub(5, 3) -- 2
 ```
 
 == Signature
@@ -98,7 +98,7 @@ operator.sub(5, 3) -- 2
 ```lua
 ---@param a number
 ---@param b number
----@return number
+---@return number difference
 ---@nodiscard
 function sub(a, b) end
 ```
@@ -113,7 +113,7 @@ Returns `a * b`.
 == Example
 
 ```lua
-operator.mul(3, 4) -- 12
+mul(3, 4) -- 12
 ```
 
 == Signature
@@ -121,7 +121,7 @@ operator.mul(3, 4) -- 12
 ```lua
 ---@param a number
 ---@param b number
----@return number
+---@return number product
 ---@nodiscard
 function mul(a, b) end
 ```
@@ -136,7 +136,7 @@ Returns `a / b`.
 == Example
 
 ```lua
-operator.div(10, 4) -- 2.5
+div(10, 4) -- 2.5
 ```
 
 == Signature
@@ -144,7 +144,7 @@ operator.div(10, 4) -- 2.5
 ```lua
 ---@param a number
 ---@param b number
----@return number
+---@return number quotient
 ---@nodiscard
 function div(a, b) end
 ```
@@ -159,7 +159,7 @@ Returns integer division `math.floor(a / b)`.
 == Example
 
 ```lua
-operator.idiv(5, 2) -- 2
+idiv(5, 2) -- 2
 ```
 
 == Signature
@@ -167,7 +167,7 @@ operator.idiv(5, 2) -- 2
 ```lua
 ---@param a number
 ---@param b number
----@return number
+---@return integer quotient
 ---@nodiscard
 function idiv(a, b) end
 ```
@@ -182,7 +182,7 @@ Returns `a % b`.
 == Example
 
 ```lua
-operator.mod(5, 2) -- 1
+mod(5, 2) -- 1
 ```
 
 == Signature
@@ -190,7 +190,7 @@ operator.mod(5, 2) -- 1
 ```lua
 ---@param a number
 ---@param b number
----@return number
+---@return number remainder
 ---@nodiscard
 function mod(a, b) end
 ```
@@ -205,7 +205,7 @@ Returns `a ^ b`.
 == Example
 
 ```lua
-operator.pow(2, 4) -- 16
+pow(2, 4) -- 16
 ```
 
 == Signature
@@ -213,7 +213,7 @@ operator.pow(2, 4) -- 16
 ```lua
 ---@param a number
 ---@param b number
----@return number
+---@return number power
 ---@nodiscard
 function pow(a, b) end
 ```
@@ -228,14 +228,14 @@ Returns `-a`.
 == Example
 
 ```lua
-operator.unm(3) -- -3
+unm(3) -- -3
 ```
 
 == Signature
 
 ```lua
 ---@param a number
----@return number
+---@return number negated
 ---@nodiscard
 function unm(a) end
 ```
@@ -252,7 +252,7 @@ Returns `a == b`.
 == Example
 
 ```lua
-operator.eq(1, 1) -- true
+eq(1, 1) -- true
 ```
 
 == Signature
@@ -260,7 +260,7 @@ operator.eq(1, 1) -- true
 ```lua
 ---@param a any
 ---@param b any
----@return boolean
+---@return boolean isEqual
 ---@nodiscard
 function eq(a, b) end
 ```
@@ -275,7 +275,7 @@ Returns `a ~= b`.
 == Example
 
 ```lua
-operator.neq(1, 2) -- true
+neq(1, 2) -- true
 ```
 
 == Signature
@@ -283,7 +283,7 @@ operator.neq(1, 2) -- true
 ```lua
 ---@param a any
 ---@param b any
----@return boolean
+---@return boolean isNotEqual
 ---@nodiscard
 function neq(a, b) end
 ```
@@ -298,7 +298,7 @@ Returns `a < b`.
 == Example
 
 ```lua
-operator.lt(1, 2) -- true
+lt(1, 2) -- true
 ```
 
 == Signature
@@ -306,7 +306,7 @@ operator.lt(1, 2) -- true
 ```lua
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isLess
 ---@nodiscard
 function lt(a, b) end
 ```
@@ -321,7 +321,7 @@ Returns `a <= b`.
 == Example
 
 ```lua
-operator.lte(2, 2) -- true
+lte(2, 2) -- true
 ```
 
 == Signature
@@ -329,7 +329,7 @@ operator.lte(2, 2) -- true
 ```lua
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isLessOrEqual
 ---@nodiscard
 function le(a, b) end
 ```
@@ -344,7 +344,7 @@ Returns `a > b`.
 == Example
 
 ```lua
-operator.gt(3, 2) -- true
+gt(3, 2) -- true
 ```
 
 == Signature
@@ -352,7 +352,7 @@ operator.gt(3, 2) -- true
 ```lua
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isGreater
 ---@nodiscard
 function gt(a, b) end
 ```
@@ -367,7 +367,7 @@ Returns `a >= b`.
 == Example
 
 ```lua
-operator.gte(2, 2) -- true
+gte(2, 2) -- true
 ```
 
 == Signature
@@ -375,7 +375,7 @@ operator.gte(2, 2) -- true
 ```lua
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isGreaterOrEqual
 ---@nodiscard
 function ge(a, b) end
 ```
@@ -392,15 +392,16 @@ Returns `a and b`.
 == Example
 
 ```lua
-operator.land(true, false) -- false
+land(true, false) -- false
 ```
 
 == Signature
 
 ```lua
----@param a any
----@param b any
----@return any
+---@generic T1,T2
+---@param a T1
+---@param b T2
+---@return T1|T2 andValue
 ---@nodiscard
 function land(a, b) end
 ```
@@ -415,15 +416,16 @@ Returns `a or b`.
 == Example
 
 ```lua
-operator.lor(false, true) -- true
+lor(false, true) -- true
 ```
 
 == Signature
 
 ```lua
----@param a any
----@param b any
----@return any
+---@generic T1,T2
+---@param a T1
+---@param b T2
+---@return T1|T2 orValue
 ---@nodiscard
 function lor(a, b) end
 ```
@@ -438,14 +440,14 @@ Returns `not a`.
 == Example
 
 ```lua
-operator.lnot(true) -- false
+lnot(true) -- false
 ```
 
 == Signature
 
 ```lua
 ---@param a any
----@return boolean
+---@return boolean isNot
 ---@nodiscard
 function lnot(a) end
 ```
@@ -462,7 +464,7 @@ Returns `a .. b`.
 == Example
 
 ```lua
-operator.concat("a", "b") -- "ab"
+concat("a", "b") -- "ab"
 ```
 
 == Signature
@@ -470,7 +472,7 @@ operator.concat("a", "b") -- "ab"
 ```lua
 ---@param a string
 ---@param b string
----@return string
+---@return string concatenated
 ---@nodiscard
 function concat(a, b) end
 ```
@@ -485,14 +487,14 @@ Returns `#a`.
 == Example
 
 ```lua
-operator.len("abc") -- 3
+len("abc") -- 3
 ```
 
 == Signature
 
 ```lua
 ---@param a string|table
----@return integer
+---@return integer length
 ---@nodiscard
 function len(a) end
 ```
@@ -509,15 +511,16 @@ Returns `t[k]`.
 == Example
 
 ```lua
-operator.index({ a = 1 }, "a") -- 1
+index({ a = 1 }, "a") -- 1
 ```
 
 == Signature
 
 ```lua
+---@generic T
 ---@param t table
----@param k any
----@return any
+---@param k T
+---@return T value
 ---@nodiscard
 function index(t, k) end
 ```
@@ -532,16 +535,17 @@ Sets `t[k] = v` and returns `v`.
 == Example
 
 ```lua
-operator.setindex({}, "a", 1) -- 1
+setindex({}, "a", 1) -- 1
 ```
 
 == Signature
 
 ```lua
+---@generic T
 ---@param t table
 ---@param k any
----@param v any
----@return any
+---@param v T
+---@return T value
 ---@nodiscard
 function setindex(t, k, v) end
 ```
@@ -556,15 +560,16 @@ Calls `f(...)`.
 == Example
 
 ```lua
-operator.call(math.max, 1, 2) -- 2
+call(math.max, 1, 2) -- 2
 ```
 
 == Signature
 
 ```lua
----@param f fun(...: any): any
----@param ... any
----@return any
+---@generic T,T2
+---@param f fun(...:T):T2
+---@param ... T
+---@return T2 result
 ---@nodiscard
 function call(f, ...) end
 ```
