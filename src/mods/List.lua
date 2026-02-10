@@ -319,9 +319,7 @@ function List:reverse()
   return res
 end
 
-function List:setify()
-  return Set(self)
-end
+List.setify = Set
 
 List.pop = remove
 
