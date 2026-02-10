@@ -1,5 +1,11 @@
-local ok, mod = pcall(require, "mods.List")
-local List = ok and mod or nil
+local function List()
+  local ok, mod = pcall(require, "mods.List")
+  ---@diagnostic disable-next-line: cast-local-type
+  List = ok and mod or function()
+    return {}
+  end
+  return List()
+end
 
 local byte = string.byte
 local char = string.char
@@ -520,7 +526,7 @@ function M.rsplit(s, sep, maxsplit)
   end
 
   parts[#parts + 1] = sub(s, 1, pos)
-  local out = List and List() or {}
+  local out = List()
   for i = #parts, 1, -1 do
     out[#out + 1] = parts[i]
   end
@@ -536,7 +542,7 @@ function M.split(s, sep, maxsplit)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
       return parts
     end
-    local out = List and List or {}
+    local out = List()
     local keep = maxsplit + 1
     for i = 1, keep - 1 do
       out[#out + 1] = parts[i]
@@ -570,7 +576,7 @@ end
 
 function M.splitlines(s, keepends)
   local len = #s
-  local out = List and List() or {}
+  local out = List()
   local i = 1
   while i <= len do
     local j = i

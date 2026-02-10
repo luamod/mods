@@ -4,7 +4,19 @@ local remove = table.remove
 local concat = table.concat
 local move = table.move
 
-local Set ---@type mods.Set
+local function Set(ls)
+  local ok, mod = pcall(require, "mods.Set")
+  ---@diagnostic disable-next-line: cast-local-type
+  Set = ok and mod
+    or function(ls_)
+      local set = {}
+      for i = 1, #ls_ do
+        set[ls_[i]] = true
+      end
+      return set
+    end
+  return Set(ls)
+end
 
 ---@type mods.List
 local List = {}
@@ -307,20 +319,7 @@ function List:reverse()
   return res
 end
 
-local function get_set()
-  local ok, mod = pcall(require, "mods.Set")
-  return ok and mod
-    or function(ls)
-      local set = {}
-      for i = 1, #ls do
-        set[ls[i]] = true
-      end
-      return set
-    end
-end
-
 function List:setify()
-  Set = Set or get_set()
   return Set(self)
 end
 

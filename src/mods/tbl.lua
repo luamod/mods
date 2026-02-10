@@ -1,5 +1,11 @@
-local ok, mod = pcall(require, "mods.List")
-local List = ok and mod or nil
+local function List()
+  local ok, mod = pcall(require, "mods.List")
+  ---@diagnostic disable-next-line: cast-local-type
+  List = ok and mod or function()
+    return {}
+  end
+  return List()
+end
 
 ---@type mods.tbl
 local M = {}
@@ -106,7 +112,7 @@ function M.isempty(t)
 end
 
 function M.keys(t)
-  local ls = List and List() or {}
+  local ls = List()
   local i = 1
   for k in pairs(t) do
     ls[i] = k
@@ -139,7 +145,7 @@ function M.update(t1, t2)
 end
 
 function M.values(t)
-  local ls = List and List() or {}
+  local ls = List()
   local i = 1
   for _, v in pairs(t) do
     ls[i] = v

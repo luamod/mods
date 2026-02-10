@@ -1,5 +1,11 @@
-local ok, mod = pcall(require, "mods.List")
-local List = ok and mod or nil
+local function List()
+  local ok, mod = pcall(require, "mods.List")
+  ---@diagnostic disable-next-line: cast-local-type
+  List = ok and mod or function()
+    return {}
+  end
+  return List()
+end
 
 ---@type mods.Set
 local Set = {}
@@ -152,7 +158,7 @@ function Set:update(other)
 end
 
 function Set:values()
-  local ls = List and List() or {}
+  local ls = List()
   local i = 1
   for k in pairs(self) do
     ls[i] = k
