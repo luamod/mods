@@ -12,11 +12,11 @@ local M = {}
 ---
 ---**Example:**
 ---```lua
----operator.add(1, 2) -- 3
+---add(1, 2) -- 3
 ---```
 ---@param a number
 ---@param b number
----@return number
+---@return number sum
 ---@nodiscard
 function M.add(a, b) end
 
@@ -24,11 +24,11 @@ function M.add(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.sub(5, 3) -- 2
+---sub(5, 3) -- 2
 ---```
 ---@param a number
 ---@param b number
----@return number
+---@return number difference
 ---@nodiscard
 function M.sub(a, b) end
 
@@ -36,11 +36,11 @@ function M.sub(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.mul(3, 4) -- 12
+---mul(3, 4) -- 12
 ---```
 ---@param a number
 ---@param b number
----@return number
+---@return number product
 ---@nodiscard
 function M.mul(a, b) end
 
@@ -48,11 +48,11 @@ function M.mul(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.div(10, 4) -- 2.5
+---div(10, 4) -- 2.5
 ---```
 ---@param a number
 ---@param b number
----@return number
+---@return number quotient
 ---@nodiscard
 function M.div(a, b) end
 
@@ -60,11 +60,11 @@ function M.div(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.idiv(5, 2) -- 2
+---idiv(5, 2) -- 2
 ---```
 ---@param a number
 ---@param b number
----@return number
+---@return integer quotient
 ---@nodiscard
 function M.idiv(a, b) end
 
@@ -72,11 +72,11 @@ function M.idiv(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.mod(5, 2) -- 1
+---mod(5, 2) -- 1
 ---```
 ---@param a number
 ---@param b number
----@return number
+---@return number remainder
 ---@nodiscard
 function M.mod(a, b) end
 
@@ -84,11 +84,11 @@ function M.mod(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.pow(2, 4) -- 16
+---pow(2, 4) -- 16
 ---```
 ---@param a number
 ---@param b number
----@return number
+---@return number power
 ---@nodiscard
 function M.pow(a, b) end
 
@@ -96,10 +96,10 @@ function M.pow(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.unm(3) -- -3
+---unm(3) -- -3
 ---```
 ---@param a number
----@return number
+---@return number negated
 ---@nodiscard
 function M.unm(a) end
 
@@ -111,11 +111,11 @@ function M.unm(a) end
 ---
 ---**Example:**
 ---```lua
----operator.eq(1, 1) -- true
+---eq(1, 1) -- true
 ---```
 ---@param a any
 ---@param b any
----@return boolean
+---@return boolean isEqual
 ---@nodiscard
 function M.eq(a, b) end
 
@@ -123,11 +123,11 @@ function M.eq(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.neq(1, 2) -- true
+---neq(1, 2) -- true
 ---```
 ---@param a any
 ---@param b any
----@return boolean
+---@return boolean isNotEqual
 ---@nodiscard
 function M.neq(a, b) end
 
@@ -135,11 +135,11 @@ function M.neq(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.lt(1, 2) -- true
+---lt(1, 2) -- true
 ---```
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isLess
 ---@nodiscard
 function M.lt(a, b) end
 
@@ -147,11 +147,11 @@ function M.lt(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.lte(2, 2) -- true
+---lte(2, 2) -- true
 ---```
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isLessOrEqual
 ---@nodiscard
 function M.le(a, b) end
 
@@ -159,11 +159,11 @@ function M.le(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.gt(3, 2) -- true
+---gt(3, 2) -- true
 ---```
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isGreater
 ---@nodiscard
 function M.gt(a, b) end
 
@@ -171,11 +171,11 @@ function M.gt(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.gte(2, 2) -- true
+---gte(2, 2) -- true
 ---```
 ---@param a number
 ---@param b number
----@return boolean
+---@return boolean isGreaterOrEqual
 ---@nodiscard
 function M.ge(a, b) end
 
@@ -187,11 +187,12 @@ function M.ge(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.land(true, false) -- false
+---land(true, false) -- false
 ---```
----@param a any
----@param b any
----@return any
+---@generic T1,T2
+---@param a T1
+---@param b T2
+---@return T1|T2 andValue
 ---@nodiscard
 function M.land(a, b) end
 
@@ -199,11 +200,12 @@ function M.land(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.lor(false, true) -- true
+---lor(false, true) -- true
 ---```
----@param a any
----@param b any
----@return any
+---@generic T1,T2
+---@param a T1
+---@param b T2
+---@return T1|T2 orValue
 ---@nodiscard
 function M.lor(a, b) end
 
@@ -211,10 +213,10 @@ function M.lor(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.lnot(true) -- false
+---lnot(true) -- false
 ---```
 ---@param a any
----@return boolean
+---@return boolean isNot
 ---@nodiscard
 function M.lnot(a) end
 
@@ -226,11 +228,11 @@ function M.lnot(a) end
 ---
 ---**Example:**
 ---```lua
----operator.concat("a", "b") -- "ab"
+---concat("a", "b") -- "ab"
 ---```
 ---@param a string
 ---@param b string
----@return string
+---@return string concatenated
 ---@nodiscard
 function M.concat(a, b) end
 
@@ -238,10 +240,10 @@ function M.concat(a, b) end
 ---
 ---**Example:**
 ---```lua
----operator.len("abc") -- 3
+---len("abc") -- 3
 ---```
 ---@param a string|table
----@return integer
+---@return integer length
 ---@nodiscard
 function M.len(a) end
 
@@ -253,11 +255,12 @@ function M.len(a) end
 ---
 ---**Example:**
 ---```lua
----operator.index({ a = 1 }, "a") -- 1
+---index({ a = 1 }, "a") -- 1
 ---```
+---@generic T
 ---@param t table
----@param k any
----@return any
+---@param k T
+---@return T value
 ---@nodiscard
 function M.index(t, k) end
 
@@ -265,12 +268,13 @@ function M.index(t, k) end
 ---
 ---**Example:**
 ---```lua
----operator.setindex({}, "a", 1) -- 1
+---setindex({}, "a", 1) -- 1
 ---```
+---@generic T
 ---@param t table
 ---@param k any
----@param v any
----@return any
+---@param v T
+---@return T value
 ---@nodiscard
 function M.setindex(t, k, v) end
 
@@ -278,11 +282,12 @@ function M.setindex(t, k, v) end
 ---
 ---**Example:**
 ---```lua
----operator.call(math.max, 1, 2) -- 2
+---call(math.max, 1, 2) -- 2
 ---```
----@param f fun(...: any): any
----@param ... any
----@return any
+---@generic T,T2
+---@param f fun(...:T):T2
+---@param ... T
+---@return T2 result
 ---@nodiscard
 function M.call(f, ...) end
 
