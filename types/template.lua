@@ -1,6 +1,6 @@
 ---@meta mods.template
 
----Render a simple template with the given view.
+---Render a simple template using the provided context.
 ---
 ---**example:**
 ---```lua
@@ -18,10 +18,9 @@
 ---out = template('Missing key: "{{missing}}"', view)
 -----result: 'Missing key: ""'
 ---```
----@param template string
----@param view? table
----@return string
----@nodiscard
-local function render(template, view) end
+---@alias mods.template fun(template:string,view:table):string
 
-return render
+---@type mods.template
+local redner
+
+return redner
