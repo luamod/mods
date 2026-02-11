@@ -3,6 +3,7 @@ local assert = require("luassert")
 local callable = require("luassert.util").callable
 
 _G.unpack = table.unpack or unpack
+_G._TEST = true
 
 local function quote(s)
   return '"' .. s .. '"'
