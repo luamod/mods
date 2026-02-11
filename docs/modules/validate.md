@@ -91,6 +91,12 @@ message.
 assert(validate.boolean(true))
 ```
 
+== Aliases
+
+- `boolean`
+- `is.boolean`
+- `is_boolean`
+
 == Signature
 
 ```lua
@@ -169,6 +175,15 @@ message.
 ```lua
 assert(validate.Function(function() end))
 ```
+
+== Aliases
+
+- `Function`
+- `function`
+- `is.Function`
+- `is.function`
+- `is_Function`
+- `is_function`
 
 == Signature
 
@@ -249,6 +264,15 @@ message.
 assert(validate.Nil(nil))
 ```
 
+== Aliases
+
+- `Nil`
+- `nil`
+- `is.Nil`
+- `is.nil`
+- `is_Nil`
+- `is_nil`
+
 == Signature
 
 ```lua
@@ -327,6 +351,12 @@ message.
 ```lua
 assert(validate.number(3.14))
 ```
+
+== Aliases
+
+- `number`
+- `is.number`
+- `is_number`
 
 == Signature
 
@@ -407,6 +437,12 @@ message.
 assert(validate.string("hello"))
 ```
 
+== Aliases
+
+- `string`
+- `is.string`
+- `is_string`
+
 == Signature
 
 ```lua
@@ -485,6 +521,12 @@ message.
 ```lua
 assert(validate.table({}))
 ```
+
+== Aliases
+
+- `table`
+- `is.table`
+- `is_table`
 
 == Signature
 
@@ -566,6 +608,12 @@ local co = coroutine.create(function() end)
 assert(validate.thread(co))
 ```
 
+== Aliases
+
+- `thread`
+- `is.thread`
+- `is_thread`
+
 == Signature
 
 ```lua
@@ -590,6 +638,19 @@ an error message.
 assert(validate.is_not.thread(function() end))
 ```
 
+== Aliases
+
+- `is_not.thread`
+- `isnot.thread`
+- `isNot.thread`
+- `not.thread`
+- `Not.thread`
+- `is_not_thread`
+- `isnot_thread`
+- `isNot_thread`
+- `not_thread`
+- `Not_thread`
+
 == Signature
 
 ```lua
@@ -613,6 +674,12 @@ message.
 ```lua
 assert(validate.userdata(io.stdout))
 ```
+
+== Aliases
+
+- `userdata`
+- `is.userdata`
+- `is_userdata`
 
 == Signature
 
@@ -695,6 +762,15 @@ error message.
 assert(validate.False(false))
 ```
 
+== Aliases
+
+- `False`
+- `false`
+- `is.False`
+- `is.false`
+- `is_False`
+- `is_false`
+
 == Signature
 
 ```lua
@@ -773,6 +849,15 @@ error message.
 ```lua
 assert(validate.True(true))
 ```
+
+== Aliases
+
+- `True`
+- `true`
+- `is.True`
+- `is.true`
+- `is_True`
+- `is_true`
 
 == Signature
 
@@ -853,6 +938,12 @@ message.
 assert(validate.falsy(false))
 ```
 
+== Aliases
+
+- `falsy`
+- `is.falsy`
+- `is_falsy`
+
 == Signature
 
 ```lua
@@ -931,6 +1022,12 @@ message.
 ```lua
 assert(validate.callable(function() end))
 ```
+
+== Aliases
+
+- `callable`
+- `is.callable`
+- `is_callable`
 
 == Signature
 
@@ -1011,6 +1108,12 @@ message.
 assert(validate.integer(42))
 ```
 
+== Aliases
+
+- `integer`
+- `is.integer`
+- `is_integer`
+
 == Signature
 
 ```lua
@@ -1089,6 +1192,12 @@ message.
 ```lua
 assert(validate.truthy("non-empty"))
 ```
+
+== Aliases
+
+- `truthy`
+- `is.truthy`
+- `is_truthy`
 
 == Signature
 
@@ -1174,6 +1283,12 @@ an error message.
 assert(validate.block("/dev/sda"))
 ```
 
+== Aliases
+
+- `block`
+- `is.block`
+- `is_block`
+
 == Signature
 
 ```lua
@@ -1200,6 +1315,12 @@ an error message.
 ```lua
 assert(validate.char("/dev/null"))
 ```
+
+== Aliases
+
+- `char`
+- `is.char`
+- `is_char`
 
 == Signature
 
@@ -1228,6 +1349,12 @@ Returns `true` when `v` is a block or char device path. Otherwise returns
 assert(validate.device("/dev/null"))
 ```
 
+== Aliases
+
+- `device`
+- `is.device`
+- `is_device`
+
 == Signature
 
 ```lua
@@ -1254,6 +1381,12 @@ error message.
 ```lua
 assert(validate.dir("/tmp"))
 ```
+
+== Aliases
+
+- `dir`
+- `is.dir`
+- `is_dir`
 
 == Signature
 
@@ -1282,6 +1415,12 @@ message.
 assert(validate.fifo("/path/to/fifo"))
 ```
 
+== Aliases
+
+- `fifo`
+- `is.fifo`
+- `is_fifo`
+
 == Signature
 
 ```lua
@@ -1308,6 +1447,12 @@ message.
 ```lua
 assert(validate.file("README.md"))
 ```
+
+== Aliases
+
+- `file`
+- `is.file`
+- `is_file`
 
 == Signature
 
@@ -1336,6 +1481,12 @@ error message.
 assert(validate.link("/path/to/link"))
 ```
 
+== Aliases
+
+- `link`
+- `is.link`
+- `is_link`
+
 == Signature
 
 ```lua
@@ -1362,6 +1513,12 @@ error message.
 ```lua
 assert(validate.socket("/path/to/socket"))
 ```
+
+== Aliases
+
+- `socket`
+- `is.socket`
+- `is_socket`
 
 == Signature
 
