@@ -103,6 +103,7 @@ local is_not = {}
 ---is any supported type name.
 ---
 ---@class mods.validate:mods.validate.is
+---@field private _name "is"
 ---@field messages {positive:(modsValidateMessages|modsValidatePathMessages),negative:modsValidateMessages}
 ---@field is mods.validate.is
 ---@field Not mods.validate.isNot
@@ -110,7 +111,7 @@ local is_not = {}
 ---@field is_not mods.validate.isNot
 ---@field isNot mods.validate.isNot
 ---@field IsNot mods.validate.isNot
----@field private _name "is"
+---@field on_fail? fun(errmsg:string):any Optional callback invoked when a validation check fails.
 ---@overload fun(v:any, tp?:modsValidateType):(boolean, string?)
 local M = {}
 
@@ -128,7 +129,6 @@ local M = {}
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.boolean = function(v) end
 is.Boolean = is.boolean
 
@@ -145,7 +145,6 @@ is.Boolean = is.boolean
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.boolean = function(v) end
 is_not.Boolean = is_not.boolean
 M.is_not_boolean = is_not.boolean
@@ -164,7 +163,6 @@ M.NotBoolean = is_not.boolean
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.Function = function(v) end
 is["function"] = is.Function
 
@@ -181,7 +179,6 @@ is["function"] = is.Function
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.Function = function(v) end
 is_not["function"] = is_not.Function
 M.is_not_function = is_not.Function
@@ -200,7 +197,6 @@ M.NotFunction = is_not.Function
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.Nil = function(v) end
 is["nil"] = is.Nil
 
@@ -217,7 +213,6 @@ is["nil"] = is.Nil
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.Nil = function(v) end
 is_not["nil"] = is_not.Nil
 M.is_not_nil = is_not.Nil
@@ -236,7 +231,6 @@ M.NotNil = is_not.Nil
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.number = function(v) end
 is.Number = is.number
 
@@ -253,7 +247,6 @@ is.Number = is.number
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.number = function(v) end
 is_not.Number = is_not.number
 M.is_not_number = is_not.number
@@ -272,7 +265,6 @@ M.NotNumber = is_not.number
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.string = function(v) end
 is.String = is.string
 
@@ -289,7 +281,6 @@ is.String = is.string
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.string = function(v) end
 is_not.String = is_not.string
 M.is_not_string = is_not.string
@@ -308,7 +299,6 @@ M.NotString = is_not.string
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.table = function(v) end
 is.Table = is.table
 
@@ -325,7 +315,6 @@ is.Table = is.table
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.table = function(v) end
 is_not.Table = is_not.table
 M.is_not_table = is_not.table
@@ -345,7 +334,6 @@ M.NotTable = is_not.table
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.thread = function(v) end
 is.Thread = is.thread
 
@@ -359,7 +347,6 @@ is.Thread = is.thread
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.thread = function(v) end
 is_not.Thread = is_not.thread
 M.is_not_thread = is_not.thread
@@ -378,7 +365,6 @@ M.NotThread = is_not.thread
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.userdata = function(v) end
 is.Userdata = is.userdata
 
@@ -395,7 +381,6 @@ is.Userdata = is.userdata
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.userdata = function(v) end
 is_not.Userdata = is_not.userdata
 M.is_not_userdata = is_not.userdata
@@ -418,7 +403,6 @@ M.NotUserdata = is_not.userdata
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.False = function(v) end
 is["false"] = is.False
 
@@ -435,7 +419,6 @@ is["false"] = is.False
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.False = function(v) end
 is_not["false"] = is_not.False
 M.is_not_false = is_not.False
@@ -454,7 +437,6 @@ M.NotFalse = is_not.False
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.True = function(v) end
 is["true"] = is.True
 
@@ -471,7 +453,6 @@ is["true"] = is.True
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.True = function(v) end
 is_not["true"] = is_not.True
 M.is_not_true = is_not.True
@@ -490,7 +471,6 @@ M.NotTrue = is_not.True
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.falsy = function(v) end
 is.Falsy = is.falsy
 
@@ -507,7 +487,6 @@ is.Falsy = is.falsy
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.falsy = function(v) end
 is_not.Falsy = is_not.falsy
 M.is_not_falsy = is_not.falsy
@@ -526,7 +505,6 @@ M.NotFalsy = is_not.falsy
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.callable = function(v) end
 is.Callable = is.callable
 
@@ -543,7 +521,6 @@ is.Callable = is.callable
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.callable = function(v) end
 is_not.Callable = is_not.callable
 M.is_not_callable = is_not.callable
@@ -562,7 +539,6 @@ M.NotCallable = is_not.callable
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.integer = function(v) end
 is.Integer = is.integer
 
@@ -579,7 +555,6 @@ is.Integer = is.integer
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.integer = function(v) end
 is_not.Integer = is_not.integer
 M.is_not_integer = is_not.integer
@@ -598,7 +573,6 @@ M.NotInteger = is_not.integer
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.truthy = function(v) end
 is.Truthy = is.truthy
 
@@ -615,7 +589,6 @@ is.Truthy = is.truthy
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is_not.truthy = function(v) end
 is_not.Truthy = is_not.truthy
 M.is_not_truthy = is_not.truthy
@@ -641,7 +614,6 @@ M.NotTruthy = is_not.truthy
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.block = function(v) end
 is.Block = is.block
 
@@ -658,7 +630,6 @@ is.Block = is.block
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.char = function(v) end
 is.Char = is.char
 
@@ -675,7 +646,6 @@ is.Char = is.char
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.device = function(v) end
 is.Device = is.device
 
@@ -692,7 +662,6 @@ is.Device = is.device
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.dir = function(v) end
 is.Dir = is.dir
 
@@ -709,7 +678,6 @@ is.Dir = is.dir
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.fifo = function(v) end
 is.Fifo = is.fifo
 
@@ -726,7 +694,6 @@ is.Fifo = is.fifo
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.file = function(v) end
 is.File = is.file
 
@@ -743,7 +710,6 @@ is.File = is.file
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.link = function(v) end
 is.Link = is.link
 
@@ -760,7 +726,6 @@ is.Link = is.link
 ---@param v any
 ---@return boolean ok
 ---@return string? err
----@nodiscard
 is.socket = function(v) end
 is.Socket = is.socket
 

@@ -6,34 +6,9 @@ local getmt = getmetatable
 local tostring = tostring
 local type = type
 
-local lfs
-
-local function require_lfs()
-  if lfs then
-    return lfs
-  end
-  local ok, mod = pcall(require, "lfs")
-  if not ok then
-    error("lfs is required for path-type checks", 2)
-  end
-  lfs = mod
-  return lfs
-end
-
-local function attrs(...)
-  local mod = require_lfs()
-  attrs = mod.attributes
-  return attrs(...)
-end
-
-local function symlinkattrs(...)
-  local mod = require_lfs()
-  symlinkattrs = mod.symlinkattributes
-  return symlinkattrs(...)
-end
-
 local is_tmpl, not_tmpl = {}, {}
 local is, isnot = {}, {}
+local on_fail
 
 ---@type mods.validate
 ---@diagnostic disable-next-line: missing-fields
@@ -59,7 +34,7 @@ local function render_msg(expected, actual, v, is_expected)
   else
     tmpl = not_tmpl[expected] or "expected not {{expected}}"
   end
-  return (
+  local msg = (
     gsub(tmpl, "{{(.-)}}", function(k)
       if k == "expected" then
         return tostring(expected)
@@ -71,6 +46,7 @@ local function render_msg(expected, actual, v, is_expected)
       return "{{" .. k .. "}}"
     end)
   )
+  return on_fail and on_fail(msg) or msg
 end
 
 -------------------
@@ -148,6 +124,32 @@ end
 --- Path checks ---
 -------------------
 
+local lfs
+
+local function require_lfs()
+  if lfs then
+    return lfs
+  end
+  local ok, mod = pcall(require, "lfs")
+  if not ok then
+    error("lfs is required for path-type checks", 2)
+  end
+  lfs = mod
+  return lfs
+end
+
+local function attrs(...)
+  local mod = require_lfs()
+  attrs = mod.attributes
+  return attrs(...)
+end
+
+local function symlinkattrs(...)
+  local mod = require_lfs()
+  symlinkattrs = mod.symlinkattributes
+  return symlinkattrs(...)
+end
+
 local function path_check(v, expected_label, want_mode, use_symlink)
   if type(v) ~= "string" then
     return false, render_msg(expected_label, type(v), v, true)
@@ -219,9 +221,18 @@ end
 
 setmetatable(M, {
   __call = call_validator,
+  __newindex = function(_, k, v)
+    if k == "on_fail" and v ~= nil and type(v) ~= "function" then
+      error("validate.on_fail must be a function", 2)
+    end
+    on_fail = v
+  end,
   __index = function(_, k)
     if type(k) ~= "string" then
       return nil
+    end
+    if k == "on_fail" then
+      return on_fail
     end
     k = lower(k):gsub("_", ""):gsub("is", "")
 

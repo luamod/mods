@@ -1,4 +1,4 @@
----@diagnostic disable: param-type-mismatch, need-check-nil, undefined-field
+---@diagnostic disable: param-type-mismatch, need-check-nil, undefined-field, assign-type-mismatch
 
 local validate = require("mods.validate")
 
@@ -187,4 +187,42 @@ describe("mods.validate", function()
       end)
     end)
   end
+
+  describe("on_fail", function()
+    it("returns error message when on_fail is not set", function()
+      validate.on_fail = nil
+      assert.are_same({ false, "expected number, got string" }, { validate.number("abc") })
+    end)
+
+    it("errors on non-function", function()
+      assert.has_error(function()
+        validate.on_fail = 123
+      end, "validate.on_fail must be a function")
+    end)
+
+    it("uses handler return value when on_fail returns one", function()
+      local seen
+      validate.on_fail = function(errmsg)
+        seen = errmsg
+        return "custom message"
+      end
+
+      local ok, msg = validate.number("abc")
+      assert.is_false(ok)
+      assert.are_equal("custom message", msg)
+      assert.are_equal("expected number, got string", seen)
+    end)
+
+    it("returns default message when on_fail returns nil", function()
+      validate.on_fail = function() end
+      assert.are_same({ false, "expected integer number, got 1.5" }, { validate.integer(1.5) })
+    end)
+
+    it("works when handler raises an error", function()
+      validate.on_fail = error
+      assert.has_error(function()
+        validate.number("abc")
+      end, "expected number, got string")
+    end)
+  end)
 end)

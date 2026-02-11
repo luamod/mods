@@ -59,6 +59,26 @@ ok, err = validate.is_not.number(42)
 -- result: false, "must not be number (value=42)"
 ```
 
+## On Fail Hook
+
+Set `validate.on_fail` to handle failed validations globally.
+
+- If `on_fail` is set, it is called with the rendered error message.
+- If `on_fail` returns a value, that value is used as the returned error.
+- If `on_fail` returns `nil`, the default rendered error is returned.
+- If `on_fail` is `nil`, validators return `false, err` as usual.
+
+```lua
+validate.on_fail = function(errmsg)
+  print("validation failed:", errmsg)
+  return "custom failure"
+end
+
+local ok, err = validate.number("x")
+-- prints: validation failed: expected number, got string
+-- result: false, "custom failure"
+```
+
 ## Functions
 
 ### `is`
