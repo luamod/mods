@@ -4,7 +4,7 @@ editLinkTarget: types/validate.lua
 
 # `validate`
 
-Validation predicates for Lua values and filesystem path kinds.
+Validation checks for values and filesystem path types.
 
 ## Import
 
@@ -38,12 +38,12 @@ ok, err = validate.is_not.number(3.14)
 
 ## Quick Reference
 
-| Area              | Common checks                                                                   |
-| ----------------- | ------------------------------------------------------------------------------- |
-| `is` type checks  | `boolean`, `Function`, `Nil`, `number`, `string`, `table`, `thread`, `userdata` |
-| `is` value checks | `False`, `True`, `falsy`, `callable`, `integer`, `truthy`                       |
-| `is` path checks  | `block`, `char`, `device`, `dir`, `fifo`, `file`, `link`, `socket`              |
-| `is_not` checks   | Same names as `is` for type/value checks                                        |
+| Area                  | Common checks                                                                                                                                                                                                                                                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `is` (type)           | [`boolean`](#is-boolean), [`function`](#is-function), [`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string), [`table`](#is-table), [`thread`](#is-thread), [`userdata`](#is-userdata)                                                                                                                                                              |
+| `is` (value)          | [`false`](#is-false), [`true`](#is-true), [`falsy`](#is-falsy), [`callable`](#is-callable), [`integer`](#is-integer), [`truthy`](#is-truthy)                                                                                                                                                                                                                  |
+| `is` (path)           | [`block`](#is-block), [`char`](#is-char), [`device`](#is-device), [`dir`](#is-dir), [`fifo`](#is-fifo), [`file`](#is-file), [`link`](#is-link), [`socket`](#is-socket)                                                                                                                                                                                         |
+| `is_not` (type/value) | [`boolean`](#is-not-boolean), [`function`](#is-not-function), [`nil`](#is-not-nil), [`number`](#is-not-number), [`string`](#is-not-string), [`table`](#is-not-table), [`thread`](#is-not-thread), [`userdata`](#is-not-userdata), [`false`](#is-not-false), [`true`](#is-not-true), [`falsy`](#is-not-falsy), [`callable`](#is-not-callable), [`integer`](#is-not-integer), [`truthy`](#is-not-truthy) |
 
 ## Custom Messages
 
@@ -51,6 +51,8 @@ Customize validator error messages through `validate.messages`.
 
 - `validate.messages.positive.<name>` customizes positive checks
 - `validate.messages.negative.<name>` customizes negated checks
+
+`<name>` is the validator key (for example: `number`, `string`, `truthy`, `integer`, `callable`, `file`, `dir`, etc.).
 
 Available placeholders:
 
@@ -75,15 +77,15 @@ ok, err = validate.is_not.number(42)
 
 ## Default Messages
 
-If you do not override `validate.messages.positive.<name>` or `validate.messages.negative.<name>`, validate uses built-in templates:
+By default, validate uses built-in templates unless `validate.messages.positive.<name>` or `validate.messages.negative.<name>` is overridden:
 
-- Positive checks (`validate.is.*`): `expected {{expected}}, got {{got}}`
-- Negative checks (`validate.is_not.*`): `expected not {{expected}}`
+- Positive checks (`validate.is.*`): <code v-pre>expected {{expected}}, got {{got}}</code>
+- Negative checks (`validate.is_not.*`): <code v-pre>expected not {{expected}}</code>
 
 `integer` uses a more specific default that includes the passed value:
 
-- Positive `integer`: `expected integer, got {{value}}`
-- Negative `integer`: `expected non-integer, got {{value}}`
+- Positive `integer`: <code v-pre>expected integer, got {{value}}</code>
+- Negative `integer`: <code v-pre>expected non-integer, got {{value}}</code>
 
 ## On Fail Hook
 
@@ -109,13 +111,13 @@ local ok, err = validate.number("x")
 
 ### `is`
 
-Positive validators. These checks pass only when the value matches the expected type or predicate.
+Positive validators. These checks pass only when the value matches the expected type or check.
 
 #### Type Checks
 
-Lua type validators for `boolean`, `function`, `nil`, `number`, `string`, `table`, `thread`, and `userdata`.
+Lua type validators for [`boolean`](#is-boolean), [`function`](#is-function), [`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string), [`table`](#is-table), [`thread`](#is-thread), and [`userdata`](#is-userdata).
 
-##### `boolean(v)`
+##### `boolean(v)` {#is-boolean}
 
 Returns `true` when `v` is a Lua boolean.
 
@@ -125,7 +127,7 @@ ok, err = validate.is.boolean(1)
 -- result: false, "expected boolean, got number"
 ```
 
-##### `Function(v)`
+##### `function(v)` {#is-function}
 
 Returns `true` when `v` is a function value.
 
@@ -135,7 +137,7 @@ ok, err = validate.is.Function("hello")
 -- result: false, "expected function, got string"
 ```
 
-##### `Nil(v)`
+##### `nil(v)` {#is-nil}
 
 Returns `true` when `v` is `nil`.
 
@@ -145,7 +147,7 @@ ok, err = validate.is.Nil(0)
 -- result: false, "expected nil, got number"
 ```
 
-##### `number(v)`
+##### `number(v)` {#is-number}
 
 Returns `true` when `v` is a number.
 
@@ -155,7 +157,7 @@ ok, err = validate.is.number("3.14")
 -- result: false, "expected number, got string"
 ```
 
-##### `string(v)`
+##### `string(v)` {#is-string}
 
 Returns `true` when `v` is a string.
 
@@ -165,7 +167,7 @@ ok, err = validate.is.string(false)
 -- result: false, "expected string, got boolean"
 ```
 
-##### `table(v)`
+##### `table(v)` {#is-table}
 
 Returns `true` when `v` is a table.
 
@@ -175,7 +177,7 @@ ok, err = validate.is.table("x")
 -- result: false, "expected table, got string"
 ```
 
-##### `thread(v)`
+##### `thread(v)` {#is-thread}
 
 Returns `true` when `v` is a coroutine thread.
 
@@ -185,7 +187,7 @@ ok, err = validate.is.thread(function() end)
 -- result: false, "expected thread, got function"
 ```
 
-##### `userdata(v)`
+##### `userdata(v)` {#is-userdata}
 
 Returns `true` when `v` is a userdata value.
 
@@ -197,9 +199,9 @@ ok, err = validate.is.userdata({})
 
 #### Value Checks
 
-Predicate validators for common truth/value semantics.
+Validators for common truth/value semantics.
 
-##### `False(v)`
+##### `false(v)` {#is-false}
 
 Returns `true` when `v` is exactly `false`.
 
@@ -209,7 +211,7 @@ ok, err = validate.is.False(true)
 -- result: false, "expected false, got true"
 ```
 
-##### `True(v)`
+##### `true(v)` {#is-true}
 
 Returns `true` when `v` is exactly `true`.
 
@@ -219,7 +221,7 @@ ok, err = validate.is.True(false)
 -- result: false, "expected true, got false"
 ```
 
-##### `falsy(v)`
+##### `falsy(v)` {#is-falsy}
 
 Returns `true` when `v` is `false` or `nil`.
 
@@ -229,7 +231,7 @@ ok, err = validate.is.falsy(1)
 -- result: false, "expected falsy, got number"
 ```
 
-##### `callable(v)`
+##### `callable(v)` {#is-callable}
 
 Returns `true` when `v` can be called (function or callable table).
 
@@ -239,7 +241,7 @@ ok, err = validate.is.callable({})
 -- result: false, "expected callable, got table"
 ```
 
-##### `integer(v)`
+##### `integer(v)` {#is-integer}
 
 Returns `true` when `v` is a whole number.
 
@@ -249,7 +251,7 @@ ok, err = validate.is.integer(4.2)
 -- result: false, "expected integer, got 4.2"
 ```
 
-##### `truthy(v)`
+##### `truthy(v)` {#is-truthy}
 
 Returns `true` when `v` is neither `false` nor `nil`.
 
@@ -263,11 +265,10 @@ ok, err = validate.is.truthy(nil)
 
 Filesystem kind validators for paths.
 
-::: warning IMPORTANT
-Requires `lfs` (LuaFileSystem).
-:::
+> [!IMPORTANT]
+> Requires `lfs` (LuaFileSystem).
 
-##### `block(path)`
+##### `block(path)` {#is-block}
 
 Returns `true` when `path` points to a block device.
 
@@ -277,7 +278,7 @@ ok, err = validate.is.block(123)
 -- result: false, "expected block, got number"
 ```
 
-##### `char(path)`
+##### `char(path)` {#is-char}
 
 Returns `true` when `path` points to a character device.
 
@@ -287,7 +288,7 @@ ok, err = validate.is.char(123)
 -- result: false, "expected char, got number"
 ```
 
-##### `device(path)`
+##### `device(path)` {#is-device}
 
 Returns `true` when `path` points to any device node.
 
@@ -297,7 +298,7 @@ ok, err = validate.is.device(123)
 -- result: false, "expected device, got number"
 ```
 
-##### `dir(path)`
+##### `dir(path)` {#is-dir}
 
 Returns `true` when `path` points to a directory.
 
@@ -307,7 +308,7 @@ ok, err = validate.is.dir(123)
 -- result: false, "expected dir, got number"
 ```
 
-##### `fifo(path)`
+##### `fifo(path)` {#is-fifo}
 
 Returns `true` when `path` points to a FIFO (named pipe).
 
@@ -317,7 +318,7 @@ ok, err = validate.is.fifo(123)
 -- result: false, "expected fifo, got number"
 ```
 
-##### `file(path)`
+##### `file(path)` {#is-file}
 
 Returns `true` when `path` points to a regular file.
 
@@ -327,7 +328,7 @@ ok, err = validate.is.file(123)
 -- result: false, "expected file, got number"
 ```
 
-##### `link(path)`
+##### `link(path)` {#is-link}
 
 Returns `true` when `path` points to a symbolic link.
 
@@ -337,7 +338,7 @@ ok, err = validate.is.link(123)
 -- result: false, "expected link, got number"
 ```
 
-##### `socket(path)`
+##### `socket(path)` {#is-socket}
 
 Returns `true` when `path` points to a socket.
 
@@ -349,16 +350,16 @@ ok, err = validate.is.socket(123)
 
 ### `is_not`
 
-Negated validators. These checks pass only when the value does not match the expected type or predicate.
+Negated validators. These checks pass only when the value does not match the expected type or check.
 
 > [!IMPORTANT]
-> `is_not` supports type and value checks. Path checks are available on `is` only.
+> `is_not` supports type and value checks. Path checks are available on [`is`](#is) only.
 
 #### Type Checks
 
 Negated Lua type validators.
 
-##### `boolean(v)`
+##### `boolean(v)` {#is-not-boolean}
 
 Returns `true` when `v` is not a Lua boolean.
 
@@ -368,7 +369,7 @@ ok, err = validate.is_not.boolean(true)
 -- result: false, "expected not boolean"
 ```
 
-##### `Function(v)`
+##### `function(v)` {#is-not-function}
 
 Returns `true` when `v` is not a function value.
 
@@ -378,7 +379,7 @@ ok, err = validate.is_not.Function(function() end)
 -- result: false, "expected not function"
 ```
 
-##### `Nil(v)`
+##### `nil(v)` {#is-not-nil}
 
 Returns `true` when `v` is not `nil`.
 
@@ -388,7 +389,7 @@ ok, err = validate.is_not.Nil(nil)
 -- result: false, "expected not nil"
 ```
 
-##### `number(v)`
+##### `number(v)` {#is-not-number}
 
 Returns `true` when `v` is not a number.
 
@@ -398,7 +399,7 @@ ok, err = validate.is_not.number(3.14)
 -- result: false, "expected not number"
 ```
 
-##### `string(v)`
+##### `string(v)` {#is-not-string}
 
 Returns `true` when `v` is not a string.
 
@@ -408,7 +409,7 @@ ok, err = validate.is_not.string("hello")
 -- result: false, "expected not string"
 ```
 
-##### `table(v)`
+##### `table(v)` {#is-not-table}
 
 Returns `true` when `v` is not a table.
 
@@ -418,7 +419,7 @@ ok, err = validate.is_not.table({})
 -- result: false, "expected not table"
 ```
 
-##### `thread(v)`
+##### `thread(v)` {#is-not-thread}
 
 Returns `true` when `v` is not a coroutine thread.
 
@@ -428,7 +429,7 @@ ok, err = validate.is_not.thread(coroutine.create(function() end))
 -- result: false, "expected not thread"
 ```
 
-##### `userdata(v)`
+##### `userdata(v)` {#is-not-userdata}
 
 Returns `true` when `v` is not a userdata value.
 
@@ -440,9 +441,9 @@ ok, err = validate.is_not.userdata(io.stdout)
 
 #### Value Checks
 
-Negated predicate validators for common truth/value semantics.
+Negated validators for common truth/value semantics.
 
-##### `False(v)`
+##### `false(v)` {#is-not-false}
 
 Returns `true` when `v` is not exactly `false`.
 
@@ -452,7 +453,7 @@ ok, err = validate.is_not.False(false)
 -- result: false, "expected not false"
 ```
 
-##### `True(v)`
+##### `true(v)` {#is-not-true}
 
 Returns `true` when `v` is not exactly `true`.
 
@@ -462,7 +463,7 @@ ok, err = validate.is_not.True(true)
 -- result: false, "expected not true"
 ```
 
-##### `falsy(v)`
+##### `falsy(v)` {#is-not-falsy}
 
 Returns `true` when `v` is neither `false` nor `nil`.
 
@@ -472,7 +473,7 @@ ok, err = validate.is_not.falsy(nil)
 -- result: false, "expected not falsy"
 ```
 
-##### `callable(v)`
+##### `callable(v)` {#is-not-callable}
 
 Returns `true` when `v` cannot be called.
 
@@ -482,7 +483,7 @@ ok, err = validate.is_not.callable(function() end)
 -- result: false, "expected not callable"
 ```
 
-##### `integer(v)`
+##### `integer(v)` {#is-not-integer}
 
 Returns `true` when `v` is not a whole number.
 
@@ -492,7 +493,7 @@ ok, err = validate.is_not.integer(13)
 -- result: false, "expected non-integer, got 13"
 ```
 
-##### `truthy(v)`
+##### `truthy(v)` {#is-not-truthy}
 
 Returns `true` when `v` is `false` or `nil`.
 
