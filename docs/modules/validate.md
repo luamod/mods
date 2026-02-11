@@ -22,6 +22,20 @@ ok, err = validate.is_not.number(3.14)
 -- result: false, "expected not number"
 ```
 
+> [!NOTE]
+> When called without an explicit type (`validate(v, tp)`), `validate` defaults to checking `nil`.
+>
+> - `validate()` is equivalent to `validate(nil, "nil")`, so it passes.
+> - `validate(1)` is equivalent to `validate(1, "nil")`, so it fails with `expected nil, got number`.
+
+> [!IMPORTANT]
+> Validator access is case-insensitive.
+>
+> - `validate.is.number`, `validate.IS.Number`, and `validate.I_s.NuMbEr` are equivalent.
+> - Top-level aliases are underscore-insensitive too: `validate.is_number`, `validate.IS_NUMBER`, and `validate.isnumber` are equivalent.
+> - Negated validators can be accessed as `is_not`, `isnot`, `isNot`, `not`, or `Not`.
+>   Example: `validate.is_not.number`, `validate.isNot.number`, `validate.isnot.number`, `validate.not.number`, `validate.is_not_number`, `validate.isnotnumber`.
+
 ## Quick Reference
 
 | Area              | Common checks                                                                   |
@@ -58,6 +72,18 @@ local ok, err = validate.is.number("x")
 ok, err = validate.is_not.number(42)
 -- result: false, "must not be number (value=42)"
 ```
+
+## Default Messages
+
+If you do not override `validate.messages.positive.<name>` or `validate.messages.negative.<name>`, validate uses built-in templates:
+
+- Positive checks (`validate.is.*`): `expected {{expected}}, got {{got}}`
+- Negative checks (`validate.is_not.*`): `expected not {{expected}}`
+
+`integer` uses a more specific default that includes the passed value:
+
+- Positive `integer`: `expected integer, got {{value}}`
+- Negative `integer`: `expected non-integer, got {{value}}`
 
 ## On Fail Hook
 
@@ -220,7 +246,7 @@ Returns `true` when `v` is a whole number.
 ```lua
 validate.is.integer(42) -- true
 local ok, err = validate.is.integer(4.2)
--- result: false, "expected integer, got number"
+-- result: false, "expected integer, got 4.2"
 ```
 
 ##### `truthy(v)`
@@ -463,7 +489,7 @@ Returns `true` when `v` is not a whole number.
 ```lua
 validate.is_not.integer(13.4) -- true
 local ok, err = validate.is_not.integer(13)
--- result: false, "expected not integer"
+-- result: false, "expected non-integer, got 13"
 ```
 
 ##### `truthy(v)`

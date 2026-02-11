@@ -199,8 +199,8 @@ end
 
 ---@diagnostic disable-next-line: invisible
 M._name, is._name, isnot._name = "is", "is", "isnot"
-is_tmpl.integer = "expected integer number, got {{value}}"
-not_tmpl.integer = "expected not integer number, got {{value}}"
+is_tmpl.integer = "expected integer, got {{value}}"
+not_tmpl.integer = "expected non-integer, got {{value}}"
 
 local function call_validator(self, v, tp)
   tp = tp == nil and "nil" or tp

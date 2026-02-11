@@ -94,9 +94,9 @@ describe("mods.validate", function()
     { "false"    , false     , true  , "expected false, got true"           },
     { "falsy"    , false     , true  , "expected falsy, got boolean"        },
     { "falsy"    , nil       , 123   , "expected falsy, got number"         },
-    { "integer"  , 123       , 13.4  , "expected integer number, got 13.4"  },
-    { "integer"  , 123       , nil   , "expected integer number, got nil"   },
-    { "integer"  , 123       , "abc" , 'expected integer number, got "abc"' },
+    { "integer"  , 123       , 13.4  , "expected integer, got 13.4"         },
+    { "integer"  , 123       , nil   , "expected integer, got nil"          },
+    { "integer"  , 123       , "abc" , 'expected integer, got "abc"'        },
     { "true"     , true      , false , "expected true, got false"           },
     { "truthy"   , 123       , nil   , "expected truthy, got nil"           },
     { "truthy"   , true      , false , "expected truthy, got boolean"       },
@@ -137,7 +137,7 @@ describe("mods.validate", function()
         assert.are_same({ true }, { validate.is_not(v2, tp) })
       end)
 
-      local not_errmsg = "expected not " .. (tp == "integer" and "integer number, got " .. quote(v1) or tp)
+      local not_errmsg = tp == "integer" and "expected non-integer, got " .. quote(v1) or "expected not " .. tp
 
       it(fmt("is_not.%s(%s)", tp, pretty(v1)), function()
         assert.are_same({ false, not_errmsg }, { validate.is_not[tp](v1) })
@@ -220,7 +220,7 @@ describe("mods.validate", function()
 
     it("returns default message when on_fail returns nil", function()
       validate.on_fail = function() end
-      assert.are_same({ false, "expected integer number, got 1.5" }, { validate.integer(1.5) })
+      assert.are_same({ false, "expected integer, got 1.5" }, { validate.integer(1.5) })
     end)
 
     it("works when handler raises an error", function()
