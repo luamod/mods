@@ -36,13 +36,36 @@ ok, err = validate.is_not.number(3.14)
 > - Negated validators can be accessed as `is_not`, `isnot`, `isNot`, `not`, or `Not`.
 >   Example: `validate.is_not.number`, `validate.isNot.number`, `validate.isnot.number`, `validate.not.number`, `validate.is_not_number`, `validate.isnotnumber`.
 
+## Callable Forms
+
+All three are callable:
+
+- `validate(v, tp?)`
+- `validate.is(v, tp?)`
+- `validate.is_not(v, tp?)`
+
+Callable access is also alias/case flexible:
+
+- `validate.is`, `validate.IS`
+- `validate.is_not`, `validate.isnot`, `validate.isNot`, `validate.not`, `validate.Not`
+
+```lua
+local ok, err
+
+ok, err = validate(1, "number")        -- true
+ok, err = validate.is(1, "number")     -- true
+ok, err = validate.IS(1, "number")     -- true
+ok, err = validate.is_not(1, "number") -- false, "expected not number"
+ok, err = validate.not(1, "number")    -- false, "expected not number"
+```
+
 ## Quick Reference
 
-| Area                  | Common checks                                                                                                                                                                                                                                                                                                                                                |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `is` (type)           | [`boolean`](#is-boolean), [`function`](#is-function), [`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string), [`table`](#is-table), [`thread`](#is-thread), [`userdata`](#is-userdata)                                                                                                                                                              |
-| `is` (value)          | [`false`](#is-false), [`true`](#is-true), [`falsy`](#is-falsy), [`callable`](#is-callable), [`integer`](#is-integer), [`truthy`](#is-truthy)                                                                                                                                                                                                                  |
-| `is` (path)           | [`block`](#is-block), [`char`](#is-char), [`device`](#is-device), [`dir`](#is-dir), [`fifo`](#is-fifo), [`file`](#is-file), [`link`](#is-link), [`socket`](#is-socket)                                                                                                                                                                                         |
+| Area                  | Common checks                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `is` (type)           | [`boolean`](#is-boolean), [`function`](#is-function), [`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string), [`table`](#is-table), [`thread`](#is-thread), [`userdata`](#is-userdata)                                                                                                                                                                                                       |
+| `is` (value)          | [`false`](#is-false), [`true`](#is-true), [`falsy`](#is-falsy), [`callable`](#is-callable), [`integer`](#is-integer), [`truthy`](#is-truthy)                                                                                                                                                                                                                                                           |
+| `is` (path)           | [`block`](#is-block), [`char`](#is-char), [`device`](#is-device), [`dir`](#is-dir), [`fifo`](#is-fifo), [`file`](#is-file), [`link`](#is-link), [`socket`](#is-socket)                                                                                                                                                                                                                                 |
 | `is_not` (type/value) | [`boolean`](#is-not-boolean), [`function`](#is-not-function), [`nil`](#is-not-nil), [`number`](#is-not-number), [`string`](#is-not-string), [`table`](#is-not-table), [`thread`](#is-not-thread), [`userdata`](#is-not-userdata), [`false`](#is-not-false), [`true`](#is-not-true), [`falsy`](#is-not-falsy), [`callable`](#is-not-callable), [`integer`](#is-not-integer), [`truthy`](#is-not-truthy) |
 
 ## Custom Messages
