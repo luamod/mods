@@ -221,11 +221,15 @@ end
 
 setmetatable(M, {
   __call = call_validator,
-  __newindex = function(_, k, v)
-    if k == "on_fail" and v ~= nil and type(v) ~= "function" then
-      error("validate.on_fail must be a function", 2)
+  __newindex = function(t, k, v)
+    if k == "on_fail" then
+      if v ~= nil and type(v) ~= "function" then
+        error("validate.on_fail must be a function", 2)
+      end
+      on_fail = v
+      return
     end
-    on_fail = v
+    rawset(t, k, v)
   end,
   __index = function(_, k)
     if type(k) ~= "string" then
