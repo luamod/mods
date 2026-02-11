@@ -47,7 +47,7 @@ export default defineConfig({
   ],
   themeConfig: {
     logo: "/logo.svg",
-    outline: [2, 4], // show h2-h4
+    outline: [2, 5], // show h2-h5
     search: { provider: "local" },
     socialLinks: [{ icon: "github", link: "https://github.com/luamod/mods" }],
     // prettier-ignore
