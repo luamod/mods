@@ -1,16 +1,8 @@
 local mods = {}
-for _, name in ipairs({
-  "is",
-  "List",
-  "operator",
-  "Set",
-  "str",
-  "stringcase",
-  "tbl",
-  "template",
-}) do
+
+("is List operator Set str stringcase tbl template validate"):gsub("%S+", function(name)
   mods[name] = "mods." .. name
-end
+end)
 
 ---@type mods
 ---@diagnostic disable-next-line: missing-fields

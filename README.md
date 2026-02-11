@@ -48,6 +48,7 @@ Available modules:
 | [`stringcase`] | String case conversion helpers.                                |
 | [`tbl`]        | Utility functions for plain Lua tables.                        |
 | [`template`]   | Simple template rendering with value replacement.              |
+| [`validate`]   | Validation helpers for Lua values.                             |
 
 > [!NOTE]
 > We are still working on adding new modules.
@@ -67,3 +68,4 @@ The [docs](https://luamod.github.io/mods) site also includes examples.
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase
 [`tbl`]: https://luamod.github.io/mods/modules/tbl
 [`template`]: https://luamod.github.io/mods/modules/template
+[`validate`]: https://luamod.github.io/mods/modules/validate

@@ -10,7 +10,7 @@ source = {
 description = {
   summary = "Pure standalone Lua modules",
   detailed = [[
-Mods provides small, focused Lua modules: List, Set, str, stringcase, template, tbl, operator, and is.
+Mods provides small, focused Lua modules: List, Set, is, operator, str, stringcase, tbl, template, and validate.
 ]],
   homepage = "https://luamod.github.io/mods",
   license = "MIT",
@@ -32,5 +32,6 @@ build = {
     ["mods.stringcase"] = "src/mods/stringcase.lua",
     ["mods.tbl"] = "src/mods/tbl.lua",
     ["mods.template"] = "src/mods/template.lua",
+    ["mods.validate"] = "src/mods/validate.lua",
   },
 }

@@ -10,6 +10,7 @@
 ---@field stringcase mods.stringcase
 ---@field tbl mods.tbl
 ---@field template mods.template
+---@field validate mods.validate
 local M = {}
 
 return M
