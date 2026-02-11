@@ -44,13 +44,32 @@ local function parse_block(block_lines)
   local desc_lines = {}
   local anno_lines = {}
   local example_lines = {}
+  local alias_lines = {}
   local in_example = false
+  local in_aliases = false
 
   for _, line in ipairs(block_lines) do
     if str.startswith(line, "@") then
+      in_aliases = false
       table.insert(anno_lines, line)
     elseif line:match("^%*%*Example:%*%*") then
       in_example = true
+      in_aliases = false
+    elseif line:match("^%*%*Aliases:%*%*") then
+      local first = line:gsub("^%*%*Aliases:%*%*%s*", "")
+      if first ~= "" then
+        table.insert(alias_lines, first)
+      end
+      in_example = false
+      in_aliases = true
+    elseif in_aliases then
+      if line == "" then
+        if #alias_lines > 0 and alias_lines[#alias_lines] ~= "" then
+          table.insert(alias_lines, "")
+        end
+      else
+        table.insert(alias_lines, line)
+      end
     elseif in_example then
       table.insert(example_lines, line)
     elseif line == "" then
@@ -67,11 +86,16 @@ local function parse_block(block_lines)
   if #example_lines > 0 then
     example = str.strip(table.concat(example_lines, "\n"))
   end
+  local aliases = nil
+  if #alias_lines > 0 then
+    aliases = str.strip(table.concat(alias_lines, "\n"))
+  end
 
   return {
     desc = desc,
     annotations = anno_lines,
     example = example,
+    aliases = aliases,
   }
 end
 
@@ -173,10 +197,22 @@ local function render_module(doc)
   local short = module_short_name(doc.meta) or "module"
   local title = display_name(doc.meta) or short
   local out = List()
+  local anchor_counts = {}
 
   if doc.meta and doc.meta ~= "" then
     local type_name = display_name(doc.meta)
     push_all(out, "---", "editLinkTarget: types/" .. type_name .. ".lua", "---", "")
+  end
+
+  for _, fn in ipairs(doc.functions) do
+    local base = slugify_anchor(fn.name, fn.params)
+    local n = (anchor_counts[base] or 0) + 1
+    anchor_counts[base] = n
+    if n == 1 then
+      fn.anchor = base
+    else
+      fn.anchor = base .. "-" .. tostring(n)
+    end
   end
 
   push_all(out, "# `" .. title .. "`", "", doc.module_desc, "")
@@ -202,8 +238,7 @@ local function render_module(doc)
         end
       end
       local desc = fn.doc.desc:gsub("\n.*", "")
-      local anchor = slugify_anchor(fn.name, fn.params)
-      push_all(out, fmt("| [`%s(%s)`](#%s) | %s |", fn.name, fn.params, anchor, desc))
+      push_all(out, fmt("| [`%s(%s)`](#%s) | %s |", fn.name, fn.params, fn.anchor, desc))
     end
     push_all(out, "", "## Functions", "")
     local current_section = nil
@@ -212,14 +247,56 @@ local function render_module(doc)
         current_section = fn.section
         push_all(out, "### " .. current_section, "")
       end
-      local anchor = slugify_anchor(fn.name, fn.params)
-      push_all(out, fmt("#### `%s(%s)` {#%s}", fn.name, fn.params, anchor), "")
-      if fn.doc.desc ~= "" then
-        push_all(out, fn.doc.desc, "")
+      push_all(out, fmt("#### `%s(%s)` {#%s}", fn.name, fn.params, fn.anchor), "")
+      local function format_aliases_md(raw)
+        if not raw or raw == "" then
+          return nil
+        end
+        local compact = raw:gsub("%s*\n%s*", " ")
+        local bullets = {}
+        for chunk in compact:gmatch("[^,]+") do
+          local alias = str.strip(chunk)
+          alias = alias:gsub("^`", ""):gsub("`$", "")
+          if alias ~= "" then
+            bullets[#bullets + 1] = "- `" .. alias .. "`"
+          end
+        end
+        if #bullets > 0 then
+          return table.concat(bullets, "\n")
+        end
+        return raw
+      end
+
+      local desc = fn.doc.desc or ""
+      local aliases = fn.doc.aliases
+      if (not aliases or aliases == "") and desc ~= "" then
+        local lines = {}
+        for line in (desc .. "\n"):gmatch("(.-)\n") do
+          lines[#lines + 1] = line
+        end
+        local i = #lines
+        while i > 0 and lines[i] == "" do
+          i = i - 1
+        end
+        if i > 0 and lines[i]:match("^`.+`$") and lines[i]:find("`, `", 1, true) then
+          aliases = lines[i]
+          lines[i] = nil
+          while #lines > 0 and lines[#lines] == "" do
+            lines[#lines] = nil
+          end
+          desc = str.strip(table.concat(lines, "\n"))
+        end
+      end
+
+      if desc ~= "" then
+        push_all(out, desc, "")
       end
       push_all(out, ":::tabs")
       if fn.doc.example and fn.doc.example ~= "" then
         push_all(out, "== Example", "", fn.doc.example, "")
+      end
+      if aliases and aliases ~= "" then
+        push_all(out, "== Aliases", "", format_aliases_md(aliases), "")
       end
       push_all(out, "== Signature", "", "```lua")
       for _, anno in ipairs(fn.annotations or {}) do
