@@ -325,7 +325,8 @@ local ok, err = validate.is.socket(123)
 
 Negated validators. These checks pass only when the value does not match the expected type or predicate.
 
-`is_not` supports type and value checks. Path checks are available on `is` only.
+> [!IMPORTANT]
+> `is_not` supports type and value checks. Path checks are available on `is` only.
 
 #### Type Checks
 
