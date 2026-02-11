@@ -84,20 +84,14 @@
 ---@field link? string
 ---@field socket? string
 
----@class mods.validate.messages.is
----@field is modsValidateMessages|modsValidatePathMessages
----@field isNot modsValidateMessages
----@field isnot modsValidateMessages
----@field is_not modsValidateMessages
----@field not modsValidateMessages
----@field Not modsValidateMessages
-
 ---@class mods.validate.is
----@overload fun(v:any, tp:modsValidateType):(boolean, string?)
+---@field private _name "is"
+---@overload fun(v:any, tp?:modsValidateType):(boolean, string?)
 local is = {}
 
 ---@class mods.validate.isNot
----@overload fun(v:any, tp:modsValidateType):(boolean, string?)
+---@field private _name "isnot"
+---@overload fun(v:any, tp?:modsValidateType):(boolean, string?)
 local is_not = {}
 
 ---Validation predicates for Lua values and filesystem path kinds.
@@ -109,14 +103,15 @@ local is_not = {}
 ---is any supported type name.
 ---
 ---@class mods.validate:mods.validate.is
----@field messages mods.validate.messages.is
+---@field messages {positive:(modsValidateMessages|modsValidatePathMessages),negative:modsValidateMessages}
 ---@field is mods.validate.is
 ---@field Not mods.validate.isNot
 ---@field not mods.validate.isNot
 ---@field is_not mods.validate.isNot
----@field isnot mods.validate.isNot
 ---@field isNot mods.validate.isNot
----@overload fun(v:any, tp:modsValidateType):(boolean, string?)
+---@field IsNot mods.validate.isNot
+---@field private _name "is"
+---@overload fun(v:any, tp?:modsValidateType):(boolean, string?)
 local M = {}
 
 --------------------------------------------------------------------------------
@@ -154,22 +149,9 @@ is.Boolean = is.boolean
 is_not.boolean = function(v) end
 is_not.Boolean = is_not.boolean
 M.is_not_boolean = is_not.boolean
-M.is_not_Boolean = is_not.boolean
-M.isnot_boolean = is_not.boolean
-M.isnot_Boolean = is_not.boolean
-M.isNot_boolean = is_not.boolean
-M.isNot_Boolean = is_not.boolean
-M.isnotboolean = is_not.boolean
-M.isnotBoolean = is_not.boolean
-M.isNotboolean = is_not.boolean
 M.isNotBoolean = is_not.boolean
 M.not_boolean = is_not.boolean
-M.not_Boolean = is_not.boolean
-M.Not_boolean = is_not.boolean
-M.Not_Boolean = is_not.boolean
-M.notboolean = is_not.boolean
 M.notBoolean = is_not.boolean
-M.Notboolean = is_not.boolean
 M.NotBoolean = is_not.boolean
 
 ---Returns `true` when `v` is a function. Otherwise returns `false` and an error
@@ -203,22 +185,9 @@ is["function"] = is.Function
 is_not.Function = function(v) end
 is_not["function"] = is_not.Function
 M.is_not_function = is_not.Function
-M.is_not_Function = is_not.Function
-M.isnot_function = is_not.Function
-M.isnot_Function = is_not.Function
-M.isNot_function = is_not.Function
-M.isNot_Function = is_not.Function
-M.isnotfunction = is_not.Function
-M.isnotFunction = is_not.Function
-M.isNotfunction = is_not.Function
 M.isNotFunction = is_not.Function
 M.not_function = is_not.Function
-M.not_Function = is_not.Function
-M.Not_function = is_not.Function
-M.Not_Function = is_not.Function
-M.notfunction = is_not.Function
 M.notFunction = is_not.Function
-M.Notfunction = is_not.Function
 M.NotFunction = is_not.Function
 
 ---Returns `true` when `v` is `nil`. Otherwise returns `false` and an error
@@ -252,22 +221,9 @@ is["nil"] = is.Nil
 is_not.Nil = function(v) end
 is_not["nil"] = is_not.Nil
 M.is_not_nil = is_not.Nil
-M.is_not_Nil = is_not.Nil
-M.isnot_nil = is_not.Nil
-M.isnot_Nil = is_not.Nil
-M.isNot_nil = is_not.Nil
-M.isNot_Nil = is_not.Nil
-M.isnotnil = is_not.Nil
-M.isnotNil = is_not.Nil
-M.isNotnil = is_not.Nil
 M.isNotNil = is_not.Nil
 M.not_nil = is_not.Nil
-M.not_Nil = is_not.Nil
-M.Not_nil = is_not.Nil
-M.Not_Nil = is_not.Nil
-M.notnil = is_not.Nil
 M.notNil = is_not.Nil
-M.Notnil = is_not.Nil
 M.NotNil = is_not.Nil
 
 ---Returns `true` when `v` is a number. Otherwise returns `false` and an error
@@ -301,22 +257,9 @@ is.Number = is.number
 is_not.number = function(v) end
 is_not.Number = is_not.number
 M.is_not_number = is_not.number
-M.is_not_Number = is_not.number
-M.isnot_number = is_not.number
-M.isnot_Number = is_not.number
-M.isNot_number = is_not.number
-M.isNot_Number = is_not.number
-M.isnotnumber = is_not.number
-M.isnotNumber = is_not.number
-M.isNotnumber = is_not.number
 M.isNotNumber = is_not.number
 M.not_number = is_not.number
-M.not_Number = is_not.number
-M.Not_number = is_not.number
-M.Not_Number = is_not.number
-M.notnumber = is_not.number
 M.notNumber = is_not.number
-M.Notnumber = is_not.number
 M.NotNumber = is_not.number
 
 ---Returns `true` when `v` is a string. Otherwise returns `false` and an error
@@ -350,22 +293,9 @@ is.String = is.string
 is_not.string = function(v) end
 is_not.String = is_not.string
 M.is_not_string = is_not.string
-M.is_not_String = is_not.string
-M.isnot_string = is_not.string
-M.isnot_String = is_not.string
-M.isNot_string = is_not.string
-M.isNot_String = is_not.string
-M.isnotstring = is_not.string
-M.isnotString = is_not.string
-M.isNotstring = is_not.string
 M.isNotString = is_not.string
 M.not_string = is_not.string
-M.not_String = is_not.string
-M.Not_string = is_not.string
-M.Not_String = is_not.string
-M.notstring = is_not.string
 M.notString = is_not.string
-M.Notstring = is_not.string
 M.NotString = is_not.string
 
 ---Returns `true` when `v` is a table. Otherwise returns `false` and an error
@@ -399,22 +329,9 @@ is.Table = is.table
 is_not.table = function(v) end
 is_not.Table = is_not.table
 M.is_not_table = is_not.table
-M.is_not_Table = is_not.table
-M.isnot_table = is_not.table
-M.isnot_Table = is_not.table
-M.isNot_table = is_not.table
-M.isNot_Table = is_not.table
-M.isnottable = is_not.table
-M.isnotTable = is_not.table
-M.isNottable = is_not.table
 M.isNotTable = is_not.table
 M.not_table = is_not.table
-M.not_Table = is_not.table
-M.Not_table = is_not.table
-M.Not_Table = is_not.table
-M.nottable = is_not.table
 M.notTable = is_not.table
-M.Nottable = is_not.table
 M.NotTable = is_not.table
 
 ---Returns `true` when `v` is a thread. Otherwise returns `false` and an error
@@ -446,22 +363,9 @@ is.Thread = is.thread
 is_not.thread = function(v) end
 is_not.Thread = is_not.thread
 M.is_not_thread = is_not.thread
-M.is_not_Thread = is_not.thread
-M.isnot_thread = is_not.thread
-M.isnot_Thread = is_not.thread
-M.isNot_thread = is_not.thread
-M.isNot_Thread = is_not.thread
-M.isnotthread = is_not.thread
-M.isnotThread = is_not.thread
-M.isNotthread = is_not.thread
 M.isNotThread = is_not.thread
 M.not_thread = is_not.thread
-M.not_Thread = is_not.thread
-M.Not_thread = is_not.thread
-M.Not_Thread = is_not.thread
-M.notthread = is_not.thread
 M.notThread = is_not.thread
-M.Notthread = is_not.thread
 M.NotThread = is_not.thread
 
 ---Returns `true` when `v` is userdata. Otherwise returns `false` and an error
@@ -495,22 +399,9 @@ is.Userdata = is.userdata
 is_not.userdata = function(v) end
 is_not.Userdata = is_not.userdata
 M.is_not_userdata = is_not.userdata
-M.is_not_Userdata = is_not.userdata
-M.isnot_userdata = is_not.userdata
-M.isnot_Userdata = is_not.userdata
-M.isNot_userdata = is_not.userdata
-M.isNot_Userdata = is_not.userdata
-M.isnotuserdata = is_not.userdata
-M.isnotUserdata = is_not.userdata
-M.isNotuserdata = is_not.userdata
 M.isNotUserdata = is_not.userdata
 M.not_userdata = is_not.userdata
-M.not_Userdata = is_not.userdata
-M.Not_userdata = is_not.userdata
-M.Not_Userdata = is_not.userdata
-M.notuserdata = is_not.userdata
 M.notUserdata = is_not.userdata
-M.Notuserdata = is_not.userdata
 M.NotUserdata = is_not.userdata
 
 --------------------------------------------------------------------------------
@@ -548,22 +439,9 @@ is["false"] = is.False
 is_not.False = function(v) end
 is_not["false"] = is_not.False
 M.is_not_false = is_not.False
-M.is_not_False = is_not.False
-M.isnot_false = is_not.False
-M.isnot_False = is_not.False
-M.isNot_false = is_not.False
-M.isNot_False = is_not.False
-M.isnotfalse = is_not.False
-M.isnotFalse = is_not.False
-M.isNotfalse = is_not.False
 M.isNotFalse = is_not.False
 M.not_false = is_not.False
-M.not_False = is_not.False
-M.Not_false = is_not.False
-M.Not_False = is_not.False
-M.notfalse = is_not.False
 M.notFalse = is_not.False
-M.Notfalse = is_not.False
 M.NotFalse = is_not.False
 
 ---Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an
@@ -597,22 +475,9 @@ is["true"] = is.True
 is_not.True = function(v) end
 is_not["true"] = is_not.True
 M.is_not_true = is_not.True
-M.is_not_True = is_not.True
-M.isnot_true = is_not.True
-M.isnot_True = is_not.True
-M.isNot_true = is_not.True
-M.isNot_True = is_not.True
-M.isnottrue = is_not.True
-M.isnotTrue = is_not.True
-M.isNottrue = is_not.True
 M.isNotTrue = is_not.True
 M.not_true = is_not.True
-M.not_True = is_not.True
-M.Not_true = is_not.True
-M.Not_True = is_not.True
-M.nottrue = is_not.True
 M.notTrue = is_not.True
-M.Nottrue = is_not.True
 M.NotTrue = is_not.True
 
 ---Returns `true` when `v` is falsy. Otherwise returns `false` and an error
@@ -646,22 +511,9 @@ is.Falsy = is.falsy
 is_not.falsy = function(v) end
 is_not.Falsy = is_not.falsy
 M.is_not_falsy = is_not.falsy
-M.is_not_Falsy = is_not.falsy
-M.isnot_falsy = is_not.falsy
-M.isnot_Falsy = is_not.falsy
-M.isNot_falsy = is_not.falsy
-M.isNot_Falsy = is_not.falsy
-M.isnotfalsy = is_not.falsy
-M.isnotFalsy = is_not.falsy
-M.isNotfalsy = is_not.falsy
 M.isNotFalsy = is_not.falsy
 M.not_falsy = is_not.falsy
-M.not_Falsy = is_not.falsy
-M.Not_falsy = is_not.falsy
-M.Not_Falsy = is_not.falsy
-M.notfalsy = is_not.falsy
 M.notFalsy = is_not.falsy
-M.Notfalsy = is_not.falsy
 M.NotFalsy = is_not.falsy
 
 ---Returns `true` when `v` is callable. Otherwise returns `false` and an error
@@ -695,22 +547,9 @@ is.Callable = is.callable
 is_not.callable = function(v) end
 is_not.Callable = is_not.callable
 M.is_not_callable = is_not.callable
-M.is_not_Callable = is_not.callable
-M.isnot_callable = is_not.callable
-M.isnot_Callable = is_not.callable
-M.isNot_callable = is_not.callable
-M.isNot_Callable = is_not.callable
-M.isnotcallable = is_not.callable
-M.isnotCallable = is_not.callable
-M.isNotcallable = is_not.callable
 M.isNotCallable = is_not.callable
 M.not_callable = is_not.callable
-M.not_Callable = is_not.callable
-M.Not_callable = is_not.callable
-M.Not_Callable = is_not.callable
-M.notcallable = is_not.callable
 M.notCallable = is_not.callable
-M.Notcallable = is_not.callable
 M.NotCallable = is_not.callable
 
 ---Returns `true` when `v` is an integer. Otherwise returns `false` and an error
@@ -744,22 +583,9 @@ is.Integer = is.integer
 is_not.integer = function(v) end
 is_not.Integer = is_not.integer
 M.is_not_integer = is_not.integer
-M.is_not_Integer = is_not.integer
-M.isnot_integer = is_not.integer
-M.isnot_Integer = is_not.integer
-M.isNot_integer = is_not.integer
-M.isNot_Integer = is_not.integer
-M.isnotinteger = is_not.integer
-M.isnotInteger = is_not.integer
-M.isNotinteger = is_not.integer
 M.isNotInteger = is_not.integer
 M.not_integer = is_not.integer
-M.not_Integer = is_not.integer
-M.Not_integer = is_not.integer
-M.Not_Integer = is_not.integer
-M.notinteger = is_not.integer
 M.notInteger = is_not.integer
-M.Notinteger = is_not.integer
 M.NotInteger = is_not.integer
 
 ---Returns `true` when `v` is truthy. Otherwise returns `false` and an error
@@ -793,22 +619,9 @@ is.Truthy = is.truthy
 is_not.truthy = function(v) end
 is_not.Truthy = is_not.truthy
 M.is_not_truthy = is_not.truthy
-M.is_not_Truthy = is_not.truthy
-M.isnot_truthy = is_not.truthy
-M.isnot_Truthy = is_not.truthy
-M.isNot_truthy = is_not.truthy
-M.isNot_Truthy = is_not.truthy
-M.isnottruthy = is_not.truthy
-M.isnotTruthy = is_not.truthy
-M.isNottruthy = is_not.truthy
 M.isNotTruthy = is_not.truthy
 M.not_truthy = is_not.truthy
-M.not_Truthy = is_not.truthy
-M.Not_truthy = is_not.truthy
-M.Not_Truthy = is_not.truthy
-M.nottruthy = is_not.truthy
 M.notTruthy = is_not.truthy
-M.Nottruthy = is_not.truthy
 M.NotTruthy = is_not.truthy
 
 --------------------------------------------------------------------------------
