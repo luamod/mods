@@ -120,8 +120,8 @@ Lua type validators for `boolean`, `function`, `nil`, `number`, `string`, `table
 Returns `true` when `v` is a Lua boolean.
 
 ```lua
-validate.is.boolean(true) -- true
-local ok, err = validate.is.boolean(1)
+local ok, err = validate.is.boolean(true) -- true
+ok, err = validate.is.boolean(1)
 -- result: false, "expected boolean, got number"
 ```
 
@@ -130,8 +130,8 @@ local ok, err = validate.is.boolean(1)
 Returns `true` when `v` is a function value.
 
 ```lua
-validate.is.Function(function() end) -- true
-local ok, err = validate.is.Function("hello")
+local ok, err = validate.is.Function(function() end) -- true
+ok, err = validate.is.Function("hello")
 -- result: false, "expected function, got string"
 ```
 
@@ -140,8 +140,8 @@ local ok, err = validate.is.Function("hello")
 Returns `true` when `v` is `nil`.
 
 ```lua
-validate.is.Nil(nil) -- true
-local ok, err = validate.is.Nil(0)
+local ok, err = validate.is.Nil(nil) -- true
+ok, err = validate.is.Nil(0)
 -- result: false, "expected nil, got number"
 ```
 
@@ -150,8 +150,8 @@ local ok, err = validate.is.Nil(0)
 Returns `true` when `v` is a number.
 
 ```lua
-validate.is.number(3.14) -- true
-local ok, err = validate.is.number("3.14")
+local ok, err = validate.is.number(3.14) -- true
+ok, err = validate.is.number("3.14")
 -- result: false, "expected number, got string"
 ```
 
@@ -160,8 +160,8 @@ local ok, err = validate.is.number("3.14")
 Returns `true` when `v` is a string.
 
 ```lua
-validate.is.string("hello") -- true
-local ok, err = validate.is.string(false)
+local ok, err = validate.is.string("hello") -- true
+ok, err = validate.is.string(false)
 -- result: false, "expected string, got boolean"
 ```
 
@@ -170,8 +170,8 @@ local ok, err = validate.is.string(false)
 Returns `true` when `v` is a table.
 
 ```lua
-validate.is.table({}) -- true
-local ok, err = validate.is.table("x")
+local ok, err = validate.is.table({}) -- true
+ok, err = validate.is.table("x")
 -- result: false, "expected table, got string"
 ```
 
@@ -180,8 +180,8 @@ local ok, err = validate.is.table("x")
 Returns `true` when `v` is a coroutine thread.
 
 ```lua
-validate.is.thread(coroutine.create(function() end)) -- true
-local ok, err = validate.is.thread(function() end)
+local ok, err = validate.is.thread(coroutine.create(function() end)) -- true
+ok, err = validate.is.thread(function() end)
 -- result: false, "expected thread, got function"
 ```
 
@@ -190,8 +190,8 @@ local ok, err = validate.is.thread(function() end)
 Returns `true` when `v` is a userdata value.
 
 ```lua
-validate.is.userdata(io.stdout) -- true
-local ok, err = validate.is.userdata({})
+local ok, err = validate.is.userdata(io.stdout) -- true
+ok, err = validate.is.userdata({})
 -- result: false, "expected userdata, got table"
 ```
 
@@ -204,8 +204,8 @@ Predicate validators for common truth/value semantics.
 Returns `true` when `v` is exactly `false`.
 
 ```lua
-validate.is.False(false) -- true
-local ok, err = validate.is.False(true)
+local ok, err = validate.is.False(false) -- true
+ok, err = validate.is.False(true)
 -- result: false, "expected false, got true"
 ```
 
@@ -214,8 +214,8 @@ local ok, err = validate.is.False(true)
 Returns `true` when `v` is exactly `true`.
 
 ```lua
-validate.is.True(true) -- true
-local ok, err = validate.is.True(false)
+local ok, err = validate.is.True(true) -- true
+ok, err = validate.is.True(false)
 -- result: false, "expected true, got false"
 ```
 
@@ -224,8 +224,8 @@ local ok, err = validate.is.True(false)
 Returns `true` when `v` is `false` or `nil`.
 
 ```lua
-validate.is.falsy(false) -- true
-local ok, err = validate.is.falsy(1)
+local ok, err = validate.is.falsy(false) -- true
+ok, err = validate.is.falsy(1)
 -- result: false, "expected falsy, got number"
 ```
 
@@ -234,8 +234,8 @@ local ok, err = validate.is.falsy(1)
 Returns `true` when `v` can be called (function or callable table).
 
 ```lua
-validate.is.callable(function() end) -- true
-local ok, err = validate.is.callable({})
+local ok, err = validate.is.callable(function() end) -- true
+ok, err = validate.is.callable({})
 -- result: false, "expected callable, got table"
 ```
 
@@ -244,8 +244,8 @@ local ok, err = validate.is.callable({})
 Returns `true` when `v` is a whole number.
 
 ```lua
-validate.is.integer(42) -- true
-local ok, err = validate.is.integer(4.2)
+local ok, err = validate.is.integer(42) -- true
+ok, err = validate.is.integer(4.2)
 -- result: false, "expected integer, got 4.2"
 ```
 
@@ -254,8 +254,8 @@ local ok, err = validate.is.integer(4.2)
 Returns `true` when `v` is neither `false` nor `nil`.
 
 ```lua
-validate.is.truthy("non-empty") -- true
-local ok, err = validate.is.truthy(nil)
+local ok, err = validate.is.truthy("non-empty") -- true
+ok, err = validate.is.truthy(nil)
 -- result: false, "expected truthy, got nil"
 ```
 
@@ -272,8 +272,8 @@ Requires `lfs` (LuaFileSystem).
 Returns `true` when `path` points to a block device.
 
 ```lua
-validate.is.block("/dev/sda") -- true
-local ok, err = validate.is.block(123)
+local ok, err = validate.is.block("/dev/sda") -- true
+ok, err = validate.is.block(123)
 -- result: false, "expected block, got number"
 ```
 
@@ -282,8 +282,8 @@ local ok, err = validate.is.block(123)
 Returns `true` when `path` points to a character device.
 
 ```lua
-validate.is.char("/dev/null") -- true
-local ok, err = validate.is.char(123)
+local ok, err = validate.is.char("/dev/null") -- true
+ok, err = validate.is.char(123)
 -- result: false, "expected char, got number"
 ```
 
@@ -292,8 +292,8 @@ local ok, err = validate.is.char(123)
 Returns `true` when `path` points to any device node.
 
 ```lua
-validate.is.device("/dev/null") -- true
-local ok, err = validate.is.device(123)
+local ok, err = validate.is.device("/dev/null") -- true
+ok, err = validate.is.device(123)
 -- result: false, "expected device, got number"
 ```
 
@@ -302,8 +302,8 @@ local ok, err = validate.is.device(123)
 Returns `true` when `path` points to a directory.
 
 ```lua
-validate.is.dir("/tmp") -- true
-local ok, err = validate.is.dir(123)
+local ok, err = validate.is.dir("/tmp") -- true
+ok, err = validate.is.dir(123)
 -- result: false, "expected dir, got number"
 ```
 
@@ -312,8 +312,8 @@ local ok, err = validate.is.dir(123)
 Returns `true` when `path` points to a FIFO (named pipe).
 
 ```lua
-validate.is.fifo("/path/to/fifo") -- true
-local ok, err = validate.is.fifo(123)
+local ok, err = validate.is.fifo("/path/to/fifo") -- true
+ok, err = validate.is.fifo(123)
 -- result: false, "expected fifo, got number"
 ```
 
@@ -322,8 +322,8 @@ local ok, err = validate.is.fifo(123)
 Returns `true` when `path` points to a regular file.
 
 ```lua
-validate.is.file("README.md") -- true
-local ok, err = validate.is.file(123)
+local ok, err = validate.is.file("README.md") -- true
+ok, err = validate.is.file(123)
 -- result: false, "expected file, got number"
 ```
 
@@ -332,8 +332,8 @@ local ok, err = validate.is.file(123)
 Returns `true` when `path` points to a symbolic link.
 
 ```lua
-validate.is.link("/path/to/link") -- true
-local ok, err = validate.is.link(123)
+local ok, err = validate.is.link("/path/to/link") -- true
+ok, err = validate.is.link(123)
 -- result: false, "expected link, got number"
 ```
 
@@ -342,8 +342,8 @@ local ok, err = validate.is.link(123)
 Returns `true` when `path` points to a socket.
 
 ```lua
-validate.is.socket("/path/to/socket") -- true
-local ok, err = validate.is.socket(123)
+local ok, err = validate.is.socket("/path/to/socket") -- true
+ok, err = validate.is.socket(123)
 -- result: false, "expected socket, got number"
 ```
 
@@ -363,8 +363,8 @@ Negated Lua type validators.
 Returns `true` when `v` is not a Lua boolean.
 
 ```lua
-validate.is_not.boolean(123) -- true
-local ok, err = validate.is_not.boolean(true)
+local ok, err = validate.is_not.boolean(123) -- true
+ok, err = validate.is_not.boolean(true)
 -- result: false, "expected not boolean"
 ```
 
@@ -373,8 +373,8 @@ local ok, err = validate.is_not.boolean(true)
 Returns `true` when `v` is not a function value.
 
 ```lua
-validate.is_not.Function("abc") -- true
-local ok, err = validate.is_not.Function(function() end)
+local ok, err = validate.is_not.Function("abc") -- true
+ok, err = validate.is_not.Function(function() end)
 -- result: false, "expected not function"
 ```
 
@@ -383,8 +383,8 @@ local ok, err = validate.is_not.Function(function() end)
 Returns `true` when `v` is not `nil`.
 
 ```lua
-validate.is_not.Nil(123) -- true
-local ok, err = validate.is_not.Nil(nil)
+local ok, err = validate.is_not.Nil(123) -- true
+ok, err = validate.is_not.Nil(nil)
 -- result: false, "expected not nil"
 ```
 
@@ -393,8 +393,8 @@ local ok, err = validate.is_not.Nil(nil)
 Returns `true` when `v` is not a number.
 
 ```lua
-validate.is_not.number("3.14") -- true
-local ok, err = validate.is_not.number(3.14)
+local ok, err = validate.is_not.number("3.14") -- true
+ok, err = validate.is_not.number(3.14)
 -- result: false, "expected not number"
 ```
 
@@ -403,8 +403,8 @@ local ok, err = validate.is_not.number(3.14)
 Returns `true` when `v` is not a string.
 
 ```lua
-validate.is_not.string(false) -- true
-local ok, err = validate.is_not.string("hello")
+local ok, err = validate.is_not.string(false) -- true
+ok, err = validate.is_not.string("hello")
 -- result: false, "expected not string"
 ```
 
@@ -413,8 +413,8 @@ local ok, err = validate.is_not.string("hello")
 Returns `true` when `v` is not a table.
 
 ```lua
-validate.is_not.table(false) -- true
-local ok, err = validate.is_not.table({})
+local ok, err = validate.is_not.table(false) -- true
+ok, err = validate.is_not.table({})
 -- result: false, "expected not table"
 ```
 
@@ -423,8 +423,8 @@ local ok, err = validate.is_not.table({})
 Returns `true` when `v` is not a coroutine thread.
 
 ```lua
-validate.is_not.thread(function() end) -- true
-local ok, err = validate.is_not.thread(coroutine.create(function() end))
+local ok, err = validate.is_not.thread(function() end) -- true
+ok, err = validate.is_not.thread(coroutine.create(function() end))
 -- result: false, "expected not thread"
 ```
 
@@ -433,8 +433,8 @@ local ok, err = validate.is_not.thread(coroutine.create(function() end))
 Returns `true` when `v` is not a userdata value.
 
 ```lua
-validate.is_not.userdata({}) -- true
-local ok, err = validate.is_not.userdata(io.stdout)
+local ok, err = validate.is_not.userdata({}) -- true
+ok, err = validate.is_not.userdata(io.stdout)
 -- result: false, "expected not userdata"
 ```
 
@@ -447,8 +447,8 @@ Negated predicate validators for common truth/value semantics.
 Returns `true` when `v` is not exactly `false`.
 
 ```lua
-validate.is_not.False(true) -- true
-local ok, err = validate.is_not.False(false)
+local ok, err = validate.is_not.False(true) -- true
+ok, err = validate.is_not.False(false)
 -- result: false, "expected not false"
 ```
 
@@ -457,8 +457,8 @@ local ok, err = validate.is_not.False(false)
 Returns `true` when `v` is not exactly `true`.
 
 ```lua
-validate.is_not.True(false) -- true
-local ok, err = validate.is_not.True(true)
+local ok, err = validate.is_not.True(false) -- true
+ok, err = validate.is_not.True(true)
 -- result: false, "expected not true"
 ```
 
@@ -467,8 +467,8 @@ local ok, err = validate.is_not.True(true)
 Returns `true` when `v` is neither `false` nor `nil`.
 
 ```lua
-validate.is_not.falsy(true) -- true
-local ok, err = validate.is_not.falsy(nil)
+local ok, err = validate.is_not.falsy(true) -- true
+ok, err = validate.is_not.falsy(nil)
 -- result: false, "expected not falsy"
 ```
 
@@ -477,8 +477,8 @@ local ok, err = validate.is_not.falsy(nil)
 Returns `true` when `v` cannot be called.
 
 ```lua
-validate.is_not.callable({}) -- true
-local ok, err = validate.is_not.callable(function() end)
+local ok, err = validate.is_not.callable({}) -- true
+ok, err = validate.is_not.callable(function() end)
 -- result: false, "expected not callable"
 ```
 
@@ -487,8 +487,8 @@ local ok, err = validate.is_not.callable(function() end)
 Returns `true` when `v` is not a whole number.
 
 ```lua
-validate.is_not.integer(13.4) -- true
-local ok, err = validate.is_not.integer(13)
+local ok, err = validate.is_not.integer(13.4) -- true
+ok, err = validate.is_not.integer(13)
 -- result: false, "expected non-integer, got 13"
 ```
 
@@ -497,7 +497,7 @@ local ok, err = validate.is_not.integer(13)
 Returns `true` when `v` is `false` or `nil`.
 
 ```lua
-validate.is_not.truthy(nil) -- true
-local ok, err = validate.is_not.truthy(1)
+local ok, err = validate.is_not.truthy(nil) -- true
+ok, err = validate.is_not.truthy(1)
 -- result: false, "expected not truthy"
 ```
