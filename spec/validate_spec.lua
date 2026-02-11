@@ -1,4 +1,4 @@
----@diagnostic disable: param-type-mismatch, need-check-nil, undefined-field, assign-type-mismatch
+---@diagnostic disable: param-type-mismatch, need-check-nil, undefined-field, assign-type-mismatch, inject-field
 
 local validate = require("mods.validate")
 
@@ -12,6 +12,11 @@ describe("mods.validate", function()
   local ct = setmetatable({}, { __call = fn })
   local nct = setmetatable({}, { __call = true })
   local tests
+
+  it("exposes positive and negative message tables", function()
+    assert.are_equal("table", type(validate.messages.positive))
+    assert.are_equal("table", type(validate.messages.negative))
+  end)
 
   -- stylua: ignore
   tests = {
@@ -223,6 +228,33 @@ describe("mods.validate", function()
       assert.has_error(function()
         validate.number("abc")
       end, "expected number, got string")
+    end)
+  end)
+
+  describe("api surface edge cases", function()
+    teardown(function()
+      validate.on_fail = nil
+      validate.foo = nil
+    end)
+
+    it("does not override on_fail when assigning unrelated fields", function()
+      validate.on_fail = nil
+      validate.foo = 123
+      assert.are_equal(123, validate.foo)
+      assert.is_nil(validate.on_fail)
+      assert.are_same({ false, "expected number, got string" }, { validate.number("abc") })
+    end)
+
+    it("defaults callable validate(v) to nil check", function()
+      assert.are_same({ true }, { validate() })
+      assert.are_same({ false, "expected nil, got number" }, { validate(1) })
+    end)
+
+    it("accepts callable checks for known aliases", function()
+      assert.are_same({ true }, { validate(1, "number") })
+      assert.are_same({ true }, { validate(1, "NumBeR") })
+      assert.are_same({ false, "expected number, got string" }, { validate("x", "number") })
+      assert.are_same({ false, "expected number, got string" }, { validate("x", "NumBeR") })
     end)
   end)
 end)
