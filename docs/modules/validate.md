@@ -35,8 +35,8 @@ ok, err = validate.is_not.number(3.14)
 
 Customize validator error messages through `validate.messages`.
 
-- `validate.messages.is.<name>` customizes positive checks
-- `validate.messages.is_not.<name>` customizes negated checks
+- `validate.messages.positive.<name>` customizes positive checks
+- `validate.messages.negative.<name>` customizes negated checks
 
 Available placeholders:
 
@@ -49,8 +49,8 @@ Available placeholders:
 **Example**
 
 ```lua
-validate.messages.is.number = "need {{expected}}, got {{got}} (value={{value}})"
-validate.messages.is_not.number = "must not be {{expected}} (value={{value}})"
+validate.messages.positive.number = "need {{expected}}, got {{got}} (value={{value}})"
+validate.messages.negative.number = "must not be {{expected}} (value={{value}})"
 
 local ok, err = validate.is.number("x")
 -- result: false, 'need number, got string (value="x")'
@@ -324,6 +324,8 @@ local ok, err = validate.is.socket(123)
 ### `is_not`
 
 Negated validators. These checks pass only when the value does not match the expected type or predicate.
+
+`is_not` supports type and value checks. Path checks are available on `is` only.
 
 #### Type Checks
 

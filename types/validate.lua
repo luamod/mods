@@ -49,11 +49,11 @@
 ---```lua
 ---local validate = require("mods.validate")
 ---local messages = validate.messages
----messages.is.number = "should be {{expected}}, got {{got}} (passed={{value}})"
+---messages.positive.number = "should be {{expected}}, got {{got}} (passed={{value}})"
 ---local ok, err = validate.Number("nope")
 -----result: 'should be number, got string (passed="nope")'
 ---
----messages.is_not.number = "should not be {{expected}}, got {{got}} (passed={{value}})"
+---messages.negative.number = "should not be {{expected}}, got {{got}} (passed={{value}})"
 ---ok, err = validate.is_not.Number(3.14)
 -----result: 'should not be number, got number (passed=3.14)'
 ---```
