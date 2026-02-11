@@ -199,6 +199,56 @@ local function render_module(doc)
   local out = List()
   local anchor_counts = {}
 
+  local function make_validate_default_aliases(name)
+    local lower = str.lower(name)
+    local aliases, seen = {}, {}
+    local function add(a)
+      if not seen[a] then
+        seen[a] = true
+        aliases[#aliases + 1] = "`" .. a .. "`"
+      end
+    end
+    add(name)
+    add(lower)
+    add("is." .. name)
+    add("is." .. lower)
+    add("is_" .. name)
+    add("is_" .. lower)
+    return table.concat(aliases, ", ")
+  end
+
+  local function make_validate_not_aliases(name)
+    local lower = str.lower(name)
+    local aliases, seen = {}, {}
+    local function add(a)
+      if not seen[a] then
+        seen[a] = true
+        aliases[#aliases + 1] = "`" .. a .. "`"
+      end
+    end
+    add("is_not." .. name)
+    add("is_not." .. lower)
+    add("isnot." .. name)
+    add("isnot." .. lower)
+    add("isNot." .. name)
+    add("isNot." .. lower)
+    add("not." .. name)
+    add("not." .. lower)
+    add("Not." .. name)
+    add("Not." .. lower)
+    add("is_not_" .. name)
+    add("is_not_" .. lower)
+    add("isnot_" .. name)
+    add("isnot_" .. lower)
+    add("isNot_" .. name)
+    add("isNot_" .. lower)
+    add("not_" .. name)
+    add("not_" .. lower)
+    add("Not_" .. name)
+    add("Not_" .. lower)
+    return table.concat(aliases, ", ")
+  end
+
   if doc.meta and doc.meta ~= "" then
     local type_name = display_name(doc.meta)
     push_all(out, "---", "editLinkTarget: types/" .. type_name .. ".lua", "---", "")
@@ -208,6 +258,7 @@ local function render_module(doc)
     local base = slugify_anchor(fn.name, fn.params)
     local n = (anchor_counts[base] or 0) + 1
     anchor_counts[base] = n
+    fn.occurrence = n
     if n == 1 then
       fn.anchor = base
     else
@@ -269,6 +320,13 @@ local function render_module(doc)
 
       local desc = fn.doc.desc or ""
       local aliases = fn.doc.aliases
+      if (not aliases or aliases == "") and short == "validate" then
+        if desc:find("%*%*not%*%*") then
+          aliases = make_validate_not_aliases(fn.name)
+        else
+          aliases = make_validate_default_aliases(fn.name)
+        end
+      end
       if (not aliases or aliases == "") and desc ~= "" then
         local lines = {}
         for line in (desc .. "\n"):gmatch("(.-)\n") do
