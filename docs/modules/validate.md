@@ -638,19 +638,6 @@ an error message.
 assert(validate.is_not.thread(function() end))
 ```
 
-== Aliases
-
-- `is_not.thread`
-- `isnot.thread`
-- `isNot.thread`
-- `not.thread`
-- `Not.thread`
-- `is_not_thread`
-- `isnot_thread`
-- `isNot_thread`
-- `not_thread`
-- `Not_thread`
-
 == Signature
 
 ```lua
