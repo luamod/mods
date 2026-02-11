@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-02-11
+
 ### Added
 
 - `mods.is`, type predicates for Lua values and filesystem paths ([afd88a7](https://github.com/luamod/mods/commit/afd88a7)).
@@ -29,5 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mods.stringcase`, string case conversion helpers ([4a02745](https://github.com/luamod/mods/commit/4a02745)).
 - `mods.tbl`, table utilities ([f4cbf78](https://github.com/luamod/mods/commit/f4cbf78)).
 
-[Unreleased]: https://github.com/luamod/mods/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/luamod/mods/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/luamod/mods/releases/tag/v0.2.0
 [0.1.0]: https://github.com/luamod/mods/releases/tag/v0.1.0
