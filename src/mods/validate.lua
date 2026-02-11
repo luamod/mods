@@ -249,7 +249,7 @@ setmetatable(M, { __call = call_validator, __index = is })
 setmetatable(is, { __call = call_validator, __index = { name = "is" } })
 setmetatable(is_not, { __call = call_validator, __index = { name = "is_not" } })
 
-if _TEST then
+if rawget(_G, "_TEST") then
   rawset(M, "quote", quote)
 end
 
