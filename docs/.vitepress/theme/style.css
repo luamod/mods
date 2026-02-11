@@ -13,7 +13,10 @@
   text-decoration: none;
 }
 
-/* Make inline code use normal text color */
-.VPDoc :not(pre) > code {
+/* Make inline code use normal text color (including callouts/admonitions) */
+.VPDoc :not(pre) > code,
+.VPDoc .custom-block :not(pre) > code,
+.VPDoc .vp-admonition :not(pre) > code,
+.VPDoc blockquote :not(pre) > code {
   color: inherit;
 }
