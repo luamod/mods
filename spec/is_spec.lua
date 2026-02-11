@@ -9,7 +9,7 @@ describe("mods.is", function()
   local ct = setmetatable({}, { __call = f })
   local nct = setmetatable({}, { __call = true })
 
-  it("is is callable via __call", function()
+  it("is is callable", function()
     assert.is_callable(is)
   end)
 
