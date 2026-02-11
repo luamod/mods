@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mods.is`, type predicates for Lua values and filesystem paths ([afd88a7](https://github.com/luamod/mods/commit/afd88a7)).
 - `mods.operator`, operator helpers as functions ([d620ef9](https://github.com/luamod/mods/commit/d620ef9)).
 - `mods.template`, simple template rendering with value replacement ([96e833c](https://github.com/luamod/mods/commit/96e833c)).
+- `mods.validate`, validation predicates with customizable failure handling via `validate.on_fail` ([31d9b91](https://github.com/luamod/mods/commit/31d9b91)).
 
 ### Changed
 
