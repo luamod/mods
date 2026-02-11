@@ -56,7 +56,7 @@ ok, err = validate(1, "number")        -- true
 ok, err = validate.is(1, "number")     -- true
 ok, err = validate.IS(1, "number")     -- true
 ok, err = validate.is_not(1, "number") -- false, "expected not number"
-ok, err = validate.not(1, "number")    -- false, "expected not number"
+ok, err = validate.Not(1, "number")    -- false, "expected not number"
 ```
 
 ## Quick Reference
