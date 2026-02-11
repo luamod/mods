@@ -18,5 +18,14 @@
 .VPDoc .custom-block :not(pre) > code,
 .VPDoc .vp-admonition :not(pre) > code,
 .VPDoc blockquote :not(pre) > code {
-  color: inherit;
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-default-soft);
+}
+
+/* Keep inline code link color when code is clickable */
+.VPDoc a > code,
+.VPDoc a:hover > code,
+.VPDoc a:visited > code,
+.VPDoc a:active > code {
+  color: var(--vp-c-brand-1) !important;
 }
