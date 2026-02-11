@@ -68,17 +68,7 @@ export default defineConfig({
       { text: "Modules", items: moduleItems },
     ],
     editLink: {
-      pattern: ({ filePath, frontmatter }) => {
-        const repoEditBase = "https://github.com/luamod/mods/edit/main";
-        if (!filePath) {
-          return `${repoEditBase}/docs`;
-        }
-        const target = frontmatter?.editLinkTarget;
-        if (typeof target === "string" && target.length > 0) {
-          return `${repoEditBase}/${target}`;
-        }
-        return `${repoEditBase}/docs/${filePath}`;
-      },
+      pattern: "https://github.com/luamod/mods/edit/main/docs/:path",
       text: "Edit this page",
     },
   },
