@@ -1,16 +1,16 @@
 name: Generate Docs
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "types/**/*.lua"
-      - "scripts/gen-docs.lua"
-  pull_request:
-    paths:
-      - "types/**/*.lua"
-      - "scripts/gen-docs.lua"
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "types/**/*.lua"
+  #     - "scripts/gen-docs.lua"
+  # pull_request:
+  #   paths:
+  #     - "types/**/*.lua"
+  #     - "scripts/gen-docs.lua"
   workflow_dispatch:
 
 permissions:
