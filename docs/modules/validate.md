@@ -116,8 +116,8 @@ By default, validate uses built-in templates unless `validate.messages.positive.
 Set `validate.on_fail` to handle failed validations globally.
 
 - If `on_fail` is set, it is called with the rendered error message.
-- If `on_fail` returns a value, that value is used as the returned error.
-- If `on_fail` returns `nil`, the default rendered error is returned.
+- If `on_fail` returns a truthy value, that value is used as the returned error.
+- If `on_fail` returns a falsy value, the default rendered error is returned.
 - If `on_fail` is `nil`, validators return `false, err` as usual.
 
 ```lua

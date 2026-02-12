@@ -34,6 +34,7 @@ local function render_msg(expected, actual, v, is_expected)
   else
     tmpl = not_tmpl[expected] or "expected not {{expected}}"
   end
+
   local msg = (
     gsub(tmpl, "{{(.-)}}", function(k)
       if k == "expected" then
@@ -46,6 +47,8 @@ local function render_msg(expected, actual, v, is_expected)
       return "{{" .. k .. "}}"
     end)
   )
+
+  -- Intentional: only truthy hook returns override the message; nil/false fall back.
   return on_fail and on_fail(msg) or msg
 end
 
@@ -198,6 +201,8 @@ is.link = function(v)
 end
 
 --------------------------------------------------------------------------------
+-------------------------- Dispatch and alias lookup ---------------------------
+--------------------------------------------------------------------------------
 
 ---@diagnostic disable-next-line: invisible
 M._name, is._name, isnot._name = "is", "is", "isnot"
@@ -219,6 +224,13 @@ local function call_validator(self, v, tp)
   return false, render_msg(tostring(tp), actual, v, self._name == "is")
 end
 
+local function strip_prefix(s, prefix)
+  if sub(s, 1, #prefix) == prefix then
+    return sub(s, #prefix + 1), true
+  end
+  return s, false
+end
+
 setmetatable(M, {
   __call = call_validator,
   __newindex = function(t, k, v)
@@ -235,21 +247,34 @@ setmetatable(M, {
     if type(k) ~= "string" then
       return nil
     end
+
     if k == "on_fail" then
       return on_fail
     end
-    k = lower(k):gsub("_", ""):gsub("is", "")
+    local key = lower(k):gsub("_", "")
 
-    if k == "" then
+    if key == "is" then
       return is
     end
-    local v = is[k]
+
+    local v = rawget(is, key)
     if v then
       return v
     end
 
-    if sub(k, 1, 3) == "not" then
-      return k == "not" and isnot or isnot[k]
+    key = strip_prefix(key, "is")
+    if key == "" then
+      return is
+    end
+
+    v = rawget(is, key)
+    if v then
+      return v
+    end
+
+    key, v = strip_prefix(key, "not")
+    if v then
+      return key == "" and isnot or isnot[key]
     end
   end,
 })
@@ -260,14 +285,31 @@ setmetatable(is, {
     if type(k) ~= "string" then
       return
     end
-    return lower(k) == "not" and isnot or rawget(t, lower(gsub(k, "is", "")))
+    local key = lower(k)
+
+    local v = rawget(t, key)
+    if v then
+      return v
+    end
+
+    key = strip_prefix(key, "is")
+    return key == "not" and isnot or rawget(t, key)
   end,
 })
 
 setmetatable(isnot, {
   __call = call_validator,
   __index = function(t, k)
-    return type(k) == "string" and rawget(t, lower(gsub(k, "not", ""))) or nil
+    if type(k) ~= "string" then
+      return nil
+    end
+
+    local key = lower(k)
+    local v = rawget(t, key)
+    if v then
+      return v
+    end
+    return rawget(t, strip_prefix(key, "not"))
   end,
 })
 

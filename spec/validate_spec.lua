@@ -18,6 +18,11 @@ describe("mods.validate", function()
     assert.are_equal("table", type(validate.messages.negative))
   end)
 
+  it("resolves validate.is.not to the negated validator", function()
+    assert.are_equal(validate.is_not, validate.is["not"])
+    assert.Callable(validate.is["not"])
+  end)
+
   -- stylua: ignore
   tests = {
     { "validate"  , validate           },
@@ -245,6 +250,13 @@ describe("mods.validate", function()
       assert.are_same({ false, "expected integer, got 1.5" }, { validate.integer(1.5) })
     end)
 
+    it("returns default message when on_fail returns false", function()
+      validate.on_fail = function()
+        return false
+      end
+      assert.are_same({ false, "expected number, got string" }, { validate.number("abc") })
+    end)
+
     it("works when handler raises an error", function()
       validate.on_fail = error
       assert.has_error(function()
@@ -257,6 +269,8 @@ describe("mods.validate", function()
     teardown(function()
       validate.on_fail = nil
       validate.foo = nil
+      validate.is.list = nil
+      validate.is_not.notice = nil
     end)
 
     it("does not override on_fail when assigning unrelated fields", function()
@@ -277,6 +291,46 @@ describe("mods.validate", function()
       assert.are_same({ true }, { validate(1, "NumBeR") })
       assert.are_same({ false, "expected number, got string" }, { validate("x", "number") })
       assert.are_same({ false, "expected number, got string" }, { validate("x", "NumBeR") })
+    end)
+
+    it("returns nil for non-string index keys without raising", function()
+      local function assert_nil_lookup(t, k)
+        local ok, v = pcall(function()
+          return t[k]
+        end)
+        assert.is_true(ok)
+        assert.is_nil(v)
+      end
+
+      assert_nil_lookup(validate, 1)
+      assert_nil_lookup(validate.is, 1)
+      assert_nil_lookup(validate.is_not, 1)
+
+      assert_nil_lookup(validate, true)
+      assert_nil_lookup(validate.is, true)
+      assert_nil_lookup(validate.is_not, true)
+
+      local key = {}
+      assert_nil_lookup(validate, key)
+      assert_nil_lookup(validate.is, key)
+      assert_nil_lookup(validate.is_not, key)
+    end)
+
+    it("keeps alias lookup stable for names containing is/not", function()
+      local list_validator = function()
+        return true
+      end
+      local notice_validator = function()
+        return true
+      end
+      validate.is.list = list_validator
+      validate.is_not.notice = notice_validator
+
+      assert.are_equal(list_validator, validate.List)
+      assert.are_equal(list_validator, validate.is.List)
+      assert.are_equal(list_validator, validate.islist)
+
+      assert.are_equal(notice_validator, validate.is_not.notIce)
     end)
   end)
 end)
