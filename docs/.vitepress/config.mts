@@ -31,7 +31,7 @@ export default defineConfig({
   title: "Mods",
   description: "Pure standalone Lua modules.",
   base: isProd ? "/mods/" : "/",
-  cleanUrls: false,
+  cleanUrls: true,
   sitemap: {
     hostname: "https://luamod.github.io/mods/",
   },
