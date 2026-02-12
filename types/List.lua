@@ -20,8 +20,7 @@ List.__index = List
 ---local ok = List({ 2, 4 }):all(is_even)
 ----- result: true
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
 ---@return boolean
 ---@nodiscard
@@ -35,8 +34,7 @@ function List:all(pred) end
 ---local ok = List({ "a", "bb" }):any(has_len_2)
 ----- result: true
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
 ---@return boolean
 ---@nodiscard
@@ -53,8 +51,7 @@ function List:any(pred) end
 ---local l = List({ "a" }):append("b")
 ----- result: { "a", "b" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return T self
 function List:append(v) end
 
@@ -134,8 +131,7 @@ function List:insert(v) end
 ---local v = l:pop()
 ----- result: v == "b"; l is { "a" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return any
 function List:pop() end
 
@@ -147,8 +143,7 @@ function List:pop() end
 ---local v = l:pop(2)
 ----- result: v == "b"; l is { "a", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param pos integer
 ---@return any
 function List:pop(pos) end
@@ -206,9 +201,8 @@ function List:sort(comp) end
 ---local c = List({ "a", "b" }):copy()
 ----- result: { "a", "b" }
 ---```
----@generic T:mods.List|any[]
----@param self T
----@return T ls
+---@param self mods.List|any[]
+---@return mods.List ls
 ---@nodiscard
 function List:copy() end
 
@@ -223,8 +217,7 @@ function List:copy() end
 ---local ok = List({ "a", "b" }):contains("b")
 ----- result: true
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param v any
 ---@return any
 ---@nodiscard
@@ -237,8 +230,7 @@ function List:contains(v) end
 ---local n = List({ "a", "b", "b" }):count("b")
 ----- result: 2
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return integer
 ---@nodiscard
 function List:count(v) end
@@ -250,8 +242,7 @@ function List:count(v) end
 ---local i = List({ "a", "b", "c", "b" }):index("b")
 ----- result: 2
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param v any
 ---@return any value
 ---@return integer? index
@@ -266,8 +257,7 @@ function List:index(v) end
 ---local i = List({ 1, 2, 3 }):index_if(gt_1)
 ----- result: 2
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
 ---@return integer? index
 ---@nodiscard
@@ -280,8 +270,7 @@ function List:index_if(pred) end
 ---local n = List({ "a", "b", "c" }):len()
 ----- result: 3
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return integer
 ---@nodiscard
 function List:len() end
@@ -297,8 +286,7 @@ function List:len() end
 ---local v = List({ "a", "b" }):first()
 ----- result: "a"
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return any
 ---@nodiscard
 function List:first() end
@@ -310,8 +298,7 @@ function List:first() end
 ---local v = List({ "a", "b" }):last()
 ----- result: "b"
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return any
 ---@nodiscard
 function List:last() end
@@ -327,8 +314,7 @@ function List:last() end
 ---local d = List({ "a", "b", "c" }):difference({ "b" })
 ----- result: { "a", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return T ls
 ---@nodiscard
 function List:difference(ls) end
@@ -340,10 +326,9 @@ function List:difference(ls) end
 ---local t = List({ "a", "b", "c" }):drop(1)
 ----- result: { "b", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param n integer
----@return T ls
+---@return mods.List ls
 ---@nodiscard
 function List:drop(n) end
 
@@ -355,10 +340,9 @@ function List:drop(n) end
 ---local f = List({ "a", "bb", "c" }):filter(is_len_1)
 ----- result: { "a", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
----@return T ls
+---@return mods.List ls
 ---@nodiscard
 function List:filter(pred) end
 
@@ -369,9 +353,8 @@ function List:filter(pred) end
 ---local f = List({ { "a", "b" }, { "c" } }):flatten()
 ----- result: { "a", "b", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
----@return T self
+---@param self mods.List|any[]
+---@return mods.List self
 ---@nodiscard
 function List:flatten() end
 
@@ -382,8 +365,7 @@ function List:flatten() end
 ---```lua
 ---List({ "a", "b" }):foreach(print)
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param fn fun(v:any)
 ---@return nil
 function List:foreach(fn) end
@@ -396,10 +378,9 @@ function List:foreach(fn) end
 ---local g = List(words):group_by(string.len)
 ----- result: { {"b"}, { "aa", "dd" }, { "ccc" } }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param fn fun(v:any):any
----@return table<any, T>
+---@return table
 ---@nodiscard
 function List:group_by(fn) end
 
@@ -411,10 +392,9 @@ function List:group_by(fn) end
 ---local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 ----- result: { "a", "a", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
----@param ls T
----@return T self
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return mods.List self
 ---@nodiscard
 function List:intersection(ls) end
 
@@ -425,8 +405,7 @@ function List:intersection(ls) end
 ---local t = List({ "a", "b", "c" }):invert()
 ----- result: { a = 1, b = 2, c = 3 }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return table
 ---@nodiscard
 function List:invert() end
@@ -438,8 +417,7 @@ function List:invert() end
 ---local s = List({ "a", "b", "c" }):join(",")
 ----- result: "a,b,c"
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param sep? string
 ---@return string
 ---@nodiscard
@@ -453,10 +431,9 @@ function List:join(sep) end
 ---local m = List({ "a", "b" }):map(to_upper)
 ----- result: { "A", "B" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param fn fun(v):any
----@return T ls
+---@return mods.List ls
 ---@nodiscard
 function List:map(fn) end
 
@@ -473,8 +450,7 @@ function List:map(fn) end
 ---sum = List({ 1, 2, 3 }):reduce(add, 10)
 ----- result: 16
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param fn fun(acc:any, v:any):any
 ---@param init? any
 ---@return any
@@ -488,9 +464,8 @@ function List:reduce(fn, init) end
 ---local r = List({ "a", "b", "c" }):reverse()
 ----- result: { "c", "b", "a" }
 ---```
----@generic T:mods.List|any[]
----@param self T
----@return T ls
+---@param self mods.List|any[]
+---@return mods.List ls
 ---@nodiscard
 function List:reverse() end
 
@@ -501,8 +476,7 @@ function List:reverse() end
 ---local s = List({ "a", "b", "a" }):setify()
 ----- result: { a = true, b = true }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@return mods.Set
 ---@nodiscard
 function List:setify() end
@@ -515,11 +489,10 @@ function List:setify() end
 ---local t = List({ "a", "b", "c", "d" }):slice(2, 3)
 ----- result: { "b", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param i? integer
 ---@param j? integer
----@return T ls
+---@return mods.List ls
 ---@nodiscard
 function List:slice(i, j) end
 
@@ -530,10 +503,9 @@ function List:slice(i, j) end
 ---local t = List({ "a", "b", "c" }):take(2)
 ----- result: { "a", "b" }
 ---```
----@generic T:mods.List|any[]
----@param self T
+---@param self mods.List|any[]
 ---@param n integer
----@return T ls
+---@return mods.List ls
 ---@nodiscard
 function List:take(n) end
 
@@ -544,9 +516,8 @@ function List:take(n) end
 ---local u = List({ "a", "b", "a", "c" }):uniq()
 ----- result: { "a", "b", "c" }
 ---```
----@generic T:mods.List|any[]
----@param self T
----@return T ls
+---@param self mods.List|any[]
+---@return mods.List ls
 ---@nodiscard
 function List:uniq() end
 
@@ -558,10 +529,9 @@ function List:uniq() end
 ---local z = List({ "a", "b" }):zip({ 1, 2 })
 ----- result: { {"a",1}, {"b",2} }
 ---```
----@generic T:mods.List|any[]
----@param self T
----@param ls T
----@return T ls
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return mods.List ls
 ---@nodiscard
 function List:zip(ls) end
 
