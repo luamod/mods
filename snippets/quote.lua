@@ -18,6 +18,7 @@ local gsub = string.gsub
 ---quote strings; stringify other values.
 ---
 ---Copied from snippets/quote.lua
+---
 ---IMPORTANT: Keep this function in sync with snippets/quote.lua.
 ---
 local function quote(v)

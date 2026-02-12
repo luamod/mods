@@ -1,6 +1,6 @@
 local gsub = string.gsub
 local sub = string.sub
-local match = string.match
+local find = string.find
 local lower = string.lower
 local getmt = getmetatable
 local tostring = tostring
@@ -17,14 +17,18 @@ local M = {
   messages = { positive = is_tmpl, negative = not_tmpl },
 }
 
-local function quote(s)
-  if type(s) ~= "string" then
-    return tostring(s)
+---
+---quote strings; stringify other values.
+---
+---Copied from snippets/quote.lua
+---
+---IMPORTANT: Keep this function in sync with snippets/quote.lua.
+---
+local function quote(v)
+  if find(v, '"', 1, true) and not find(v, "'", 1, true) then
+    return "'" .. v .. "'"
   end
-  if match(s, '"') and not match(s, "'") then
-    return "'" .. s .. "'"
-  end
-  return '"' .. gsub(s, '"', '\\"') .. '"'
+  return '"' .. gsub(v, '"', '\\"') .. '"'
 end
 
 local function render_msg(expected, actual, v, is_expected)
@@ -42,7 +46,7 @@ local function render_msg(expected, actual, v, is_expected)
       elseif k == "got" then
         return actual
       elseif k == "value" then
-        return quote(v)
+        return type(v) == "string" and quote(v) or tostring(v)
       end
       return "{{" .. k .. "}}"
     end)
