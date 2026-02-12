@@ -79,11 +79,11 @@ Customize validator error messages through `validate.messages`.
 
 Available placeholders:
 
-| Placeholder                     | Meaning                                                                                                  |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| <code v-pre>{{expected}}</code> | The check target (for example `number`, `string`, `truthy`).                                             |
-| <code v-pre>{{got}}</code>      | The detected Lua type (`nil`, `boolean`, `number`, `string`, `table`, `function`, `thread`, `userdata`). |
-| <code v-pre>{{value}}</code>    | The passed value, formatted for display (strings are quoted).                                            |
+| Placeholder                     | Meaning                                                                             |
+| ------------------------------- | ----------------------------------------------------------------------------------- |
+| <code v-pre>{{expected}}</code> | The check target (for example `number`, `string`, `truthy`).                        |
+| <code v-pre>{{got}}</code>      | The detected failure kind (usually a Lua type; path validators use `invalid path`). |
+| <code v-pre>{{value}}</code>    | The passed value, formatted for display (strings are quoted).                       |
 
 **Example**
 
@@ -102,7 +102,8 @@ ok, err = validate.is_not.number(42)
 
 By default, validate uses built-in templates unless `validate.messages.positive.<name>` or `validate.messages.negative.<name>` is overridden:
 
-- Positive checks (`validate.is.*`): <code v-pre>expected {{expected}}, got {{got}}</code>
+- Positive type/value checks (`validate.is.*`): <code v-pre>expected {{expected}}, got {{got}}</code>
+- Positive path checks (`validate.is.block`, `char`, `device`, `dir`, `fifo`, `file`, `link`, `socket`): <code v-pre>{{value}} is not a valid {{expected}} path</code>
 - Negative checks (`validate.is_not.*`): <code v-pre>expected not {{expected}}</code>
 
 `integer` uses a more specific default that includes the passed value:
@@ -298,7 +299,7 @@ Returns `true` when `path` points to a block device.
 ```lua
 local ok, err = validate.is.block("/dev/sda") -- true
 ok, err = validate.is.block(123)
--- result: false, "expected block, got number"
+-- result: false, "123 is not a valid block path"
 ```
 
 ##### `char(path)` {#is-char}
@@ -308,7 +309,7 @@ Returns `true` when `path` points to a character device.
 ```lua
 local ok, err = validate.is.char("/dev/null") -- true
 ok, err = validate.is.char(123)
--- result: false, "expected char, got number"
+-- result: false, "123 is not a valid char path"
 ```
 
 ##### `device(path)` {#is-device}
@@ -318,7 +319,7 @@ Returns `true` when `path` points to any device node.
 ```lua
 local ok, err = validate.is.device("/dev/null") -- true
 ok, err = validate.is.device(123)
--- result: false, "expected device, got number"
+-- result: false, "123 is not a valid device path"
 ```
 
 ##### `dir(path)` {#is-dir}
@@ -328,7 +329,7 @@ Returns `true` when `path` points to a directory.
 ```lua
 local ok, err = validate.is.dir("/tmp") -- true
 ok, err = validate.is.dir(123)
--- result: false, "expected dir, got number"
+-- result: false, "123 is not a valid dir path"
 ```
 
 ##### `fifo(path)` {#is-fifo}
@@ -338,7 +339,7 @@ Returns `true` when `path` points to a FIFO (named pipe).
 ```lua
 local ok, err = validate.is.fifo("/path/to/fifo") -- true
 ok, err = validate.is.fifo(123)
--- result: false, "expected fifo, got number"
+-- result: false, "123 is not a valid fifo path"
 ```
 
 ##### `file(path)` {#is-file}
@@ -348,7 +349,7 @@ Returns `true` when `path` points to a regular file.
 ```lua
 local ok, err = validate.is.file("README.md") -- true
 ok, err = validate.is.file(123)
--- result: false, "expected file, got number"
+-- result: false, "123 is not a valid file path"
 ```
 
 ##### `link(path)` {#is-link}
@@ -358,7 +359,7 @@ Returns `true` when `path` points to a symbolic link.
 ```lua
 local ok, err = validate.is.link("/path/to/link") -- true
 ok, err = validate.is.link(123)
--- result: false, "expected link, got number"
+-- result: false, "123 is not a valid link path"
 ```
 
 ##### `socket(path)` {#is-socket}
@@ -368,7 +369,7 @@ Returns `true` when `path` points to a socket.
 ```lua
 local ok, err = validate.is.socket("/path/to/socket") -- true
 ok, err = validate.is.socket(123)
--- result: false, "expected socket, got number"
+-- result: false, "123 is not a valid socket path"
 ```
 
 ### `is_not`

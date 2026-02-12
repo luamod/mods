@@ -49,9 +49,9 @@ local function render_msg(expected, actual, v, is_expected)
   return on_fail and on_fail(msg) or msg
 end
 
--------------------
---- Type checks ---
--------------------
+--------------------------------------------------------------------------------
+---------------------------------- Type checks ---------------------------------
+--------------------------------------------------------------------------------
 
 local function type_check(v, tp, is_expected)
   local actual = type(v)
@@ -74,9 +74,12 @@ gsub("boolean function nil number string table thread userdata", "%S+", function
   end
 end)
 
---------------------
---- Value checks ---
---------------------
+--------------------------------------------------------------------------------
+--------------------------------- Value checks ---------------------------------
+--------------------------------------------------------------------------------
+
+is_tmpl.integer = "expected integer, got {{value}}"
+not_tmpl.integer = "expected non-integer, got {{value}}"
 
 local function value_check(v, expected, check, is_expected)
   if is_expected then
@@ -120,11 +123,12 @@ for k, check in pairs(value_checks) do
   end
 end
 
--------------------
---- Path checks ---
--------------------
+--------------------------------------------------------------------------------
+--------------------------------- Path checks ----------------------------------
+--------------------------------------------------------------------------------
 
 local lfs
+is_tmpl.link = "{{value}} is not a valid {{expected}} path"
 
 local function require_lfs()
   if lfs then
@@ -150,23 +154,18 @@ local function symlinkattrs(...)
   return symlinkattrs(...)
 end
 
-local function path_check(v, expected_label, want_mode, use_symlink)
+local function path_check(v, expected_label, expected_mode, stat_fn)
   if type(v) ~= "string" then
-    return false, render_msg(expected_label, type(v), v, true)
+    return false, render_msg(expected_label, "invalid path", v, true)
   end
-  local mode, err
-  if use_symlink then
-    mode, err = symlinkattrs(v, "mode")
-  else
-    mode, err = attrs(v, "mode")
-  end
+  local mode = stat_fn(v, "mode")
   if not mode then
-    return false, err or ("expected " .. expected_label)
+    return false, render_msg(expected_label, "invalid path", v, true)
   end
 
   local ok
-  if want_mode then
-    ok = mode == want_mode
+  if expected_mode then
+    ok = mode == expected_mode
   else
     ok = mode == "char device" or mode == "block device"
   end
@@ -174,33 +173,34 @@ local function path_check(v, expected_label, want_mode, use_symlink)
   if ok then
     return true
   end
-  return false, render_msg(expected_label, mode, v, true)
+  return false, render_msg(expected_label, "invalid path", v, true)
 end
 
 local path_checks = {
-  block = { want_mode = "block device", use_symlink = false },
-  char = { want_mode = "char device", use_symlink = false },
-  device = { want_mode = nil, use_symlink = false },
-  dir = { want_mode = "directory", use_symlink = false },
-  fifo = { want_mode = "named pipe", use_symlink = false },
-  file = { want_mode = "file", use_symlink = false },
-  link = { want_mode = "link", use_symlink = true },
-  socket = { want_mode = "socket", use_symlink = false },
+  block = "block device",
+  char = "char device",
+  device = false,
+  dir = "directory",
+  fifo = "named pipe",
+  file = "file",
+  socket = "socket",
 }
 
-for k, rule in pairs(path_checks) do
-  local want_mode, use_symlink = rule.want_mode, rule.use_symlink
+for k, expected_mode in pairs(path_checks) do
+  is_tmpl[k] = "{{value}} is not a valid {{expected}} path"
   is[k] = function(v)
-    return path_check(v, k, want_mode, use_symlink)
+    return path_check(v, k, expected_mode, attrs)
   end
+end
+
+is.link = function(v)
+  return path_check(v, "link", "link", symlinkattrs)
 end
 
 --------------------------------------------------------------------------------
 
 ---@diagnostic disable-next-line: invisible
 M._name, is._name, isnot._name = "is", "is", "isnot"
-is_tmpl.integer = "expected integer, got {{value}}"
-not_tmpl.integer = "expected non-integer, got {{value}}"
 
 local function call_validator(self, v, tp)
   tp = tp == nil and "nil" or tp

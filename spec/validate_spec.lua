@@ -78,28 +78,34 @@ describe("mods.validate", function()
 
   -- stylua: ignore
   tests = {
-    -----type----|-----v1----|---v2--|----------------errmsg-----------------
-    { "boolean"  , false     , 123   , "expected boolean, got number"       },
-    { "boolean"  , true      , nil   , "expected boolean, got nil"          },
-    { "function" , fn        , "abc" , "expected function, got string"      },
-    { "nil"      , nil       , 123   , "expected nil, got number"           },
-    { "number"   , 123       , "123" , "expected number, got string"        },
-    { "string"   , "abc"     , true  , "expected string, got boolean"       },
-    { "table"    , {}        , false , "expected table, got boolean"        },
-    { "thread"   , co        , fn    , "expected thread, got function"      },
-    { "userdata" , io.stdout , {}    , "expected userdata, got table"       },
+    -----type----|------v1-----|------v2------|------------------errmsg------------------
+    { "boolean"  , false       , 123          , "expected boolean, got number"          },
+    { "boolean"  , true        , nil          , "expected boolean, got nil"             },
+    { "function" , fn          , "abc"        , "expected function, got string"         },
+    { "nil"      , nil         , 123          , "expected nil, got number"              },
+    { "number"   , 123         , "123"        , "expected number, got string"           },
+    { "string"   , "abc"       , true         , "expected string, got boolean"          },
+    { "table"    , {}          , false        , "expected table, got boolean"           },
+    { "thread"   , co          , fn           , "expected thread, got function"         },
+    { "userdata" , io.stdout   , {}           , "expected userdata, got table"          },
 
-    { "callable" , ct        , nct   , "expected callable, got table"       },
-    { "callable" , fn        , {}    , "expected callable, got table"       },
-    { "false"    , false     , true  , "expected false, got true"           },
-    { "falsy"    , false     , true  , "expected falsy, got boolean"        },
-    { "falsy"    , nil       , 123   , "expected falsy, got number"         },
-    { "integer"  , 123       , 13.4  , "expected integer, got 13.4"         },
-    { "integer"  , 123       , nil   , "expected integer, got nil"          },
-    { "integer"  , 123       , "abc" , 'expected integer, got "abc"'        },
-    { "true"     , true      , false , "expected true, got false"           },
-    { "truthy"   , 123       , nil   , "expected truthy, got nil"           },
-    { "truthy"   , true      , false , "expected truthy, got boolean"       },
+    { "callable" , ct          , nct          , "expected callable, got table"          },
+    { "callable" , fn          , {}           , "expected callable, got table"          },
+    { "false"    , false       , true         , "expected false, got true"              },
+    { "falsy"    , false       , true         , "expected falsy, got boolean"           },
+    { "falsy"    , nil         , 123          , "expected falsy, got number"            },
+    { "integer"  , 123         , 13.4         , "expected integer, got 13.4"            },
+    { "integer"  , 123         , nil          , "expected integer, got nil"             },
+    { "integer"  , 123         , "abc"        , 'expected integer, got "abc"'           },
+    { "true"     , true        , false        , "expected true, got false"              },
+    { "truthy"   , 123         , nil          , "expected truthy, got nil"              },
+    { "truthy"   , true        , false        , "expected truthy, got boolean"          },
+
+    { "file"     , "README.md" , "src"        , '"src" is not a valid file path'        },
+    { "file"     , "README.md" , false        , "false is not a valid file path"        },
+    { "file"     , "README.md" , "MISSING.md" , '"MISSING.md" is not a valid file path' },
+    { "dir"      , "src"       , "README.md"  , '"README.md" is not a valid dir path'   },
+    { "dir"      , "src"       , 123          , '123 is not a valid dir path'           },
   }
   -- stylua: ignore end
 
@@ -124,6 +130,13 @@ describe("mods.validate", function()
       it(fmt("%s(%s)", tp, pretty(v2)), function()
         assert.are_same({ false, errmsg }, { validate[tp](v2) })
       end)
+    end)
+
+    describe("negative", function()
+      local not_errmsg = tp == "integer" and "expected non-integer, got " .. quote(v1) or "expected not " .. tp
+      if tp == "file" or tp == "dir" then
+        return
+      end
 
       it(fmt("is_not.%s(%s)", tp, pretty(v2)), function()
         assert.are_same({ true }, { validate.is_not[tp](v2) })
@@ -136,8 +149,6 @@ describe("mods.validate", function()
       it(fmt("is_not(%s, %q)", pretty(v2), tp), function()
         assert.are_same({ true }, { validate.is_not(v2, tp) })
       end)
-
-      local not_errmsg = tp == "integer" and "expected non-integer, got " .. quote(v1) or "expected not " .. tp
 
       it(fmt("is_not.%s(%s)", tp, pretty(v1)), function()
         assert.are_same({ false, not_errmsg }, { validate.is_not[tp](v1) })
@@ -154,7 +165,14 @@ describe("mods.validate", function()
 
     describe("custom positive messages", function()
       local template = "{{got}} should be {{expected}}\nPassed: {{value}}"
-      local expected = (tp == "false" or tp == "true") and tostring(v2) or type(v2)
+      local expected
+      if tp == "false" or tp == "true" then
+        expected = tostring(v2)
+      elseif tp == "file" or tp == "dir" then
+        expected = "invalid path"
+      else
+        expected = type(v2)
+      end
       local custom_errmsg = fmt("%s should be %s\nPassed: %s", expected, tp, quote(v2))
       local prev_template = validate.messages.positive[tp]
       validate.messages.positive[tp] = template
@@ -173,6 +191,10 @@ describe("mods.validate", function()
     end)
 
     describe("custom negative messages", function()
+      if tp == "file" or tp == "dir" then
+        return
+      end
+
       local template = "{{got}} should not be {{expected}}\nPassed: {{value}}"
       local expected = (tp == "false" or tp == "true") and tostring(v1) or type(v1)
       local custom_errmsg = fmt("%s should not be %s\nPassed: %s", expected, tp, quote(v1))
