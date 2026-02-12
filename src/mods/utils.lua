@@ -1,8 +1,9 @@
----@type mods.utils
-local M = {}
 local find = string.find
 local gsub = string.gsub
 local match = string.match
+
+---@type mods.utils
+local M = {}
 
 local lua_keywords = {}
 ([[ and break do else elseif end false for function goto if in local
