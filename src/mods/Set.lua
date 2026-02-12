@@ -1,9 +1,6 @@
 local function List()
-  local ok, mod = pcall(require, "mods.List")
   ---@diagnostic disable-next-line: cast-local-type
-  List = ok and mod or function()
-    return {}
-  end
+  List = require("mods.List")
   return List()
 end
 

@@ -302,7 +302,7 @@ function Set:map(fn) end
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
----@return mods.List|any[] values
+---@return mods.List values
 ---@nodiscard
 function Set:values() end
 
