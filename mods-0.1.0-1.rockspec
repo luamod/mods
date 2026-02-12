@@ -32,6 +32,7 @@ build = {
     ["mods.stringcase"] = "src/mods/stringcase.lua",
     ["mods.tbl"] = "src/mods/tbl.lua",
     ["mods.template"] = "src/mods/template.lua",
+    ["mods.utils"] = "src/mods/utils.lua",
     ["mods.validate"] = "src/mods/validate.lua",
   },
 }

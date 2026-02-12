@@ -1,6 +1,5 @@
 ---@meta mods
 
----Top-level module exposing bundled helpers.
 ---@class mods
 ---@field is mods.is
 ---@field List mods.List
@@ -10,6 +9,7 @@
 ---@field stringcase mods.stringcase
 ---@field tbl mods.tbl
 ---@field template mods.template
+---@field utils mods.utils
 ---@field validate mods.validate
 local M = {}
 

@@ -8,4 +8,5 @@
 | [`stringcase`](/modules/stringcase) | String case conversion helpers.                                                                                 |
 | [`tbl`](/modules/tbl)               | Utility functions for working with Lua tables.                                                                  |
 | [`template`](/modules/template)     | Render a simple template using the provided context.                                                            |
+| [`utils`](/modules/utils)           | Common utility helpers.                                                                                         |
 | [`validate`](/modules/validate)     | Validation error message templates keyed by lowercase type name.                                                |

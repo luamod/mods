@@ -1,14 +1,14 @@
 # Mods
 
-Pure standalone Lua modules.
+Pure Lua libraries for everyday development tasks.
+Focused APIs, minimal dependencies, and support for Lua 5.1 through 5.4.
 
 If this project helps you, consider starring the repo ⭐.
 
 ## What Is Mods?
 
-Mods is a set of small, focused Lua modules for easy embedding.
-Minimal dependencies, predictable APIs, and Lua 5.1+ support.
-Use modules standalone or together by dropping a single file into your project.
+Mods is a collection of practical modules for strings, tables, validation, templates, and more.
+Import once with `require("mods")`, then access modules through `mods.<name>`.
 
 ## Documentation
 
@@ -28,10 +28,6 @@ luarocks install mods
 git clone https://github.com/luamod/mods.git
 ```
 
-### Manual copy
-
-Copy individual modules from [`src/mods/`](src/mods) into your project and `require("mods.List")`, `require("mods.str")`, etc.
-
 ## Modules
 
 Available modules:
@@ -48,10 +44,11 @@ Available modules:
 | [`stringcase`] | String case conversion helpers.                                |
 | [`tbl`]        | Utility functions for plain Lua tables.                        |
 | [`template`]   | Simple template rendering with value replacement.              |
+| [`utils`]      | Common utility helpers.                                        |
 | [`validate`]   | Validation helpers for Lua values.                             |
 
 > [!NOTE]
-> We are still working on adding new modules.
+> We are still working on adding new modules and improving the docs.
 
 ## Examples
 
@@ -68,4 +65,5 @@ The [docs](https://luamod.github.io/mods) site also includes examples.
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase
 [`tbl`]: https://luamod.github.io/mods/modules/tbl
 [`template`]: https://luamod.github.io/mods/modules/template
+[`utils`]: https://luamod.github.io/mods/modules/utils
 [`validate`]: https://luamod.github.io/mods/modules/validate
