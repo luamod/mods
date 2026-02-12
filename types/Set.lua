@@ -87,8 +87,7 @@ function Set:intersection_update(set) end
 ---local v = Set({ "a", "b" }):pop()
 ----- result: v is either "a" or "b"
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
+---@param self mods.Set|table<any,true>
 ---@return any
 function Set:pop() end
 
@@ -132,9 +131,8 @@ function Set:update(set) end
 ---local c = s:copy()
 ----- result: c is a new set with "a"
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
----@return T set
+---@param self mods.Set|table<any,true>
+---@return mods.Set set
 ---@nodiscard
 function Set:copy() end
 
@@ -148,10 +146,9 @@ function Set:copy() end
 ---local d = s:difference(Set({ "b" }))
 ----- result: d contains "a"
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T set
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set set
 ---@nodiscard
 function Set:difference(set) end
 
@@ -163,10 +160,9 @@ function Set:difference(set) end
 ---local i = s:intersection(Set({ "b", "c" }))
 ----- result: i contains "b"
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T set
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set set
 ---@nodiscard
 function Set:intersection(set) end
 
@@ -178,10 +174,9 @@ function Set:intersection(set) end
 ---local d = s:symmetric_difference(Set({ "b", "c" }))
 ----- result: d contains "a", "c"
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T set
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set set
 ---@nodiscard
 function Set:symmetric_difference(set) end
 
@@ -192,10 +187,9 @@ function Set:symmetric_difference(set) end
 ---local s = Set({ "a" }):union(Set({ "b" }))
 ----- result: s contains "a", "b"
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T set
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set set
 ---@nodiscard
 function Set:union(set) end
 
@@ -224,8 +218,7 @@ function Set:isdisjoint(set) end
 ---local empty = Set({}):isempty()
 ----- result: true
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
+---@param self mods.Set|table<any,true>
 ---@return boolean
 ---@nodiscard
 function Set:isempty() end
@@ -237,9 +230,8 @@ function Set:isempty() end
 ---local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
 ----- result: true
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
 ---@return boolean
 ---@nodiscard
 function Set:issubset(set) end
@@ -251,9 +243,8 @@ function Set:issubset(set) end
 ---local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
 ----- result: true
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
 ---@return boolean
 ---@nodiscard
 function Set:issuperset(set) end
@@ -269,8 +260,7 @@ function Set:issuperset(set) end
 ---local n = Set({ "a", "b" }):len()
 ----- result: 2
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
+---@param self mods.Set|table<any,true>
 ---@return integer
 ---@nodiscard
 function Set:len() end
@@ -286,10 +276,9 @@ function Set:len() end
 ---local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
 ----- result: s contains 10, 20
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
+---@param self mods.Set|table<any,true>
 ---@param fn fun(v:any):any
----@return T set
+---@return mods.Set set
 ---@nodiscard
 function Set:map(fn) end
 
@@ -300,8 +289,7 @@ function Set:map(fn) end
 ---local values = Set({ "a", "b" }):values()
 ----- result: { "a", "b" }
 ---```
----@generic T:mods.Set|table<any,true>
----@param self T
+---@param self mods.Set|table<any,true>
 ---@return mods.List values
 ---@nodiscard
 function Set:values() end
