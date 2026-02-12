@@ -1,12 +1,16 @@
-local function List()
-  ---@diagnostic disable-next-line: cast-local-type
-  List = require("mods.List")
-  return List()
-end
+local tbl = require("mods.tbl")
+
+local ipairs = ipairs
+local next = next
+local pairs = pairs
 
 ---@type mods.Set
 local Set = {}
 Set.__index = Set
+
+local function new_set()
+  return setmetatable({}, Set)
+end
 
 function Set:add(v)
   self[v] = true
@@ -21,7 +25,7 @@ function Set:clear()
 end
 
 function Set:copy()
-  return Set(self:values())
+  return setmetatable(tbl.copy(self), Set)
 end
 
 function Set:difference_update(set)
@@ -32,13 +36,7 @@ function Set:difference_update(set)
 end
 
 function Set:difference(set)
-  local res = Set()
-  for k in pairs(self) do
-    if not set[k] then
-      res[k] = true
-    end
-  end
-  return res
+  return self:copy():difference_update(set)
 end
 
 function Set:discard(v)
@@ -56,13 +54,7 @@ function Set:intersection_update(set)
 end
 
 function Set:intersection(set)
-  local res = Set()
-  for k, _ in pairs(self) do
-    if set[k] then
-      res[k] = true
-    end
-  end
-  return res
+  return self:copy():intersection_update(set)
 end
 
 function Set:isdisjoint(set)
@@ -74,9 +66,7 @@ function Set:isdisjoint(set)
   return true
 end
 
-function Set.isempty(self)
-  return not next(self)
-end
+Set.isempty = tbl.isempty
 
 function Set:issubset(set)
   for k in pairs(self) do
@@ -96,16 +86,10 @@ function Set:issuperset(set)
   return true
 end
 
-function Set:len()
-  local len = 0
-  for _ in pairs(self) do
-    len = len + 1
-  end
-  return len
-end
+Set.len = tbl.count
 
 function Set:map(fn)
-  local set = Set()
+  local set = new_set()
   for k in pairs(self) do
     set[fn(k)] = true
   end
@@ -130,46 +114,23 @@ function Set:symmetric_difference_update(set)
 end
 
 function Set:symmetric_difference(set)
-  local res = self:difference(set)
-  for k in pairs(set) do
-    if not self[k] then
-      res[k] = true
-    end
-  end
-  return res
+  return self:copy():symmetric_difference_update(set)
 end
 
 function Set:union(set)
-  local res = self:copy()
-  for k in pairs(set) do
-    res[k] = true
-  end
-  return res
+  return self:copy():update(set)
 end
 
-function Set:update(other)
-  for k, v in pairs(other) do
-    self[k] = v
-  end
-  return self
-end
+Set.update = tbl.update
 
-function Set:values()
-  local ls = List()
-  local i = 1
-  for k in pairs(self) do
-    ls[i] = k
-    i = i + 1
-  end
-  return ls
-end
+Set.values = tbl.keys
 
 return setmetatable(Set, {
   __call = function(_, t)
-    local set = {}
+    local set = new_set()
     for _, v in ipairs(t or {}) do
       set[v] = true
     end
-    return setmetatable(set, Set)
+    return set
   end,
 })
