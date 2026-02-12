@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `mods.utils`, utility helpers ([c440cfe](https://github.com/luamod/mods/commit/c440cfe)).
+
+### Fixed
+
+- `mods.validate`: prevent unrelated assignments from overriding `on_fail` ([64eedad](https://github.com/luamod/mods/commit/64eedad)).
+- `mods.validate`: normalize path validator failure messages for invalid/non-matching paths ([fe6ccb1](https://github.com/luamod/mods/commit/fe6ccb1)).
+
+### Removed
+
+- Removed the `examples/` directory from the repository ([a01a69d](https://github.com/luamod/mods/commit/a01a69d)).
+
 ## [0.2.0] - 2026-02-11
 
 ### Added
