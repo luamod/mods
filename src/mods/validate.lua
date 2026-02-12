@@ -18,7 +18,7 @@ local M = {
 }
 
 ---
----quote strings; stringify other values.
+---Smart-quote a string.
 ---
 ---Copied from snippets/quote.lua
 ---

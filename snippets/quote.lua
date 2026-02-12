@@ -15,7 +15,7 @@ local find = string.find
 local gsub = string.gsub
 
 ---
----quote strings; stringify other values.
+---Smart-quote a string.
 ---
 ---Copied from snippets/quote.lua
 ---
