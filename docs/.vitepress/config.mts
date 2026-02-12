@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const modulesDir = path.resolve(__dirname, "..", "modules");
 const isDev = process.argv.includes("dev");
 const isProd = !isDev;
-const llmsDomain = isProd ? "https://luamod.github.io/mods" : undefined;
+const llmsDomain = isProd ? "https://luamod.github.io" : undefined;
 
 // Build nav/sidebar modules list from docs/modules at build time.
 const moduleItems = fs
