@@ -298,8 +298,10 @@ Returns `true` when `path` points to a block device.
 
 ```lua
 local ok, err = validate.is.block("/dev/sda") -- true
-ok, err = validate.is.block(123)
--- result: false, "123 is not a valid block path"
+ok, err = validate.is.block(false)
+-- result: false, "false is not a valid block path"
+ok, err = validate.is.block("/dev/null")
+-- result: false, '"/dev/null" is not a valid block path'
 ```
 
 ##### `char(path)` {#is-char}
@@ -308,8 +310,10 @@ Returns `true` when `path` points to a character device.
 
 ```lua
 local ok, err = validate.is.char("/dev/null") -- true
-ok, err = validate.is.char(123)
--- result: false, "123 is not a valid char path"
+ok, err = validate.is.char(nil)
+-- result: false, "nil is not a valid char path"
+ok, err = validate.is.char("/tmp")
+-- result: false, '"/tmp" is not a valid char path'
 ```
 
 ##### `device(path)` {#is-device}
@@ -318,8 +322,10 @@ Returns `true` when `path` points to any device node.
 
 ```lua
 local ok, err = validate.is.device("/dev/null") -- true
-ok, err = validate.is.device(123)
--- result: false, "123 is not a valid device path"
+ok, err = validate.is.device(true)
+-- result: false, "true is not a valid device path"
+ok, err = validate.is.device("README.md")
+-- result: false, '"README.md" is not a valid device path'
 ```
 
 ##### `dir(path)` {#is-dir}
@@ -328,8 +334,10 @@ Returns `true` when `path` points to a directory.
 
 ```lua
 local ok, err = validate.is.dir("/tmp") -- true
-ok, err = validate.is.dir(123)
--- result: false, "123 is not a valid dir path"
+ok, err = validate.is.dir(0)
+-- result: false, "0 is not a valid dir path"
+ok, err = validate.is.dir("README.md")
+-- result: false, '"README.md" is not a valid dir path'
 ```
 
 ##### `fifo(path)` {#is-fifo}
@@ -338,8 +346,10 @@ Returns `true` when `path` points to a FIFO (named pipe).
 
 ```lua
 local ok, err = validate.is.fifo("/path/to/fifo") -- true
-ok, err = validate.is.fifo(123)
--- result: false, "123 is not a valid fifo path"
+ok, err = validate.is.fifo(7)
+-- result: false, "7 is not a valid fifo path"
+ok, err = validate.is.fifo("README.md")
+-- result: false, '"README.md" is not a valid fifo path'
 ```
 
 ##### `file(path)` {#is-file}
@@ -348,8 +358,10 @@ Returns `true` when `path` points to a regular file.
 
 ```lua
 local ok, err = validate.is.file("README.md") -- true
-ok, err = validate.is.file(123)
--- result: false, "123 is not a valid file path"
+ok, err = validate.is.file(42)
+-- result: false, "42 is not a valid file path"
+ok, err = validate.is.file("src")
+-- result: false, '"src" is not a valid file path'
 ```
 
 ##### `link(path)` {#is-link}
@@ -358,8 +370,10 @@ Returns `true` when `path` points to a symbolic link.
 
 ```lua
 local ok, err = validate.is.link("/path/to/link") -- true
-ok, err = validate.is.link(123)
--- result: false, "123 is not a valid link path"
+ok, err = validate.is.link(99)
+-- result: false, "99 is not a valid link path"
+ok, err = validate.is.link("README.md")
+-- result: false, '"README.md" is not a valid link path'
 ```
 
 ##### `socket(path)` {#is-socket}
@@ -368,8 +382,10 @@ Returns `true` when `path` points to a socket.
 
 ```lua
 local ok, err = validate.is.socket("/path/to/socket") -- true
-ok, err = validate.is.socket(123)
--- result: false, "123 is not a valid socket path"
+ok, err = validate.is.socket(500)
+-- result: false, "500 is not a valid socket path"
+ok, err = validate.is.socket("README.md")
+-- result: false, '"README.md" is not a valid socket path'
 ```
 
 ### `is_not`
