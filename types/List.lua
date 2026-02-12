@@ -503,7 +503,7 @@ function List:reverse() end
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
----@return mods.Set|table<any,true>
+---@return mods.Set
 ---@nodiscard
 function List:setify() end
 

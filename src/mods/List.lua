@@ -5,16 +5,8 @@ local concat = table.concat
 local move = table.move
 
 local function Set(ls)
-  local ok, mod = pcall(require, "mods.Set")
   ---@diagnostic disable-next-line: cast-local-type
-  Set = ok and mod
-    or function(ls_)
-      local set = {}
-      for i = 1, #ls_ do
-        set[ls_[i]] = true
-      end
-      return set
-    end
+  Set = require("mods.Set")
   return Set(ls)
 end
 
