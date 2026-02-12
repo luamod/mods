@@ -14,6 +14,43 @@ end
 local List = {}
 List.__index = List
 
+-- Intentionally use a plain table instead of `mods.Set` here:
+-- this keeps lookup construction lightweight for hot-path membership checks.
+local function build_lookup(ls)
+  local lookup = {}
+  for i = 1, #ls do
+    lookup[ls[i]] = true
+  end
+  return lookup
+end
+
+local function collect_by_lookup(self, lookup, include)
+  local res = List()
+  local ri = 1
+  for i = 1, #self do
+    local v = self[i]
+    local present = lookup[v] ~= nil
+    if present == include then
+      res[ri] = v
+      ri = ri + 1
+    end
+  end
+  return res
+end
+
+local function copy_range(self, start_i, end_i)
+  local res = List()
+  if end_i < start_i then
+    return res
+  end
+  local ri = 1
+  for i = start_i, end_i do
+    res[ri] = self[i]
+    ri = ri + 1
+  end
+  return res
+end
+
 function List:all(pred)
   for i = 1, #self do
     if not pred(self[i]) then
@@ -49,11 +86,7 @@ function List:contains(v)
 end
 
 function List:copy()
-  local res = List()
-  for i = 1, #self do
-    res[i] = self[i]
-  end
-  return res
+  return copy_range(self, 1, #self)
 end
 
 function List:count(v)
@@ -67,41 +100,19 @@ function List:count(v)
 end
 
 function List:difference(ls)
-  local res = List()
-  local lookup = {}
-  for i = 1, #ls do
-    lookup[ls[i]] = true
-  end
-  local ri = 1
-  for i = 1, #self do
-    if not lookup[self[i]] then
-      res[ri] = self[i]
-      ri = ri + 1
-    end
-  end
-  return res
+  local lookup = build_lookup(ls)
+  return collect_by_lookup(self, lookup, false)
 end
 
 function List:drop(n)
-  local res = List()
   local len = #self
   if n == nil or n <= 0 then
-    local ri = 1
-    for i = 1, len do
-      res[ri] = self[i]
-      ri = ri + 1
-    end
-    return res
+    return copy_range(self, 1, len)
   end
   if n >= len then
-    return res
+    return List()
   end
-  local ri = 1
-  for i = n + 1, len do
-    res[ri] = self[i]
-    ri = ri + 1
-  end
-  return res
+  return copy_range(self, n + 1, len)
 end
 
 function List:extend(ls)
@@ -221,20 +232,8 @@ function List:insert(pos, v)
 end
 
 function List:intersection(ls)
-  local res = List()
-  local lookup = {}
-  for i = 1, #ls do
-    lookup[ls[i]] = true
-  end
-  local ri = 1
-  for i = 1, #self do
-    local v = self[i]
-    if lookup[v] then
-      res[ri] = v
-      ri = ri + 1
-    end
-  end
-  return res
+  local lookup = build_lookup(ls)
+  return collect_by_lookup(self, lookup, true)
 end
 
 function List:invert()
@@ -341,11 +340,7 @@ function List:slice(i, j)
   if move then
     move(self, start, finish, 1, res)
   else
-    local ri = 1
-    for idx = start, finish do
-      res[ri] = self[idx]
-      ri = ri + 1
-    end
+    return copy_range(self, start, finish)
   end
   return res
 end
@@ -356,20 +351,14 @@ function List:sort(comp)
 end
 
 function List:take(n)
-  local res = List()
   if n == nil or n <= 0 then
-    return res
+    return List()
   end
   local limit = #self
   if n < limit then
     limit = n
   end
-  local ri = 1
-  for i = 1, limit do
-    res[ri] = self[i]
-    ri = ri + 1
-  end
-  return res
+  return copy_range(self, 1, limit)
 end
 
 function List:uniq()
@@ -407,7 +396,7 @@ function List:zip(other)
 end
 
 return setmetatable(List, {
-  __call = function(_, t)
-    return setmetatable(t or {}, List)
+  __call = function(_, ls)
+    return setmetatable(ls or {}, List)
   end,
 })
