@@ -1,5 +1,7 @@
 import { defineConfig } from "vitepress";
-import llmstxtPlugin from "vitepress-plugin-llmstxt";
+import llmsPlugin, {
+  copyOrDownloadAsMarkdownButtons,
+} from "vitepress-plugin-llms";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import fs from "node:fs";
 import path from "node:path";
@@ -7,6 +9,9 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const modulesDir = path.resolve(__dirname, "..", "modules");
+const isDev = process.argv.includes("dev");
+const isProd = !isDev;
+const llmsDomain = isProd ? "https://luamod.github.io/mods" : undefined;
 
 // Build nav/sidebar modules list from docs/modules at build time.
 const moduleItems = fs
@@ -25,7 +30,7 @@ const moduleItems = fs
 export default defineConfig({
   title: "Mods",
   description: "Pure standalone Lua modules.",
-  base: "/mods/",
+  base: isProd ? "/mods/" : "/",
   cleanUrls: true,
   sitemap: {
     hostname: "https://luamod.github.io/mods/",
@@ -76,9 +81,15 @@ export default defineConfig({
   markdown: {
     config(md) {
       md.use(tabsMarkdownPlugin);
+      md.use(copyOrDownloadAsMarkdownButtons);
     },
   },
   vite: {
-    plugins: [llmstxtPlugin({ hostname: "https://luamod.github.io/mods/" })],
+    plugins: [
+      llmsPlugin({
+        domain: llmsDomain,
+        excludeIndexPage: false,
+      }),
+    ],
   },
 });
