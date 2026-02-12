@@ -18,11 +18,6 @@ describe("mods.validate", function()
     assert.are_equal("table", type(validate.messages.negative))
   end)
 
-  it("resolves validate.is.not to the negated validator", function()
-    assert.are_equal(validate.is_not, validate.is["not"])
-    assert.Callable(validate.is["not"])
-  end)
-
   -- stylua: ignore
   tests = {
     { "validate"  , validate           },
@@ -37,6 +32,7 @@ describe("mods.validate", function()
     { "Not"       , validate.Not       },
     { "noT"       , validate.noT       },
     { "not"       , validate["not"]    },
+    { "is['not']" , validate.is["not"] },
     { "n_oT"      , validate.n_oT      },
     { "n_o___T"   , validate.n_o___T   },
     { "I_s_N_o_T" , validate.I_s_N_o_T },
@@ -137,7 +133,7 @@ describe("mods.validate", function()
       end)
     end)
 
-    describe("negative", function()
+    describe("is_not", function()
       local not_errmsg = tp == "integer" and "expected non-integer, got " .. quote(v1) or "expected not " .. tp
       if tp == "file" or tp == "dir" then
         return
@@ -293,27 +289,29 @@ describe("mods.validate", function()
       assert.are_same({ false, "expected number, got string" }, { validate("x", "NumBeR") })
     end)
 
-    it("returns nil for non-string index keys without raising", function()
-      local function assert_nil_lookup(t, k)
-        local ok, v = pcall(function()
-          return t[k]
-        end)
-        assert.is_true(ok)
-        assert.is_nil(v)
-      end
+    local function assert_nil_lookup(t, k)
+      assert.has_no.errors(function()
+        local _ = t[k]
+      end)
+      assert.is_nil(t[k])
+    end
 
+    it("validate returns nil for non-string index keys without raising", function()
       assert_nil_lookup(validate, 1)
-      assert_nil_lookup(validate.is, 1)
-      assert_nil_lookup(validate.is_not, 1)
-
       assert_nil_lookup(validate, true)
-      assert_nil_lookup(validate.is, true)
-      assert_nil_lookup(validate.is_not, true)
+      assert_nil_lookup(validate, {})
+    end)
 
-      local key = {}
-      assert_nil_lookup(validate, key)
-      assert_nil_lookup(validate.is, key)
-      assert_nil_lookup(validate.is_not, key)
+    it("validate.is returns nil for non-string index keys without raising", function()
+      assert_nil_lookup(validate.is, 1)
+      assert_nil_lookup(validate.is, true)
+      assert_nil_lookup(validate.is, {})
+    end)
+
+    it("validate.is_not returns nil for non-string index keys without raising", function()
+      assert_nil_lookup(validate.is_not, 1)
+      assert_nil_lookup(validate.is_not, true)
+      assert_nil_lookup(validate.is_not, {})
     end)
 
     it("keeps alias lookup stable for names containing is/not", function()
