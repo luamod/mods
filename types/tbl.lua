@@ -172,7 +172,7 @@ function M.isempty(t) end
 ---```
 ---@generic T
 ---@param t {[any]:T}
----@return mods.List<T>|T[]
+---@return mods.List<T>
 ---@nodiscard
 function M.keys(t) end
 
@@ -233,7 +233,7 @@ function M.update(t1, t2) end
 ---```
 ---@generic T
 ---@param t {[any]:T}
----@return mods.List<T>|T[]
+---@return mods.List<T>
 ---@nodiscard
 function M.values(t) end
 
