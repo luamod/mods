@@ -1,6 +1,6 @@
 // .vitepress/theme/index.ts
 import type { Theme } from "vitepress";
-import { useRoute } from "vitepress";
+import { useData } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import CopyOrDownloadAsMarkdownButtons from "vitepress-plugin-llms/vitepress-components/CopyOrDownloadAsMarkdownButtons.vue";
 import { enhanceAppWithTabs } from "vitepress-plugin-tabs/client";
@@ -11,9 +11,9 @@ import "./style.css";
 const CopyButtonsExceptHome = defineComponent({
   name: "CopyButtonsExceptHome",
   setup() {
-    const route = useRoute();
+    const { page } = useData();
     return () => {
-      if (route.path === "/" || route.path === "/index.html") {
+      if (page.value.relativePath === "index.md") {
         return null;
       }
       return h(CopyOrDownloadAsMarkdownButtons);
