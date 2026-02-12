@@ -6,6 +6,10 @@ local fmt = string.format
 local messages = validate.messages
 local quote = validate.quote
 
+local function render_value(v)
+  return type(v) == "string" and quote(v) or tostring(v)
+end
+
 describe("mods.validate", function()
   local fn = function() end
   local co = coroutine.create(fn)
@@ -134,7 +138,7 @@ describe("mods.validate", function()
     end)
 
     describe("is_not", function()
-      local not_errmsg = tp == "integer" and "expected non-integer, got " .. quote(v1) or "expected not " .. tp
+      local not_errmsg = tp == "integer" and "expected non-integer, got " .. render_value(v1) or "expected not " .. tp
       if tp == "file" or tp == "dir" then
         return
       end
@@ -174,7 +178,7 @@ describe("mods.validate", function()
       else
         expected = type(v2)
       end
-      local custom_errmsg = fmt("%s should be %s\nPassed: %s", expected, tp, quote(v2))
+      local custom_errmsg = fmt("%s should be %s\nPassed: %s", expected, tp, render_value(v2))
       local prev_template = validate.messages.positive[tp]
       validate.messages.positive[tp] = template
 
@@ -198,7 +202,7 @@ describe("mods.validate", function()
 
       local template = "{{got}} should not be {{expected}}\nPassed: {{value}}"
       local expected = (tp == "false" or tp == "true") and tostring(v1) or type(v1)
-      local custom_errmsg = fmt("%s should not be %s\nPassed: %s", expected, tp, quote(v1))
+      local custom_errmsg = fmt("%s should not be %s\nPassed: %s", expected, tp, render_value(v1))
       local prev_template = validate.messages.negative[tp]
       validate.messages.negative[tp] = template
 
@@ -282,6 +286,11 @@ describe("mods.validate", function()
       assert.are_same({ false, "expected nil, got number" }, { validate(1) })
     end)
 
+    it("defaults callable is_not(v) to negated nil check", function()
+      assert.are_same({ false, "expected not nil" }, { validate.is_not() })
+      assert.are_same({ true }, { validate.is_not(1) })
+    end)
+
     it("accepts callable checks for known aliases", function()
       assert.are_same({ true }, { validate(1, "number") })
       assert.are_same({ true }, { validate(1, "NumBeR") })
@@ -329,6 +338,16 @@ describe("mods.validate", function()
       assert.are_equal(list_validator, validate.islist)
 
       assert.are_equal(notice_validator, validate.is_not.notIce)
+    end)
+
+    it("supports prefixed alias lookup on validate.is", function()
+      assert.are_same({ true }, { validate.is.isnumber(1) })
+      assert.are_same({ false, "expected number, got string" }, { validate.is.isnumber("x") })
+    end)
+
+    it("handles non-string callable type names without errors", function()
+      assert.are_same({ false, "expected 123, got number" }, { validate(1, 123) })
+      assert.are_same({ true }, { validate.is_not(1, 123) })
     end)
   end)
 end)
