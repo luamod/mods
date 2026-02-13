@@ -50,11 +50,6 @@ Available modules:
 > [!NOTE]
 > We are still working on adding new modules and improving the docs.
 
-## Examples
-
-See the runnable scripts in [`examples/`](examples).
-The [docs](https://luamod.github.io/mods) site also includes examples.
-
 <!-- Keep module names in this list sorted alphabetically. -->
 
 [`is`]: https://luamod.github.io/mods/modules/is
