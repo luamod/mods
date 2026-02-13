@@ -1,5 +1,3 @@
----@diagnostic disable: missing-parameter
-
 local stringcase = require("mods.stringcase")
 
 describe("mods.stringcase", function()
