@@ -1,5 +1,3 @@
----@diagnostic disable: param-type-mismatch
-
 local List = require("mods.List")
 local str = require("mods.str")
 

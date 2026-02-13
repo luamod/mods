@@ -1,5 +1,3 @@
----@diagnostic disable: param-type-mismatch, need-check-nil, undefined-field, assign-type-mismatch, inject-field
-
 local validate = require("mods.validate")
 
 local fmt = string.format

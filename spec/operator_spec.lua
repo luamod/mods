@@ -1,5 +1,3 @@
----@diagnostic disable: param-type-mismatch
-
 local ops = require("mods.operator")
 
 describe("mods.operator", function()

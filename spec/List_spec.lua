@@ -1,5 +1,3 @@
----@diagnostic disable: param-type-mismatch, undefined-global
-
 local List = require("mods.List")
 local Set = require("pl.Set")
 local deepcopy = require("pl.tablex").deepcopy
