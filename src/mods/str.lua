@@ -483,10 +483,10 @@ function M.rsplit(s, sep, maxsplit)
   if sep == nil then
     local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
-      return parts
+      return List(parts)
     end
     local keep = maxsplit + 1
-    local out = {}
+    local out = List()
     local start = #parts - keep + 1
     out[1] = concat(parts, " ", 1, start - 1)
     for i = start, #parts do
@@ -501,33 +501,30 @@ function M.rsplit(s, sep, maxsplit)
 
   local splits = maxsplit or -1
   if splits == 0 then
-    return { s }
+    return List({ s })
   end
 
   local parts = {}
+  local part_n = 0
+  local seplen = #sep
   local pos = #s
-  while pos > 0 and (splits < 0 or #parts < splits) do
-    local i, j = nil, nil
-    local search = 1
-    while true do
-      local a, b = find(s, sep, search, true)
-      if not a or b > pos then
-        break
-      end
-      i, j = a, b
-      search = a + 1
+  local i = pos - seplen + 1
+  while i >= 1 and (splits < 0 or part_n < splits) do
+    if sub(s, i, i + seplen - 1) == sep then
+      part_n = part_n + 1
+      parts[part_n] = sub(s, i + seplen, pos)
+      pos = i - 1
+      i = pos - seplen + 1
+    else
+      i = i - 1
     end
-    if not i then
-      break
-    end
-    parts[#parts + 1] = sub(s, j + 1, pos)
-    pos = i - 1
   end
 
-  parts[#parts + 1] = sub(s, 1, pos)
+  part_n = part_n + 1
+  parts[part_n] = sub(s, 1, pos)
   local out = List()
-  for i = #parts, 1, -1 do
-    out[#out + 1] = parts[i]
+  for idx = part_n, 1, -1 do
+    out[#out + 1] = parts[idx]
   end
   return out
 end
@@ -536,7 +533,7 @@ function M.split(s, sep, maxsplit)
   if sep == nil then
     local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
-      return parts
+      return List(parts)
     end
     local out = List()
     local keep = maxsplit + 1
@@ -553,10 +550,10 @@ function M.split(s, sep, maxsplit)
 
   local splits = maxsplit or -1
   if splits == 0 then
-    return { s }
+    return List({ s })
   end
 
-  local parts = {}
+  local parts = List()
   local pos = 1
   while true do
     local i, j = find(s, sep, pos, true)
