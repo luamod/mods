@@ -1,6 +1,7 @@
 ---@diagnostic disable: param-type-mismatch
 
 local str = require("mods.str")
+local List = require("mods.List")
 local byte = string.byte
 
 describe("mods.str", function()
@@ -235,4 +236,22 @@ describe("mods.str", function()
       assert.are_same(expected, res)
     end)
   end
+
+  it("split() always returns mods.List", function()
+    assert.is_true(getmetatable(str.split("a b")) == List)
+    assert.is_true(getmetatable(str.split("a,b", ",")) == List)
+    assert.is_true(getmetatable(str.split("a,b", ",", 0)) == List)
+  end)
+
+  it("rsplit() always returns mods.List", function()
+    assert.is_true(getmetatable(str.rsplit("a b")) == List)
+    assert.is_true(getmetatable(str.rsplit("a,b", ",")) == List)
+    assert.is_true(getmetatable(str.rsplit("a,b", ",", 0)) == List)
+  end)
+
+  it("splitlines() always returns mods.List", function()
+    assert.is_true(getmetatable(str.splitlines("")) == List)
+    assert.is_true(getmetatable(str.splitlines("a\nb")) == List)
+    assert.is_true(getmetatable(str.splitlines("a\nb", true)) == List)
+  end)
 end)
