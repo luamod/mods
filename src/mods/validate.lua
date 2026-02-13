@@ -1,19 +1,20 @@
+local is = require("mods.is")
+
 local gsub = string.gsub
 local sub = string.sub
 local find = string.find
 local lower = string.lower
-local getmt = getmetatable
 local tostring = tostring
 local type = type
 
 local is_tmpl, not_tmpl = {}, {}
-local is, isnot = {}, {}
+local is_checks, isnot_checks = {}, {}
 local on_fail
 
 ---@type mods.validate
 ---@diagnostic disable-next-line: missing-fields
 local M = {
-  is = is,
+  is = is_checks,
   messages = { positive = is_tmpl, negative = not_tmpl },
 }
 
@@ -61,22 +62,18 @@ end
 --------------------------------------------------------------------------------
 
 local function type_check(v, tp, is_expected)
-  local actual = type(v)
-  if is_expected then
-    if actual == tp then
-      return true
-    end
-  elseif actual ~= tp then
+  local ok = is[tp](v)
+  if (is_expected and ok) or (not is_expected and not ok) then
     return true
   end
-  return false, render_msg(tp, actual, v, is_expected)
+  return false, render_msg(tp, type(v), v, is_expected)
 end
 
 gsub("boolean function nil number string table thread userdata", "%S+", function(k)
-  is[k] = function(v)
+  is_checks[k] = function(v)
     return type_check(v, k, true)
   end
-  isnot[k] = function(v)
+  isnot_checks[k] = function(v)
     return type_check(v, k, false)
   end
 end)
@@ -107,25 +104,20 @@ local function value_check(v, expected, check, is_expected)
   return false, render_msg(expected, actual, v, is_expected)
 end
 
--- stylua: ignore
 local value_checks = {
-  ["false"] = function(v) return v == false end,
-  ["true"] = function(v) return v == true end,
-  falsy = function(v) return not v end,
-  truthy = function(v) return not not v end,
-  integer = function(v) return type(v) == "number" and v % 1 == 0 end,
-  callable = function(v)
-    if type(v) == "function" then return true end
-    local mt = getmt(v)
-    return mt and type(mt.__call) == "function" or false
-  end,
+  ["false"] = is.False,
+  ["true"] = is.True,
+  falsy = is.falsy,
+  truthy = is.truthy,
+  integer = is.integer,
+  callable = is.callable,
 }
 
 for k, check in pairs(value_checks) do
-  is[k] = function(v)
+  is_checks[k] = function(v)
     return value_check(v, k, check, true)
   end
-  isnot[k] = function(v)
+  isnot_checks[k] = function(v)
     return value_check(v, k, check, false)
   end
 end
@@ -134,74 +126,24 @@ end
 --------------------------------- Path checks ----------------------------------
 --------------------------------------------------------------------------------
 
-local lfs
 is_tmpl.link = "{{value}} is not a valid {{expected}} path"
 
-local function require_lfs()
-  if lfs then
-    return lfs
-  end
-  local ok, mod = pcall(require, "lfs")
-  if not ok then
-    error("lfs is required for path-type checks", 2)
-  end
-  lfs = mod
-  return lfs
-end
-
-local function attrs(...)
-  local mod = require_lfs()
-  attrs = mod.attributes
-  return attrs(...)
-end
-
-local function symlinkattrs(...)
-  local mod = require_lfs()
-  symlinkattrs = mod.symlinkattributes
-  return symlinkattrs(...)
-end
-
-local function path_check(v, expected_label, expected_mode, stat_fn)
-  if type(v) ~= "string" then
-    return false, render_msg(expected_label, "invalid path", v, true)
-  end
-  local mode = stat_fn(v, "mode")
-  if not mode then
-    return false, render_msg(expected_label, "invalid path", v, true)
-  end
-
-  local ok
-  if expected_mode then
-    ok = mode == expected_mode
-  else
-    ok = mode == "char device" or mode == "block device"
-  end
-
-  if ok then
+local function path_check(v, expected_label, check)
+  if check(v) then
     return true
   end
   return false, render_msg(expected_label, "invalid path", v, true)
 end
 
-local path_checks = {
-  block = "block device",
-  char = "char device",
-  device = false,
-  dir = "directory",
-  fifo = "named pipe",
-  file = "file",
-  socket = "socket",
-}
-
-for k, expected_mode in pairs(path_checks) do
+for _, k in ipairs({ "block", "char", "device", "dir", "fifo", "file", "socket" }) do
   is_tmpl[k] = "{{value}} is not a valid {{expected}} path"
-  is[k] = function(v)
-    return path_check(v, k, expected_mode, attrs)
+  is_checks[k] = function(v)
+    return path_check(v, k, is[k])
   end
 end
 
-is.link = function(v)
-  return path_check(v, "link", "link", symlinkattrs)
+is_checks.link = function(v)
+  return path_check(v, "link", is.link)
 end
 
 --------------------------------------------------------------------------------
@@ -209,11 +151,11 @@ end
 --------------------------------------------------------------------------------
 
 ---@diagnostic disable-next-line: invisible
-M._name, is._name, isnot._name = "is", "is", "isnot"
+M._name, is_checks._name, isnot_checks._name = "is", "is", "isnot"
 
 local function call_validator(self, v, tp)
   tp = tp == nil and "nil" or tp
-  local fn = (self._name == "isnot" and isnot or is)[tp]
+  local fn = (self._name == "isnot" and isnot_checks or is_checks)[tp]
   if fn then
     return fn(v)
   end
@@ -258,32 +200,32 @@ setmetatable(M, {
     local key = lower(k):gsub("_", "")
 
     if key == "is" then
-      return is
+      return is_checks
     end
 
-    local v = rawget(is, key)
+    local v = rawget(is_checks, key)
     if v then
       return v
     end
 
     key = strip_prefix(key, "is")
     if key == "" then
-      return is
+      return is_checks
     end
 
-    v = rawget(is, key)
+    v = rawget(is_checks, key)
     if v then
       return v
     end
 
     key, v = strip_prefix(key, "not")
     if v then
-      return key == "" and isnot or isnot[key]
+      return key == "" and isnot_checks or isnot_checks[key]
     end
   end,
 })
 
-setmetatable(is, {
+setmetatable(is_checks, {
   __call = call_validator,
   __index = function(t, k)
     if type(k) ~= "string" then
@@ -297,11 +239,11 @@ setmetatable(is, {
     end
 
     key = strip_prefix(key, "is")
-    return key == "not" and isnot or rawget(t, key)
+    return key == "not" and isnot_checks or rawget(t, key)
   end,
 })
 
-setmetatable(isnot, {
+setmetatable(isnot_checks, {
   __call = call_validator,
   __index = function(t, k)
     if type(k) ~= "string" then
