@@ -7,12 +7,13 @@
         { "type": "feat", "section": "Added" },
         { "type": "fix", "section": "Fixed" },
         { "type": "perf", "section": "Changed" },
-        { "type": "refactor", "section": "Changed", "hidden": true },
+        { "type": "refactor", "section": "Changed" },
         { "type": "docs", "section": "Documentation", "hidden": true },
         { "type": "test", "section": "Tests", "hidden": true },
         { "type": "build", "section": "Build", "hidden": true },
         { "type": "chore", "section": "Chores", "hidden": true },
-        { "type": "ci", "section": "CI", "hidden": true }
+        { "type": "ci", "section": "CI", "hidden": true },
+        { "type": "revert", "section": "Reverts", "hidden": true }
       ]
     }
   }
