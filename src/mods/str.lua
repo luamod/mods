@@ -1,4 +1,5 @@
 local List = require("mods.List")
+local stringcase = require("mods.stringcase")
 local utils = require("mods.utils")
 
 local byte = string.byte
@@ -93,9 +94,7 @@ local function norm_range_exclusive(s, start, stop)
   return a, b
 end
 
-function M.capitalize(s)
-  return upper(sub(s, 1, 1)) .. lower(sub(s, 2))
-end
+M.capitalize = stringcase.capital
 
 function M.center(s, width, fillchar)
   local len = #s
@@ -234,9 +233,7 @@ function M.isdecimal(s)
   return is_nonempty_match(s, "^%d+$")
 end
 
-function M.isdigit(s)
-  return is_nonempty_match(s, "^%d+$")
-end
+M.isdigit = M.isdecimal
 
 M.isidentifier = utils.isidentifier
 
@@ -254,9 +251,7 @@ function M.islower(s)
   return has
 end
 
-function M.isnumeric(s)
-  return is_nonempty_match(s, "^%d+$")
-end
+M.isnumeric = M.isdecimal
 
 function M.isprintable(s)
   local len = #s
@@ -574,8 +569,8 @@ function M.splitlines(s, keepends)
   while i <= len do
     local j = i
     while j <= len do
-      local c = sub(s, j, j)
-      if c == "\n" or c == "\r" then
+      local b = byte(s, j)
+      if b == 10 or b == 13 then
         break
       end
       j = j + 1
@@ -586,16 +581,15 @@ function M.splitlines(s, keepends)
       break
     end
 
-    local line = sub(s, i, j - 1)
     local e = j
-    if sub(s, j, j) == "\r" and sub(s, j + 1, j + 1) == "\n" then
+    if byte(s, j) == 13 and byte(s, j + 1) == 10 then
       e = j + 1
     end
 
     if keepends then
       out[#out + 1] = sub(s, i, e)
     else
-      out[#out + 1] = line
+      out[#out + 1] = sub(s, i, j - 1)
     end
 
     i = e + 1
@@ -603,26 +597,7 @@ function M.splitlines(s, keepends)
   return out
 end
 
-function M.swapcase(s)
-  local len = #s
-  if len == 0 then
-    return s
-  end
-  local out = {}
-  for i = 1, len do
-    local c = sub(s, i, i)
-    if match(c, "%a") then
-      if c == lower(c) then
-        out[#out + 1] = upper(c)
-      else
-        out[#out + 1] = lower(c)
-      end
-    else
-      out[#out + 1] = c
-    end
-  end
-  return concat(out)
-end
+M.swapcase = stringcase.swap
 
 function M.startswith(s, prefix, start, stop)
   if type(prefix) == "table" then
@@ -649,7 +624,7 @@ end
 
 function M.title(s)
   return gsub(lower(s), "(%a)([%w]*)", function(f, r)
-    return upper(f) .. lower(r)
+    return upper(f) .. r
   end)
 end
 
@@ -665,12 +640,8 @@ function M.translate(s, table_map)
 
     if v == nil then
       out[#out + 1] = c
-    elseif v == false then
-      out[#out + 1] = ""
-    elseif type(v) == "number" then
-      out[#out + 1] = char(v)
-    else
-      out[#out + 1] = tostring(v)
+    elseif v ~= false then
+      out[#out + 1] = type(v) == "number" and char(v) or tostring(v)
     end
   end
   return concat(out)
