@@ -61,9 +61,9 @@ luarocks install mods
 
 Thanks to these Lua ecosystem projects:
 
-- [LuaFileSystem (`lfs`)](https://github.com/lunarmodules/luafilesystem)
-- [`inspect.lua` (`inspect`)](https://github.com/kikito/inspect.lua)
-- [Busted (`busted`)](https://github.com/lunarmodules/busted)
+- [lfs](https://github.com/lunarmodules/luafilesystem)
+- [inspect](https://github.com/kikito/inspect.lua)
+- [busted](https://github.com/lunarmodules/busted)
 
 [`is`]: https://luamod.github.io/mods/modules/is
 [`List`]: https://luamod.github.io/mods/modules/list
