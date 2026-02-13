@@ -46,10 +46,6 @@ local function escape_class(s)
   return gsub(s, "([%%%]%^%-])", "%%%1")
 end
 
-local function is_nonempty_match(s, pattern)
-  return #s > 0 and match(s, pattern) ~= nil
-end
-
 local function first_char_or_space(fillchar)
   return fillchar and sub(fillchar, 1, 1) or " "
 end
@@ -211,12 +207,40 @@ function M.format_map(s, mapping)
   end)
 end
 
-function M.isalnum(s)
-  return is_nonempty_match(s, "^[%a%d]+$")
+local function isalnum_bytes(s)
+  local len = #s
+  if len == 0 then
+    return false
+  end
+  for i = 1, len do
+    local b = byte(s, i)
+    if not ((b >= 48 and b <= 57) or (b >= 65 and b <= 90) or (b >= 97 and b <= 122)) then
+      return false
+    end
+  end
+  return true
 end
 
-function M.isalpha(s)
-  return is_nonempty_match(s, "^%a+$")
+local function isalnum_pattern(s)
+  return find(s, "^[%a%d]+$") == 1
+end
+
+local function isalpha_bytes(s)
+  local len = #s
+  if len == 0 then
+    return false
+  end
+  for i = 1, len do
+    local b = byte(s, i)
+    if not ((b >= 65 and b <= 90) or (b >= 97 and b <= 122)) then
+      return false
+    end
+  end
+  return true
+end
+
+local function isalpha_pattern(s)
+  return find(s, "^%a+$") == 1
 end
 
 function M.isascii(s)
@@ -229,43 +253,58 @@ function M.isascii(s)
   return true
 end
 
-function M.isdecimal(s)
-  return is_nonempty_match(s, "^%d+$")
-end
-
-M.isdigit = M.isdecimal
-
-M.isidentifier = utils.isidentifier
-
-function M.islower(s)
-  local has = false
-  for i = 1, #s do
-    local c = sub(s, i, i)
-    if match(c, "%a") then
-      if c ~= lower(c) then
-        return false
-      end
-      has = true
-    end
-  end
-  return has
-end
-
-M.isnumeric = M.isdecimal
-
-function M.isprintable(s)
+local function isdecimal_bytes(s)
   local len = #s
+  if len == 0 then
+    return false
+  end
   for i = 1, len do
     local b = byte(s, i)
-    if b < 32 or b > 126 then
+    if b < 48 or b > 57 then
       return false
     end
   end
   return true
 end
 
-function M.isspace(s)
-  return is_nonempty_match(s, "^%s+$")
+local function isdecimal_pattern(s)
+  return find(s, "^%d+$") == 1
+end
+
+local function islower_bytes(s)
+  local has = false
+  for i = 1, #s do
+    local b = byte(s, i)
+    if b >= 65 and b <= 90 then
+      return false
+    end
+    if b >= 97 and b <= 122 then
+      has = true
+    end
+  end
+  return has
+end
+
+local function islower_pattern(s)
+  return match(s, "%a") ~= nil and match(s, "%u") == nil
+end
+
+local function isspace_bytes(s)
+  local len = #s
+  if len == 0 then
+    return false
+  end
+  for i = 1, len do
+    local b = byte(s, i)
+    if b ~= 32 and (b < 9 or b > 13) then
+      return false
+    end
+  end
+  return true
+end
+
+local function isspace_pattern(s)
+  return find(s, "^%s+$") == 1
 end
 
 function M.istitle(s)
@@ -281,18 +320,46 @@ function M.istitle(s)
   return has
 end
 
-function M.isupper(s)
+local function isupper_bytes(s)
   local has = false
   for i = 1, #s do
-    local c = sub(s, i, i)
-    if match(c, "%a") then
-      if c ~= upper(c) then
-        return false
-      end
+    local b = byte(s, i)
+    if b >= 97 and b <= 122 then
+      return false
+    end
+    if b >= 65 and b <= 90 then
       has = true
     end
   end
   return has
+end
+
+local function isupper_pattern(s)
+  return match(s, "%a") ~= nil and match(s, "%l") == nil
+end
+
+local is_jit = rawget(_G, "jit") ~= nil
+
+M.isalnum = is_jit and isalnum_bytes or isalnum_pattern
+M.isalpha = is_jit and isalpha_bytes or isalpha_pattern
+M.isdecimal = is_jit and isdecimal_bytes or isdecimal_pattern
+M.islower = is_jit and islower_bytes or islower_pattern
+M.isspace = is_jit and isspace_bytes or isspace_pattern
+M.isupper = is_jit and isupper_bytes or isupper_pattern
+
+M.isdigit = M.isdecimal
+M.isnumeric = M.isdecimal
+M.isidentifier = utils.isidentifier
+
+function M.isprintable(s)
+  local len = #s
+  for i = 1, len do
+    local b = byte(s, i)
+    if b < 32 or b > 126 then
+      return false
+    end
+  end
+  return true
 end
 
 function M.join(sep, list)
@@ -607,6 +674,14 @@ function M.startswith(s, prefix, start, stop)
       end
     end
     return false
+  end
+
+  if start == nil and stop == nil then
+    if prefix == "" then
+      return true
+    end
+    local plen = #prefix
+    return #s >= plen and sub(s, 1, plen) == prefix
   end
 
   local a, b = norm_range_exclusive(s, start, stop)
