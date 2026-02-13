@@ -4,13 +4,8 @@ description: Overview of Mods, a collection of focused Lua modules and how to na
 
 # Mods
 
-Pure Lua libraries for everyday development tasks.
-Mods provides focused modules with predictable APIs, minimal dependencies, and Lua 5.1 through 5.4 support.
-
-## What Is Mods?
-
-Mods is a set of focused Lua modules for everyday use.
-Minimal dependencies, predictable APIs, and Lua 5.1 through 5.4 support.
+Mods is a set of pure Lua modules for daily development.
+Minimal dependencies, predictable APIs, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
 Use modules through `require("mods")` and access helpers via `mods.<name>`.
 
 > [!NOTE]
@@ -19,10 +14,6 @@ Use modules through `require("mods")` and access helpers via `mods.<name>`.
 ## Modules
 
 <!-- @include: ./modules/index.md -->
-
-## Examples
-
-Runnable [examples](https://github.com/luamod/mods/tree/main/examples) are available in the repository.
 
 ## Contribute
 
