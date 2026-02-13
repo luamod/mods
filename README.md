@@ -3,6 +3,8 @@
 Mods is a set of pure Lua modules for daily development.
 Minimal dependencies, predictable APIs, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
 
+This project is inspired by [Penlight (pl)](https://github.com/lunarmodules/Penlight).
+
 If this project helps you, consider starring the repo ⭐.
 
 ## Documentation
@@ -54,6 +56,14 @@ luarocks install mods
 
 > [!NOTE]
 > We are still working on adding new modules and improving the docs.
+
+## Acknowledgments
+
+Thanks to these Lua ecosystem projects:
+
+- [LuaFileSystem (`lfs`)](https://github.com/lunarmodules/luafilesystem)
+- [`inspect.lua` (`inspect`)](https://github.com/kikito/inspect.lua)
+- [Busted (`busted`)](https://github.com/lunarmodules/busted)
 
 [`is`]: https://luamod.github.io/mods/modules/is
 [`List`]: https://luamod.github.io/mods/modules/list
