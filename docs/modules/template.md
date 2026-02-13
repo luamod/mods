@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/template.lua
+title: template
+description: Render lightweight templates with dot-path placeholders and function-aware values.
 ---
 
 # `template`
@@ -9,7 +10,8 @@ Render a simple template using the provided context.
 ## Import
 
 ```lua
-local template = require("mods.template")
+local mods = require("mods")
+local template = mods.template
 ```
 
 ## Usage
@@ -32,6 +34,14 @@ local view = {
 local out = template("Hello {{user.name}}!", view)
 -- result: "Hello Ada!"
 
+out = template(view)
+-- result:
+-- {
+--   count=3,
+--   name_func=<function>,
+--   user={...}
+-- }
+
 out = template("You have {{count}} new messages.", view)
 -- result: "You have 3 new messages."
 
@@ -44,8 +54,12 @@ out = template("Role: {{ user.meta.role }}", view)
 out = template("Hi {{name_func}}", view)
 -- result: "Hi Ada"
 
-out = template("Whole view: {{.}}", view)
--- result: "Whole view: table: 0x..."
+out = template("Stats: {{stats}}", { stats = { count = 3, ok = true } })
+-- result:
+-- Stats: {
+--   count=3,
+--   ok=true
+-- }
 ```
 
 ## Rules
@@ -89,6 +103,18 @@ out = template("Whole view: {{.}}", view)
   }) -- result: "Hi Ada"
   ```
 
+- Table values render as first-depth key/value pairs.
+  String values are quoted; nested tables/functions are summarized.
+
+  ```lua
+  template("Data: {{data}}", { data = { a = 1, b = true } })
+  -- result:
+  -- Data: {
+  --   a=1,
+  --   b=true
+  -- }
+  ```
+
 - Missing keys render as an empty string.
 
   ```lua
@@ -101,4 +127,15 @@ out = template("Whole view: {{.}}", view)
   ```lua
   template("Hi {{name", { name = "Ada" })
   -- result: "Hi {{name"
+  ```
+
+- `template(view)` is shorthand for <code v-pre>template("{{.}}", view)</code>.
+
+  ```lua
+  template({ a = 1, b = true })
+  -- result:
+  -- {
+  --   a=1,
+  --   b=true
+  -- }
   ```

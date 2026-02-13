@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/List.lua
+title: List
+description: Python-style List API for sequence mutation, querying, and transformations.
 ---
 
 # `List`

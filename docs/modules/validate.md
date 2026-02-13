@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/validate.lua
+title: validate
+description: Validate Lua values and path kinds with flexible aliases and customizable messages.
 ---
 
 # `validate`
@@ -9,7 +10,8 @@ Validation checks for values and filesystem path types.
 ## Import
 
 ```lua
-local validate = require("mods.validate")
+local mods = require("mods")
+local validate = mods.validate
 ```
 
 ## Usage

@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/tbl.lua
+title: tbl
+description: Lua table helpers for copy, query, transform, and safe nested access patterns.
 ---
 
 # `tbl`

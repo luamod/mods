@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/stringcase.lua
+title: stringcase
+description: Convert strings across naming conventions like snake_case, camelCase, and kebab-case.
 ---
 
 # `stringcase`

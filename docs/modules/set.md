@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/Set.lua
+title: Set
+description: Python-style Set API for unique-value operations, predicates, and set algebra.
 ---
 
 # `Set`

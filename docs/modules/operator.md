@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/operator.lua
+title: operator
+description: Operator helpers exposed as functions for arithmetic, comparison, logic, and indexing.
 ---
 
 # `operator`

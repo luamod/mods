@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/is.lua
+title: is
+description: Type, truthiness, callable, and filesystem path predicates for Lua values.
 ---
 
 # `is`

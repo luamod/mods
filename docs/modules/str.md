@@ -1,5 +1,6 @@
 ---
-editLinkTarget: types/str.lua
+title: str
+description: Python-like string utilities for formatting, predicates, splitting, and casing.
 ---
 
 # `str`

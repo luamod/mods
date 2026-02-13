@@ -1,5 +1,5 @@
 ---
-editLinkTarget: types/utils.lua
+title: utils
 description: Common utility helpers.
 ---
 
