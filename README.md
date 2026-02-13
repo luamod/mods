@@ -1,14 +1,9 @@
 # Mods
 
-Pure Lua libraries for everyday development tasks.
-Focused APIs, minimal dependencies, and support for Lua 5.1 through 5.4.
+Mods is a set of pure Lua modules for daily development.
+Minimal dependencies, predictable APIs, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
 
 If this project helps you, consider starring the repo ⭐.
-
-## What Is Mods?
-
-Mods is a collection of practical modules for strings, tables, validation, templates, and more.
-Import once with `require("mods")`, then access modules through `mods.<name>`.
 
 ## Documentation
 
@@ -22,17 +17,27 @@ Guides, module overviews, and examples live in the [docs](https://luamod.github.
 luarocks install mods
 ```
 
-### Clone
+### Manual
 
-```sh
-git clone https://github.com/luamod/mods.git
-```
+- **Unix (Linux/macOS)**:
+
+  ```sh
+  git clone https://github.com/luamod/mods.git
+  cd mods
+  mkdir -p /usr/local/share/lua/5.x/
+  cp -r src/mods /usr/local/share/lua/5.x/
+  ```
+
+- **Windows**:
+
+  Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
+
+> [!IMPORTANT]
+> Replace `5.x` with your Lua version (for example, `5.4`).
 
 ## Modules
 
-Available modules:
-
-<!-- Keep module names in this list sorted alphabetically. -->
+<!-- Keep this section in sync with docs/modules/index.md. -->
 
 | Module         | Description                                                    |
 | -------------- | -------------------------------------------------------------- |
@@ -49,8 +54,6 @@ Available modules:
 
 > [!NOTE]
 > We are still working on adding new modules and improving the docs.
-
-<!-- Keep module names in this list sorted alphabetically. -->
 
 [`is`]: https://luamod.github.io/mods/modules/is
 [`List`]: https://luamod.github.io/mods/modules/list
