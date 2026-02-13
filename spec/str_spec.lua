@@ -1,7 +1,8 @@
 ---@diagnostic disable: param-type-mismatch
 
-local str = require("mods.str")
 local List = require("mods.List")
+local str = require("mods.str")
+
 local byte = string.byte
 
 describe("mods.str", function()
@@ -237,21 +238,26 @@ describe("mods.str", function()
     end)
   end
 
-  it("split() always returns mods.List", function()
-    assert.is_true(getmetatable(str.split("a b")) == List)
-    assert.is_true(getmetatable(str.split("a,b", ",")) == List)
-    assert.is_true(getmetatable(str.split("a,b", ",", 0)) == List)
-  end)
 
-  it("rsplit() always returns mods.List", function()
-    assert.is_true(getmetatable(str.rsplit("a b")) == List)
-    assert.is_true(getmetatable(str.rsplit("a,b", ",")) == List)
-    assert.is_true(getmetatable(str.rsplit("a,b", ",", 0)) == List)
-  end)
+  -- stylua: ignore
+  tests = {
+    ------fname----|--------args--------
+    { "split"      , { "a b"         } },
+    { "split"      , { "a,b", ","    } },
+    { "split"      , { "a,b", ",", 0 } },
+    { "rsplit"     , { "a b"         } },
+    { "rsplit"     , { "a,b", ","    } },
+    { "rsplit"     , { "a,b", ",", 0 } },
+    { "splitlines" , { ""            } },
+    { "splitlines" , { "a\nb"        } },
+    { "splitlines" , { "a\nb", true  } },
+  }
 
-  it("splitlines() always returns mods.List", function()
-    assert.is_true(getmetatable(str.splitlines("")) == List)
-    assert.is_true(getmetatable(str.splitlines("a\nb")) == List)
-    assert.is_true(getmetatable(str.splitlines("a\nb", true)) == List)
-  end)
+  for i = 1, #tests do
+    local fname, args = unpack(tests[i])
+    it(fname .. "() returns mods.List", function()
+      local res = str[fname](unpack(args))
+      assert.is_true(getmetatable(res) == List)
+    end)
+  end
 end)
