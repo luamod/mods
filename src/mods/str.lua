@@ -1,11 +1,5 @@
-local function List()
-  local ok, mod = pcall(require, "mods.List")
-  ---@diagnostic disable-next-line: cast-local-type
-  List = ok and mod or function()
-    return {}
-  end
-  return List()
-end
+local List = require("mods.List")
+local utils = require("mods.utils")
 
 local byte = string.byte
 local char = string.char
@@ -22,12 +16,6 @@ local upper = string.upper
 
 ---@type mods.str
 local M = {}
-
-local keywords = {}
-([[ and and break do else elseif end false for function goto if in local
-    nil not or repeat return then true until while ]]):gsub("%w+", function(w)
-  keywords[w] = true
-end)
 
 local function norm_range(s, start, stop)
   local len = #s
@@ -55,6 +43,22 @@ end
 
 local function escape_class(s)
   return gsub(s, "([%%%]%^%-])", "%%%1")
+end
+
+local function is_nonempty_match(s, pattern)
+  return #s > 0 and match(s, pattern) ~= nil
+end
+
+local function first_char_or_space(fillchar)
+  return fillchar and sub(fillchar, 1, 1) or " "
+end
+
+local function split_whitespace_words(s)
+  local parts = {}
+  for w in gmatch(s, "%S+") do
+    parts[#parts + 1] = w
+  end
+  return parts
 end
 
 local function norm_range_exclusive(s, start, stop)
@@ -101,7 +105,7 @@ function M.center(s, width, fillchar)
   local pad = width - len
   local left = floor(pad / 2)
   local right = pad - left
-  local fc = fillchar and sub(fillchar, 1, 1) or " "
+  local fc = first_char_or_space(fillchar)
   return rep(fc, left) .. s .. rep(fc, right)
 end
 
@@ -209,11 +213,11 @@ function M.format_map(s, mapping)
 end
 
 function M.isalnum(s)
-  return #s > 0 and match(s, "^[%a%d]+$") ~= nil
+  return is_nonempty_match(s, "^[%a%d]+$")
 end
 
 function M.isalpha(s)
-  return #s > 0 and match(s, "^%a+$") ~= nil
+  return is_nonempty_match(s, "^%a+$")
 end
 
 function M.isascii(s)
@@ -227,16 +231,14 @@ function M.isascii(s)
 end
 
 function M.isdecimal(s)
-  return #s > 0 and match(s, "^%d+$") ~= nil
+  return is_nonempty_match(s, "^%d+$")
 end
 
 function M.isdigit(s)
-  return #s > 0 and match(s, "^%d+$") ~= nil
+  return is_nonempty_match(s, "^%d+$")
 end
 
-function M.isidentifier(s)
-  return match(s, "^[%a_][%w_]*$") ~= nil and keywords[s] ~= true
-end
+M.isidentifier = utils.isidentifier
 
 function M.islower(s)
   local has = false
@@ -253,7 +255,7 @@ function M.islower(s)
 end
 
 function M.isnumeric(s)
-  return #s > 0 and match(s, "^%d+$") ~= nil
+  return is_nonempty_match(s, "^%d+$")
 end
 
 function M.isprintable(s)
@@ -268,7 +270,7 @@ function M.isprintable(s)
 end
 
 function M.isspace(s)
-  return #s > 0 and match(s, "^%s+$") ~= nil
+  return is_nonempty_match(s, "^%s+$")
 end
 
 function M.istitle(s)
@@ -307,7 +309,7 @@ function M.ljust(s, width, fillchar)
   if width <= len then
     return s
   end
-  local fc = fillchar and sub(fillchar, 1, 1) or " "
+  local fc = first_char_or_space(fillchar)
   return s .. rep(fc, width - len)
 end
 
@@ -453,7 +455,7 @@ function M.rjust(s, width, fillchar)
   if width <= len then
     return s
   end
-  local fc = fillchar and sub(fillchar, 1, 1) or " "
+  local fc = first_char_or_space(fillchar)
   return rep(fc, width - len) .. s
 end
 
@@ -479,10 +481,7 @@ end
 
 function M.rsplit(s, sep, maxsplit)
   if sep == nil then
-    local parts = {}
-    for w in gmatch(s, "%S+") do
-      parts[#parts + 1] = w
-    end
+    local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
       return parts
     end
@@ -535,10 +534,7 @@ end
 
 function M.split(s, sep, maxsplit)
   if sep == nil then
-    local parts = {}
-    for w in gmatch(s, "%S+") do
-      parts[#parts + 1] = w
-    end
+    local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
       return parts
     end
