@@ -14,11 +14,25 @@ description: Install Mods and use modules through the shared `mods` entrypoint.
 luarocks install mods
 ```
 
-== Git
+== Manual
 
-```sh
-git clone git@github.com:luamod/mods.git
-```
+- **Unix (Linux/macOS)**:
+
+  ```sh
+  git clone https://github.com/luamod/mods.git
+  cd mods
+  mkdir -p /usr/local/share/lua/5.x/
+  cp -r src/mods /usr/local/share/lua/5.x/
+  ```
+
+- **_Windows_**:
+
+  Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
+
+> [!IMPORTANT]
+> Replace `5.x` with your Lua version (for example, `5.4`).
+
+:::
 
 > [!NOTE]
 > [LLS](https://github.com/LuaLS/lua-language-server) type stubs are available in [`types/`](https://github.com/luamod/mods/tree/main/types).
