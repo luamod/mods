@@ -7,8 +7,7 @@ local sub = string.sub
 ---e.g. "fooBar-Baz qux" -> "foo_bar_baz_qux"
 local function normalize(s)
   s = gsub(s, "(%l)(%u)", "%1_%2")
-  s = gsub(s, "[%s%-_]+", "_")
-  return s
+  return gsub(s, "[%s%-_]+", "_")
 end
 
 ---Applies a function to each "word" in the string
@@ -34,9 +33,9 @@ function M.kebab(s)    return replace(s, "-") end
 function M.dot(s)      return replace(s, ".") end
 function M.space(s)    return replace(s, " ") end
 function M.path(s)     return replace(s, "/") end
-function M.swap(s)     return (gsub(s, "%a", function(c) return lower(c) == c and upper(c) or lower(c) end)) end
+function M.swap(s)     return (gsub(s, "%a", function(c) local l = lower(c); return l == c and upper(c) or l end)) end
 function M.capital(s)  return upper(sub(s, 1, 1)) .. lower(sub(s, 2)) end
-function M.sentence(s) return upper(sub(lower(s), 1, 1)) .. sub(s, 2) end
+function M.sentence(s) return upper(sub(s, 1, 1)) .. sub(s, 2) end
 -- stylua: ignore end
 
 M.snake, M.camel, M.replace = snake, camel, replace
