@@ -1,8 +1,8 @@
 local is = require("mods.is")
+local quote = require("mods.utils").quote
 
 local gsub = string.gsub
 local sub = string.sub
-local find = string.find
 local lower = string.lower
 local tostring = tostring
 local type = type
@@ -17,20 +17,6 @@ local M = {
   is = is_checks,
   messages = { positive = is_tmpl, negative = not_tmpl },
 }
-
----
----Smart-quote a string.
----
----Copied from snippets/quote.lua
----
----IMPORTANT: Keep this function in sync with snippets/quote.lua.
----
-local function quote(v)
-  if find(v, '"', 1, true) and not find(v, "'", 1, true) then
-    return "'" .. v .. "'"
-  end
-  return '"' .. gsub(v, '"', '\\"') .. '"'
-end
 
 local function render_msg(expected, actual, v, is_expected)
   local tmpl
