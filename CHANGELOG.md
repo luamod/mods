@@ -11,6 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `mods.utils`, utility helpers ([c440cfe](https://github.com/luamod/mods/commit/c440cfe)).
 
+### Changed
+
+- `mods.List`: align runtime dependency loading and `setify()` return type with `mods.Set` ([9fd4506](https://github.com/luamod/mods/commit/9fd4506)).
+- `mods.Set`: align runtime dependency loading with type expectations ([0245833](https://github.com/luamod/mods/commit/0245833)).
+- `mods.str`: refactor shared helper usage for whitespace splitting, fill char handling, and non-empty pattern checks ([3edd895](https://github.com/luamod/mods/commit/3edd895)).
+- `mods.str`: return `mods.List` from split variants and optimize reverse split handling ([db267b3](https://github.com/luamod/mods/commit/db267b3)).
+- `mods.str`: optimize splitlines and title code paths ([6b87560](https://github.com/luamod/mods/commit/6b87560)).
+- `mods.str`: speed up predicates and add startswith fast path ([746f883](https://github.com/luamod/mods/commit/746f883)).
+- `mods.stringcase`: streamline swap and sentence transforms ([ae78911](https://github.com/luamod/mods/commit/ae78911)).
+- `mods.tbl`: align `keys()` and `values()` return types with runtime `mods.List` results ([c0ef23d](https://github.com/luamod/mods/commit/c0ef23d)).
+- `mods.validate`: use `mods.is` predicates ([83cc71b](https://github.com/luamod/mods/commit/83cc71b)).
+
 ### Fixed
 
 - `mods.validate`: prevent unrelated assignments from overriding `on_fail` ([64eedad](https://github.com/luamod/mods/commit/64eedad)).
