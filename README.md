@@ -36,7 +36,9 @@ luarocks install mods
 
   Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
 
-> [!IMPORTANT] Replace `5.x` with your Lua version (for example, `5.4`).
+> [!IMPORTANT]
+>
+> Replace `5.x` with your Lua version (for example, `5.4`).
 
 ## Modules
 
@@ -55,7 +57,9 @@ luarocks install mods
 | [`utils`]      | Common utility helpers.                                        |
 | [`validate`]   | Validation helpers for Lua values.                             |
 
-> [!NOTE] We are still working on adding new modules and improving the docs.
+> [!NOTE]
+>
+> We are still working on adding new modules and improving the docs.
 
 ## Acknowledgments
 
