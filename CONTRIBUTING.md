@@ -11,8 +11,7 @@ Thanks for your interest in contributing!
 
 ## Tests
 
-Tests live in [`spec/`](spec/). Add or update specs there when behavior
-changes.
+Tests live in [`spec/`](spec/). Add or update specs there when behavior changes.
 
 Run tests with [Busted](https://github.com/lunarmodules/busted):
 
