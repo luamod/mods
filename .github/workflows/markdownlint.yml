@@ -1,13 +1,9 @@
 name: Markdown Lint
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "**/*.md"
-      - ".github/workflows/markdownlint.yml"
-      - ".markdownlint.yml"
+  workflow_run:
+    workflows: ["Auto Format"]
+    types: [completed]
   pull_request:
     paths:
       - "**/*.md"
@@ -16,6 +12,7 @@ on:
 
 jobs:
   markdownlint:
+    if: ${{ github.event_name == 'pull_request' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
