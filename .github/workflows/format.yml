@@ -1,9 +1,22 @@
 name: Auto Format
 
 on:
-  workflow_run:
-    workflows: ["Generate Docs"]
-    types: [completed]
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.md"
+      - "**/*.json"
+      - "**/*.yml"
+      - "**/*.ts"
+      - "**/*.mts"
+  pull_request:
+    paths:
+      - "**/*.md"
+      - "**/*.json"
+      - "**/*.yml"
+      - "**/*.ts"
+      - "**/*.mts"
   workflow_dispatch:
 
 permissions:
@@ -11,7 +24,6 @@ permissions:
 
 jobs:
   format:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -23,7 +35,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Prettier
-        run: npx --yes prettier --write "**/*.{md,json,yml,yaml,ts,mts}"
+        run: npx --yes prettier --write "**/*.{md,json,yml,ts,mts}"
       - name: Stylua
         uses: JohnnyMorganz/stylua-action@v4
         with:
