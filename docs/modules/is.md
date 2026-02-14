@@ -61,7 +61,9 @@ type name.
 
 Returns `true` when `v` is a boolean.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.boolean(true)
@@ -82,7 +84,9 @@ function boolean(v) end
 
 Returns `true` when `v` is a function.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.Function(function() end)
@@ -103,7 +107,9 @@ function Function(v) end
 
 Returns `true` when `v` is `nil`.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.Nil(nil)
@@ -124,7 +130,9 @@ function Nil(v) end
 
 Returns `true` when `v` is a number.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.number(3.14)
@@ -145,7 +153,9 @@ function number(v) end
 
 Returns `true` when `v` is a string.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.string("hello")
@@ -166,7 +176,9 @@ function string(v) end
 
 Returns `true` when `v` is a table.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.table({})
@@ -187,7 +199,9 @@ function table(v) end
 
 Returns `true` when `v` is a thread.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.thread(coroutine.create(function() end))
@@ -208,7 +222,9 @@ function thread(v) end
 
 Returns `true` when `v` is userdata.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.userdata(io.stdout)
@@ -231,7 +247,9 @@ function userdata(v) end
 
 Returns `true` when `v` is exactly `false`.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.False(false)
@@ -252,7 +270,9 @@ function False(v) end
 
 Returns `true` when `v` is exactly `true`.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.True(true)
@@ -273,7 +293,9 @@ function True(v) end
 
 Returns `true` when `v` is falsy.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.falsy(false)
@@ -294,7 +316,9 @@ function falsy(v) end
 
 Returns `true` when `v` is callable.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.callable(function() end)
@@ -315,7 +339,9 @@ function callable(v) end
 
 Returns `true` when `v` is an integer.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.integer(42)
@@ -336,7 +362,9 @@ function integer(v) end
 
 Returns `true` when `v` is truthy.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.truthy("non-empty")
@@ -364,7 +392,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.block("/dev/sda")
@@ -390,7 +420,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.char("/dev/null")
@@ -416,7 +448,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.device("/dev/null")
@@ -442,7 +476,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.dir("/tmp")
@@ -468,7 +504,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.fifo("/path/to/fifo")
@@ -494,7 +532,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.file("README.md")
@@ -520,7 +560,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.link("/path/to/link")
@@ -546,7 +588,9 @@ installed.
 
 > [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 is.socket("/path/to/socket")

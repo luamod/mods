@@ -69,7 +69,9 @@ query collections of unique values.
 
 Add an element to the set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a" })
@@ -93,7 +95,9 @@ function add(v) end
 
 Remove all elements from the set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -116,7 +120,9 @@ function clear() end
 
 Remove elements found in another set (in place).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -140,7 +146,9 @@ function difference_update(set) end
 
 Remove an element if present, do nothing otherwise.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -164,7 +172,9 @@ function discard(v) end
 
 Keep only elements common to both sets (in place).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -188,7 +198,9 @@ function intersection_update(set) end
 
 Remove and return an arbitrary element.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local v = Set({ "a", "b" }):pop()
@@ -210,7 +222,9 @@ function pop() end
 
 Update the set with elements not shared by both (in place).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -234,7 +248,9 @@ function symmetric_difference_update(set) end
 
 Add all elements from another set (in place).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a" })
@@ -260,7 +276,9 @@ function update(set) end
 
 Return a shallow copy of the set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a" })
@@ -286,7 +304,9 @@ function copy() end
 
 Return elements in this set but not in another.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -311,7 +331,9 @@ function difference(set) end
 
 Return elements common to both sets.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -336,7 +358,9 @@ function intersection(set) end
 
 Return elements not shared by both sets.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a", "b" })
@@ -361,7 +385,9 @@ function symmetric_difference(set) end
 
 Return a new set with all elements from both.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ "a" }):union(Set({ "b" }))
@@ -387,7 +413,9 @@ function union(set) end
 
 Return true if sets have no elements in common.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
@@ -411,7 +439,9 @@ function isdisjoint(set) end
 
 Return true if the set has no elements.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local empty = Set({}):isempty()
@@ -434,7 +464,9 @@ function isempty() end
 
 Return true if all elements of this set are also in another set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
@@ -458,7 +490,9 @@ function issubset(set) end
 
 Return true if this set contains all elements of another set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
@@ -484,7 +518,9 @@ function issuperset(set) end
 
 Return the number of elements in the set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local n = Set({ "a", "b" }):len()
@@ -509,7 +545,9 @@ function len() end
 
 Return a new set by mapping each value.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
@@ -533,7 +571,9 @@ function map(fn) end
 
 Return a list of all values in the set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local values = Set({ "a", "b" }):values()

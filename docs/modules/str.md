@@ -86,7 +86,9 @@ String utility helpers modeled after Python's `str`.
 
 Return copy with first character capitalized and the rest lowercased.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = capitalize("hello WORLD")
@@ -108,7 +110,9 @@ function capitalize(s) end
 
 Center string within width, padded with fill characters.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = center("hi", 6, "-")
@@ -132,7 +136,9 @@ function center(s, width, fillchar) end
 
 Count non-overlapping occurrences of a substring.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local n = count("aaaa", "aa")
@@ -164,7 +170,9 @@ function count(s, sub, start, stop) end
 Return true if string ends with suffix. If suffix is a list, return true if any
 suffix matches.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = endswith("hello.lua", ".lua")
@@ -189,7 +197,9 @@ function endswith(s, suffix, start, stop) end
 
 Expand tabs to spaces using given tabsize.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = expandtabs("a\tb", 4)
@@ -212,7 +222,9 @@ function expandtabs(s, tabsize) end
 
 Return lowest index of substring or nil if not found.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local i = find("hello", "ll")
@@ -237,7 +249,9 @@ function find(s, sub, start, stop) end
 
 Format string with mapping (key-based) replacement.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = format_map("hi {name}", { name = "bob" })
@@ -262,7 +276,9 @@ function format_map(s, mapping) end
 
 Return true if all characters are alphanumeric and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isalnum("abc123")
@@ -291,7 +307,9 @@ function isalnum(s) end
 
 Return true if all characters are alphabetic and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isalpha("abc")
@@ -320,7 +338,9 @@ function isalpha(s) end
 
 Return true if all characters are ASCII and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isascii("hello")
@@ -344,7 +364,9 @@ function isascii(s) end
 
 Return true if all characters are decimal characters and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isdecimal("123")
@@ -366,7 +388,9 @@ function isdecimal(s) end
 
 Return true if all characters are digits and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isdigit("123")
@@ -388,7 +412,9 @@ function isdigit(s) end
 
 Return true if string is a valid identifier and not a reserved keyword.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isidentifier("foo_bar")
@@ -417,7 +443,9 @@ function isidentifier(s) end
 Return true if all cased characters are lowercase and there is at least one
 cased character.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = islower("hello")
@@ -439,7 +467,9 @@ function islower(s) end
 
 Return true if all characters are numeric and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isnumeric("123")
@@ -461,7 +491,9 @@ function isnumeric(s) end
 
 Return true if all characters are printable and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isprintable("abc!")
@@ -485,7 +517,9 @@ function isprintable(s) end
 
 Return true if all characters are whitespace and string is non-empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isspace(" \t")
@@ -507,7 +541,9 @@ function isspace(s) end
 
 Return true if string is titlecased.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = istitle("Hello World")
@@ -530,7 +566,9 @@ function istitle(s) end
 Return true if all cased characters are uppercase and there is at least one
 cased character.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = isupper("HELLO")
@@ -554,7 +592,9 @@ function isupper(s) end
 
 Join an iterable of strings using this string as separator.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = join(",", { "a", "b", "c" })
@@ -577,7 +617,9 @@ function join(sep, ls) end
 
 Left-justify string in a field of given width.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = ljust("hi", 5, ".")
@@ -601,7 +643,9 @@ function ljust(s, width, fillchar) end
 
 Return lowercased copy.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = lower("HeLLo")
@@ -623,7 +667,9 @@ function lower(s) end
 
 Remove leading characters (default: whitespace).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = lstrip("  hello")
@@ -646,7 +692,9 @@ function lstrip(s, chars) end
 
 Remove trailing characters (default: whitespace).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = rstrip("hello  ")
@@ -669,7 +717,9 @@ function rstrip(s, chars) end
 
 Remove leading and trailing characters (default: whitespace).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = strip("  hello  ")
@@ -694,7 +744,9 @@ function strip(s, chars) end
 
 Partition string into head, sep, tail from left.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local a, b, c = partition("a-b-c", "-")
@@ -717,7 +769,9 @@ function partition(s, sep) end
 
 Remove prefix if present.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = removeprefix("foobar", "foo")
@@ -740,7 +794,9 @@ function removeprefix(s, prefix) end
 
 Remove suffix if present.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = removesuffix("foobar", "bar")
@@ -763,7 +819,9 @@ function removesuffix(s, suffix) end
 
 Return a copy of the string with all occurrences of a substring replaced.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = replace("a-b-c", "-", "_", 1)
@@ -788,7 +846,9 @@ function replace(s, old, new, count) end
 
 Return highest index of substring or nil if not found.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local i = rfind("ababa", "ba")
@@ -813,7 +873,9 @@ function rfind(s, sub, start, stop) end
 
 Like rfind but raises on failure (placeholder).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local i = rindex("ababa", "ba")
@@ -838,7 +900,9 @@ function rindex(s, sub, start, stop) end
 
 Right-justify string in a field of given width.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = rjust("hi", 5, ".")
@@ -862,7 +926,9 @@ function rjust(s, width, fillchar) end
 
 Partition string into head, sep, tail from right.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local a, b, c = rpartition("a-b-c", "-")
@@ -885,7 +951,9 @@ function rpartition(s, sep) end
 
 Split from the right by separator, up to maxsplit.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local parts = rsplit("a,b,c", ",", 1)
@@ -898,7 +966,7 @@ local parts = rsplit("a,b,c", ",", 1)
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
----@return mods.List|string[]
+---@return mods.List
 ---@nodiscard
 function rsplit(s, sep, maxsplit) end
 ```
@@ -909,7 +977,9 @@ function rsplit(s, sep, maxsplit) end
 
 Split by separator (or whitespace) up to maxsplit.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local parts = split("a,b,c", ",")
@@ -922,7 +992,7 @@ local parts = split("a,b,c", ",")
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
----@return mods.List|string[]
+---@return mods.List
 ---@nodiscard
 function split(s, sep, maxsplit) end
 ```
@@ -933,7 +1003,9 @@ function split(s, sep, maxsplit) end
 
 Split on line boundaries.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local lines = splitlines("a\nb\r\nc")
@@ -945,7 +1017,7 @@ local lines = splitlines("a\nb\r\nc")
 ```lua
 ---@param s string
 ---@param keepends? boolean
----@return mods.List|string[]
+---@return mods.List
 ---@nodiscard
 function splitlines(s, keepends) end
 ```
@@ -958,7 +1030,9 @@ function splitlines(s, keepends) end
 
 Return a copy with case of alphabetic characters swapped.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = swapcase("AbC")
@@ -981,7 +1055,9 @@ function swapcase(s) end
 Return true if string starts with prefix. If prefix is a list, return true if
 any prefix matches.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = startswith("hello.lua", "he")
@@ -1006,7 +1082,9 @@ function startswith(s, prefix, start, stop) end
 
 Return titlecased copy.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = title("hello world")
@@ -1028,7 +1106,9 @@ function title(s) end
 
 Translate characters using a mapping table.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local map = { [string.byte("a")] = "b", ["c"] = false }
@@ -1052,7 +1132,9 @@ function translate(s, table_map) end
 
 Return uppercased copy.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = upper("Hello")
@@ -1074,7 +1156,9 @@ function upper(s) end
 
 Pad numeric string on the left with zeros.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = zfill("42", 5)

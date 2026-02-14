@@ -87,7 +87,9 @@ query sequences of values.
 
 Return true if all values match the predicate. Empty lists return true.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local is_even = function(v) return v % 2 == 0 end
@@ -112,7 +114,9 @@ function all(pred) end
 
 Return true if any value matches the predicate.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local has_len_2 = function(v) return #v == 2 end
@@ -139,7 +143,9 @@ function any(pred) end
 
 Append a value to the end of the list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a" }):append("b")
@@ -161,7 +167,9 @@ function append(v) end
 
 Remove all elements from the list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a", "b" }):clear()
@@ -183,7 +191,9 @@ function clear() end
 
 Extend the list with another list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a" })
@@ -207,7 +217,9 @@ function extend(ls) end
 
 Extract values matching the predicate and remove them from the list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a", "bb", "c" })
@@ -233,7 +245,9 @@ function extract(pred) end
 
 Insert a value at the given position.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a", "c" }):insert(2, "b")
@@ -257,7 +271,9 @@ function insert(pos, v) end
 
 Append a value to the end of the list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a", "b" }):insert("b")
@@ -280,7 +296,9 @@ function insert(v) end
 
 Remove and return the last element.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a", "b" })
@@ -303,7 +321,9 @@ function pop() end
 
 Remove and return the element at the given position.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a", "b", "c" })
@@ -327,7 +347,9 @@ function pop(pos) end
 
 Insert a value at the start of the list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "b", "c" })
@@ -351,7 +373,9 @@ function prepend(v) end
 
 Remove the first matching value.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ "a", "b", "b" })
@@ -375,7 +399,9 @@ function remove(v) end
 
 Sort the list in place.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local l = List({ 3, 1, 2 })
@@ -401,7 +427,9 @@ function sort(comp) end
 
 Return a shallow copy of the list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local c = List({ "a", "b" }):copy()
@@ -426,7 +454,9 @@ function copy() end
 
 Return true if the list contains the value.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local ok = List({ "a", "b" }):contains("b")
@@ -450,7 +480,9 @@ function contains(v) end
 
 Count how many times a value appears.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local n = List({ "a", "b", "b" }):count("b")
@@ -473,7 +505,9 @@ function count(v) end
 
 Return the index of the first matching value.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local i = List({ "a", "b", "c", "b" }):index("b")
@@ -498,7 +532,9 @@ function index(v) end
 
 Return the index of the first value matching the predicate.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local gt_1 = function(x) return x > 1 end
@@ -523,7 +559,9 @@ function index_if(pred) end
 
 Return the number of elements in the list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local n = List({ "a", "b", "c" }):len()
@@ -548,7 +586,9 @@ function len() end
 
 Return the first element or nil if empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local v = List({ "a", "b" }):first()
@@ -571,7 +611,9 @@ function first() end
 
 Return the last element or nil if empty.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local v = List({ "a", "b" }):last()
@@ -596,7 +638,9 @@ function last() end
 
 Return a new list with values not in the given list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local d = List({ "a", "b", "c" }):difference({ "b" })
@@ -619,7 +663,9 @@ function difference(ls) end
 
 Return a new list without the first n elements.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local t = List({ "a", "b", "c" }):drop(1)
@@ -643,7 +689,9 @@ function drop(n) end
 
 Return a new list with values matching the predicate.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local is_len_1 = function(v) return #v == 1 end
@@ -668,7 +716,9 @@ function filter(pred) end
 
 Flatten one level of nested lists.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local f = List({ { "a", "b" }, { "c" } }):flatten()
@@ -691,7 +741,9 @@ function flatten() end
 
 Apply a function to each element (for side effects). Returns nil.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 List({ "a", "b" }):foreach(print)
@@ -713,7 +765,9 @@ function foreach(fn) end
 
 Group list values by a computed key.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local words = { "aa", "b", "ccc", "dd" }
@@ -739,7 +793,9 @@ function group_by(fn) end
 Return values that are also present in the given list. Order is preserved from
 the original list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
@@ -763,7 +819,9 @@ function intersection(ls) end
 
 Invert values to indices in a new table.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local t = List({ "a", "b", "c" }):invert()
@@ -786,7 +844,9 @@ function invert() end
 
 Join list values into a string.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = List({ "a", "b", "c" }):join(",")
@@ -810,7 +870,9 @@ function join(sep) end
 
 Return a new list by mapping each value.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local to_upper = function(v) return v:upper() end
@@ -837,7 +899,9 @@ Reduce the list to a single value using an accumulator. If init is nil, the
 first element is used as the initial value. Empty lists return init (or nil if
 init is nil).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local add = function(acc, v) return acc + v end
@@ -866,7 +930,9 @@ function reduce(fn, init) end
 
 Return a new list with items reversed.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local r = List({ "a", "b", "c" }):reverse()
@@ -889,7 +955,9 @@ function reverse() end
 
 Convert the list to a set.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local s = List({ "a", "b", "a" }):setify()
@@ -913,7 +981,9 @@ function setify() end
 Return a new list containing items from i to j (inclusive). Supports negative
 indices (-1 is last element).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local t = List({ "a", "b", "c", "d" }):slice(2, 3)
@@ -938,7 +1008,9 @@ function slice(i, j) end
 
 Return the first n elements as a new list.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local t = List({ "a", "b", "c" }):take(2)
@@ -962,7 +1034,9 @@ function take(n) end
 
 Return a new list with duplicates removed (first occurrence kept).
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local u = List({ "a", "b", "a", "c" }):uniq()
@@ -986,7 +1060,9 @@ function uniq() end
 Zip two lists into a list of 2-element tables. Length is the minimum of both
 lists.
 
-:::tabs == Example
+:::tabs
+
+== Example
 
 ```lua
 local z = List({ "a", "b" }):zip({ 1, 2 })
