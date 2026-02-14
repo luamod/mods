@@ -3,6 +3,10 @@ name: Release Please
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   release-please:
     uses: luamod/.github/.github/workflows/release-please.yml@v1
