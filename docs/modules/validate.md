@@ -85,10 +85,12 @@ Customize validator error messages through `validate.messages`.
 
 Available placeholders:
 
-- `{{expected}}`: The check target (for example `number`, `string`, `truthy`).
-- `{{got}}`: The detected failure kind (usually a Lua type; path validators use
-  `invalid path`).
-- `{{value}}`: The passed value, formatted for display (strings are quoted).
+- <code v-pre>{{expected}}</code>: The check target (for example `number`,
+  `string`, `truthy`).
+- <code v-pre>{{got}}</code>: The detected failure kind (usually a Lua type;
+  path validators use `invalid path`).
+- <code v-pre>{{value}}</code>: The passed value, formatted for display (strings
+  are quoted).
 
 ### Example
 
