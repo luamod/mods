@@ -1,6 +1,7 @@
 ---
 title: tbl
-description: Lua table helpers for copy, query, transform, and safe nested access patterns.
+description:
+  Lua table helpers for copy, query, transform, and safe nested access patterns.
 ---
 
 # `tbl`
@@ -52,8 +53,7 @@ Utility functions for working with Lua tables.
 
 Remove all entries from the table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local t = { a = 1, b = 2 }
@@ -75,8 +75,7 @@ function clear(t) end
 
 Return the number of keys in the table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local n = count({ a = 1, b = 2 })
@@ -100,8 +99,7 @@ function count(t) end
 
 Create a shallow copy of the table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local t = copy({ a = 1, b = 2 })
@@ -122,11 +120,10 @@ function copy(t) end
 
 #### `deepcopy(v)` {#fn-deepcopyv}
 
-Create a deep copy of a value.
-If `v` is a table, all nested tables are copied recursively; other types are returned as-is.
+Create a deep copy of a value. If `v` is a table, all nested tables are copied
+recursively; other types are returned as-is.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local n = deepcopy(42)
@@ -154,8 +151,7 @@ function deepcopy(v) end
 
 Filter entries by a value predicate.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local even = filter({ a = 1, b = 2, c = 3 }, function(v)
@@ -180,8 +176,7 @@ function filter(t, pred) end
 
 Find the first key whose value equals the given value.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local key = find({ a = 1, b = 2, c = 2 }, 2)
@@ -205,8 +200,7 @@ function find(t, v) end
 
 Find first value and key matching predicate.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local v, k = find_if({ a = 1, b = 2 }, function(v, k)
@@ -231,11 +225,10 @@ function find_if(t, pred) end
 
 #### `get(t, ...)` {#fn-gett-...}
 
-Safely get nested value by keys.
-If no keys are provided, returns the input table.
+Safely get nested value by keys. If no keys are provided, returns the input
+table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local t = { a = { b = { c = 1 } } }
@@ -264,8 +257,7 @@ function get(t, ...) end
 
 Invert keys/values into new table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local t = invert({ a = 1, b = 2 })
@@ -288,8 +280,7 @@ function invert(t) end
 
 Return true if table has no entries.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local empty = isempty({})
@@ -311,8 +302,7 @@ function isempty(t) end
 
 Return a list of all keys in the table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local keys = keys({ a = 1, b = 2 })
@@ -335,8 +325,7 @@ function keys(t) end
 
 Return a new table by mapping each value (keys preserved).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local t = map({ a = 1, b = 2 }, function(v)
@@ -360,11 +349,10 @@ function map(t, fn) end
 
 #### `pairmap(t, fn)` {#fn-pairmapt-fn}
 
-Return a new table by mapping each key-value pair.
-The resulting table keeps the same keys, with values transformed by `fn`.
+Return a new table by mapping each key-value pair. The resulting table keeps the
+same keys, with values transformed by `fn`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local t = pairmap({ a = 1, b = 2 }, function(k, v)
@@ -390,8 +378,7 @@ function pairmap(t, fn) end
 
 Merge entries from t2 into t1 and return t1.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local t1 = { a = 1, b = 2 }
@@ -416,8 +403,7 @@ function update(t1, t2) end
 
 Return a list of all values in the table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 local vals = values({ a = 1, b = 2 })

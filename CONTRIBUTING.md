@@ -4,8 +4,10 @@ Thanks for your interest in contributing!
 
 ## How to Contribute
 
-- Open an [issue](https://github.com/luamod/mods/issues) to discuss bugs or feature ideas.
-- Submit a [pull request](https://github.com/luamod/mods/pulls) with clear scope and tests when possible.
+- Open an [issue](https://github.com/luamod/mods/issues) to discuss bugs or
+  feature ideas.
+- Submit a [pull request](https://github.com/luamod/mods/pulls) with clear scope
+  and tests when possible.
 
 ## Tests
 

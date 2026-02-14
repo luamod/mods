@@ -1,6 +1,8 @@
 ---
 title: template
-description: Render lightweight templates with dot-path placeholders and function-aware values.
+description:
+  Render lightweight templates with dot-path placeholders and function-aware
+  values.
 ---
 
 # `template`
@@ -103,8 +105,8 @@ out = template("Stats: {{stats}}", { stats = { count = 3, ok = true } })
   }) -- result: "Hi Ada"
   ```
 
-- Table values render as first-depth key/value pairs.
-  String values are quoted; nested tables/functions are summarized.
+- Table values render as first-depth key/value pairs. String values are quoted;
+  nested tables/functions are summarized.
 
   ```lua
   template("Data: {{data}}", { data = { a = 1, b = true } })

@@ -1,6 +1,8 @@
 ---
 title: validate
-description: Validate Lua values and path kinds with flexible aliases and customizable messages.
+description:
+  Validate Lua values and path kinds with flexible aliases and customizable
+  messages.
 ---
 
 # `validate`
@@ -24,19 +26,23 @@ ok, err = validate.is_not.number(3.14)
 -- result: false, "expected not number"
 ```
 
-> [!NOTE]
-> When called without an explicit type (`validate(v, tp)`), `validate` defaults to checking `nil`.
+> [!NOTE] When called without an explicit type (`validate(v, tp)`), `validate`
+> defaults to checking `nil`.
 >
 > - `validate()` is equivalent to `validate(nil, "nil")`, so it passes.
-> - `validate(1)` is equivalent to `validate(1, "nil")`, so it fails with `expected nil, got number`.
+> - `validate(1)` is equivalent to `validate(1, "nil")`, so it fails with
+>   `expected nil, got number`.
 
-> [!IMPORTANT]
-> Validator access is case-insensitive.
+> [!IMPORTANT] Validator access is case-insensitive.
 >
-> - `validate.is.number`, `validate.IS.Number`, and `validate.I_s.NuMbEr` are equivalent.
-> - Top-level aliases are underscore-insensitive too: `validate.is_number`, `validate.IS_NUMBER`, and `validate.isnumber` are equivalent.
-> - Negated validators can be accessed as `is_not`, `isnot`, `isNot`, `not`, or `Not`.
->   Example: `validate.is_not.number`, `validate.isNot.number`, `validate.isnot.number`, `validate.not.number`, `validate.is_not_number`, `validate.isnotnumber`.
+> - `validate.is.number`, `validate.IS.Number`, and `validate.I_s.NuMbEr` are
+>   equivalent.
+> - Top-level aliases are underscore-insensitive too: `validate.is_number`,
+>   `validate.IS_NUMBER`, and `validate.isnumber` are equivalent.
+> - Negated validators can be accessed as `is_not`, `isnot`, `isNot`, `not`, or
+>   `Not`. Example: `validate.is_not.number`, `validate.isNot.number`,
+>   `validate.isnot.number`, `validate.not.number`, `validate.is_not_number`,
+>   `validate.isnotnumber`.
 
 ## Callable Forms
 
@@ -49,7 +55,8 @@ All three are callable:
 Callable access is also alias/case flexible:
 
 - `validate.is`, `validate.IS`
-- `validate.is_not`, `validate.isnot`, `validate.isNot`, `validate.not`, `validate.Not`
+- `validate.is_not`, `validate.isnot`, `validate.isNot`, `validate.not`,
+  `validate.Not`
 
 ```lua
 local ok, err
@@ -77,7 +84,8 @@ Customize validator error messages through `validate.messages`.
 - `validate.messages.positive.<name>` customizes positive checks
 - `validate.messages.negative.<name>` customizes negated checks
 
-`<name>` is the validator key (for example: `number`, `string`, `truthy`, `integer`, `callable`, `file`, `dir`, etc.).
+`<name>` is the validator key (for example: `number`, `string`, `truthy`,
+`integer`, `callable`, `file`, `dir`, etc.).
 
 Available placeholders:
 
@@ -102,11 +110,17 @@ ok, err = validate.is_not.number(42)
 
 ## Default Messages
 
-By default, validate uses built-in templates unless `validate.messages.positive.<name>` or `validate.messages.negative.<name>` is overridden:
+By default, validate uses built-in templates unless
+`validate.messages.positive.<name>` or `validate.messages.negative.<name>` is
+overridden:
 
-- Positive type/value checks (`validate.is.*`): <code v-pre>expected {{expected}}, got {{got}}</code>
-- Positive path checks (`validate.is.block`, `char`, `device`, `dir`, `fifo`, `file`, `link`, `socket`): <code v-pre>{{value}} is not a valid {{expected}} path</code>
-- Negative checks (`validate.is_not.*`): <code v-pre>expected not {{expected}}</code>
+- Positive type/value checks (`validate.is.*`): <code v-pre>expected
+  {{expected}}, got {{got}}</code>
+- Positive path checks (`validate.is.block`, `char`, `device`, `dir`, `fifo`,
+  `file`, `link`, `socket`): <code v-pre>{{value}} is not a valid {{expected}}
+  path</code>
+- Negative checks (`validate.is_not.*`): <code v-pre>expected not
+  {{expected}}</code>
 
 `integer` uses a more specific default that includes the passed value:
 
@@ -137,11 +151,14 @@ local ok, err = validate.number("x")
 
 ### `is`
 
-Positive validators. These checks pass only when the value matches the expected type or check.
+Positive validators. These checks pass only when the value matches the expected
+type or check.
 
 #### Type Checks
 
-Lua type validators for [`boolean`](#is-boolean), [`function`](#is-function), [`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string), [`table`](#is-table), [`thread`](#is-thread), and [`userdata`](#is-userdata).
+Lua type validators for [`boolean`](#is-boolean), [`function`](#is-function),
+[`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string),
+[`table`](#is-table), [`thread`](#is-thread), and [`userdata`](#is-userdata).
 
 ##### `boolean(v)` {#is-boolean}
 
@@ -291,8 +308,7 @@ ok, err = validate.is.truthy(nil)
 
 Filesystem kind validators for paths.
 
-> [!IMPORTANT]
-> Requires `lfs` (LuaFileSystem).
+> [!IMPORTANT] Requires `lfs` (LuaFileSystem).
 
 ##### `block(path)` {#is-block}
 
@@ -392,10 +408,11 @@ ok, err = validate.is.socket("README.md")
 
 ### `is_not`
 
-Negated validators. These checks pass only when the value does not match the expected type or check.
+Negated validators. These checks pass only when the value does not match the
+expected type or check.
 
-> [!IMPORTANT]
-> `is_not` supports type and value checks. Path checks are available on [`is`](#is) only.
+> [!IMPORTANT] `is_not` supports type and value checks. Path checks are
+> available on [`is`](#is) only.
 
 #### Type Checks
 

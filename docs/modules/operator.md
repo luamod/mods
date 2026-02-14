@@ -1,6 +1,8 @@
 ---
 title: operator
-description: Operator helpers exposed as functions for arithmetic, comparison, logic, and indexing.
+description:
+  Operator helpers exposed as functions for arithmetic, comparison, logic, and
+  indexing.
 ---
 
 # `operator`
@@ -64,8 +66,7 @@ Operator helpers as functions.
 
 Returns `a + b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 add(1, 2) -- 3
@@ -87,8 +88,7 @@ function add(a, b) end
 
 Returns `a - b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 sub(5, 3) -- 2
@@ -110,8 +110,7 @@ function sub(a, b) end
 
 Returns `a * b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 mul(3, 4) -- 12
@@ -133,8 +132,7 @@ function mul(a, b) end
 
 Returns `a / b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 div(10, 4) -- 2.5
@@ -156,8 +154,7 @@ function div(a, b) end
 
 Returns integer division `math.floor(a / b)`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 idiv(5, 2) -- 2
@@ -179,8 +176,7 @@ function idiv(a, b) end
 
 Returns `a % b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 mod(5, 2) -- 1
@@ -202,8 +198,7 @@ function mod(a, b) end
 
 Returns `a ^ b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 pow(2, 4) -- 16
@@ -225,8 +220,7 @@ function pow(a, b) end
 
 Returns `-a`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 unm(3) -- -3
@@ -249,8 +243,7 @@ function unm(a) end
 
 Returns `a == b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 eq(1, 1) -- true
@@ -272,8 +265,7 @@ function eq(a, b) end
 
 Returns `a ~= b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 neq(1, 2) -- true
@@ -295,8 +287,7 @@ function neq(a, b) end
 
 Returns `a < b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 lt(1, 2) -- true
@@ -318,8 +309,7 @@ function lt(a, b) end
 
 Returns `a <= b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 lte(2, 2) -- true
@@ -341,8 +331,7 @@ function le(a, b) end
 
 Returns `a > b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 gt(3, 2) -- true
@@ -364,8 +353,7 @@ function gt(a, b) end
 
 Returns `a >= b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 gte(2, 2) -- true
@@ -389,8 +377,7 @@ function ge(a, b) end
 
 Returns `a and b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 land(true, false) -- false
@@ -413,8 +400,7 @@ function land(a, b) end
 
 Returns `a or b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 lor(false, true) -- true
@@ -437,8 +423,7 @@ function lor(a, b) end
 
 Returns `not a`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 lnot(true) -- false
@@ -461,8 +446,7 @@ function lnot(a) end
 
 Returns `a .. b`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 concat("a", "b") -- "ab"
@@ -484,8 +468,7 @@ function concat(a, b) end
 
 Returns `#a`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 len("abc") -- 3
@@ -508,8 +491,7 @@ function len(a) end
 
 Returns `t[k]`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 index({ a = 1 }, "a") -- 1
@@ -532,8 +514,7 @@ function index(t, k) end
 
 Sets `t[k] = v` and returns `v`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 setindex({}, "a", 1) -- 1
@@ -557,8 +538,7 @@ function setindex(t, k, v) end
 
 Calls `f(...)`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 call(math.max, 1, 2) -- 2

@@ -1,6 +1,7 @@
 ---
 title: is
-description: Type, truthiness, callable, and filesystem path predicates for Lua values.
+description:
+  Type, truthiness, callable, and filesystem path predicates for Lua values.
 ---
 
 # `is`
@@ -10,8 +11,8 @@ Type predicates for Lua values and filesystem path kinds.
 Function names exist in both lowercase and capitalized forms (for example,
 `is.table` or `is.Table`).
 
-`is` is callable as `is(v, tp)` where `v` is the value and `tp` is any
-supported type name.
+`is` is callable as `is(v, tp)` where `v` is the value and `tp` is any supported
+type name.
 
 ## Quick Reference
 
@@ -60,8 +61,7 @@ supported type name.
 
 Returns `true` when `v` is a boolean.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.boolean(true)
@@ -82,8 +82,7 @@ function boolean(v) end
 
 Returns `true` when `v` is a function.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.Function(function() end)
@@ -104,8 +103,7 @@ function Function(v) end
 
 Returns `true` when `v` is `nil`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.Nil(nil)
@@ -126,8 +124,7 @@ function Nil(v) end
 
 Returns `true` when `v` is a number.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.number(3.14)
@@ -148,8 +145,7 @@ function number(v) end
 
 Returns `true` when `v` is a string.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.string("hello")
@@ -170,8 +166,7 @@ function string(v) end
 
 Returns `true` when `v` is a table.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.table({})
@@ -192,8 +187,7 @@ function table(v) end
 
 Returns `true` when `v` is a thread.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.thread(coroutine.create(function() end))
@@ -214,8 +208,7 @@ function thread(v) end
 
 Returns `true` when `v` is userdata.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.userdata(io.stdout)
@@ -238,8 +231,7 @@ function userdata(v) end
 
 Returns `true` when `v` is exactly `false`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.False(false)
@@ -260,8 +252,7 @@ function False(v) end
 
 Returns `true` when `v` is exactly `true`.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.True(true)
@@ -282,8 +273,7 @@ function True(v) end
 
 Returns `true` when `v` is falsy.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.falsy(false)
@@ -304,8 +294,7 @@ function falsy(v) end
 
 Returns `true` when `v` is callable.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.callable(function() end)
@@ -326,8 +315,7 @@ function callable(v) end
 
 Returns `true` when `v` is an integer.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.integer(42)
@@ -348,8 +336,7 @@ function integer(v) end
 
 Returns `true` when `v` is truthy.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.truthy("non-empty")
@@ -372,13 +359,12 @@ function truthy(v) end
 
 Returns `true` when `v` is a block device path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.block("/dev/sda")
@@ -399,13 +385,12 @@ function block(v) end
 
 Returns `true` when `v` is a char device path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.char("/dev/null")
@@ -426,13 +411,12 @@ function char(v) end
 
 Returns `true` when `v` is a block or char device path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.device("/dev/null")
@@ -453,13 +437,12 @@ function device(v) end
 
 Returns `true` when `v` is a directory path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.dir("/tmp")
@@ -480,13 +463,12 @@ function dir(v) end
 
 Returns `true` when `v` is a FIFO path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.fifo("/path/to/fifo")
@@ -507,13 +489,12 @@ function fifo(v) end
 
 Returns `true` when `v` is a file path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.file("README.md")
@@ -534,13 +515,12 @@ function file(v) end
 
 Returns `true` when `v` is a symlink path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.link("/path/to/link")
@@ -561,13 +541,12 @@ function link(v) end
 
 Returns `true` when `v` is a socket path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
-> [!IMPORTANT]
-> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
+> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 is.socket("/path/to/socket")

@@ -1,6 +1,7 @@
 # Website
 
-The website is built using [VitePress](https://vitepress.dev/), a static site generator.
+The website is built using [VitePress](https://vitepress.dev/), a static site
+generator.
 
 ## Installation
 
@@ -22,9 +23,12 @@ npm run build
 npm run preview
 ```
 
-The `preview` command will boot up a local static web server that will serve the output directory `docs/.vitepress/dist` at `http://localhost:4173`. You can use this to make sure everything looks good before pushing to production.
+The `preview` command will boot up a local static web server that will serve the
+output directory `docs/.vitepress/dist` at `http://localhost:4173`. You can use
+this to make sure everything looks good before pushing to production.
 
-1. You can configure the port of the server by passing `--port` as an argument in `package.json`.
+1. You can configure the port of the server by passing `--port` as an argument
+   in `package.json`.
 
 ```json
 {

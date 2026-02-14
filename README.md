@@ -1,15 +1,17 @@
 # Mods
 
-Mods is a set of pure Lua modules for daily development.
-Minimal dependencies, predictable APIs, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
+Mods is a set of pure Lua modules for daily development. Minimal dependencies,
+predictable APIs, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
 
-This project is inspired by [Penlight (pl)](https://github.com/lunarmodules/Penlight).
+This project is inspired by
+[Penlight (pl)](https://github.com/lunarmodules/Penlight).
 
 If this project helps you, consider starring the repo ⭐.
 
 ## Documentation
 
-Guides, module overviews, and examples live in the [docs](https://luamod.github.io/mods).
+Guides, module overviews, and examples live in the
+[docs](https://luamod.github.io/mods).
 
 ## Installation
 
@@ -34,8 +36,7 @@ luarocks install mods
 
   Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
 
-> [!IMPORTANT]
-> Replace `5.x` with your Lua version (for example, `5.4`).
+> [!IMPORTANT] Replace `5.x` with your Lua version (for example, `5.4`).
 
 ## Modules
 
@@ -54,15 +55,15 @@ luarocks install mods
 | [`utils`]      | Common utility helpers.                                        |
 | [`validate`]   | Validation helpers for Lua values.                             |
 
-> [!NOTE]
-> We are still working on adding new modules and improving the docs.
+> [!NOTE] We are still working on adding new modules and improving the docs.
 
 ## Acknowledgments
 
 Thanks to these Lua ecosystem projects:
 
 - [lfs](https://github.com/lunarmodules/luafilesystem) for filesystem utilities.
-- [inspect](https://github.com/kikito/inspect.lua) for readable table representation.
+- [inspect](https://github.com/kikito/inspect.lua) for readable table
+  representation.
 - [busted](https://github.com/lunarmodules/busted) for test framework support.
 
 [`is`]: https://luamod.github.io/mods/modules/is

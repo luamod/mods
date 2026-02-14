@@ -7,8 +7,7 @@ description: Install Mods and use modules through the shared `mods` entrypoint.
 
 ## Install
 
-:::tabs
-== LuaRocks
+:::tabs == LuaRocks
 
 ```sh
 luarocks install mods
@@ -29,13 +28,12 @@ luarocks install mods
 
   Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
 
-> [!IMPORTANT]
-> Replace `5.x` with your Lua version (for example, `5.4`).
+> [!IMPORTANT] Replace `5.x` with your Lua version (for example, `5.4`).
 
 :::
 
-> [!NOTE]
-> [LLS](https://github.com/LuaLS/lua-language-server) type stubs are available in [`types/`](https://github.com/luamod/mods/tree/main/types).
+> [!NOTE] [LLS](https://github.com/LuaLS/lua-language-server) type stubs are
+> available in [`types/`](https://github.com/luamod/mods/tree/main/types).
 
 ## Basic Usage
 
@@ -49,5 +47,5 @@ local u = l:uniq()
 local keys = mods.tbl.keys({ a = 1, b = 2 })
 ```
 
-> [!NOTE]
-> Direct module imports such as `require("mods.str")` remain supported for compatibility.
+> [!NOTE] Direct module imports such as `require("mods.str")` remain supported
+> for compatibility.

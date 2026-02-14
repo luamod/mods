@@ -1,6 +1,8 @@
 # AGENTS Guidelines for This Repository
 
-This repo contains Lua modules in `src/mods`, type stubs in `types/` (kept aligned with `src/mods` behavior), and docs in `docs/` with module pages under `docs/modules/` (VitePress).
+This repo contains Lua modules in `src/mods`, type stubs in `types/` (kept
+aligned with `src/mods` behavior), and docs in `docs/` with module pages under
+`docs/modules/` (VitePress).
 
 ## Repository structure
 
@@ -24,7 +26,8 @@ This repo contains Lua modules in `src/mods`, type stubs in `types/` (kept align
 - Run Lua tests: `busted`
 - Run a focused spec file: `busted spec/<module>_spec.lua`
 - Run lint: `luacheck .`
-- Format Markdown (requires globally installed Prettier): `prettier --write "**/*.md"`
+- Format Markdown (requires globally installed Prettier):
+  `prettier --write "**/*.md"`
 - Build docs: `npm run build`
 - Docs dev server (optional): `npm run dev`
 
@@ -34,13 +37,16 @@ This repo contains Lua modules in `src/mods`, type stubs in `types/` (kept align
 - Keep Lua formatting stable; only touch formatting when the change requires it.
 - Respect existing `-- stylua: ignore` blocks.
 - Ensure code is compatible with all supported Lua versions (5.1+).
-- Prefer simple, efficient implementations; avoid unnecessary allocations or slow paths in hot code.
+- Prefer simple, efficient implementations; avoid unnecessary allocations or
+  slow paths in hot code.
 
 ## Commit messages
 
 - Use Conventional Commits 1.0.0 for all commit messages.
-- Preferred workflow types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `ci`, `build`, `perf`.
-- Prefer scoped subjects when useful (e.g., `fix(validate): normalize path error message`).
+- Preferred workflow types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`,
+  `ci`, `build`, `perf`.
+- Prefer scoped subjects when useful (e.g.,
+  `fix(validate): normalize path error message`).
 
 ## Change scope
 
@@ -52,14 +58,18 @@ This repo contains Lua modules in `src/mods`, type stubs in `types/` (kept align
   - `README.md` modules table.
   - `docs/modules/index.md` modules table.
   - `build.modules` in `mods-0.1.0-1.rockspec`.
-- Ensure user-visible changes use visible commit types (`feat`, `fix`, `perf`, `refactor`); update `CHANGELOG.md` manually only when explicitly needed.
-- When manually editing changelog entries, include either a linked commit SHA or a linked PR number.
+- Ensure user-visible changes use visible commit types (`feat`, `fix`, `perf`,
+  `refactor`); update `CHANGELOG.md` manually only when explicitly needed.
+- When manually editing changelog entries, include either a linked commit SHA or
+  a linked PR number.
 
 ## Testing
 
 - Add or update tests when behavior changes and tests exist.
-- When adding multiple related cases, prefer table-driven tests (case tables) when practical.
-- Prefer running module-focused tests while iterating, then run broader checks before finishing.
+- When adding multiple related cases, prefer table-driven tests (case tables)
+  when practical.
+- Prefer running module-focused tests while iterating, then run broader checks
+  before finishing.
 
 ## CI context
 

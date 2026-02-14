@@ -1,6 +1,8 @@
 ---
 title: stringcase
-description: Convert strings across naming conventions like snake_case, camelCase, and kebab-case.
+description:
+  Convert strings across naming conventions like snake_case, camelCase, and
+  kebab-case.
 ---
 
 # `stringcase`
@@ -48,8 +50,7 @@ String case conversion helpers.
 
 Convert string to all lowercase.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 lower("foo_bar-baz") --> "foo_bar-baz"
@@ -71,8 +72,7 @@ function lower(s) end
 
 Convert string to all uppercase.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 upper("foo_bar-baz") --> "FOO_BAR-BAZ"
@@ -96,8 +96,7 @@ function upper(s) end
 
 Convert string to snake_case.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 snake("foo_bar-baz") --> "foo_bar_baz"
@@ -119,8 +118,7 @@ function snake(s) end
 
 Convert string to camelCase.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 camel("foo_bar-baz") --> "fooBarBaz"
@@ -142,8 +140,7 @@ function camel(s) end
 
 Normalize to snake_case, then replace underscores with a separator.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 replace("foo_bar-baz", "-") --> "foo-bar-baz"
@@ -166,8 +163,7 @@ function replace(s, sep) end
 
 Get acronym of words in string (first letters only).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 acronym("foo_bar-baz") --> "FBB"
@@ -188,8 +184,7 @@ function acronym(s) end
 
 Convert string to Title Case (first letter of each word capitalized).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 title("foo_bar-baz") --> "Foo Bar Baz"
@@ -211,8 +206,7 @@ function title(s) end
 
 Convert string to CONSTANT_CASE (uppercase snake_case).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 constant("foo_bar-baz") --> "FOO_BAR_BAZ"
@@ -233,8 +227,7 @@ function constant(s) end
 
 Convert string to PascalCase.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 pascal("foo_bar-baz") --> "FooBarBaz"
@@ -256,8 +249,7 @@ function pascal(s) end
 
 Convert string to kebab-case.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 kebab("foo_bar-baz") --> "foo-bar-baz"
@@ -279,8 +271,7 @@ function kebab(s) end
 
 Convert string to dot.case.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 dot("foo_bar-baz") --> "foo.bar.baz"
@@ -302,8 +293,7 @@ function dot(s) end
 
 Convert string to space case (spaces between words).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 space("foo_bar-baz") --> "foo bar baz"
@@ -325,8 +315,7 @@ function space(s) end
 
 Convert string to path/case (slashes between words).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 path("foo_bar-baz") --> "foo/bar/baz"
@@ -350,8 +339,7 @@ function path(s) end
 
 Swap case of each letter.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 swap("foo_bar-baz") --> "FOO_BAR-BAZ"
@@ -373,8 +361,7 @@ function swap(s) end
 
 Capitalize the first letter and lowercase the rest.
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 capital("foo_bar-baz") --> "Foo_bar-baz"
@@ -396,8 +383,7 @@ function capital(s) end
 
 Convert string to sentence case (first letter uppercase, rest lowercase).
 
-:::tabs
-== Example
+:::tabs == Example
 
 ```lua
 sentence("foo_bar-baz") --> "Foo_bar-baz"
