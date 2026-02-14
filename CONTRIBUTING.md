@@ -52,7 +52,7 @@ busted spec/<module>_spec.lua
 - Keep changes focused and small.
 - Update [`docs/`](docs/) or [`types/`](types/) where appropriate.
 - Add or update tests when behavior changes.
-- If adding a module under `src/mods/`, also update:
+- If adding a module under [`src/mods/`](src/mods/), also update:
   [`src/mods/init.lua`](src/mods/init.lua), [`types/mods.lua`](types/mods.lua),
   [`README.md`](README.md#modules),
   [`docs/modules/index.md`](docs/modules/index.md), and
