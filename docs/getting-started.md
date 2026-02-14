@@ -1,5 +1,4 @@
 ---
-title: Getting Started
 description: Install Mods and use modules through the shared `mods` entrypoint.
 ---
 

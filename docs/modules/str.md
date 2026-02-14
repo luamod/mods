@@ -1,5 +1,4 @@
 ---
-title: str
 description:
   Python-like string utilities for formatting, predicates, splitting, and
   casing.
@@ -11,7 +10,7 @@ String utility helpers modeled after Python's `str`.
 
 ## Quick Reference
 
-**Formatting**
+**Quick Reference: Formatting**:
 
 | Function                                                              | Description                                                           |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
@@ -23,7 +22,7 @@ String utility helpers modeled after Python's `str`.
 | [`find(s, sub, start, stop)`](#fn-finds-sub-start-stop)               | Return lowest index of substring or nil if not found.                 |
 | [`format_map(s, mapping)`](#fn-format_maps-mapping)                   | Format string with mapping (key-based) replacement.                   |
 
-**Predicates**
+**Quick Reference: Predicates**:
 
 | Function                               | Description                                                                                  |
 | -------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -40,7 +39,7 @@ String utility helpers modeled after Python's `str`.
 | [`istitle(s)`](#fn-istitles)           | Return true if string is titlecased.                                                         |
 | [`isupper(s)`](#fn-isuppers)           | Return true if all cased characters are uppercase and there is at least one cased character. |
 
-**Layout**
+**Quick Reference: Layout**:
 
 | Function                                                 | Description                                                   |
 | -------------------------------------------------------- | ------------------------------------------------------------- |
@@ -51,7 +50,7 @@ String utility helpers modeled after Python's `str`.
 | [`rstrip(s, chars)`](#fn-rstrips-chars)                  | Remove trailing characters (default: whitespace).             |
 | [`strip(s, chars)`](#fn-strips-chars)                    | Remove leading and trailing characters (default: whitespace). |
 
-**Split & Replace**
+**Quick Reference: Split & Replace**:
 
 | Function                                                    | Description                                                               |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------- |
@@ -67,7 +66,7 @@ String utility helpers modeled after Python's `str`.
 | [`split(s, sep, maxsplit)`](#fn-splits-sep-maxsplit)        | Split by separator (or whitespace) up to maxsplit.                        |
 | [`splitlines(s, keepends)`](#fn-splitliness-keepends)       | Split on line boundaries.                                                 |
 
-**Casing & Transform**
+**Quick Reference: Casing & Transform**:
 
 | Function                                                                  | Description                                               |
 | ------------------------------------------------------------------------- | --------------------------------------------------------- |

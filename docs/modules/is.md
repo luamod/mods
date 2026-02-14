@@ -1,5 +1,4 @@
 ---
-title: is
 description:
   Type, truthiness, callable, and filesystem path predicates for Lua values.
 ---
@@ -16,7 +15,7 @@ type name.
 
 ## Quick Reference
 
-**Type Checks**
+**Type Checks**:
 
 | Function                       | Description                            |
 | ------------------------------ | -------------------------------------- |
@@ -29,7 +28,7 @@ type name.
 | [`thread(v)`](#fn-threadv)     | Returns `true` when `v` is a thread.   |
 | [`userdata(v)`](#fn-userdatav) | Returns `true` when `v` is userdata.   |
 
-**Value Checks**
+**Value Checks**:
 
 | Function                       | Description                                 |
 | ------------------------------ | ------------------------------------------- |
@@ -40,7 +39,7 @@ type name.
 | [`integer(v)`](#fn-integerv)   | Returns `true` when `v` is an integer.      |
 | [`truthy(v)`](#fn-truthyv)     | Returns `true` when `v` is truthy.          |
 
-**Path Checks**
+**Path Checks**:
 
 | Function                   | Description                                             |
 | -------------------------- | ------------------------------------------------------- |

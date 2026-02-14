@@ -1,5 +1,4 @@
 ---
-title: Mods
 description:
   Overview of Mods, a collection of focused Lua modules and how to navigate the
   docs.

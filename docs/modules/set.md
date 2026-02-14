@@ -1,5 +1,4 @@
 ---
-title: Set
 description:
   Python-style Set API for unique-value operations, predicates, and set algebra.
 ---
@@ -11,7 +10,7 @@ query collections of unique values.
 
 ## Quick Reference
 
-**Mutation**
+**Mutation**:
 
 | Function                                                                 | Description                                                 |
 | ------------------------------------------------------------------------ | ----------------------------------------------------------- |
@@ -24,13 +23,13 @@ query collections of unique values.
 | [`symmetric_difference_update(set)`](#fn-symmetric_difference_updateset) | Update the set with elements not shared by both (in place). |
 | [`update(set)`](#fn-updateset)                                           | Add all elements from another set (in place).               |
 
-**Copying**
+**Copying**:
 
 | Function             | Description                       |
 | -------------------- | --------------------------------- |
 | [`copy()`](#fn-copy) | Return a shallow copy of the set. |
 
-**Set Operations**
+**Set Operations**:
 
 | Function                                                   | Description                                     |
 | ---------------------------------------------------------- | ----------------------------------------------- |
@@ -39,7 +38,7 @@ query collections of unique values.
 | [`symmetric_difference(set)`](#fn-symmetric_differenceset) | Return elements not shared by both sets.        |
 | [`union(set)`](#fn-unionset)                               | Return a new set with all elements from both.   |
 
-**Predicates**
+**Predicates**:
 
 | Function                               | Description                                                      |
 | -------------------------------------- | ---------------------------------------------------------------- |
@@ -48,13 +47,13 @@ query collections of unique values.
 | [`issubset(set)`](#fn-issubsetset)     | Return true if all elements of this set are also in another set. |
 | [`issuperset(set)`](#fn-issupersetset) | Return true if this set contains all elements of another set.    |
 
-**Query**
+**Query**:
 
 | Function           | Description                               |
 | ------------------ | ----------------------------------------- |
 | [`len()`](#fn-len) | Return the number of elements in the set. |
 
-**Transform**
+**Transform**:
 
 | Function                 | Description                             |
 | ------------------------ | --------------------------------------- |

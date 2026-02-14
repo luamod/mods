@@ -1,5 +1,4 @@
 ---
-title: validate
 description:
   Validate Lua values and path kinds with flexible aliases and customizable
   messages.
@@ -27,12 +26,9 @@ ok, err = validate.is_not.number(3.14)
 ```
 
 > [!NOTE] When called without an explicit type (`validate(v, tp)`), `validate`
-> defaults to checking `nil`.
->
-> - `validate()` is equivalent to `validate(nil, "nil")`, so it passes.
-> - `validate(1)` is equivalent to `validate(1, "nil")`, so it fails with
->   `expected nil, got number`.
-
+> defaults to checking `nil`. `validate()` is equivalent to
+> `validate(nil, "nil")`, so it passes. `validate(1)` is equivalent to
+> `validate(1, "nil")`, so it fails with `expected nil, got number`.
 > [!IMPORTANT] Validator access is case-insensitive.
 >
 > - `validate.is.number`, `validate.IS.Number`, and `validate.I_s.NuMbEr` are
@@ -89,13 +85,12 @@ Customize validator error messages through `validate.messages`.
 
 Available placeholders:
 
-| Placeholder                     | Meaning                                                                             |
-| ------------------------------- | ----------------------------------------------------------------------------------- |
-| <code v-pre>{{expected}}</code> | The check target (for example `number`, `string`, `truthy`).                        |
-| <code v-pre>{{got}}</code>      | The detected failure kind (usually a Lua type; path validators use `invalid path`). |
-| <code v-pre>{{value}}</code>    | The passed value, formatted for display (strings are quoted).                       |
+- `{{expected}}`: The check target (for example `number`, `string`, `truthy`).
+- `{{got}}`: The detected failure kind (usually a Lua type; path validators use
+  `invalid path`).
+- `{{value}}`: The passed value, formatted for display (strings are quoted).
 
-**Example**
+### Example
 
 ```lua
 validate.messages.positive.number = "need {{expected}}, got {{got}} (value={{value}})"
@@ -114,18 +109,16 @@ By default, validate uses built-in templates unless
 `validate.messages.positive.<name>` or `validate.messages.negative.<name>` is
 overridden:
 
-- Positive type/value checks (`validate.is.*`): <code v-pre>expected
-  {{expected}}, got {{got}}</code>
+- Positive type/value checks (`validate.is.*`):
+  `expected {{expected}}, got {{got}}`
 - Positive path checks (`validate.is.block`, `char`, `device`, `dir`, `fifo`,
-  `file`, `link`, `socket`): <code v-pre>{{value}} is not a valid {{expected}}
-  path</code>
-- Negative checks (`validate.is_not.*`): <code v-pre>expected not
-  {{expected}}</code>
+  `file`, `link`, `socket`): `{{value}} is not a valid {{expected}} path`
+- Negative checks (`validate.is_not.*`): `expected not {{expected}}`
 
 `integer` uses a more specific default that includes the passed value:
 
-- Positive `integer`: <code v-pre>expected integer, got {{value}}</code>
-- Negative `integer`: <code v-pre>expected non-integer, got {{value}}</code>
+- Positive `integer`: `expected integer, got {{value}}`
+- Negative `integer`: `expected non-integer, got {{value}}`
 
 ## On Fail Hook
 
@@ -154,7 +147,7 @@ local ok, err = validate.number("x")
 Positive validators. These checks pass only when the value matches the expected
 type or check.
 
-#### Type Checks
+#### Negated Type Checks
 
 Lua type validators for [`boolean`](#is-boolean), [`function`](#is-function),
 [`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string),
@@ -240,7 +233,7 @@ ok, err = validate.is.userdata({})
 -- result: false, "expected userdata, got table"
 ```
 
-#### Value Checks
+#### Negated Value Checks
 
 Validators for common truth/value semantics.
 

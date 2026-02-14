@@ -1,5 +1,4 @@
 ---
-title: operator
 description:
   Operator helpers exposed as functions for arithmetic, comparison, logic, and
   indexing.
@@ -11,7 +10,7 @@ Operator helpers as functions.
 
 ## Quick Reference
 
-**Arithmetic**
+**Arithmetic**:
 
 | Function                    | Description                                   |
 | --------------------------- | --------------------------------------------- |
@@ -24,7 +23,7 @@ Operator helpers as functions.
 | [`pow(a, b)`](#fn-powa-b)   | Returns `a ^ b`.                              |
 | [`unm(a)`](#fn-unma)        | Returns `-a`.                                 |
 
-**Comparison**
+**Comparison**:
 
 | Function                  | Description       |
 | ------------------------- | ----------------- |
@@ -35,7 +34,7 @@ Operator helpers as functions.
 | [`gt(a, b)`](#fn-gta-b)   | Returns `a > b`.  |
 | [`ge(a, b)`](#fn-gea-b)   | Returns `a >= b`. |
 
-**Logical**
+**Logical**:
 
 | Function                    | Description        |
 | --------------------------- | ------------------ |
@@ -43,20 +42,20 @@ Operator helpers as functions.
 | [`lor(a, b)`](#fn-lora-b)   | Returns `a or b`.  |
 | [`lnot(a)`](#fn-lnota)      | Returns `not a`.   |
 
-**String & Length**
+**String & Length**:
 
 | Function                        | Description       |
 | ------------------------------- | ----------------- |
 | [`concat(a, b)`](#fn-concata-b) | Returns `a .. b`. |
 | [`len(a)`](#fn-lena)            | Returns `#a`.     |
 
-**Tables & Calls**
+**Tables & Calls**:
 
 | Function                                 | Description                      |
 | ---------------------------------------- | -------------------------------- |
 | [`index(t, k)`](#fn-indext-k)            | Returns `t[k]`.                  |
 | [`setindex(t, k, v)`](#fn-setindext-k-v) | Sets `t[k] = v` and returns `v`. |
-| [`call(f, ...)`](#fn-callf-...)          | Calls `f(...)`.                  |
+| [`call(f, ...)`](#fn-callf-varargs)      | Calls `f(...)`.                  |
 
 ## Functions
 
@@ -576,7 +575,7 @@ function setindex(t, k, v) end
 
 :::
 
-#### `call(f, ...)` {#fn-callf-...}
+#### `call(f, ...)` {#fn-callf-varargs}
 
 Calls `f(...)`.
 

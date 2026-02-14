@@ -1,5 +1,4 @@
 ---
-title: tbl
 description:
   Lua table helpers for copy, query, transform, and safe nested access patterns.
 ---
@@ -10,30 +9,30 @@ Utility functions for working with Lua tables.
 
 ## Quick Reference
 
-**Basics**
+**Basics**:
 
 | Function                 | Description                             |
 | ------------------------ | --------------------------------------- |
 | [`clear(t)`](#fn-cleart) | Remove all entries from the table.      |
 | [`count(t)`](#fn-countt) | Return the number of keys in the table. |
 
-**Copying**
+**Copying**:
 
 | Function                       | Description                         |
 | ------------------------------ | ----------------------------------- |
 | [`copy(t)`](#fn-copyt)         | Create a shallow copy of the table. |
 | [`deepcopy(v)`](#fn-deepcopyv) | Create a deep copy of a value.      |
 
-**Query**
+**Query**:
 
 | Function                                | Description                                            |
 | --------------------------------------- | ------------------------------------------------------ |
 | [`filter(t, pred)`](#fn-filtert-pred)   | Filter entries by a value predicate.                   |
 | [`find(t, v)`](#fn-findt-v)             | Find the first key whose value equals the given value. |
 | [`find_if(t, pred)`](#fn-find_ift-pred) | Find first value and key matching predicate.           |
-| [`get(t, ...)`](#fn-gett-...)           | Safely get nested value by keys.                       |
+| [`get(t, ...)`](#fn-gett-varargs)       | Safely get nested value by keys.                       |
 
-**Transforms**
+**Transforms**:
 
 | Function                            | Description                                                |
 | ----------------------------------- | ---------------------------------------------------------- |
@@ -223,7 +222,7 @@ function find_if(t, pred) end
 
 :::
 
-#### `get(t, ...)` {#fn-gett-...}
+#### `get(t, ...)` {#fn-gett-varargs}
 
 Safely get nested value by keys. If no keys are provided, returns the input
 table.

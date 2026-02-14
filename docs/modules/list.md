@@ -1,5 +1,4 @@
 ---
-title: List
 description:
   Python-style List API for sequence mutation, querying, and transformations.
 ---
@@ -11,14 +10,14 @@ query sequences of values.
 
 ## Quick Reference
 
-**Predicates**
+**Predicates**:
 
 | Function                   | Description                                     |
 | -------------------------- | ----------------------------------------------- |
 | [`all(pred)`](#fn-allpred) | Return true if all values match the predicate.  |
 | [`any(pred)`](#fn-anypred) | Return true if any value matches the predicate. |
 
-**Mutation**
+**Mutation**:
 
 | Function                            | Description                                                          |
 | ----------------------------------- | -------------------------------------------------------------------- |
@@ -34,13 +33,13 @@ query sequences of values.
 | [`remove(v)`](#fn-removev)          | Remove the first matching value.                                     |
 | [`sort(comp)`](#fn-sortcomp)        | Sort the list in place.                                              |
 
-**Copying**
+**Copying**:
 
 | Function             | Description                        |
 | -------------------- | ---------------------------------- |
 | [`copy()`](#fn-copy) | Return a shallow copy of the list. |
 
-**Query**
+**Query**:
 
 | Function                             | Description                                                 |
 | ------------------------------------ | ----------------------------------------------------------- |
@@ -50,14 +49,14 @@ query sequences of values.
 | [`index_if(pred)`](#fn-index_ifpred) | Return the index of the first value matching the predicate. |
 | [`len()`](#fn-len)                   | Return the number of elements in the list.                  |
 
-**Access**
+**Access**:
 
 | Function               | Description                               |
 | ---------------------- | ----------------------------------------- |
 | [`first()`](#fn-first) | Return the first element or nil if empty. |
 | [`last()`](#fn-last)   | Return the last element or nil if empty.  |
 
-**Transform**
+**Transform**:
 
 | Function                                 | Description                                                        |
 | ---------------------------------------- | ------------------------------------------------------------------ |

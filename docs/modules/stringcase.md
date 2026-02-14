@@ -1,5 +1,4 @@
 ---
-title: stringcase
 description:
   Convert strings across naming conventions like snake_case, camelCase, and
   kebab-case.
@@ -28,14 +27,14 @@ sc.title(s) --> "Foo Bar Baz"
 
 ## Quick Reference
 
-**Basic**
+**Quick Reference: Basic**:
 
 | Function                 | Description                      |
 | ------------------------ | -------------------------------- |
 | [`lower(s)`](#fn-lowers) | Convert string to all lowercase. |
 | [`upper(s)`](#fn-uppers) | Convert string to all uppercase. |
 
-**Word Case**
+**Quick Reference: Word Case**:
 
 | Function                              | Description                                                           |
 | ------------------------------------- | --------------------------------------------------------------------- |
@@ -51,7 +50,7 @@ sc.title(s) --> "Foo Bar Baz"
 | [`space(s)`](#fn-spaces)              | Convert string to space case (spaces between words).                  |
 | [`path(s)`](#fn-paths)                | Convert string to path/case (slashes between words).                  |
 
-**Letter Case**
+**Quick Reference: Letter Case**:
 
 | Function                       | Description                                                               |
 | ------------------------------ | ------------------------------------------------------------------------- |

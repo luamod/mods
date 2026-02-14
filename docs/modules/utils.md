@@ -1,5 +1,4 @@
 ---
-title: utils
 description: Common utility helpers.
 ---
 
