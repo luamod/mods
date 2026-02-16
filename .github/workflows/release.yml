@@ -1,52 +1,25 @@
 name: Release
+# Release automation powered by release-please.
 
 on:
   workflow_dispatch:
-  release:
+  pull_request:
     types:
-      - published
+      - closed
 
-permissions:
-  contents: write
+# Prevent overlapping release-please runs on the same ref.
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  publish-luarocks:
-    if: github.event_name == 'release'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.release.tag_name }}
-
-      - name: Set up Lua
-        uses: leafo/gh-actions-lua@v11
-        with:
-          luaVersion: "5.1"
-
-      - name: Set up LuaRocks
-        uses: leafo/gh-actions-luarocks@v4
-
-      - name: Install JSON dependency
-        run: luarocks install dkjson
-
-      - name: Prepare rockspec
-        run: |
-          set -euo pipefail
-          TAG="${{ github.event.release.tag_name }}"
-          VERSION="${TAG#v}"
-          ROCKSPEC="mods-${VERSION}-1.rockspec"
-          if [ "$ROCKSPEC" != "mods-0.1.0-1.rockspec" ]; then
-            cp mods-0.1.0-1.rockspec "$ROCKSPEC"
-          fi
-          sed -i "s/^version = .*/version = \"${VERSION}-1\"/" "$ROCKSPEC"
-          sed -i "s/^  branch = .*/  tag = \"${TAG}\",/" "$ROCKSPEC"
-          echo "ROCKSPEC=$ROCKSPEC" >> "$GITHUB_ENV"
-
-      - name: Upload to LuaRocks
-        env:
-          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
-        run: |
-          luarocks upload "$ROCKSPEC" --api-key "$LUAROCKS_API_KEY"
+  release-please:
+    # Only run when a Release Please PR branch is merged into main.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.pull_request.merged == true &&
+        github.event.pull_request.base.ref == 'main' &&
+        startsWith(github.event.pull_request.head.ref, 'release-please--')
+      )
+    uses: luamod/.github/.github/workflows/release.yml@v1
