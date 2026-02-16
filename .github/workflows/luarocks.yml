@@ -1,57 +1,28 @@
-name: Publish LuaRocks
+name: LuaRocks
+# Publishes a tagged rockspec to LuaRocks.
 
 on:
+  release:
+    types:
+      - published
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: Version tag to publish (for example v1.2.3) for manual runs
+        required: false
+        type: string
 
-permissions:
-  contents: read
+# Prevent overlapping LuaRocks publishes for the same ref/tag.
+concurrency:
+  group: luarocks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  publish-luarocks:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Resolve latest tag
-        run: |
-          set -euo pipefail
-          git fetch --tags --force
-          TAG="$(git tag --sort=-v:refname | head -n1)"
-          if [ -z "$TAG" ]; then
-            echo "No git tags found."
-            exit 1
-          fi
-          echo "TAG=$TAG" >> "$GITHUB_ENV"
-          git checkout "$TAG"
-
-      - name: Set up Lua
-        uses: leafo/gh-actions-lua@v11
-        with:
-          luaVersion: "5.1"
-
-      - name: Set up LuaRocks
-        uses: leafo/gh-actions-luarocks@v4
-
-      - name: Install JSON dependency
-        run: luarocks install dkjson
-
-      - name: Prepare rockspec
-        run: |
-          set -euo pipefail
-          VERSION="${TAG#v}"
-          ROCKSPEC="mods-${VERSION}-1.rockspec"
-          if [ "$ROCKSPEC" != "mods-0.1.0-1.rockspec" ]; then
-            cp mods-0.1.0-1.rockspec "$ROCKSPEC"
-          fi
-          sed -i "s/^version = .*/version = \"${VERSION}-1\"/" "$ROCKSPEC"
-          sed -i "s/^  branch = .*/  tag = \"${TAG}\",/" "$ROCKSPEC"
-          echo "ROCKSPEC=$ROCKSPEC" >> "$GITHUB_ENV"
-
-      - name: Upload to LuaRocks
-        env:
-          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
-        run: |
-          luarocks upload "$ROCKSPEC" --api-key "$LUAROCKS_API_KEY"
+  publish:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.release.tag_name != '' }}
+    uses: luamod/.github/.github/workflows/luarocks.yml@v1
+    secrets: inherit
+    with:
+      tag_name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name || github.event.release.tag_name || '' }}
+      package_name: playground
+      rockspec_template: playground.rockspec.template
