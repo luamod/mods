@@ -1,0 +1,14 @@
+name: PR
+# Checks title linting and labeling.
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  pr-labeler:
+    uses: luamod/.github/.github/workflows/pr.yml@v1
