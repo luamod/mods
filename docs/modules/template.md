@@ -1,5 +1,4 @@
 ---
-title: template
 description:
   Render lightweight templates with dot-path placeholders and function-aware
   values.
