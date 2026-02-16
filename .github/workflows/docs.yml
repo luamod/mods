@@ -20,6 +20,8 @@ concurrency:
 jobs:
   docs:
     uses: luamod/.github/.github/workflows/docs.yml@v1
+    permissions:
+      id-token: write
     with:
       # Deploy on push/manual; skip deploy on PR runs.
       deploy: ${{ github.event_name != 'pull_request' }}
