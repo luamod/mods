@@ -16,7 +16,7 @@ luarocks install mods
 
 == Manual
 
-- **Unix (🐧 Linux/🍎 macOS)**:
+- **Unix (🐧 Linux / 🍎 macOS)**:
 
   ```sh
   git clone https://github.com/luamod/mods.git
