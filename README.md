@@ -34,7 +34,9 @@ luarocks install mods
 
 - **🪟 Windows**:
 
-  Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
+  Copy all files from
+  [`src/mods/`](https://github.com/luamod/mods/tree/main/src/mods) to
+  `C:\Program Files\Lua\5.x\lua\mods\`.
 
 > [!IMPORTANT]
 >
