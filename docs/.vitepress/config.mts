@@ -83,6 +83,6 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: [llmstxt({ excludeIndexPage: false })],
+    plugins: [llmstxt({ excludeIndexPage: true })],
   },
 });
