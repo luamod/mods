@@ -25,11 +25,18 @@ ok, err = validate.is_not.number(3.14)
 -- result: false, "expected not number"
 ```
 
-> [!NOTE] When called without an explicit type (`validate(v, tp)`), `validate`
-> defaults to checking `nil`. `validate()` is equivalent to
-> `validate(nil, "nil")`, so it passes. `validate(1)` is equivalent to
-> `validate(1, "nil")`, so it fails with `expected nil, got number`.
-> [!IMPORTANT] Validator access is case-insensitive.
+> [!NOTE]
+>
+> When called without an explicit type (`validate(v, tp)`), `validate` defaults
+> to checking `nil`. `validate()` is equivalent to `validate(nil, "nil")`, so it
+> passes. `validate(1)` is equivalent to `validate(1, "nil")`, so it fails with
+> `expected nil, got number`.
+
+<!-- Keep this line to avoid markdownlint MD028 -->
+
+> [!IMPORTANT]
+>
+> Validator access is case-insensitive.
 >
 > - `validate.is.number`, `validate.IS.Number`, and `validate.I_s.NuMbEr` are
 >   equivalent.

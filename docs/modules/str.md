@@ -284,8 +284,9 @@ local ok = isalnum("abc123")
 --result: true
 ```
 
-> [!NOTE] Lua letters are ASCII by default, so non-ASCII letters are not
-> alphanumeric.
+> [!NOTE]
+>
+> Lua letters are ASCII by default, so non-ASCII letters are not alphanumeric.
 >
 > ```lua
 > isalnum("á1")` --> `false`
@@ -315,8 +316,9 @@ local ok = isalpha("abc")
 --result: true
 ```
 
-> [!NOTE] Lua letters are ASCII by default, so non-ASCII letters are not
-> alphabetic.
+> [!NOTE]
+>
+> Lua letters are ASCII by default, so non-ASCII letters are not alphabetic.
 >
 > ```lua
 > isalpha("á")` --> `false`
@@ -346,7 +348,9 @@ local ok = isascii("hello")
 --result: true
 ```
 
-> [!NOTE] The empty string returns `true`.
+> [!NOTE]
+>
+> The empty string returns `true`.
 
 == Signature
 
@@ -499,7 +503,9 @@ local ok = isprintable("abc!")
 --result: true
 ```
 
-> [!NOTE] The empty string returns `true`.
+> [!NOTE]
+>
+> The empty string returns `true`.
 
 == Signature
 
