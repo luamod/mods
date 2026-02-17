@@ -6,32 +6,31 @@ description: Install Mods and use modules through the shared `mods` entrypoint.
 
 ## Install
 
-:::tabs
+::: code-group
 
-== LuaRocks
-
-```sh
+```sh [LuaRocks]
 luarocks install mods
 ```
 
-== Manual
+```sh [🐧🍎 Unix]
+# clone repo
+git clone https://github.com/luamod/mods.git
 
-- **Unix (🐧 Linux / 🍎 macOS)**:
+# enter project folder
+cd mods
 
-  ```sh
-  git clone https://github.com/luamod/mods.git
-  cd mods
-  mkdir -p /usr/local/share/lua/5.x/
-  cp -r src/mods /usr/local/share/lua/5.x/
-  ```
+# create target path (replace 5.x with your Lua version, e.g. 5.4)
+mkdir -p /usr/local/share/lua/5.x/
 
-- **🪟 Windows**:
+# copy modules
+cp -r src/mods /usr/local/share/lua/5.x/
+```
 
-  Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
+```md [🪟 Windows]
+Copy all files from src/mods/ to C:\Program Files\Lua\5.x\lua\mods\
 
-> [!IMPORTANT]
->
-> Replace `5.x` with your Lua version (for example, `5.4`).
+> Replace 5.x with your Lua version (e.g. 5.4).
+```
 
 :::
 
@@ -42,7 +41,7 @@ luarocks install mods
 
 ## Basic Usage
 
-```lua
+```lua [example.lua]
 local mods = require("mods")
 
 local l = mods.List({ "a", "b", "a" })
