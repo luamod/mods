@@ -11,7 +11,7 @@ source = {
 description = {
   homepage = "https://luamod.github.io/mods",
   license = "MIT",
-  summary = "Pure standalone Lua modules",
+  summary = "Pure Lua modules",
   detailed = [[
 Mods provides small, focused Lua modules: List, Set, is, operator, str, stringcase, tbl, template, and validate.
 ]],
