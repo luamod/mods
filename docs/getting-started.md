@@ -16,7 +16,7 @@ luarocks install mods
 
 == Manual
 
-- **Unix (Linux/macOS)**:
+- **Unix (🐧 Linux/🍎 macOS)**:
 
   ```sh
   git clone https://github.com/luamod/mods.git
@@ -25,7 +25,7 @@ luarocks install mods
   cp -r src/mods /usr/local/share/lua/5.x/
   ```
 
-- **_Windows_**:
+- **🪟 Windows**:
 
   Copy all files from `src/mods/` to `C:\Program Files\Lua\5.x\lua\mods\`.
 
