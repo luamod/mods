@@ -9,10 +9,6 @@
   text-decoration: none;
 }
 
-.VPDoc a:hover {
-  text-decoration: none;
-}
-
 /* Make inline code use normal text color (including callouts/admonitions) */
 .VPDoc :not(pre) > code,
 .VPDoc .custom-block :not(pre) > code,
