@@ -2,27 +2,24 @@ name: LuaRocks
 # Publishes a tagged rockspec to LuaRocks.
 
 on:
-  release:
-    types:
-      - published
+  workflow_call:
+    inputs:
+      tag_name:
+        description: Tag to publish (for example v1.2.3)
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       tag_name:
-        description: Version tag to publish (for example v1.2.3) for manual runs
-        required: false
+        description: Tag to publish (for example v1.2.3)
+        required: true
         type: string
-
-# Prevent overlapping LuaRocks publishes for the same ref/tag.
-concurrency:
-  group: luarocks-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   publish:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.release.tag_name != '' }}
     uses: luamod/.github/.github/workflows/luarocks.yml@v1
-    secrets: inherit
     with:
-      tag_name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name || github.event.release.tag_name || '' }}
+      tag_name: ${{ inputs.tag_name || github.event.inputs.tag_name }}
       package_name: mods
       rockspec_template: mods.rockspec.template
+    secrets: inherit
