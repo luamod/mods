@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0](https://github.com/luamod/mods/compare/v0.2.0...v0.3.0) (2026-02-17)
+
+
+### Features
+
+* add utils module ([c440cfe](https://github.com/luamod/mods/commit/c440cfe81e99c7f3f60a255f20b35eb4262e6604))
+
+
+### Bug Fixes
+
+* **docs:** correct llms domain url prefix ([64105c1](https://github.com/luamod/mods/commit/64105c134869911a8eed3654a3f7f7d03d268651))
+* **docs:** disable clean urls for llms home markdown route ([cba6745](https://github.com/luamod/mods/commit/cba6745bfe4136813277b1b5658c949bf01724c2))
+* **docs:** hide llms copy buttons on home page ([adff331](https://github.com/luamod/mods/commit/adff3319df756c918c04cfa4e612433b6ff60e81))
+* **docs:** hide llms copy buttons on index page ([b08c287](https://github.com/luamod/mods/commit/b08c287becc4cc2c3d42cab59120c64431c7399f))
+* **validate:** harden alias lookup ([879f48f](https://github.com/luamod/mods/commit/879f48f189654ec9590d9d87339483154c03e81a))
+* **validate:** normalize path validator failure messages ([fe6ccb1](https://github.com/luamod/mods/commit/fe6ccb196748997d820ce4542b1a10e6d2bf8378))
+* **validate:** prevent unrelated assignments from overriding on_fail ([64eedad](https://github.com/luamod/mods/commit/64eedad2dec5657b10d1cc247f9f9697ee6b482f))
+
+
+### Performance Improvements
+
+* **stringcase:** streamline swap and sentence transforms ([ae78911](https://github.com/luamod/mods/commit/ae78911992472a2c5c217479dd250b0613dcc096))
+* **str:** optimize splitlines and title paths ([6b87560](https://github.com/luamod/mods/commit/6b87560f944850218823058483cb244316834f8e))
+* **str:** speed up predicates and startswith fast path ([746f883](https://github.com/luamod/mods/commit/746f883f53c3518fad9c0b04627a41fc7860a111))
+
 ## [Unreleased]
 
 ### Added
