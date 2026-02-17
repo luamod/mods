@@ -1,6 +1,5 @@
 import { defineConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
-import llmstxt from "vitepress-plugin-llms";
 import { fileURLToPath } from "node:url";
 import { copyOrDownloadAsMarkdownButtons } from "vitepress-plugin-llms";
 import fs from "node:fs";
@@ -10,6 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const modulesDir = path.resolve(__dirname, "..", "modules");
 const isDev = process.argv.includes("dev");
 const isProd = !isDev;
+import llmstxt from "vitepress-plugin-llms";
 
 // Build nav/sidebar modules list from docs/modules at build time.
 const moduleItems = fs
@@ -83,6 +83,6 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: [llmstxt({ excludeIndexPage: true })],
+    plugins: [llmstxt({ excludeIndexPage: false })],
   },
 });
