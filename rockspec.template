@@ -1,19 +1,20 @@
 rockspec_format = "3.0"
 
 package = "mods"
-version = "0.1.0-1"
+version = "__VERSION__-1"
 source = {
-  url = "git+https://github.com/luamod/mods.git",
   branch = "main",
+  tag = "v__VERSION__",
+  url = "git+https://github.com/luamod/mods.git",
 }
 
 description = {
+  homepage = "https://luamod.github.io/mods",
+  license = "MIT",
   summary = "Pure standalone Lua modules",
   detailed = [[
 Mods provides small, focused Lua modules: List, Set, is, operator, str, stringcase, tbl, template, and validate.
 ]],
-  homepage = "https://luamod.github.io/mods",
-  license = "MIT",
 }
 
 dependencies = {
