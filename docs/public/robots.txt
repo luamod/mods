@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://luamod.github.io/mods/sitemap.xml
