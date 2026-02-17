@@ -1,5 +1,5 @@
 name: Release
-# Release automation powered by release-please.
+# Runs release-please automation and publishes to LuaRocks when a release tag is created.
 
 on:
   workflow_dispatch:
@@ -7,12 +7,8 @@ on:
     types:
       - closed
 
-# Prevent overlapping release-please runs on the same ref.
-concurrency:
-  group: release-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
+  # Runs release-please to open/update release PRs and publish release metadata.
   release-please:
     # Only run when a Release Please PR branch is merged into main.
     if: >-
@@ -23,3 +19,16 @@ jobs:
         startsWith(github.event.pull_request.head.ref, 'release-please--')
       )
     uses: luamod/.github/.github/workflows/release.yml@v1
+
+  # Publishes to LuaRocks when release-please reports a newly created release tag.
+  luarocks:
+    needs:
+      - release-please
+    # Only publish when release-please succeeded and returned a non-empty tag from a new release.
+    if: >-
+      needs.release-please.result == 'success' &&
+      needs.release-please.outputs.release_created == 'true' &&
+      needs.release-please.outputs.tag_name != ''
+    uses: ./.github/workflows/luarocks.yml
+    with:
+      tag_name: ${{ needs.release-please.outputs.tag_name }}
