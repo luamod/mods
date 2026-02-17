@@ -1,25 +1,34 @@
 import { defineConfig } from "vitepress";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+  localIconLoader,
+} from "vitepress-plugin-group-icons";
 import { fileURLToPath } from "node:url";
 import { copyOrDownloadAsMarkdownButtons } from "vitepress-plugin-llms";
 import fs from "node:fs";
 import path from "node:path";
 import llmstxt from "vitepress-plugin-llms";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const modulesDir = path.resolve(__dirname, "..", "modules");
-const isDev = process.argv.includes("dev");
-const isProd = !isDev;
 const repoUrl = "https://github.com/luamod/mods";
 const siteOrigin = "https://luamod.github.io";
 const siteBasePath = "/mods/";
 const siteUrl = `${siteOrigin}${siteBasePath}`;
-const assetBasePath = isProd ? siteBasePath : "/";
+const assetBasePath = process.argv.includes("dev") ? "/" : siteBasePath;
 const siteTitle = "Mods";
 const siteDescription = "Pure standalone Lua modules.";
 const siteImage = `${siteUrl}og.svg`;
 const siteImageAlt = "Mods documentation";
-const siteLocale = "en_US";
+const groupIcons = Object.fromEntries(
+  [".lua", "luarocks"].map((iconName) => [
+    iconName,
+    localIconLoader(
+      import.meta.url,
+      `../src/assets/${iconName.replace(/^\./, "")}.svg`,
+    ),
+  ]),
+);
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -29,20 +38,26 @@ const websiteJsonLd = {
 };
 
 // Build nav/sidebar modules list from docs/modules at build time.
-const moduleItems = fs
-  .readdirSync(modulesDir)
+const moduleNames = fs
+  .readdirSync(
+    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "src", "modules"),
+  )
   .filter((name) => name.endsWith(".md") && name !== "index.md")
   .map((name) => name.replace(/\.md$/, ""))
-  .sort((a, b) => a.localeCompare(b))
-  .map((name) => ({
-    text:
-      name === "list" || name === "set"
-        ? name[0].toUpperCase() + name.slice(1)
-        : name,
-    link: `/modules/${name}`,
-  }));
+  .sort((a, b) => a.localeCompare(b));
+
+const moduleText = (name: string): string =>
+  name === "list" || name === "set"
+    ? name[0].toUpperCase() + name.slice(1)
+    : name;
+
+const moduleItems = moduleNames.map((name) => ({
+  text: moduleText(name),
+  link: `/modules/${name}`,
+}));
 
 export default defineConfig({
+  srcDir: "./src",
   title: siteTitle,
   description: siteDescription,
   base: assetBasePath,
@@ -59,7 +74,7 @@ export default defineConfig({
     ["meta", { property: "og:site_name", content: siteTitle }],
     ["meta", { property: "og:title", content: siteTitle }],
     ["meta", { property: "og:description", content: siteDescription }],
-    ["meta", { property: "og:locale", content: siteLocale }],
+    ["meta", { property: "og:locale", content: "en_US" }],
     ["meta", { property: "og:url", content: siteUrl }],
     ["meta", { property: "og:image", content: siteImage }],
     ["meta", { property: "og:image:alt", content: siteImageAlt }],
@@ -96,17 +111,21 @@ export default defineConfig({
       { text: "Modules", items: moduleItems },
     ],
     editLink: {
-      pattern: `${repoUrl}/edit/main/docs/:path`,
+      pattern: `${repoUrl}/edit/main/docs/src/:path`,
       text: "Edit this page",
     },
   },
   markdown: {
     config(md) {
+      md.use(groupIconMdPlugin);
       md.use(tabsMarkdownPlugin);
       md.use(copyOrDownloadAsMarkdownButtons);
     },
   },
   vite: {
-    plugins: [llmstxt({ excludeIndexPage: false })],
+    plugins: [
+      groupIconVitePlugin({ customIcon: groupIcons }),
+      llmstxt({ excludeIndexPage: false }),
+    ],
   },
 });
