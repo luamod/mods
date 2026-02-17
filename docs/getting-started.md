@@ -6,7 +6,9 @@ description: Install Mods and use modules through the shared `mods` entrypoint.
 
 ## Install
 
-:::tabs == LuaRocks
+:::tabs
+
+== LuaRocks
 
 ```sh
 luarocks install mods
