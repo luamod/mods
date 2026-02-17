@@ -65,17 +65,13 @@ Operator helpers as functions.
 
 Returns `a + b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 add(1, 2) -- 3
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return number sum
@@ -89,17 +85,13 @@ function add(a, b) end
 
 Returns `a - b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 sub(5, 3) -- 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return number difference
@@ -113,17 +105,13 @@ function sub(a, b) end
 
 Returns `a * b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 mul(3, 4) -- 12
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return number product
@@ -137,17 +125,13 @@ function mul(a, b) end
 
 Returns `a / b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 div(10, 4) -- 2.5
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return number quotient
@@ -161,17 +145,13 @@ function div(a, b) end
 
 Returns integer division `math.floor(a / b)`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 idiv(5, 2) -- 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return integer quotient
@@ -185,17 +165,13 @@ function idiv(a, b) end
 
 Returns `a % b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 mod(5, 2) -- 1
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return number remainder
@@ -209,17 +185,13 @@ function mod(a, b) end
 
 Returns `a ^ b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 pow(2, 4) -- 16
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return number power
@@ -233,17 +205,13 @@ function pow(a, b) end
 
 Returns `-a`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 unm(3) -- -3
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@return number negated
 ---@nodiscard
@@ -258,17 +226,13 @@ function unm(a) end
 
 Returns `a == b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 eq(1, 1) -- true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a any
 ---@param b any
 ---@return boolean isEqual
@@ -282,17 +246,13 @@ function eq(a, b) end
 
 Returns `a ~= b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 neq(1, 2) -- true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a any
 ---@param b any
 ---@return boolean isNotEqual
@@ -306,17 +266,13 @@ function neq(a, b) end
 
 Returns `a < b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 lt(1, 2) -- true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return boolean isLess
@@ -330,17 +286,13 @@ function lt(a, b) end
 
 Returns `a <= b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 lte(2, 2) -- true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return boolean isLessOrEqual
@@ -354,17 +306,13 @@ function le(a, b) end
 
 Returns `a > b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 gt(3, 2) -- true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return boolean isGreater
@@ -378,17 +326,13 @@ function gt(a, b) end
 
 Returns `a >= b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 gte(2, 2) -- true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a number
 ---@param b number
 ---@return boolean isGreaterOrEqual
@@ -404,17 +348,13 @@ function ge(a, b) end
 
 Returns `a and b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 land(true, false) -- false
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T1,T2
 ---@param a T1
 ---@param b T2
@@ -429,17 +369,13 @@ function land(a, b) end
 
 Returns `a or b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 lor(false, true) -- true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T1,T2
 ---@param a T1
 ---@param b T2
@@ -454,17 +390,13 @@ function lor(a, b) end
 
 Returns `not a`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 lnot(true) -- false
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a any
 ---@return boolean isNot
 ---@nodiscard
@@ -479,17 +411,13 @@ function lnot(a) end
 
 Returns `a .. b`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 concat("a", "b") -- "ab"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a string
 ---@param b string
 ---@return string concatenated
@@ -503,17 +431,13 @@ function concat(a, b) end
 
 Returns `#a`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 len("abc") -- 3
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param a string|table
 ---@return integer length
 ---@nodiscard
@@ -528,17 +452,13 @@ function len(a) end
 
 Returns `t[k]`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 index({ a = 1 }, "a") -- 1
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T
 ---@param t table
 ---@param k T
@@ -553,17 +473,13 @@ function index(t, k) end
 
 Sets `t[k] = v` and returns `v`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 setindex({}, "a", 1) -- 1
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T
 ---@param t table
 ---@param k any
@@ -579,17 +495,13 @@ function setindex(t, k, v) end
 
 Calls `f(...)`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 call(math.max, 1, 2) -- 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T,T2
 ---@param f fun(...:T):T2
 ---@param ... T

@@ -60,17 +60,13 @@ type name.
 
 Returns `true` when `v` is a boolean.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.boolean(true)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -83,17 +79,13 @@ function boolean(v) end
 
 Returns `true` when `v` is a function.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.Function(function() end)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -106,17 +98,13 @@ function Function(v) end
 
 Returns `true` when `v` is `nil`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.Nil(nil)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -129,17 +117,13 @@ function Nil(v) end
 
 Returns `true` when `v` is a number.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.number(3.14)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -152,17 +136,13 @@ function number(v) end
 
 Returns `true` when `v` is a string.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.string("hello")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -175,17 +155,13 @@ function string(v) end
 
 Returns `true` when `v` is a table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.table({})
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -198,17 +174,13 @@ function table(v) end
 
 Returns `true` when `v` is a thread.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.thread(coroutine.create(function() end))
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -221,17 +193,13 @@ function thread(v) end
 
 Returns `true` when `v` is userdata.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.userdata(io.stdout)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -246,17 +214,13 @@ function userdata(v) end
 
 Returns `true` when `v` is exactly `false`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.False(false)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -269,17 +233,13 @@ function False(v) end
 
 Returns `true` when `v` is exactly `true`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.True(true)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -292,17 +252,13 @@ function True(v) end
 
 Returns `true` when `v` is falsy.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.falsy(false)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -315,17 +271,13 @@ function falsy(v) end
 
 Returns `true` when `v` is callable.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.callable(function() end)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -338,17 +290,13 @@ function callable(v) end
 
 Returns `true` when `v` is an integer.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.integer(42)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -361,17 +309,13 @@ function integer(v) end
 
 Returns `true` when `v` is truthy.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 is.truthy("non-empty")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -382,26 +326,24 @@ function truthy(v) end
 
 ### Path Checks
 
+> [!IMPORTANT]
+>
+> Path checks require LuaFileSystem
+> ([`lfs`](https://github.com/lunarmodules/luafilesystem)).
+>
+> These functions raise an error if `lfs` is not installed.
+
 #### `block(v)` {#fn-blockv}
 
 Returns `true` when `v` is a block device path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.block("/dev/sda")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -414,22 +356,13 @@ function block(v) end
 
 Returns `true` when `v` is a char device path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.char("/dev/null")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -442,22 +375,13 @@ function char(v) end
 
 Returns `true` when `v` is a block or char device path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.device("/dev/null")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -470,22 +394,13 @@ function device(v) end
 
 Returns `true` when `v` is a directory path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.dir("/tmp")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -498,22 +413,13 @@ function dir(v) end
 
 Returns `true` when `v` is a FIFO path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.fifo("/path/to/fifo")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -526,22 +432,13 @@ function fifo(v) end
 
 Returns `true` when `v` is a file path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.file("README.md")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -554,22 +451,13 @@ function file(v) end
 
 Returns `true` when `v` is a symlink path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.link("/path/to/link")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard
@@ -582,22 +470,13 @@ function link(v) end
 
 Returns `true` when `v` is a socket path.
 
-Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
-installed.
+::: code-group
 
-> [!IMPORTANT] Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
-
-:::tabs
-
-== Example
-
-```lua
+```lua [example.lua]
 is.socket("/path/to/socket")
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param v any
 ---@return boolean ok
 ---@nodiscard

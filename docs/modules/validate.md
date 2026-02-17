@@ -310,7 +310,12 @@ ok, err = validate.is.truthy(nil)
 
 Filesystem kind validators for paths.
 
-> [!IMPORTANT] Requires `lfs` (LuaFileSystem).
+> [!IMPORTANT]
+>
+> Path checks require LuaFileSystem
+> ([`lfs`](https://github.com/lunarmodules/luafilesystem)).
+>
+> These functions raise an error if `lfs` is not installed.
 
 ##### `block(path)` {#is-block}
 
@@ -413,8 +418,10 @@ ok, err = validate.is.socket("README.md")
 Negated validators. These checks pass only when the value does not match the
 expected type or check.
 
-> [!IMPORTANT] `is_not` supports type and value checks. Path checks are
-> available on [`is`](#is) only.
+> [!IMPORTANT]
+>
+> `is_not` supports type and value checks. Path checks are available on
+> [`is`](#is) only.
 
 #### Type Checks
 

@@ -86,19 +86,15 @@ query sequences of values.
 
 Return true if all values match the predicate. Empty lists return true.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local is_even = function(v) return v % 2 == 0 end
 local ok = List({ 2, 4 }):all(is_even)
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param pred fun(v:any):boolean
@@ -113,19 +109,15 @@ function all(pred) end
 
 Return true if any value matches the predicate.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local has_len_2 = function(v) return #v == 2 end
 local ok = List({ "a", "bb" }):any(has_len_2)
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param pred fun(v:any):boolean
@@ -142,18 +134,14 @@ function any(pred) end
 
 Append a value to the end of the list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a" }):append("b")
 -- result: { "a", "b" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T self
@@ -166,18 +154,14 @@ function append(v) end
 
 Remove all elements from the list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a", "b" }):clear()
 -- result: { }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T self
@@ -190,19 +174,15 @@ function clear() end
 
 Extend the list with another list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a" })
 l:extend({ "b", "c" })
 -- result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param ls any[]
@@ -216,20 +196,16 @@ function extend(ls) end
 
 Extract values matching the predicate and remove them from the list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a", "bb", "c" })
 local is_len_1 = function(v) return #v == 1 end
 local ex = l:extract(is_len_1)
 -- result: ex = { "a", "c" }, l = { "bb" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param pred fun(v:any):boolean
@@ -244,18 +220,14 @@ function extract(pred) end
 
 Insert a value at the given position.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a", "c" }):insert(2, "b")
 -- result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param pos integer
@@ -270,18 +242,14 @@ function insert(pos, v) end
 
 Append a value to the end of the list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a", "b" }):insert("b")
 -- result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param v any
@@ -295,19 +263,15 @@ function insert(v) end
 
 Remove and return the last element.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a", "b" })
 local v = l:pop()
 -- result: v == "b"; l is { "a" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return any
@@ -320,19 +284,15 @@ function pop() end
 
 Remove and return the element at the given position.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a", "b", "c" })
 local v = l:pop(2)
 -- result: v == "b"; l is { "a", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param pos integer
@@ -346,19 +306,15 @@ function pop(pos) end
 
 Insert a value at the start of the list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "b", "c" })
 l:prepend("a")
 -- result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param v any
@@ -372,19 +328,15 @@ function prepend(v) end
 
 Remove the first matching value.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ "a", "b", "b" })
 l:remove("b")
 -- result: { "a", "b" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param v any
@@ -398,19 +350,15 @@ function remove(v) end
 
 Sort the list in place.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local l = List({ 3, 1, 2 })
 l:sort()
 -- result: { 1, 2, 3 }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param comp? fun(a,b):boolean
@@ -426,18 +374,14 @@ function sort(comp) end
 
 Return a shallow copy of the list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local c = List({ "a", "b" }):copy()
 -- result: { "a", "b" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T ls
@@ -453,18 +397,14 @@ function copy() end
 
 Return true if the list contains the value.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = List({ "a", "b" }):contains("b")
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param v any
@@ -479,18 +419,14 @@ function contains(v) end
 
 Count how many times a value appears.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local n = List({ "a", "b", "b" }):count("b")
 -- result: 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return integer
@@ -504,18 +440,14 @@ function count(v) end
 
 Return the index of the first matching value.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local i = List({ "a", "b", "c", "b" }):index("b")
 -- result: 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param v any
@@ -531,19 +463,15 @@ function index(v) end
 
 Return the index of the first value matching the predicate.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local gt_1 = function(x) return x > 1 end
 local i = List({ 1, 2, 3 }):index_if(gt_1)
 -- result: 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param pred fun(v:any):boolean
@@ -558,18 +486,14 @@ function index_if(pred) end
 
 Return the number of elements in the list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local n = List({ "a", "b", "c" }):len()
 -- result: 3
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return integer
@@ -585,18 +509,14 @@ function len() end
 
 Return the first element or nil if empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local v = List({ "a", "b" }):first()
 -- result: "a"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return any
@@ -610,18 +530,14 @@ function first() end
 
 Return the last element or nil if empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local v = List({ "a", "b" }):last()
 -- result: "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return any
@@ -637,18 +553,14 @@ function last() end
 
 Return a new list with values not in the given list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local d = List({ "a", "b", "c" }):difference({ "b" })
 -- result: { "a", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T ls
@@ -662,18 +574,14 @@ function difference(ls) end
 
 Return a new list without the first n elements.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = List({ "a", "b", "c" }):drop(1)
 -- result: { "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param n integer
@@ -688,19 +596,15 @@ function drop(n) end
 
 Return a new list with values matching the predicate.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local is_len_1 = function(v) return #v == 1 end
 local f = List({ "a", "bb", "c" }):filter(is_len_1)
 -- result: { "a", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param pred fun(v:any):boolean
@@ -715,18 +619,14 @@ function filter(pred) end
 
 Flatten one level of nested lists.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local f = List({ { "a", "b" }, { "c" } }):flatten()
 -- result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T self
@@ -740,17 +640,13 @@ function flatten() end
 
 Apply a function to each element (for side effects). Returns nil.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 List({ "a", "b" }):foreach(print)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param fn fun(v:any)
@@ -764,19 +660,15 @@ function foreach(fn) end
 
 Group list values by a computed key.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local words = { "aa", "b", "ccc", "dd" }
 local g = List(words):group_by(string.len)
 -- result: { {"b"}, { "aa", "dd" }, { "ccc" } }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param fn fun(v:any):any
@@ -792,18 +684,14 @@ function group_by(fn) end
 Return values that are also present in the given list. Order is preserved from
 the original list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 -- result: { "a", "a", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param ls T
@@ -818,18 +706,14 @@ function intersection(ls) end
 
 Invert values to indices in a new table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = List({ "a", "b", "c" }):invert()
 -- result: { a = 1, b = 2, c = 3 }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return table
@@ -843,18 +727,14 @@ function invert() end
 
 Join list values into a string.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = List({ "a", "b", "c" }):join(",")
 -- result: "a,b,c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param sep? string
@@ -869,19 +749,15 @@ function join(sep) end
 
 Return a new list by mapping each value.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local to_upper = function(v) return v:upper() end
 local m = List({ "a", "b" }):map(to_upper)
 -- result: { "A", "B" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param fn fun(v):any
@@ -898,11 +774,9 @@ Reduce the list to a single value using an accumulator. If init is nil, the
 first element is used as the initial value. Empty lists return init (or nil if
 init is nil).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local add = function(acc, v) return acc + v end
 local sum = List({ 1, 2, 3 }):reduce(add, 0)
 -- result: 6
@@ -911,9 +785,7 @@ sum = List({ 1, 2, 3 }):reduce(add, 10)
 -- result: 16
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param fn fun(acc:any, v:any):any
@@ -929,18 +801,14 @@ function reduce(fn, init) end
 
 Return a new list with items reversed.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local r = List({ "a", "b", "c" }):reverse()
 -- result: { "c", "b", "a" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T ls
@@ -954,18 +822,14 @@ function reverse() end
 
 Convert the list to a set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = List({ "a", "b", "a" }):setify()
 -- result: { a = true, b = true }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return mods.Set|table<any,true>
@@ -980,18 +844,14 @@ function setify() end
 Return a new list containing items from i to j (inclusive). Supports negative
 indices (-1 is last element).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = List({ "a", "b", "c", "d" }):slice(2, 3)
 -- result: { "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param i? integer
@@ -1007,18 +867,14 @@ function slice(i, j) end
 
 Return the first n elements as a new list.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = List({ "a", "b", "c" }):take(2)
 -- result: { "a", "b" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param n integer
@@ -1033,18 +889,14 @@ function take(n) end
 
 Return a new list with duplicates removed (first occurrence kept).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local u = List({ "a", "b", "a", "c" }):uniq()
 -- result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T ls
@@ -1059,18 +911,14 @@ function uniq() end
 Zip two lists into a list of 2-element tables. Length is the minimum of both
 lists.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local z = List({ "a", "b" }):zip({ 1, 2 })
 -- result: { {"a",1}, {"b",2} }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@param ls T

@@ -52,19 +52,15 @@ Utility functions for working with Lua tables.
 
 Remove all entries from the table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = { a = 1, b = 2 }
 clear(t)
 -- result: {}
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param t table
 ---@return nil
 function clear(t) end
@@ -76,18 +72,14 @@ function clear(t) end
 
 Return the number of keys in the table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local n = count({ a = 1, b = 2 })
 -- result: 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param t table
 ---@return integer
 ---@nodiscard
@@ -102,18 +94,14 @@ function count(t) end
 
 Create a shallow copy of the table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = copy({ a = 1, b = 2 })
 -- result: { a = 1, b = 2 }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:table
 ---@param t T
 ---@return T
@@ -128,11 +116,9 @@ function copy(t) end
 Create a deep copy of a value. If `v` is a table, all nested tables are copied
 recursively; other types are returned as-is.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local n = deepcopy(42)
 -- result: 42
 
@@ -140,9 +126,7 @@ local t = deepcopy({ a = { b = 1 } })
 -- result: { a = { b = 1 } }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T
 ---@param v T
 ---@return T
@@ -158,20 +142,16 @@ function deepcopy(v) end
 
 Filter entries by a value predicate.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local even = filter({ a = 1, b = 2, c = 3 }, function(v)
  return v % 2 == 0
 end)
 -- result: { b = 2 }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param t table
 ---@param pred fun(v:any):boolean
 ---@return table
@@ -185,18 +165,14 @@ function filter(t, pred) end
 
 Find the first key whose value equals the given value.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local key = find({ a = 1, b = 2, c = 2 }, 2)
 -- result: "b" or "c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T1,T2
 ---@param t {[T1]:T2}
 ---@param v T2
@@ -211,20 +187,16 @@ function find(t, v) end
 
 Find first value and key matching predicate.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local v, k = find_if({ a = 1, b = 2 }, function(v, k)
  return k == "b" and v == 2
 end)
 -- result: 2, "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T1,T2
 ---@param t table
 ---@param pred fun(v:T1,k:T2):boolean
@@ -241,11 +213,9 @@ function find_if(t, pred) end
 Safely get nested value by keys. If no keys are provided, returns the input
 table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = { a = { b = { c = 1 } } }
 local v = get(t, "a", "b", "c")
 -- result: 1
@@ -254,9 +224,7 @@ local v2 = get(t)
 -- result: { a = { b = { c = 1 } } }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param t table
 ---@param ... any
 ---@return any
@@ -272,18 +240,14 @@ function get(t, ...) end
 
 Invert keys/values into new table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = invert({ a = 1, b = 2 })
 -- result: { [1] = "a", [2] = "b" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T1,T2
 ---@param t {[T1]:T2}
 ---@return {[T2]:T1}
@@ -297,18 +261,14 @@ function invert(t) end
 
 Return true if table has no entries.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local empty = isempty({})
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param t table
 ---@return boolean
 ---@nodiscard
@@ -321,18 +281,14 @@ function isempty(t) end
 
 Return a list of all keys in the table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local keys = keys({ a = 1, b = 2 })
 -- result: { "a", "b" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T
 ---@param t {[any]:T}
 ---@return mods.List<T>|T[]
@@ -346,20 +302,16 @@ function keys(t) end
 
 Return a new table by mapping each value (keys preserved).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = map({ a = 1, b = 2 }, function(v)
  return v * 10
 end)
 -- result: { a = 10, b = 20 }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T1,T2,T3
 ---@param t {[T1]:T2}
 ---@param fn fun(v:T2):T3
@@ -375,20 +327,16 @@ function map(t, fn) end
 Return a new table by mapping each key-value pair. The resulting table keeps the
 same keys, with values transformed by `fn`.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t = pairmap({ a = 1, b = 2 }, function(k, v)
  return k .. v
 end)
 -- result: { a = "a1", b = "b2" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T1,T2,T3
 ---@param t {[T1]:T2}
 ---@param fn fun(k:T1, v:T2):T3
@@ -403,19 +351,15 @@ function pairmap(t, fn) end
 
 Merge entries from t2 into t1 and return t1.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local t1 = { a = 1, b = 2 }
 update(t1, { b = 3, c = 4 })
 -- result: t1 is { a = 1, b = 3, c = 4 }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:table
 ---@param t1 T
 ---@param t2 table
@@ -430,18 +374,14 @@ function update(t1, t2) end
 
 Return a list of all values in the table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local vals = values({ a = 1, b = 2 })
 -- result: { 1, 2 }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T
 ---@param t {[any]:T}
 ---@return mods.List<T>|T[]

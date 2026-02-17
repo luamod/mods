@@ -68,19 +68,15 @@ query collections of unique values.
 
 Add an element to the set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a" })
 s:add("b")
 -- result: s contains "a", "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param v any
@@ -94,19 +90,15 @@ function add(v) end
 
 Remove all elements from the set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 s:clear()
 -- result: s is empty
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return T self
@@ -119,19 +111,15 @@ function clear() end
 
 Remove elements found in another set (in place).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 s:difference_update(Set({ "b" }))
 -- result: s contains "a"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -145,19 +133,15 @@ function difference_update(set) end
 
 Remove an element if present, do nothing otherwise.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 s:discard("b")
 -- result: s contains "a"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param v any
@@ -171,19 +155,15 @@ function discard(v) end
 
 Keep only elements common to both sets (in place).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 s:intersection_update(Set({ "b", "c" }))
 -- result: s contains "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -197,18 +177,14 @@ function intersection_update(set) end
 
 Remove and return an arbitrary element.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local v = Set({ "a", "b" }):pop()
 -- result: v is either "a" or "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return any
@@ -221,19 +197,15 @@ function pop() end
 
 Update the set with elements not shared by both (in place).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 s:symmetric_difference_update(Set({ "b", "c" }))
 -- result: s contains "a", "c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -247,19 +219,15 @@ function symmetric_difference_update(set) end
 
 Add all elements from another set (in place).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a" })
 s:update(Set({ "b" }))
 -- result: s contains "a", "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -275,19 +243,15 @@ function update(set) end
 
 Return a shallow copy of the set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a" })
 local c = s:copy()
 -- result: c is a new set with "a"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return T set
@@ -303,19 +267,15 @@ function copy() end
 
 Return elements in this set but not in another.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 local d = s:difference(Set({ "b" }))
 -- result: d contains "a"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -330,19 +290,15 @@ function difference(set) end
 
 Return elements common to both sets.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 local i = s:intersection(Set({ "b", "c" }))
 -- result: i contains "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -357,19 +313,15 @@ function intersection(set) end
 
 Return elements not shared by both sets.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a", "b" })
 local d = s:symmetric_difference(Set({ "b", "c" }))
 -- result: d contains "a", "c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -384,18 +336,14 @@ function symmetric_difference(set) end
 
 Return a new set with all elements from both.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ "a" }):union(Set({ "b" }))
 -- result: s contains "a", "b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -412,18 +360,14 @@ function union(set) end
 
 Return true if sets have no elements in common.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -438,18 +382,14 @@ function isdisjoint(set) end
 
 Return true if the set has no elements.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local empty = Set({}):isempty()
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return boolean
@@ -463,18 +403,14 @@ function isempty() end
 
 Return true if all elements of this set are also in another set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -489,18 +425,14 @@ function issubset(set) end
 
 Return true if this set contains all elements of another set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
 -- result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param set T
@@ -517,18 +449,14 @@ function issuperset(set) end
 
 Return the number of elements in the set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local n = Set({ "a", "b" }):len()
 -- result: 2
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return integer
@@ -544,18 +472,14 @@ function len() end
 
 Return a new set by mapping each value.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
 -- result: s contains 10, 20
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@param fn fun(v:any):any
@@ -570,18 +494,14 @@ function map(fn) end
 
 Return a list of all values in the set.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local values = Set({ "a", "b" }):values()
 -- result: { "a", "b" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
 ---@return mods.List|any[] values

@@ -85,18 +85,14 @@ String utility helpers modeled after Python's `str`.
 
 Return copy with first character capitalized and the rest lowercased.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = capitalize("hello WORLD")
 --result: "Hello world"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return string
 ---@nodiscard
@@ -109,18 +105,14 @@ function capitalize(s) end
 
 Center string within width, padded with fill characters.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = center("hi", 6, "-")
 --result: "--hi--"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param width integer
 ---@param fillchar? string
@@ -135,11 +127,9 @@ function center(s, width, fillchar) end
 
 Count non-overlapping occurrences of a substring.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local n = count("aaaa", "aa")
 --result: 2
 
@@ -150,9 +140,7 @@ n = count("abcd", "")
 --result: 5
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sub string
 ---@param start? integer
@@ -169,18 +157,14 @@ function count(s, sub, start, stop) end
 Return true if string ends with suffix. If suffix is a list, return true if any
 suffix matches.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = endswith("hello.lua", ".lua")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param suffix string|string[]
 ---@param start? integer
@@ -196,18 +180,14 @@ function endswith(s, suffix, start, stop) end
 
 Expand tabs to spaces using given tabsize.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = expandtabs("a\tb", 4)
 --result: "a   b"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param tabsize? integer
 ---@return string
@@ -221,18 +201,14 @@ function expandtabs(s, tabsize) end
 
 Return lowest index of substring or nil if not found.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local i = find("hello", "ll")
 --result: 3
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sub string
 ---@param start? integer
@@ -248,18 +224,14 @@ function find(s, sub, start, stop) end
 
 Format string with mapping (key-based) replacement.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = format_map("hi {name}", { name = "bob" })
 --result: "hi bob"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param mapping table
 ---@return string
@@ -275,11 +247,9 @@ function format_map(s, mapping) end
 
 Return true if all characters are alphanumeric and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isalnum("abc123")
 --result: true
 ```
@@ -292,9 +262,7 @@ local ok = isalnum("abc123")
 > isalnum("á1")` --> `false`
 > ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -307,11 +275,9 @@ function isalnum(s) end
 
 Return true if all characters are alphabetic and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isalpha("abc")
 --result: true
 ```
@@ -324,9 +290,7 @@ local ok = isalpha("abc")
 > isalpha("á")` --> `false`
 > ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -339,11 +303,9 @@ function isalpha(s) end
 
 Return true if all characters are ASCII and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isascii("hello")
 --result: true
 ```
@@ -352,9 +314,7 @@ local ok = isascii("hello")
 >
 > The empty string returns `true`.
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -367,18 +327,14 @@ function isascii(s) end
 
 Return true if all characters are decimal characters and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isdecimal("123")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -391,18 +347,14 @@ function isdecimal(s) end
 
 Return true if all characters are digits and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isdigit("123")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -415,11 +367,9 @@ function isdigit(s) end
 
 Return true if string is a valid identifier and not a reserved keyword.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isidentifier("foo_bar")
 --result: true
 
@@ -430,9 +380,7 @@ ok = isidentifier("end")
 --result: false (keyword)
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -446,18 +394,14 @@ function isidentifier(s) end
 Return true if all cased characters are lowercase and there is at least one
 cased character.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = islower("hello")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -470,18 +414,14 @@ function islower(s) end
 
 Return true if all characters are numeric and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isnumeric("123")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -494,11 +434,9 @@ function isnumeric(s) end
 
 Return true if all characters are printable and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isprintable("abc!")
 --result: true
 ```
@@ -507,9 +445,7 @@ local ok = isprintable("abc!")
 >
 > The empty string returns `true`.
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -522,18 +458,14 @@ function isprintable(s) end
 
 Return true if all characters are whitespace and string is non-empty.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isspace(" \t")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -546,18 +478,14 @@ function isspace(s) end
 
 Return true if string is titlecased.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = istitle("Hello World")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -571,18 +499,14 @@ function istitle(s) end
 Return true if all cased characters are uppercase and there is at least one
 cased character.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = isupper("HELLO")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return boolean
 ---@nodiscard
@@ -597,18 +521,14 @@ function isupper(s) end
 
 Join an iterable of strings using this string as separator.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = join(",", { "a", "b", "c" })
 --result: "a,b,c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param sep string
 ---@param ls string[]
 ---@return string
@@ -622,18 +542,14 @@ function join(sep, ls) end
 
 Left-justify string in a field of given width.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = ljust("hi", 5, ".")
 --result: "hi..."
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param width integer
 ---@param fillchar? string
@@ -648,18 +564,14 @@ function ljust(s, width, fillchar) end
 
 Return lowercased copy.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = lower("HeLLo")
 --result: "hello"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return string
 ---@nodiscard
@@ -672,18 +584,14 @@ function lower(s) end
 
 Remove leading characters (default: whitespace).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = lstrip("  hello")
 --result: "hello"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param chars? string
 ---@return string
@@ -697,18 +605,14 @@ function lstrip(s, chars) end
 
 Remove trailing characters (default: whitespace).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = rstrip("hello  ")
 --result: "hello"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param chars? string
 ---@return string
@@ -722,18 +626,14 @@ function rstrip(s, chars) end
 
 Remove leading and trailing characters (default: whitespace).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = strip("  hello  ")
 --result: "hello"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param chars? string
 ---@return string
@@ -749,18 +649,14 @@ function strip(s, chars) end
 
 Partition string into head, sep, tail from left.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local a, b, c = partition("a-b-c", "-")
 --result: "a", "-", "b-c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sep string
 ---@return string,string,string
@@ -774,18 +670,14 @@ function partition(s, sep) end
 
 Remove prefix if present.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = removeprefix("foobar", "foo")
 --result: "bar"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param prefix string
 ---@return string
@@ -799,18 +691,14 @@ function removeprefix(s, prefix) end
 
 Remove suffix if present.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = removesuffix("foobar", "bar")
 --result: "foo"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param suffix string
 ---@return string
@@ -824,18 +712,14 @@ function removesuffix(s, suffix) end
 
 Return a copy of the string with all occurrences of a substring replaced.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = replace("a-b-c", "-", "_", 1)
 --result: "a_b-c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param old string
 ---@param new string
@@ -851,18 +735,14 @@ function replace(s, old, new, count) end
 
 Return highest index of substring or nil if not found.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local i = rfind("ababa", "ba")
 --result: 4
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sub string
 ---@param start? integer
@@ -878,18 +758,14 @@ function rfind(s, sub, start, stop) end
 
 Like rfind but raises on failure (placeholder).
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local i = rindex("ababa", "ba")
 --result: 4
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sub string
 ---@param start? integer
@@ -905,18 +781,14 @@ function rindex(s, sub, start, stop) end
 
 Right-justify string in a field of given width.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = rjust("hi", 5, ".")
 --result: "...hi"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param width integer
 ---@param fillchar? string
@@ -931,18 +803,14 @@ function rjust(s, width, fillchar) end
 
 Partition string into head, sep, tail from right.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local a, b, c = rpartition("a-b-c", "-")
 --result: "a-b", "-", "c"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sep string
 ---@return string,string,string
@@ -956,18 +824,14 @@ function rpartition(s, sep) end
 
 Split from the right by separator, up to maxsplit.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local parts = rsplit("a,b,c", ",", 1)
 --result: { "a,b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
@@ -982,18 +846,14 @@ function rsplit(s, sep, maxsplit) end
 
 Split by separator (or whitespace) up to maxsplit.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local parts = split("a,b,c", ",")
 --result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param sep? string
 ---@param maxsplit? integer
@@ -1008,18 +868,14 @@ function split(s, sep, maxsplit) end
 
 Split on line boundaries.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local lines = splitlines("a\nb\r\nc")
 --result: { "a", "b", "c" }
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param keepends? boolean
 ---@return mods.List
@@ -1035,18 +891,14 @@ function splitlines(s, keepends) end
 
 Return a copy with case of alphabetic characters swapped.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = swapcase("AbC")
 --result: "aBc"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return string
 ---@nodiscard
@@ -1060,18 +912,14 @@ function swapcase(s) end
 Return true if string starts with prefix. If prefix is a list, return true if
 any prefix matches.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local ok = startswith("hello.lua", "he")
 --result: true
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param prefix string|string[]
 ---@param start? integer
@@ -1087,18 +935,14 @@ function startswith(s, prefix, start, stop) end
 
 Return titlecased copy.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = title("hello world")
 --result: "Hello World"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return string
 ---@nodiscard
@@ -1111,19 +955,15 @@ function title(s) end
 
 Translate characters using a mapping table.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local map = { [string.byte("a")] = "b", ["c"] = false }
 local s = translate("abc", map)
 --result: "bb"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param table_map table
 ---@return string
@@ -1137,18 +977,14 @@ function translate(s, table_map) end
 
 Return uppercased copy.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = upper("Hello")
 --result: "HELLO"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@return string
 ---@nodiscard
@@ -1161,18 +997,14 @@ function upper(s) end
 
 Pad numeric string on the left with zeros.
 
-:::tabs
+::: code-group
 
-== Example
-
-```lua
+```lua [example.lua]
 local s = zfill("42", 5)
 --result: "00042"
 ```
 
-== Signature
-
-```lua
+```lua [signature.lua]
 ---@param s string
 ---@param width integer
 ---@return string
