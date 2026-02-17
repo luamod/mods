@@ -29,3 +29,8 @@
 .VPDoc a:active > code {
   color: var(--vp-c-brand-1) !important;
 }
+
+/* Hide LLM copy/download controls on index page only */
+.index-page .markdown-copy-buttons {
+  display: none !important;
+}
