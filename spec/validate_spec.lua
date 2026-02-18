@@ -116,21 +116,21 @@ describe("mods.validate", function()
     local tp, v1, v2, errmsg = unpack(tests[i], 1, 4)
 
     describe("returns true", function()
-      it(fmt("%s(%s)", tp, pretty(v1)), function()
+      it(fmt("%s(%s)", tp, inspect(v1)), function()
         assert.are_same({ true }, { validate[tp](v1) })
       end)
 
-      it(fmt("validate(%q, %s)", tp, pretty(v1)), function()
+      it(fmt("validate(%q, %s)", tp, inspect(v1)), function()
         assert.are_same({ true }, { validate(v1, tp) })
       end)
     end)
 
     describe("returns false", function()
-      it(fmt("validate(%q, %s)", tp, pretty(v2)), function()
+      it(fmt("validate(%q, %s)", tp, inspect(v2)), function()
         assert.are_same({ false, errmsg }, { validate(v2, tp) })
       end)
 
-      it(fmt("%s(%s)", tp, pretty(v2)), function()
+      it(fmt("%s(%s)", tp, inspect(v2)), function()
         assert.are_same({ false, errmsg }, { validate[tp](v2) })
       end)
     end)
@@ -141,27 +141,27 @@ describe("mods.validate", function()
         return
       end
 
-      it(fmt("is_not.%s(%s)", tp, pretty(v2)), function()
+      it(fmt("is_not.%s(%s)", tp, inspect(v2)), function()
         assert.are_same({ true }, { validate.is_not[tp](v2) })
       end)
 
-      it(fmt("Not.%s(%s)", tp, pretty(v2)), function()
+      it(fmt("Not.%s(%s)", tp, inspect(v2)), function()
         assert.are_same({ true }, { validate.Not[tp](v2) })
       end)
 
-      it(fmt("is_not(%s, %q)", pretty(v2), tp), function()
+      it(fmt("is_not(%s, %q)", inspect(v2), tp), function()
         assert.are_same({ true }, { validate.is_not(v2, tp) })
       end)
 
-      it(fmt("is_not.%s(%s)", tp, pretty(v1)), function()
+      it(fmt("is_not.%s(%s)", tp, inspect(v1)), function()
         assert.are_same({ false, not_errmsg }, { validate.is_not[tp](v1) })
       end)
 
-      it(fmt("Not.%s(%s)", tp, pretty(v1)), function()
+      it(fmt("Not.%s(%s)", tp, inspect(v1)), function()
         assert.are_same({ false, not_errmsg }, { validate.Not[tp](v1) })
       end)
 
-      it(fmt("is_not(%q, %s)", tp, pretty(v1)), function()
+      it(fmt("is_not(%q, %s)", tp, inspect(v1)), function()
         assert.are_same({ false, not_errmsg }, { validate.is_not(v1, tp) })
       end)
     end)
@@ -180,11 +180,11 @@ describe("mods.validate", function()
       local prev_template = validate.messages.positive[tp]
       validate.messages.positive[tp] = template
 
-      it(fmt("%s(%s) returns false", tp, pretty(v2)), function()
+      it(fmt("%s(%s) returns false", tp, inspect(v2)), function()
         assert.are_same({ false, custom_errmsg }, { validate.is[tp](v2) })
       end)
 
-      it(fmt("validate(%q, %s) returns false", tp, pretty(v2)), function()
+      it(fmt("validate(%q, %s) returns false", tp, inspect(v2)), function()
         assert.are_same({ false, custom_errmsg }, { validate(v2, tp) })
       end)
 
@@ -204,11 +204,11 @@ describe("mods.validate", function()
       local prev_template = validate.messages.negative[tp]
       validate.messages.negative[tp] = template
 
-      it(fmt("is_not.%s(%s) returns false", tp, pretty(v1)), function()
+      it(fmt("is_not.%s(%s) returns false", tp, inspect(v1)), function()
         assert.are_same({ false, custom_errmsg }, { validate.is_not[tp](v1) })
       end)
 
-      it(fmt("is_not(%q, %s) returns false", tp, pretty(v1)), function()
+      it(fmt("is_not(%q, %s) returns false", tp, inspect(v1)), function()
         assert.are_same({ false, custom_errmsg }, { validate.is_not(v1, tp) })
       end)
 
