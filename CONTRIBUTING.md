@@ -139,11 +139,6 @@ If adding a module under [`src/mods/`](src/mods/), also update:
 [`docs/modules/index.md`](docs/modules/index.md), and
 [`mods-0.1.0-1.rockspec`](mods-0.1.0-1.rockspec).
 
-#### Changelog
-
-Do not edit [`CHANGELOG.md`](CHANGELOG.md) unless explicitly needed. When
-manually adding a changelog entry, include a linked commit SHA or PR number.
-
 ## Improving The Documentation
 
 - Docs are built with [VitePress](https://vitepress.dev/) and live in
