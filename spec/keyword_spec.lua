@@ -43,14 +43,14 @@ describe("mods.keyword", function()
 
   for i = 1, #kwlist do
     local input = kwlist[i]
-    it(fmt("iskeyword(%q) returns true", input), function()
+    it(fmt("iskeyword(%s) returns true", inspect(input)), function()
       assert.is_true(kw.iskeyword(input))
     end)
   end
 
   for i = 1, #non_keywords do
     local input = non_keywords[i]
-    it(fmt("iskeyword(%q) returns false", input), function()
+    it(fmt("iskeyword(%s) returns false", inspect(input)), function()
       assert.is_false(kw.iskeyword(input))
     end)
   end
