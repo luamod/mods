@@ -2,8 +2,8 @@
 
 package.path = "src/?.lua;src/?/init.lua;" .. package.path
 
-local lfs = require("lfs")
 local List = require("mods.List")
+local lfs = require("lfs")
 local str = require("mods.str")
 
 local fmt = string.format
@@ -144,17 +144,17 @@ local function parse_types_file(path)
         if section and section ~= "" then
           current_section = str.strip(section)
         else
-        block = block or {}
-        table.insert(block, text)
-        if meta and not seen_class and not text:match("^@") and not text:match("^|") then
-          if text == "" then
-            if #module_desc_lines > 0 and module_desc_lines[#module_desc_lines] ~= "" then
-              module_desc_lines[#module_desc_lines + 1] = ""
+          block = block or {}
+          table.insert(block, text)
+          if meta and not seen_class and not text:match("^@") and not text:match("^|") then
+            if text == "" then
+              if #module_desc_lines > 0 and module_desc_lines[#module_desc_lines] ~= "" then
+                module_desc_lines[#module_desc_lines + 1] = ""
+              end
+            else
+              module_desc_lines[#module_desc_lines + 1] = text
             end
-          else
-            module_desc_lines[#module_desc_lines + 1] = text
           end
-        end
         end
       end
     else
