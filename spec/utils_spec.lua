@@ -1,3 +1,5 @@
+---@diagnostic disable: param-type-mismatch, discard-returns
+
 local utils = require("mods.utils")
 
 describe("mods.utils", function()

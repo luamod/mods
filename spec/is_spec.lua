@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-field, param-type-mismatch, need-check-nil
+
 local is = require("mods.is")
 local fmt = string.format
 
