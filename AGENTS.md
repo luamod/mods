@@ -14,7 +14,6 @@ aligned with `src/mods` behavior), and docs in `docs/` with module pages under
 ├── spec/                  test suite (Busted)
 ├── docs/                  documentation source (VitePress)
 │   └── modules/           per-module documentation pages
-├── scripts/               project helper scripts
 ├── .github/
 │   └── workflows/         CI pipelines (GitHub Actions)
 └── CHANGELOG.md           release notes for user-visible changes
@@ -22,14 +21,15 @@ aligned with `src/mods` behavior), and docs in `docs/` with module pages under
 
 ## Build and test commands
 
-- Install JS dependencies: `npm install`
-- Run Lua tests: `busted`
-- Run a focused spec file: `busted spec/<module>_spec.lua`
-- Run lint: `luacheck .`
-- Format Markdown (requires globally installed Prettier):
-  `prettier --write "**/*.md"`
-- Build docs: `npm run build`
-- Docs dev server (optional): `npm run dev`
+- Install docs dependencies: `npm --prefix docs install`
+- Run all Lua tests: `busted`
+- Run one spec file while iterating: `busted spec/<module>_spec.lua`
+- Run Lua lint: `luacheck .`
+- Run focused Lua lint: `luacheck src spec types`
+- Run Markdown lint: `markdownlint-cli2 'docs/**/*.md' '!docs/.vitepress/**'`
+- Format Markdown: `prettier --write "**/*.md"`
+- Build docs: `npm --prefix docs run docs:build`
+- Run docs dev server: `npm --prefix docs run docs:dev`
 
 ## Code style
 
@@ -39,29 +39,28 @@ aligned with `src/mods` behavior), and docs in `docs/` with module pages under
 - Ensure code is compatible with all supported Lua versions (5.1+).
 - Prefer simple, efficient implementations; avoid unnecessary allocations or
   slow paths in hot code.
-
-## Commit messages
-
-- Use Conventional Commits 1.0.0 for all commit messages.
-- Preferred workflow types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`,
-  `ci`, `build`, `perf`.
-- Prefer scoped subjects when useful (e.g.,
-  `fix(validate): normalize path error message`).
+- Avoid broad formatting-only edits outside the files required for the task.
 
 ## Change scope
 
 - Keep changes focused and small.
 - Update docs or types when behavior changes.
-- When adding a new module under `src/mods/`, also update:
-  - `src/mods/init.lua` exports.
-  - `types/mods.lua` type surface.
-  - `README.md` modules table.
-  - `docs/modules/index.md` modules table.
-  - `build.modules` in `mods-0.1.0-1.rockspec`.
-- Ensure user-visible changes use visible commit types (`feat`, `fix`, `perf`,
-  `refactor`); update `CHANGELOG.md` manually only when explicitly needed.
-- When manually editing changelog entries, include either a linked commit SHA or
-  a linked PR number.
+- If runtime behavior changes in `src/mods`, update matching type stubs in
+  `types/`.
+- If public module behavior changes, update corresponding docs in
+  `docs/src/modules/`.
+- For cross-cutting refactors, separate mechanical edits from behavior changes
+  when practical.
+
+## Module additions
+
+If adding a new module under `src/mods/`, also update:
+
+- `src/mods/init.lua` exports.
+- `types/mods.lua` type surface.
+- `README.md` modules table.
+- `docs/src/modules/index.md` modules table.
+- Rockspec template module entries in `mods.rockspec.template`.
 
 ## Testing
 
@@ -71,6 +70,10 @@ aligned with `src/mods` behavior), and docs in `docs/` with module pages under
 - Prefer running module-focused tests while iterating, then run broader checks
   before finishing.
 
-## CI context
+## CI parity
 
-- CI uses GitHub Actions; Lua tooling and LuaRocks are part of the workflow.
+- Run local checks that mirror CI before finishing: tests, `luacheck`, docs lint
+  (`markdownlint-cli2`), and docs build when docs are touched.
+- When Markdown files change, run `prettier --write "**/*.md"` before commit.
+- If docs tooling changes, validate `npm --prefix docs run docs:build` still
+  succeeds.
