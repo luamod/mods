@@ -8,6 +8,7 @@ description: Overview of available Mods modules and their purpose.
 | Module                              | Description                                                    |
 | ----------------------------------- | -------------------------------------------------------------- |
 | [`is`](/modules/is)                 | Type predicates for Lua values and filesystem path kinds.      |
+| [`keyword`](/modules/keyword)       | Lua keyword helpers for reserved-word checks.                  |
 | [`List`](/modules/list)             | Python-style list helpers for mapping, filtering, and slicing. |
 | [`operator`](/modules/operator)     | Operator helpers as functions.                                 |
 | [`Set`](/modules/set)               | Set operations and helpers for unique values.                  |

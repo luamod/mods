@@ -48,6 +48,7 @@ luarocks install mods
 | Module         | Description                                                    |
 | -------------- | -------------------------------------------------------------- |
 | [`is`]         | Type predicates for Lua values and filesystem path kinds.      |
+| [`keyword`]    | Lua keyword helpers for reserved-word checks.                  |
 | [`List`]       | Python-style list helpers for mapping, filtering, and slicing. |
 | [`operator`]   | Operator helpers as functions.                                 |
 | [`Set`]        | Set operations and helpers for unique values.                  |
@@ -72,6 +73,7 @@ Thanks to these Lua ecosystem projects:
 - [busted](https://github.com/lunarmodules/busted) for test framework support.
 
 [`is`]: https://luamod.github.io/mods/modules/is
+[`keyword`]: https://luamod.github.io/mods/modules/keyword
 [`List`]: https://luamod.github.io/mods/modules/list
 [`operator`]: https://luamod.github.io/mods/modules/operator
 [`Set`]: https://luamod.github.io/mods/modules/set

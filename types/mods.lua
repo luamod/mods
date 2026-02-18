@@ -2,6 +2,7 @@
 
 ---@class mods
 ---@field is mods.is
+---@field keyword mods.keyword
 ---@field List mods.List
 ---@field operator mods.operator
 ---@field Set mods.Set
