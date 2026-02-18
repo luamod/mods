@@ -46,19 +46,19 @@ describe("mods.is", function()
       assert.is_function(is[tp:lower()])
     end)
 
-    it(fmt("is.%s returns true for %s", tp, pretty(v1)), function()
+    it(fmt("is.%s returns true for %s", tp, inspect(v1)), function()
       assert.is_true(is[tp](v1))
     end)
 
-    it(fmt("is.%s returns false for %s", tp, pretty(v2)), function()
+    it(fmt("is.%s returns false for %s", tp, inspect(v2)), function()
       assert.is_false(is[tp](v2))
     end)
 
-    it(fmt("is(%q, %s) returns true", tp, pretty(v1)), function()
+    it(fmt("is(%q, %s) returns true", tp, inspect(v1)), function()
       assert.is_true(is(v1, tp))
     end)
 
-    it(fmt("is(%q, %s) returns false", tp, pretty(v2)), function()
+    it(fmt("is(%q, %s) returns false", tp, inspect(v2)), function()
       assert.is_false(is(v2, tp))
     end)
   end
