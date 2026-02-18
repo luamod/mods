@@ -5,13 +5,31 @@ description:
 
 # `is`
 
-Type predicates for Lua values and filesystem path kinds.
+Type predicates for Lua values and filesystem paths.
 
-Function names exist in both lowercase and capitalized forms (for example,
-`is.table` or `is.Table`).
+## Import
 
-`is` is callable as `is(v, tp)` where `v` is the value and `tp` is any supported
-type name.
+```lua
+local mods = require("mods")
+local is = mods.is
+```
+
+## Usage
+
+```lua
+local ok
+
+ok = is.number(3.14) --> true
+ok = is("hello", "string") --> true
+ok = is.Table({}) --> true
+```
+
+> [!NOTE]
+>
+> - Function names exist in both lowercase and capitalized forms (for example,
+>   `is.table` or `is.Table`).
+> - `is` is callable as `is(v, tp)` where `v` is the value and `tp` is any
+>   supported type name.
 
 ## Quick Reference
 
@@ -60,153 +78,65 @@ type name.
 
 Returns `true` when `v` is a boolean.
 
-::: code-group
-
-```lua [example.lua]
-is.boolean(true)
+```lua
+is.boolean(true) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function boolean(v) end
-```
-
-:::
 
 #### `Function(v)` {#fn-functionv}
 
 Returns `true` when `v` is a function.
 
-::: code-group
-
-```lua [example.lua]
-is.Function(function() end)
+```lua
+is.Function(function() end) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function Function(v) end
-```
-
-:::
 
 #### `Nil(v)` {#fn-nilv}
 
 Returns `true` when `v` is `nil`.
 
-::: code-group
-
-```lua [example.lua]
-is.Nil(nil)
+```lua
+is.Nil(nil) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function Nil(v) end
-```
-
-:::
 
 #### `number(v)` {#fn-numberv}
 
 Returns `true` when `v` is a number.
 
-::: code-group
-
-```lua [example.lua]
-is.number(3.14)
+```lua
+is.number(3.14) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function number(v) end
-```
-
-:::
 
 #### `string(v)` {#fn-stringv}
 
 Returns `true` when `v` is a string.
 
-::: code-group
-
-```lua [example.lua]
-is.string("hello")
+```lua
+is.string("hello") --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function string(v) end
-```
-
-:::
 
 #### `table(v)` {#fn-tablev}
 
 Returns `true` when `v` is a table.
 
-::: code-group
-
-```lua [example.lua]
-is.table({})
+```lua
+is.table({}) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function table(v) end
-```
-
-:::
 
 #### `thread(v)` {#fn-threadv}
 
 Returns `true` when `v` is a thread.
 
-::: code-group
-
-```lua [example.lua]
-is.thread(coroutine.create(function() end))
+```lua
+is.thread(coroutine.create(function() end)) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function thread(v) end
-```
-
-:::
 
 #### `userdata(v)` {#fn-userdatav}
 
 Returns `true` when `v` is userdata.
 
-::: code-group
-
-```lua [example.lua]
-is.userdata(io.stdout)
+```lua
+is.userdata(io.stdout) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function userdata(v) end
-```
-
-:::
 
 ### Value Checks
 
@@ -214,121 +144,55 @@ function userdata(v) end
 
 Returns `true` when `v` is exactly `false`.
 
-::: code-group
-
-```lua [example.lua]
-is.False(false)
+```lua
+is.False(false) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function False(v) end
-```
-
-:::
 
 #### `True(v)` {#fn-truev}
 
 Returns `true` when `v` is exactly `true`.
 
-::: code-group
-
-```lua [example.lua]
-is.True(true)
+```lua
+is.True(true) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function True(v) end
-```
-
-:::
 
 #### `falsy(v)` {#fn-falsyv}
 
 Returns `true` when `v` is falsy.
 
-::: code-group
-
-```lua [example.lua]
-is.falsy(false)
+```lua
+is.falsy(false) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function falsy(v) end
-```
-
-:::
 
 #### `callable(v)` {#fn-callablev}
 
 Returns `true` when `v` is callable.
 
-::: code-group
-
-```lua [example.lua]
-is.callable(function() end)
+```lua
+is.callable(function() end) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function callable(v) end
-```
-
-:::
 
 #### `integer(v)` {#fn-integerv}
 
 Returns `true` when `v` is an integer.
 
-::: code-group
-
-```lua [example.lua]
-is.integer(42)
+```lua
+is.integer(42) --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function integer(v) end
-```
-
-:::
 
 #### `truthy(v)` {#fn-truthyv}
 
 Returns `true` when `v` is truthy.
 
-::: code-group
-
-```lua [example.lua]
-is.truthy("non-empty")
+```lua
+is.truthy("non-empty") --> true
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function truthy(v) end
-```
-
-:::
 
 ### Path Checks
 
 > [!IMPORTANT]
 >
-> Path checks require LuaFileSystem
+> Path checks require **LuaFileSystem**
 > ([`lfs`](https://github.com/lunarmodules/luafilesystem)).
 >
 > These functions raise an error if `lfs` is not installed.
@@ -337,150 +201,62 @@ function truthy(v) end
 
 Returns `true` when `v` is a block device path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.block("/dev/sda")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function block(v) end
-```
-
-:::
 
 #### `char(v)` {#fn-charv}
 
 Returns `true` when `v` is a char device path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.char("/dev/null")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function char(v) end
-```
-
-:::
 
 #### `device(v)` {#fn-devicev}
 
 Returns `true` when `v` is a block or char device path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.device("/dev/null")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function device(v) end
-```
-
-:::
 
 #### `dir(v)` {#fn-dirv}
 
 Returns `true` when `v` is a directory path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.dir("/tmp")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function dir(v) end
-```
-
-:::
 
 #### `fifo(v)` {#fn-fifov}
 
 Returns `true` when `v` is a FIFO path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.fifo("/path/to/fifo")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function fifo(v) end
-```
-
-:::
 
 #### `file(v)` {#fn-filev}
 
 Returns `true` when `v` is a file path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.file("README.md")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function file(v) end
-```
-
-:::
 
 #### `link(v)` {#fn-linkv}
 
 Returns `true` when `v` is a symlink path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.link("/path/to/link")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function link(v) end
-```
-
-:::
 
 #### `socket(v)` {#fn-socketv}
 
 Returns `true` when `v` is a socket path.
 
-::: code-group
-
-```lua [example.lua]
+```lua
 is.socket("/path/to/socket")
 ```
-
-```lua [signature.lua]
----@param v any
----@return boolean ok
----@nodiscard
-function socket(v) end
-```
-
-:::
