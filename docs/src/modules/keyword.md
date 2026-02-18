@@ -2,7 +2,7 @@
 description: Lua keyword helpers for reserved-word checks.
 ---
 
-# `keyword`
+# `keyword` <Badge type="warning" text="Unreleased" />
 
 Lua keyword helpers.
 
@@ -62,9 +62,9 @@ print(keywords[#keywords]) --> "while"
 Return Lua keywords as a [`mods.Set`] of strings.
 
 ```lua
-local words = kw.kwset()
-print(words["and"])   --> true
-print(words["hello"]) --> nil
+local keywords = kw.kwset()
+print(keywords["and"])   --> true
+print(keywords["hello"]) --> nil
 ```
 
 ### `isidentifier(s)` {#fn-isidentifiers}
