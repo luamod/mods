@@ -51,7 +51,8 @@ function List:any(pred) end
 ---local l = List({ "a" }):append("b")
 ----- result: { "a", "b" }
 ---```
----@param self mods.List|any[]
+---@generic T:mods.List|any[]
+---@param self T
 ---@return T self
 function List:append(v) end
 
@@ -314,7 +315,8 @@ function List:last() end
 ---local d = List({ "a", "b", "c" }):difference({ "b" })
 ----- result: { "a", "c" }
 ---```
----@param self mods.List|any[]
+---@generic T:mods.List|any[]
+---@param self T
 ---@return T ls
 ---@nodiscard
 function List:difference(ls) end
