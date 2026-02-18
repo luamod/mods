@@ -1,11 +1,19 @@
 local assert = require("luassert")
-local inspect = require("inspect")
+local ins = require("inspect")
 local say = require("say")
 local callable = require("luassert.util").callable
 
-_G.unpack = table.unpack or unpack
-_G.inspect = inspect
+local remove_all_metatables = function(item, path)
+  if path[#path] ~= ins.METATABLE then
+    return item
+  end
+end
+
 _G._TEST = true
+_G.unpack = table.unpack or unpack
+_G.inspect = function(v)
+  return ins(v, { process = remove_all_metatables })
+end
 
 local positive_msg = "assertion.callable.positive"
 local negative_msg = "assertion.callable.negative"
