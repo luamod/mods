@@ -1,29 +1,11 @@
-local say = require("say")
 local assert = require("luassert")
+local inpsect = require("inspect")
+local say = require("say")
 local callable = require("luassert.util").callable
 
 _G.unpack = table.unpack or unpack
+_G.inpsect = inpsect
 _G._TEST = true
-
-local function quote(s)
-  return '"' .. s .. '"'
-end
-
-local concat = table.concat
-_G.pretty = function(v)
-  local tp = type(v)
-  if tp == "string" then
-    return quote(v)
-  elseif tp ~= "table" then
-    return tostring(v)
-  end
-
-  local out = {}
-  for i = 1, #v do
-    out[i] = tostring(v[i])
-  end
-  return "{" .. concat(out, ", ") .. "}"
-end
 
 local positive_msg = "assertion.callable.positive"
 local negative_msg = "assertion.callable.negative"
