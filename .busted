@@ -1,10 +1,10 @@
 local assert = require("luassert")
-local inpsect = require("inspect")
+local inspect = require("inspect")
 local say = require("say")
 local callable = require("luassert.util").callable
 
 _G.unpack = table.unpack or unpack
-_G.inpsect = inpsect
+_G.inspect = inspect
 _G._TEST = true
 
 local positive_msg = "assertion.callable.positive"
