@@ -1,6 +1,6 @@
 local List = require("mods.List")
 local stringcase = require("mods.stringcase")
-local utils = require("mods.utils")
+local isidentifier = require("mods.keyword").isidentifier
 
 local byte = string.byte
 local char = string.char
@@ -349,7 +349,7 @@ M.isupper = is_jit and isupper_bytes or isupper_pattern
 
 M.isdigit = M.isdecimal
 M.isnumeric = M.isdecimal
-M.isidentifier = utils.isidentifier
+M.isidentifier = isidentifier
 
 function M.isprintable(s)
   local len = #s

@@ -4,17 +4,6 @@
 ---@class mods.utils
 local M = {}
 
----Return true if `s` is a valid non-keyword Lua identifier.
----
----```lua
----print(utils.isidentifier("name"))  -- true
----print(utils.isidentifier("local")) -- false
----```
----@param s string
----@return boolean ok
----@nodiscard
-function M.isidentifier(s) end
-
 ---Smart-quote a string for readable Lua-like output.
 ---
 ---```lua

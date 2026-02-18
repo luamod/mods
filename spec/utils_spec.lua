@@ -5,31 +5,6 @@ local utils = require("mods.utils")
 describe("mods.utils", function()
   local tests
 
-  --------------------
-  --- isidentifier ---
-  --------------------
-
-  -- stylua: ignore
-  tests = {
-    -----input---|-expected---
-    { "_"        , true     },
-    { "var"      , true     },
-    { "var_2"    , true     },
-    { "2var"     , false    },
-    { "var)"     , false    },
-    { "[var"     , false    },
-    { "local"    , false    },
-    { "function" , false    },
-    { "nil"      , false    },
-  }
-
-  for i = 1, #tests do
-    local input, expected = unpack(tests[i], 1, 2)
-    it(("isidentifier(%q)"):format(input), function()
-      assert.are_equal(expected, utils.isidentifier(input))
-    end)
-  end
-
   -------------
   --- quote ---
   -------------
