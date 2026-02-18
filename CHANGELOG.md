@@ -31,49 +31,6 @@ and this project adheres to
 * **str:** optimize splitlines and title paths ([6b87560](https://github.com/luamod/mods/commit/6b87560f944850218823058483cb244316834f8e))
 * **str:** speed up predicates and startswith fast path ([746f883](https://github.com/luamod/mods/commit/746f883f53c3518fad9c0b04627a41fc7860a111))
 
-## [Unreleased]
-
-### Added
-
-- `mods.utils`, utility helpers
-  ([c440cfe](https://github.com/luamod/mods/commit/c440cfe)).
-
-### Changed
-
-- `mods.List`: align runtime dependency loading and `setify()` return type with
-  `mods.Set` ([9fd4506](https://github.com/luamod/mods/commit/9fd4506)).
-- `mods.Set`: align runtime dependency loading with type expectations
-  ([0245833](https://github.com/luamod/mods/commit/0245833)).
-- `mods.str`: refactor shared helper usage for whitespace splitting, fill char
-  handling, and non-empty pattern checks
-  ([3edd895](https://github.com/luamod/mods/commit/3edd895)).
-- `mods.str`: return `mods.List` from split variants and optimize reverse split
-  handling ([db267b3](https://github.com/luamod/mods/commit/db267b3)).
-- `mods.str`: optimize splitlines and title code paths
-  ([6b87560](https://github.com/luamod/mods/commit/6b87560)).
-- `mods.str`: speed up predicates and add startswith fast path
-  ([746f883](https://github.com/luamod/mods/commit/746f883)).
-- `mods.stringcase`: streamline swap and sentence transforms
-  ([ae78911](https://github.com/luamod/mods/commit/ae78911)).
-- `mods.tbl`: align `keys()` and `values()` return types with runtime
-  `mods.List` results
-  ([c0ef23d](https://github.com/luamod/mods/commit/c0ef23d)).
-- `mods.validate`: use `mods.is` predicates
-  ([83cc71b](https://github.com/luamod/mods/commit/83cc71b)).
-
-### Fixed
-
-- `mods.validate`: prevent unrelated assignments from overriding `on_fail`
-  ([64eedad](https://github.com/luamod/mods/commit/64eedad)).
-- `mods.validate`: normalize path validator failure messages for
-  invalid/non-matching paths
-  ([fe6ccb1](https://github.com/luamod/mods/commit/fe6ccb1)).
-
-### Removed
-
-- Removed the `examples/` directory from the repository
-  ([a01a69d](https://github.com/luamod/mods/commit/a01a69d)).
-
 ## [0.2.0] - 2026-02-11
 
 ### Added
@@ -110,6 +67,5 @@ and this project adheres to
 - `mods.tbl`, table utilities
   ([f4cbf78](https://github.com/luamod/mods/commit/f4cbf78)).
 
-[Unreleased]: https://github.com/luamod/mods/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/luamod/mods/releases/tag/v0.2.0
 [0.1.0]: https://github.com/luamod/mods/releases/tag/v0.1.0
