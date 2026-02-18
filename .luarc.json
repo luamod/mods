@@ -1,6 +1,6 @@
 {
   "diagnostics": {
-    "globals": ["_TEST", "pretty"],
+    "globals": ["_TEST"],
     "disable": ["deprecated"],
     "ignoredFiles": "Disable"
   },
