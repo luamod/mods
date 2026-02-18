@@ -1,15 +1,13 @@
 {
   "diagnostics": {
-    "globals": ["_TEST"],
-    "disable": ["deprecated"],
-    "ignoredFiles": "Disable"
+    "globals": ["_TEST", "inspect"],
+    "disable": ["deprecated"]
   },
   "workspace": {
     "library": [
       "~/.cache/lua/luassert",
       "~/.cache/lua/busted",
       "~/.cache/lua/pl"
-    ],
-    "ignoreDir": ["/spec"]
+    ]
   }
 }
