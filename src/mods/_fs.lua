@@ -1,5 +1,3 @@
----@meta mods._fs
-
 ---Internal filesystem helpers built on top of LuaFileSystem.
 ---@class mods._fs
 local M = {}
