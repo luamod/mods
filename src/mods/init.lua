@@ -1,7 +1,7 @@
 local mods = {}
 
-([[is keyword List operator Set str stringcase
-  tbl template utils validate]]):gsub("%S+", function(name)
+([[ is keyword List operator repr Set
+    str stringcase tbl template utils validate ]]):gsub("%S+", function(name)
   mods[name] = "mods." .. name
 end)
 

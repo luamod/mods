@@ -13,7 +13,9 @@ description = {
   license = "MIT",
   summary = "Pure Lua modules",
   detailed = [[
-Mods provides small, focused Lua modules: List, Set, is, keyword, operator, str, stringcase, tbl, template, and validate.
+Mods provides small, focused Lua modules:
+List, Set, is, keyword, operator, repr, str, stringcase, tbl, template, and
+validate.
 ]],
 }
 
@@ -29,6 +31,7 @@ build = {
     ["mods.keyword"] = "src/mods/keyword.lua",
     ["mods.List"] = "src/mods/List.lua",
     ["mods.operator"] = "src/mods/operator.lua",
+    ["mods.repr"] = "src/mods/repr.lua",
     ["mods.Set"] = "src/mods/Set.lua",
     ["mods.str"] = "src/mods/str.lua",
     ["mods.stringcase"] = "src/mods/stringcase.lua",
