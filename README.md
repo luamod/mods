@@ -45,19 +45,20 @@ luarocks install mods
 
 <!-- Keep this section in sync with docs/modules/index.md. -->
 
-| Module         | Description                                                    |
-| -------------- | -------------------------------------------------------------- |
-| [`is`]         | Type predicates for Lua values and filesystem path kinds.      |
-| [`keyword`]    | Lua keyword helpers for reserved-word checks.                  |
-| [`List`]       | Python-style list helpers for mapping, filtering, and slicing. |
-| [`operator`]   | Operator helpers as functions.                                 |
-| [`Set`]        | Set operations and helpers for unique values.                  |
-| [`str`]        | String utility helpers modeled after Python's `str`.           |
-| [`stringcase`] | String case conversion helpers.                                |
-| [`tbl`]        | Utility functions for plain Lua tables.                        |
-| [`template`]   | Simple template rendering with value replacement.              |
-| [`utils`]      | Common utility helpers.                                        |
-| [`validate`]   | Validation helpers for Lua values.                             |
+| Module         | Description                                                     |
+| -------------- | --------------------------------------------------------------- |
+| [`is`]         | Type predicates for Lua values and filesystem path kinds.       |
+| [`keyword`]    | Lua keyword helpers for reserved-word checks.                   |
+| [`List`]       | Python-style list helpers for mapping, filtering, and slicing.  |
+| [`operator`]   | Operator helpers as functions.                                  |
+| [`repr`]       | Readable Lua value rendering with deterministic table ordering. |
+| [`Set`]        | Set operations and helpers for unique values.                   |
+| [`str`]        | String utility helpers modeled after Python's `str`.            |
+| [`stringcase`] | String case conversion helpers.                                 |
+| [`tbl`]        | Utility functions for plain Lua tables.                         |
+| [`template`]   | Simple template rendering with value replacement.               |
+| [`utils`]      | Common utility helpers.                                         |
+| [`validate`]   | Validation helpers for Lua values.                              |
 
 > [!NOTE]
 >
@@ -76,6 +77,7 @@ Thanks to these Lua ecosystem projects:
 [`keyword`]: https://luamod.github.io/mods/modules/keyword
 [`List`]: https://luamod.github.io/mods/modules/list
 [`operator`]: https://luamod.github.io/mods/modules/operator
+[`repr`]: https://luamod.github.io/mods/modules/repr
 [`Set`]: https://luamod.github.io/mods/modules/set
 [`str`]: https://luamod.github.io/mods/modules/str
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase

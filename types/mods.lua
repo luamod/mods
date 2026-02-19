@@ -5,6 +5,7 @@
 ---@field keyword mods.keyword
 ---@field List mods.List
 ---@field operator mods.operator
+---@field repr mods.repr
 ---@field Set mods.Set
 ---@field str mods.str
 ---@field stringcase mods.stringcase
