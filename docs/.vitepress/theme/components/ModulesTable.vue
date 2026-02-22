@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useData, withBase } from "vitepress";
+import { useData } from "vitepress";
 
 type ModuleRow = {
   text: string;
@@ -31,7 +31,7 @@ const rows = computed(() => {
     <tbody>
       <tr v-for="row in rows" :key="row.link">
         <td>
-          <a :href="withBase(row.link)"><code>{{ row.text }}</code></a>
+          <a :href="row.link"><code>{{ row.text }}</code></a>
         </td>
         <td>{{ row.desc }}</td>
       </tr>

@@ -104,7 +104,7 @@ const moduleTableRows: ModuleTableRow[] = moduleNames.map((name) => {
   const src = fs.readFileSync(file, "utf8");
   const title = readModuleTitle(src, moduleText(name));
   const desc = readFrontmatterDesc(src);
-  return { text: title, link: `/modules/${name}`, desc };
+  return { text: title, link: `${assetBasePath}modules/${name}`, desc };
 });
 
 const themeConfig: DefaultTheme.Config & { moduleTableRows: ModuleTableRow[] } = {
