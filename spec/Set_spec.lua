@@ -35,6 +35,8 @@ describe("mods.Set", function()
     { "issubset"                    , abcde , abcd_ , false    ,         },
     { "issuperset"                  , abcd_ , abcde , false    ,         },
     { "issuperset"                  , abcde , abcd_ , true     ,         },
+    { "contains"                    , abcde , "a"   , true     ,         },
+    { "contains"                    , abcde , "z"   , false    ,         },
     { "len"                         , _____ , nil   , 0        ,         },
     { "len"                         , a_c__ , nil   , 2        ,         },
     { "map"                         , abc__ , upper , ABC__    ,         },

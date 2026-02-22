@@ -253,6 +253,18 @@ function Set:issuperset(set) end
 ------------------------------------- Query ------------------------------------
 --------------------------------------------------------------------------------
 
+---Return true if the set contains `v`.
+---
+---```lua
+---ok = Set({ "a", "b" }):contains("a") --> true
+---ok = Set({ "a", "b" }):contains("z") --> false
+---```
+---@param self mods.Set|table<any,true>
+---@param v any
+---@return boolean
+---@nodiscard
+function Set:contains(v) end
+
 ---Return the number of elements in the set.
 ---
 ---**Example:**

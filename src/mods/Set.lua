@@ -86,6 +86,10 @@ function Set:issuperset(set)
   return true
 end
 
+function Set:contains(v)
+  return self[v] ~= nil
+end
+
 Set.len = tbl.count
 
 function Set:map(fn)
