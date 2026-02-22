@@ -17,7 +17,7 @@ modules through `require("mods")` and access helpers via `mods.<name>`.
 
 ## Modules
 
-<!-- @include: ./modules/index.md -->
+<ModulesTable />
 
 ## Contribute
 

@@ -1,14 +1,15 @@
 import { defineConfig } from "vitepress";
+import type { DefaultTheme } from "vitepress";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,
   localIconLoader,
 } from "vitepress-plugin-group-icons";
-import { fileURLToPath } from "node:url";
 import { copyOrDownloadAsMarkdownButtons } from "vitepress-plugin-llms";
-import fs from "node:fs";
-import path from "node:path";
 import llmstxt from "vitepress-plugin-llms";
 
 const repoUrl = "https://github.com/luamod/mods";
@@ -37,24 +38,103 @@ const websiteJsonLd = {
   description: siteDescription,
 };
 
-// Build nav/sidebar modules list from docs/modules at build time.
+type ModuleNavItem = {
+  text: string;
+  link: string;
+};
+
+type ModuleTableRow = {
+  text: string;
+  link: string;
+  desc: string;
+};
+
+const moduleText = (name: string): string =>
+  name === "list" || name === "set" ? name[0].toUpperCase() + name.slice(1) : name;
+
+const stripWrappingQuotes = (s: string): string => s.replace(/^['"]|['"]$/g, "");
+
+const readFrontmatterDesc = (src: string): string => {
+  const frontmatter = src.match(/^---\n([\s\S]*?)\n---\n?/);
+  if (!frontmatter) return "";
+
+  const lines = frontmatter[1].split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const match = line.match(/^desc:\s*(.*)$/);
+    if (!match) continue;
+
+    const inline = match[1].trim();
+    if (inline.length > 0) return stripWrappingQuotes(inline);
+
+    const chunks: string[] = [];
+    for (let j = i + 1; j < lines.length; j++) {
+      const next = lines[j];
+      if (!/^\s+/.test(next)) break;
+      chunks.push(next.trim());
+    }
+    return stripWrappingQuotes(chunks.join(" ").replace(/\s+/g, " "));
+  }
+  return "";
+};
+
+const readModuleTitle = (src: string, fallback: string): string => {
+  const heading = src.match(/^#\s+`?([^`\n]+)`?/m);
+  if (heading && heading[1] && heading[1].trim() !== "") return heading[1];
+  return fallback;
+};
+
+const vitepressDir = path.dirname(fileURLToPath(import.meta.url));
+const srcDir = path.resolve(vitepressDir, "..", "src");
+const modulesDir = path.join(srcDir, "modules");
+
 const moduleNames = fs
-  .readdirSync(
-    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "src", "modules"),
-  )
+  .readdirSync(modulesDir)
   .filter((name) => name.endsWith(".md") && name !== "index.md")
   .map((name) => name.replace(/\.md$/, ""))
   .sort((a, b) => a.localeCompare(b));
 
-const moduleText = (name: string): string =>
-  name === "list" || name === "set"
-    ? name[0].toUpperCase() + name.slice(1)
-    : name;
-
-const moduleItems = moduleNames.map((name) => ({
+const moduleItems: ModuleNavItem[] = moduleNames.map((name) => ({
   text: moduleText(name),
   link: `/modules/${name}`,
 }));
+
+const moduleTableRows: ModuleTableRow[] = moduleNames.map((name) => {
+  const file = path.join(modulesDir, `${name}.md`);
+  const src = fs.readFileSync(file, "utf8");
+  const title = readModuleTitle(src, moduleText(name));
+  const desc = readFrontmatterDesc(src);
+  return { text: title, link: `/modules/${name}`, desc };
+});
+
+const themeConfig: DefaultTheme.Config & { moduleTableRows: ModuleTableRow[] } = {
+  moduleTableRows,
+  logo: "/logo.svg",
+  outline: [2, 5], // show h2-h5
+  search: { provider: "local" },
+  socialLinks: [{ icon: "github", link: repoUrl }],
+  // prettier-ignore
+  nav: [
+    { text: "Home", link: "/" },
+    { text: "Get Started", link: "/getting-started" },
+    { text: "Modules", items: moduleItems },
+    { text: "🇵🇸 Free Palestine", link: "https://techforpalestine.org/learn-more" },
+  ],
+  sidebar: [
+    {
+      text: "Start",
+      items: [
+        { text: "What Is Mods?", link: "/" },
+        { text: "Getting Started", link: "/getting-started" },
+      ],
+    },
+    { text: "Modules", items: moduleItems },
+  ],
+  editLink: {
+    pattern: `${repoUrl}/edit/main/docs/src/:path`,
+    text: "Edit this page",
+  },
+};
 
 export default defineConfig({
   srcDir: "./src",
@@ -88,33 +168,7 @@ export default defineConfig({
     ["link", { rel: "canonical", href: siteUrl }],
     ["script", { type: "application/ld+json" }, JSON.stringify(websiteJsonLd)],
   ],
-  themeConfig: {
-    logo: "/logo.svg",
-    outline: [2, 5], // show h2-h5
-    search: { provider: "local" },
-    socialLinks: [{ icon: "github", link: repoUrl }],
-    // prettier-ignore
-    nav: [
-      { text: "Home", link: "/" },
-      { text: "Get Started", link: "/getting-started" },
-      { text: "Modules", items: moduleItems },
-      { text: "🇵🇸 Free Palestine", link: "https://techforpalestine.org/learn-more" },
-    ],
-    sidebar: [
-      {
-        text: "Start",
-        items: [
-          { text: "What Is Mods?", link: "/" },
-          { text: "Getting Started", link: "/getting-started" },
-        ],
-      },
-      { text: "Modules", items: moduleItems },
-    ],
-    editLink: {
-      pattern: `${repoUrl}/edit/main/docs/src/:path`,
-      text: "Edit this page",
-    },
-  },
+  themeConfig,
   markdown: {
     config(md) {
       md.use(groupIconMdPlugin);
