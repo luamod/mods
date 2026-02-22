@@ -1,459 +1,507 @@
 ---
-description:
-  Python-like string utilities for formatting, predicates, splitting, and
-  casing.
+desc: "String utility helpers modeled after Python's `str`."
 ---
 
 # `str`
 
 String utility helpers modeled after Python's `str`.
 
-## Quick Reference
+## Usage
 
-**Quick Reference: Formatting**:
+```lua
+str = require "mods.str"
 
-| Function                                                              | Description                                                           |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [`capitalize(s)`](#fn-capitalizes)                                    | Return copy with first character capitalized and the rest lowercased. |
-| [`center(s, width, fillchar)`](#fn-centers-width-fillchar)            | Center string within width, padded with fill characters.              |
-| [`count(s, sub, start, stop)`](#fn-counts-sub-start-stop)             | Count non-overlapping occurrences of a substring.                     |
-| [`endswith(s, suffix, start, stop)`](#fn-endswiths-suffix-start-stop) | Return true if string ends with suffix.                               |
-| [`expandtabs(s, tabsize)`](#fn-expandtabss-tabsize)                   | Expand tabs to spaces using given tabsize.                            |
-| [`find(s, sub, start, stop)`](#fn-finds-sub-start-stop)               | Return lowest index of substring or nil if not found.                 |
-| [`format_map(s, mapping)`](#fn-format_maps-mapping)                   | Format string with mapping (key-based) replacement.                   |
-
-**Quick Reference: Predicates**:
-
-| Function                               | Description                                                                                  |
-| -------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [`isalnum(s)`](#fn-isalnums)           | Return true if all characters are alphanumeric and string is non-empty.                      |
-| [`isalpha(s)`](#fn-isalphas)           | Return true if all characters are alphabetic and string is non-empty.                        |
-| [`isascii(s)`](#fn-isasciis)           | Return true if all characters are ASCII and string is non-empty.                             |
-| [`isdecimal(s)`](#fn-isdecimals)       | Return true if all characters are decimal characters and string is non-empty.                |
-| [`isdigit(s)`](#fn-isdigits)           | Return true if all characters are digits and string is non-empty.                            |
-| [`isidentifier(s)`](#fn-isidentifiers) | Return true if string is a valid identifier and not a reserved keyword.                      |
-| [`islower(s)`](#fn-islowers)           | Return true if all cased characters are lowercase and there is at least one cased character. |
-| [`isnumeric(s)`](#fn-isnumerics)       | Return true if all characters are numeric and string is non-empty.                           |
-| [`isprintable(s)`](#fn-isprintables)   | Return true if all characters are printable and string is non-empty.                         |
-| [`isspace(s)`](#fn-isspaces)           | Return true if all characters are whitespace and string is non-empty.                        |
-| [`istitle(s)`](#fn-istitles)           | Return true if string is titlecased.                                                         |
-| [`isupper(s)`](#fn-isuppers)           | Return true if all cased characters are uppercase and there is at least one cased character. |
-
-**Quick Reference: Layout**:
-
-| Function                                                 | Description                                                   |
-| -------------------------------------------------------- | ------------------------------------------------------------- |
-| [`join(sep, ls)`](#fn-joinsep-ls)                        | Join an iterable of strings using this string as separator.   |
-| [`ljust(s, width, fillchar)`](#fn-ljusts-width-fillchar) | Left-justify string in a field of given width.                |
-| [`lower(s)`](#fn-lowers)                                 | Return lowercased copy.                                       |
-| [`lstrip(s, chars)`](#fn-lstrips-chars)                  | Remove leading characters (default: whitespace).              |
-| [`rstrip(s, chars)`](#fn-rstrips-chars)                  | Remove trailing characters (default: whitespace).             |
-| [`strip(s, chars)`](#fn-strips-chars)                    | Remove leading and trailing characters (default: whitespace). |
-
-**Quick Reference: Split & Replace**:
-
-| Function                                                    | Description                                                               |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------- |
-| [`partition(s, sep)`](#fn-partitions-sep)                   | Partition string into head, sep, tail from left.                          |
-| [`removeprefix(s, prefix)`](#fn-removeprefixs-prefix)       | Remove prefix if present.                                                 |
-| [`removesuffix(s, suffix)`](#fn-removesuffixs-suffix)       | Remove suffix if present.                                                 |
-| [`replace(s, old, new, count)`](#fn-replaces-old-new-count) | Return a copy of the string with all occurrences of a substring replaced. |
-| [`rfind(s, sub, start, stop)`](#fn-rfinds-sub-start-stop)   | Return highest index of substring or nil if not found.                    |
-| [`rindex(s, sub, start, stop)`](#fn-rindexs-sub-start-stop) | Like rfind but raises on failure (placeholder).                           |
-| [`rjust(s, width, fillchar)`](#fn-rjusts-width-fillchar)    | Right-justify string in a field of given width.                           |
-| [`rpartition(s, sep)`](#fn-rpartitions-sep)                 | Partition string into head, sep, tail from right.                         |
-| [`rsplit(s, sep, maxsplit)`](#fn-rsplits-sep-maxsplit)      | Split from the right by separator, up to maxsplit.                        |
-| [`split(s, sep, maxsplit)`](#fn-splits-sep-maxsplit)        | Split by separator (or whitespace) up to maxsplit.                        |
-| [`splitlines(s, keepends)`](#fn-splitliness-keepends)       | Split on line boundaries.                                                 |
-
-**Quick Reference: Casing & Transform**:
-
-| Function                                                                  | Description                                               |
-| ------------------------------------------------------------------------- | --------------------------------------------------------- |
-| [`swapcase(s)`](#fn-swapcases)                                            | Return a copy with case of alphabetic characters swapped. |
-| [`startswith(s, prefix, start, stop)`](#fn-startswiths-prefix-start-stop) | Return true if string starts with prefix.                 |
-| [`title(s)`](#fn-titles)                                                  | Return titlecased copy.                                   |
-| [`translate(s, table_map)`](#fn-translates-table_map)                     | Translate characters using a mapping table.               |
-| [`upper(s)`](#fn-uppers)                                                  | Return uppercased copy.                                   |
-| [`zfill(s, width)`](#fn-zfills-width)                                     | Pad numeric string on the left with zeros.                |
+print(str.capitalize("hello world")) --> "Hello world"
+```
 
 ## Functions
 
+**Formatting**:
+
+| Function                    | Description                                                                                     |
+| --------------------------- | ----------------------------------------------------------------------------------------------- |
+| [`capitalize`](#capitalize) | Return copy with first character capitalized and the rest lowercased.                           |
+| [`center`](#center)         | Center string within width, padded with fill characters.                                        |
+| [`count`](#count)           | Count non-overlapping occurrences of a substring.                                               |
+| [`endswith`](#endswith)     | Return true if string ends with suffix. If suffix is a list, return true if any suffix matches. |
+| [`expandtabs`](#expandtabs) | Expand tabs to spaces using given tabsize.                                                      |
+| [`find`](#find)             | Return lowest index of substring or nil if not found.                                           |
+| [`format_map`](#format-map) | Format string with mapping (key-based) replacement.                                             |
+
+**Predicates**:
+
+| Function                        | Description                                                                                  |
+| ------------------------------- | -------------------------------------------------------------------------------------------- |
+| [`isalnum`](#isalnum)           | Return true if all characters are alphanumeric and string is non-empty.                      |
+| [`isalpha`](#isalpha)           | Return true if all characters are alphabetic and string is non-empty.                        |
+| [`isascii`](#isascii)           | Return true if all characters are ASCII and string is non-empty.                             |
+| [`isdecimal`](#isdecimal)       | Return true if all characters are decimal characters and string is non-empty.                |
+| [`isdigit`](#isdigit)           | Return true if all characters are digits and string is non-empty.                            |
+| [`isidentifier`](#isidentifier) | Return true if string is a valid identifier and not a reserved keyword.                      |
+| [`islower`](#islower)           | Return true if all cased characters are lowercase and there is at least one cased character. |
+| [`isnumeric`](#isnumeric)       | Return true if all characters are numeric and string is non-empty.                           |
+| [`isprintable`](#isprintable)   | Return true if all characters are printable and string is non-empty.                         |
+| [`isspace`](#isspace)           | Return true if all characters are whitespace and string is non-empty.                        |
+| [`istitle`](#istitle)           | Return true if string is titlecased.                                                         |
+| [`isupper`](#isupper)           | Return true if all cased characters are uppercase and there is at least one cased character. |
+
+**Layout**:
+
+| Function            | Description                                                   |
+| ------------------- | ------------------------------------------------------------- |
+| [`join`](#join)     | Join an iterable of strings using this string as separator.   |
+| [`ljust`](#ljust)   | Left-justify string in a field of given width.                |
+| [`lower`](#lower)   | Return lowercased copy.                                       |
+| [`lstrip`](#lstrip) | Remove leading characters (default: whitespace).              |
+| [`rstrip`](#rstrip) | Remove trailing characters (default: whitespace).             |
+| [`strip`](#strip)   | Remove leading and trailing characters (default: whitespace). |
+
+**Split & Replace**:
+
+| Function                        | Description                                                               |
+| ------------------------------- | ------------------------------------------------------------------------- |
+| [`partition`](#partition)       | Partition string into head, sep, tail from left.                          |
+| [`removeprefix`](#removeprefix) | Remove prefix if present.                                                 |
+| [`removesuffix`](#removesuffix) | Remove suffix if present.                                                 |
+| [`replace`](#replace)           | Return a copy of the string with all occurrences of a substring replaced. |
+| [`rfind`](#rfind)               | Return highest index of substring or nil if not found.                    |
+| [`rindex`](#rindex)             | Like rfind but raises on failure (placeholder).                           |
+| [`rjust`](#rjust)               | Right-justify string in a field of given width.                           |
+| [`rpartition`](#rpartition)     | Partition string into head, sep, tail from right.                         |
+| [`rsplit`](#rsplit)             | Split from the right by separator, up to maxsplit.                        |
+| [`split`](#split)               | Split by separator (or whitespace) up to maxsplit.                        |
+| [`splitlines`](#splitlines)     | Split on line boundaries.                                                 |
+
+**Casing & Transform**:
+
+| Function                    | Description                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------- |
+| [`swapcase`](#swapcase)     | Return a copy with case of alphabetic characters swapped.                                         |
+| [`startswith`](#startswith) | Return true if string starts with prefix. If prefix is a list, return true if any prefix matches. |
+| [`title`](#title)           | Return titlecased copy.                                                                           |
+| [`translate`](#translate)   | Translate characters using a mapping table.                                                       |
+| [`upper`](#upper)           | Return uppercased copy.                                                                           |
+| [`zfill`](#zfill)           | Pad numeric string on the left with zeros.                                                        |
+
 ### Formatting
 
-#### `capitalize(s)` {#fn-capitalizes}
+#### `capitalize`
 
 Return copy with first character capitalized and the rest lowercased.
 
 ```lua
-local s = capitalize("hello WORLD") --> "Hello world"
+s = capitalize("hello WORLD")
+--result: "Hello world"
 ```
 
-#### `center(s, width, fillchar)` {#fn-centers-width-fillchar}
+#### `center`
 
 Center string within width, padded with fill characters.
 
 ```lua
-local s = center("hi", 6, "-") --> "--hi--"
+s = center("hi", 6, "-")
+--result: "--hi--"
 ```
 
-#### `count(s, sub, start, stop)` {#fn-counts-sub-start-stop}
+#### `count`
 
 Count non-overlapping occurrences of a substring.
 
 ```lua
-local n = count("aaaa", "aa") --> 2
-n = count("aaaa", "a", 2, -1) --> 2
-n = count("abcd", "") --> 5
+n = count("aaaa", "aa")
+--result: 2
+
+n = count("aaaa", "a", 2, -1)
+--result: 2
+
+n = count("abcd", "")
+--result: 5
 ```
 
-#### `endswith(s, suffix, start, stop)` {#fn-endswiths-suffix-start-stop}
+#### `endswith`
 
 Return true if string ends with suffix. If suffix is a list, return true if any
 suffix matches.
 
 ```lua
-local ok = endswith("hello.lua", ".lua") --> true
+ok = endswith("hello.lua", ".lua")
+--result: true
 ```
 
-#### `expandtabs(s, tabsize)` {#fn-expandtabss-tabsize}
+#### `expandtabs`
 
 Expand tabs to spaces using given tabsize.
 
 ```lua
-local s = expandtabs("a\tb", 4) --> "a   b"
+s = expandtabs("a\tb", 4)
+--result: "a   b"
 ```
 
-#### `find(s, sub, start, stop)` {#fn-finds-sub-start-stop}
+#### `find`
 
 Return lowest index of substring or nil if not found.
 
 ```lua
-local i = find("hello", "ll") --> 3
+i = find("hello", "ll")
+--result: 3
 ```
 
-#### `format_map(s, mapping)` {#fn-format_maps-mapping}
+#### `format_map`
 
 Format string with mapping (key-based) replacement.
 
 ```lua
-local s = format_map("hi {name}", { name = "bob" }) --> "hi bob"
+s = format_map("hi {name}", { name = "bob" })
+--result: "hi bob"
 ```
 
 ### Predicates
 
-#### `isalnum(s)` {#fn-isalnums}
+#### `isalnum`
 
 Return true if all characters are alphanumeric and string is non-empty.
 
 ```lua
-local ok = isalnum("abc123") --> true
+ok = isalnum("abc123")
+--result: true
 ```
 
-> [!NOTE]
->
-> Lua letters are ASCII by default, so non-ASCII letters are not alphanumeric.
+> [!NOTE] Lua letters are ASCII by default, so non-ASCII letters are not
+> alphanumeric.
 >
 > ```lua
 > isalnum("á1")` --> `false`
 > ```
 
-#### `isalpha(s)` {#fn-isalphas}
+#### `isalpha`
 
 Return true if all characters are alphabetic and string is non-empty.
 
 ```lua
-local ok = isalpha("abc") --> true
+ok = isalpha("abc")
+--result: true
 ```
 
-> [!NOTE]
->
-> Lua letters are ASCII by default, so non-ASCII letters are not alphabetic.
+> [!NOTE] Lua letters are ASCII by default, so non-ASCII letters are not
+> alphabetic.
 >
 > ```lua
 > isalpha("á")` --> `false`
 > ```
 
-#### `isascii(s)` {#fn-isasciis}
+#### `isascii`
 
 Return true if all characters are ASCII and string is non-empty.
 
 ```lua
-local ok = isascii("hello") --> true
+ok = isascii("hello")
+--result: true
 ```
 
-> [!NOTE]
->
-> The empty string returns `true`.
+> [!NOTE] The empty string returns `true`.
 
-#### `isdecimal(s)` {#fn-isdecimals}
+#### `isdecimal`
 
 Return true if all characters are decimal characters and string is non-empty.
 
 ```lua
-local ok = isdecimal("123") --> true
+ok = isdecimal("123")
+--result: true
 ```
 
-#### `isdigit(s)` {#fn-isdigits}
+#### `isdigit`
 
 Return true if all characters are digits and string is non-empty.
 
 ```lua
-local ok = isdigit("123") --> true
+ok = isdigit("123")
+--result: true
 ```
 
-#### `isidentifier(s)` {#fn-isidentifiers}
+#### `isidentifier`
 
 Return true if string is a valid identifier and not a reserved keyword.
 
 ```lua
-local ok = isidentifier("foo_bar") --> true
-ok = isidentifier("2var") --> false
-ok = isidentifier("end") --> false (keyword)
+ok = isidentifier("foo_bar")
+--result: true
+
+ok = isidentifier("2var")
+--result: false
+
+ok = isidentifier("end")
+--result: false (keyword)
 ```
 
-#### `islower(s)` {#fn-islowers}
+#### `islower`
 
 Return true if all cased characters are lowercase and there is at least one
 cased character.
 
 ```lua
-local ok = islower("hello") --> true
+ok = islower("hello")
+--result: true
 ```
 
-#### `isnumeric(s)` {#fn-isnumerics}
+#### `isnumeric`
 
 Return true if all characters are numeric and string is non-empty.
 
 ```lua
-local ok = isnumeric("123") --> true
+ok = isnumeric("123")
+--result: true
 ```
 
-#### `isprintable(s)` {#fn-isprintables}
+#### `isprintable`
 
 Return true if all characters are printable and string is non-empty.
 
 ```lua
-local ok = isprintable("abc!") --> true
+ok = isprintable("abc!")
+--result: true
 ```
 
-> [!NOTE]
->
-> The empty string returns `true`.
+> [!NOTE] The empty string returns `true`.
 
-#### `isspace(s)` {#fn-isspaces}
+#### `isspace`
 
 Return true if all characters are whitespace and string is non-empty.
 
 ```lua
-local ok = isspace(" \t") --> true
+ok = isspace(" \t")
+--result: true
 ```
 
-#### `istitle(s)` {#fn-istitles}
+#### `istitle`
 
 Return true if string is titlecased.
 
 ```lua
-local ok = istitle("Hello World") --> true
+ok = istitle("Hello World")
+--result: true
 ```
 
-#### `isupper(s)` {#fn-isuppers}
+#### `isupper`
 
 Return true if all cased characters are uppercase and there is at least one
 cased character.
 
 ```lua
-local ok = isupper("HELLO") --> true
+ok = isupper("HELLO")
+--result: true
 ```
 
 ### Layout
 
-#### `join(sep, ls)` {#fn-joinsep-ls}
+#### `join`
 
 Join an iterable of strings using this string as separator.
 
 ```lua
-local s = join(",", { "a", "b", "c" }) --> "a,b,c"
+s = join(",", { "a", "b", "c" })
+--result: "a,b,c"
 ```
 
-#### `ljust(s, width, fillchar)` {#fn-ljusts-width-fillchar}
+#### `ljust`
 
 Left-justify string in a field of given width.
 
 ```lua
-local s = ljust("hi", 5, ".") --> "hi..."
+s = ljust("hi", 5, ".")
+--result: "hi..."
 ```
 
-#### `lower(s)` {#fn-lowers}
+#### `lower`
 
 Return lowercased copy.
 
 ```lua
-local s = lower("HeLLo") --> "hello"
+s = lower("HeLLo")
+--result: "hello"
 ```
 
-#### `lstrip(s, chars)` {#fn-lstrips-chars}
+#### `lstrip`
 
 Remove leading characters (default: whitespace).
 
 ```lua
-local s = lstrip("  hello") --> "hello"
+s = lstrip("  hello")
+--result: "hello"
 ```
 
-#### `rstrip(s, chars)` {#fn-rstrips-chars}
+#### `rstrip`
 
 Remove trailing characters (default: whitespace).
 
 ```lua
-local s = rstrip("hello  ") --> "hello"
+s = rstrip("hello  ")
+--result: "hello"
 ```
 
-#### `strip(s, chars)` {#fn-strips-chars}
+#### `strip`
 
 Remove leading and trailing characters (default: whitespace).
 
 ```lua
-local s = strip("  hello  ") --> "hello"
+s = strip("  hello  ")
+--result: "hello"
 ```
 
 ### Split & Replace
 
-#### `partition(s, sep)` {#fn-partitions-sep}
+#### `partition`
 
 Partition string into head, sep, tail from left.
 
 ```lua
-local a, b, c = partition("a-b-c", "-") --> "a", "-", "b-c"
+a, b, c = partition("a-b-c", "-")
+--result: "a", "-", "b-c"
 ```
 
-#### `removeprefix(s, prefix)` {#fn-removeprefixs-prefix}
+#### `removeprefix`
 
 Remove prefix if present.
 
 ```lua
-local s = removeprefix("foobar", "foo") --> "bar"
+s = removeprefix("foobar", "foo")
+--result: "bar"
 ```
 
-#### `removesuffix(s, suffix)` {#fn-removesuffixs-suffix}
+#### `removesuffix`
 
 Remove suffix if present.
 
 ```lua
-local s = removesuffix("foobar", "bar") --> "foo"
+s = removesuffix("foobar", "bar")
+--result: "foo"
 ```
 
-#### `replace(s, old, new, count)` {#fn-replaces-old-new-count}
+#### `replace`
 
 Return a copy of the string with all occurrences of a substring replaced.
 
 ```lua
-local s = replace("a-b-c", "-", "_", 1) --> "a_b-c"
+s = replace("a-b-c", "-", "_", 1)
+--result: "a_b-c"
 ```
 
-#### `rfind(s, sub, start, stop)` {#fn-rfinds-sub-start-stop}
+#### `rfind`
 
 Return highest index of substring or nil if not found.
 
 ```lua
-local i = rfind("ababa", "ba") --> 4
+i = rfind("ababa", "ba")
+--result: 4
 ```
 
-#### `rindex(s, sub, start, stop)` {#fn-rindexs-sub-start-stop}
+#### `rindex`
 
 Like rfind but raises on failure (placeholder).
 
 ```lua
-local i = rindex("ababa", "ba") --> 4
+i = rindex("ababa", "ba")
+--result: 4
 ```
 
-#### `rjust(s, width, fillchar)` {#fn-rjusts-width-fillchar}
+#### `rjust`
 
 Right-justify string in a field of given width.
 
 ```lua
-local s = rjust("hi", 5, ".") --> "...hi"
+s = rjust("hi", 5, ".")
+--result: "...hi"
 ```
 
-#### `rpartition(s, sep)` {#fn-rpartitions-sep}
+#### `rpartition`
 
 Partition string into head, sep, tail from right.
 
 ```lua
-local a, b, c = rpartition("a-b-c", "-") --> "a-b", "-", "c"
+a, b, c = rpartition("a-b-c", "-")
+--result: "a-b", "-", "c"
 ```
 
-#### `rsplit(s, sep, maxsplit)` {#fn-rsplits-sep-maxsplit}
+#### `rsplit`
 
 Split from the right by separator, up to maxsplit.
 
 ```lua
-local parts = rsplit("a,b,c", ",", 1) --> { "a,b", "c" }
+parts = rsplit("a,b,c", ",", 1)
+--result: { "a,b", "c" }
 ```
 
-#### `split(s, sep, maxsplit)` {#fn-splits-sep-maxsplit}
+#### `split`
 
 Split by separator (or whitespace) up to maxsplit.
 
 ```lua
-local parts = split("a,b,c", ",") --> { "a", "b", "c" }
+parts = split("a,b,c", ",")
+--result: { "a", "b", "c" }
 ```
 
-#### `splitlines(s, keepends)` {#fn-splitliness-keepends}
+#### `splitlines`
 
 Split on line boundaries.
 
 ```lua
-local lines = splitlines("a\nb\r\nc") --> { "a", "b", "c" }
+lines = splitlines("a\nb\r\nc")
+--result: { "a", "b", "c" }
 ```
 
 ### Casing & Transform
 
-#### `swapcase(s)` {#fn-swapcases}
+#### `swapcase`
 
 Return a copy with case of alphabetic characters swapped.
 
 ```lua
-local s = swapcase("AbC") --> "aBc"
+s = swapcase("AbC")
+--result: "aBc"
 ```
 
-#### `startswith(s, prefix, start, stop)` {#fn-startswiths-prefix-start-stop}
+#### `startswith`
 
 Return true if string starts with prefix. If prefix is a list, return true if
 any prefix matches.
 
 ```lua
-local ok = startswith("hello.lua", "he") --> true
+ok = startswith("hello.lua", "he")
+--result: true
 ```
 
-#### `title(s)` {#fn-titles}
+#### `title`
 
 Return titlecased copy.
 
 ```lua
-local s = title("hello world") --> "Hello World"
+s = title("hello world")
+--result: "Hello World"
 ```
 
-#### `translate(s, table_map)` {#fn-translates-table_map}
+#### `translate`
 
 Translate characters using a mapping table.
 
 ```lua
-local map = { [string.byte("a")] = "b", ["c"] = false }
-local s = translate("abc", map) --> "bb"
+map = { [string.byte("a")] = "b", ["c"] = false }
+s = translate("abc", map)
+--result: "bb"
 ```
 
-#### `upper(s)` {#fn-uppers}
+#### `upper`
 
 Return uppercased copy.
 
 ```lua
-local s = upper("Hello") --> "HELLO"
+s = upper("Hello")
+--result: "HELLO"
 ```
 
-#### `zfill(s, width)` {#fn-zfills-width}
+#### `zfill`
 
 Pad numeric string on the left with zeros.
 
 ```lua
-local s = zfill("42", 5) --> "00042"
+s = zfill("42", 5)
+--result: "00042"
 ```

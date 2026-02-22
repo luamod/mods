@@ -1,49 +1,27 @@
 ---
-editLinkTarget: types/repr.lua
-description: Fast, readable string rendering for Lua values and nested tables.
+desc: "Render any Lua value as a readable string."
 ---
 
-# `repr` <Badge type="warning" text="Unreleased" />
+# `repr`
 
 Render any Lua value as a readable string.
-
-## Import
-
-```lua
-local mods = require("mods.repr")
-```
 
 ## Usage
 
 ```lua
-local out = repr({
-  user = { name = "Ada", role = "Engineer" },
-  count = 3,
-  msg = 'He said "hi"',
-})
--- result:
--- {
---   count = 3,
---   msg = 'He said "hi"',
---   user = {
---     name = "Ada",
---     role = "Engineer"
---   }
--- }
+repr = require "mods.repr"
 
-out = repr({
-  user = {
-    name = "Ada",
-    meta = { role = "Engineer" },
-  },
-})
--- result:
--- {
---   user = {
---     meta = {
---       role = "Engineer"
---     },
---     name = "Ada"
---   }
--- }
+print(repr("Hello world!")) --> "Hello world!"
+
+print(repr({ user = { name = "Ada", tags = { "lua", "docs" } } }))
+--> {
+--    user = {
+--      name = "Ada",
+--      tags = {
+--        [1] = "lua",
+--        [2] = "docs"
+--      }
+--    }
+--  }
+
 ```

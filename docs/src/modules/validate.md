@@ -1,84 +1,70 @@
 ---
-description:
-  Validate Lua values and path kinds with flexible aliases and customizable
-  messages.
+desc: "Validation checks for values and filesystem path types."
 ---
 
 # `validate`
 
 Validation checks for values and filesystem path types.
 
-## Import
-
-```lua
-local mods = require("mods")
-local validate = mods.validate
-```
-
 ## Usage
 
-```lua
-local ok, err = validate.is.number("nope")
--- result: false, "expected number, got string"
+```lua [.lua]
+validate= require "mods.validate"
+
+ok, err = validate.is.number("nope")
+--> false, "expected number, got string"
 
 ok, err = validate.is_not.number(3.14)
--- result: false, "expected not number"
+--> false, "expected not number"
 ```
-
-> [!NOTE]
->
-> When called without an explicit type (`validate(v, tp)`), `validate` defaults
-> to checking `nil`. `validate()` is equivalent to `validate(nil, "nil")`, so it
-> passes. `validate(1)` is equivalent to `validate(1, "nil")`, so it fails with
-> `expected nil, got number`.
-
-<!-- Keep this line to avoid markdownlint MD028 -->
 
 > [!IMPORTANT]
 >
-> Validator access is case-insensitive.
+> Behavior without `tp`:
 >
-> - `validate.is.number`, `validate.IS.Number`, and `validate.I_s.NuMbEr` are
->   equivalent.
-> - Top-level aliases are underscore-insensitive too: `validate.is_number`,
->   `validate.IS_NUMBER`, and `validate.isnumber` are equivalent.
-> - Negated validators can be accessed as `is_not`, `isnot`, `isNot`, `not`, or
->   `Not`. Example: `validate.is_not.number`, `validate.isNot.number`,
->   `validate.isnot.number`, `validate.not.number`, `validate.is_not_number`,
->   `validate.isnotnumber`.
+> - `validate()` is equivalent to `validate(nil, "nil")` (passes)
+> - `validate(1)` is equivalent to `validate(1, "nil")` (fails with
+>   `expected nil, got number`)
+>
+> Validator access is case-insensitive:
+>
+> - `validate.is.number` and `validate.IS.Number` are equivalent.
+> - Top-level aliases are underscore-insensitive: `validate.is_number`,
+>   `validate.IS_NUMBER`, and `validate.isnumber`.
+> - Negated validators are available via `is_not`, `isnot`, `isNot`, `not`, and
+>   `Not`, including underscore-insensitive top-level aliases (for example,
+>   `validate.is_not_number` and `validate.isnotnumber`).
 
 ## Callable Forms
 
-All three are callable:
-
-- `validate(v, tp?)`
-- `validate.is(v, tp?)`
-- `validate.is_not(v, tp?)`
-
-Callable access is also alias/case flexible:
-
-- `validate.is`, `validate.IS`
-- `validate.is_not`, `validate.isnot`, `validate.isNot`, `validate.not`,
-  `validate.Not`
+`validate`, `validate.is`, and `validate.is_not` are all callable.
 
 ```lua
-local ok, err
-
-ok, err = validate(1, "number")        -- true
-ok, err = validate.is(1, "number")     -- true
-ok, err = validate.IS(1, "number")     -- true
-ok, err = validate.is_not(1, "number") -- false, "expected not number"
-ok, err = validate.Not(1, "number")    -- false, "expected not number"
+ok, err = validate(1, "number")        --> true, nil
+ok, err = validate.is("x", "string")   --> true, nil
+ok, err = validate.is_not(1, "number") --> false, "expected not number"
 ```
 
-## Quick Reference
-
-| Area                  | Common checks                                                                                                                                                                                                                                                                                                                                                                                          |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `is` (type)           | [`boolean`](#is-boolean), [`function`](#is-function), [`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string), [`table`](#is-table), [`thread`](#is-thread), [`userdata`](#is-userdata)                                                                                                                                                                                                       |
-| `is` (value)          | [`false`](#is-false), [`true`](#is-true), [`falsy`](#is-falsy), [`callable`](#is-callable), [`integer`](#is-integer), [`truthy`](#is-truthy)                                                                                                                                                                                                                                                           |
-| `is` (path)           | [`block`](#is-block), [`char`](#is-char), [`device`](#is-device), [`dir`](#is-dir), [`fifo`](#is-fifo), [`file`](#is-file), [`link`](#is-link), [`socket`](#is-socket)                                                                                                                                                                                                                                 |
-| `is_not` (type/value) | [`boolean`](#is-not-boolean), [`function`](#is-not-function), [`nil`](#is-not-nil), [`number`](#is-not-number), [`string`](#is-not-string), [`table`](#is-not-table), [`thread`](#is-not-thread), [`userdata`](#is-not-userdata), [`false`](#is-not-false), [`true`](#is-not-true), [`falsy`](#is-not-falsy), [`callable`](#is-not-callable), [`integer`](#is-not-integer), [`truthy`](#is-not-truthy) |
+> [!IMPORTANT]
+>
+> When `tp` is omitted, the default check is `"nil"`:
+>
+> - `validate()` is equivalent to `validate(nil, "nil")` (passes)
+> - `validate(1)` is equivalent to `validate(1, "nil")` (fails)
+>
+> Callable namespace aliases are case-insensitive, and negated aliases are
+> underscore-insensitive:
+>
+> - `validate.is`, `validate.IS`
+> - `validate.is_not`, `validate.isnot`, `validate.isNot`, `validate["not"]`,
+>   `validate.Not`
+>
+> ```lua
+> validate.is(1, "number")     --> true
+> validate.IS(1, "number")     --> true
+> validate.is_not(1, "number") --> false, "expected not number"
+> validate.Not(1, "number")    --> false, "expected not number"
+> ```
 
 ## Custom Messages
 
@@ -105,11 +91,11 @@ Available placeholders:
 validate.messages.positive.number = "need {{expected}}, got {{got}} (value={{value}})"
 validate.messages.negative.number = "must not be {{expected}} (value={{value}})"
 
-local ok, err = validate.is.number("x")
--- result: false, 'need number, got string (value="x")'
+ok, err = validate.is.number("x")
+--> false, 'need number, got string (value="x")'
 
 ok, err = validate.is_not.number(42)
--- result: false, "must not be number (value=42)"
+--> false, "must not be number (value=42)"
 ```
 
 ## Default Messages
@@ -144,429 +130,424 @@ validate.on_fail = function(errmsg)
   return "custom failure"
 end
 
-local ok, err = validate.number("x")
--- prints: validation failed: expected number, got string
--- result: false, "custom failure"
+ok, err = validate.number("x")
+--> prints -> validation failed: expected number, got string
+--> false, "custom failure"
 ```
 
 ## Functions
 
-### `is`
+**Type Checks**:
 
-Positive validators. These checks pass only when the value matches the expected
-type or check.
+| Function                        | Description                                                                                    |
+| ------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [`boolean`](#boolean)           | Returns `true` when `v` is a boolean. Otherwise returns `false` and an error message.          |
+| [`function`](#function)         | Returns `true` when `v` is a function. Otherwise returns `false` and an error message.         |
+| [`nil`](#nil)                   | Returns `true` when `v` is `nil`. Otherwise returns `false` and an error message.              |
+| [`number`](#number)             | Returns `true` when `v` is a number. Otherwise returns `false` and an error message.           |
+| [`string`](#string)             | Returns `true` when `v` is a string. Otherwise returns `false` and an error message.           |
+| [`table`](#table)               | Returns `true` when `v` is a table. Otherwise returns `false` and an error message.            |
+| [`thread`](#thread)             | Returns `true` when `v` is a thread. Otherwise returns `false` and an error message.           |
+| [`userdata`](#userdata)         | Returns `true` when `v` is userdata. Otherwise returns `false` and an error message.           |
+| [`not_boolean`](#not-boolean)   | Returns `true` when `v` is **not** a boolean. Otherwise returns `false` and an error message.  |
+| [`not_function`](#not-function) | Returns `true` when `v` is **not** a function. Otherwise returns `false` and an error message. |
+| [`not_nil`](#not-nil)           | Returns `true` when `v` is **not** `nil`. Otherwise returns `false` and an error message.      |
+| [`not_number`](#not-number)     | Returns `true` when `v` is **not** a number. Otherwise returns `false` and an error message.   |
+| [`not_string`](#not-string)     | Returns `true` when `v` is **not** a string. Otherwise returns `false` and an error message.   |
+| [`not_table`](#not-table)       | Returns `true` when `v` is **not** a table. Otherwise returns `false` and an error message.    |
+| [`not_thread`](#not-thread)     | Returns `true` when `v` is **not** a thread. Otherwise returns `false` and an error message.   |
+| [`not_userdata`](#not-userdata) | Returns `true` when `v` is **not** userdata. Otherwise returns `false` and an error message.   |
 
-#### Negated Type Checks
+**Value Checks**:
 
-Lua type validators for [`boolean`](#is-boolean), [`function`](#is-function),
-[`nil`](#is-nil), [`number`](#is-number), [`string`](#is-string),
-[`table`](#is-table), [`thread`](#is-thread), and [`userdata`](#is-userdata).
+| Function                        | Description                                                                                         |
+| ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [`false`](#false)               | Returns `true` when `v` is exactly `false`. Otherwise returns `false` and an error message.         |
+| [`true`](#true)                 | Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an error message.          |
+| [`falsy`](#falsy)               | Returns `true` when `v` is falsy. Otherwise returns `false` and an error message.                   |
+| [`callable`](#callable)         | Returns `true` when `v` is callable. Otherwise returns `false` and an error message.                |
+| [`integer`](#integer)           | Returns `true` when `v` is an integer. Otherwise returns `false` and an error message.              |
+| [`truthy`](#truthy)             | Returns `true` when `v` is truthy. Otherwise returns `false` and an error message.                  |
+| [`not_false`](#not-false)       | Returns `true` when `v` is **not** exactly `false`. Otherwise returns `false` and an error message. |
+| [`not_true`](#not-true)         | Returns `true` when `v` is **not** exactly `true`. Otherwise returns `false` and an error message.  |
+| [`not_falsy`](#not-falsy)       | Returns `true` when `v` is **not** falsy. Otherwise returns `false` and an error message.           |
+| [`not_callable`](#not-callable) | Returns `true` when `v` is **not** callable. Otherwise returns `false` and an error message.        |
+| [`not_integer`](#not-integer)   | Returns `true` when `v` is **not** an integer. Otherwise returns `false` and an error message.      |
+| [`not_truthy`](#not-truthy)     | Returns `true` when `v` is **not** truthy. Otherwise returns `false` and an error message.          |
 
-##### `boolean(v)` {#is-boolean}
+**Path Checks**:
 
-Returns `true` when `v` is a Lua boolean.
+| Function            | Description                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`block`](#block)   | Returns `true` when `v` is a block device path. Otherwise returns `false` and an error message.         |
+| [`char`](#char)     | Returns `true` when `v` is a char device path. Otherwise returns `false` and an error message.          |
+| [`device`](#device) | Returns `true` when `v` is a block or char device path. Otherwise returns `false` and an error message. |
+| [`dir`](#dir)       | Returns `true` when `v` is a directory path. Otherwise returns `false` and an error message.            |
+| [`fifo`](#fifo)     | Returns `true` when `v` is a FIFO path. Otherwise returns `false` and an error message.                 |
+| [`file`](#file)     | Returns `true` when `v` is a file path. Otherwise returns `false` and an error message.                 |
+| [`link`](#link)     | Returns `true` when `v` is a symlink path. Otherwise returns `false` and an error message.              |
+| [`socket`](#socket) | Returns `true` when `v` is a socket path. Otherwise returns `false` and an error message.               |
+
+### Type Checks
+
+Basic Lua type validators (and their negated variants).
+
+#### `boolean`
+
+Returns `true` when `v` is a boolean. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.boolean(true) -- true
-ok, err = validate.is.boolean(1)
--- result: false, "expected boolean, got number"
+ok, err = validate.is.boolean(true) --> true, nil
+ok, err = validate.is.boolean(1)    --> false, "expected boolean, got number"
 ```
 
-##### `function(v)` {#is-function}
+#### `function`
 
-Returns `true` when `v` is a function value.
+Returns `true` when `v` is a function. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.Function(function() end) -- true
-ok, err = validate.is.Function("hello")
--- result: false, "expected function, got string"
+ok, err = validate.is.Function(function() end) --> true, nil
+ok, err = validate.is.Function(1)              --> false, "expected function, got number"
 ```
 
-##### `nil(v)` {#is-nil}
+#### `nil`
 
-Returns `true` when `v` is `nil`.
+Returns `true` when `v` is `nil`. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.Nil(nil) -- true
-ok, err = validate.is.Nil(0)
--- result: false, "expected nil, got number"
+ok, err = validate.is.Nil(nil) --> true, nil
+ok, err = validate.is.Nil(0)   --> false, "expected nil, got number"
 ```
 
-##### `number(v)` {#is-number}
+#### `number`
 
-Returns `true` when `v` is a number.
+Returns `true` when `v` is a number. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.number(3.14) -- true
-ok, err = validate.is.number("3.14")
--- result: false, "expected number, got string"
+ok, err = validate.is.number(42)  --> true, nil
+ok, err = validate.is.number("x") --> false, "expected number, got string"
 ```
 
-##### `string(v)` {#is-string}
+#### `string`
 
-Returns `true` when `v` is a string.
+Returns `true` when `v` is a string. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.string("hello") -- true
-ok, err = validate.is.string(false)
--- result: false, "expected string, got boolean"
+ok, err = validate.is.string("hello") --> true, nil
+ok, err = validate.is.string(1)       --> false, "expected string, got number"
 ```
 
-##### `table(v)` {#is-table}
+#### `table`
 
-Returns `true` when `v` is a table.
+Returns `true` when `v` is a table. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.table({}) -- true
-ok, err = validate.is.table("x")
--- result: false, "expected table, got string"
+ok, err = validate.is.table({}) --> true, nil
+ok, err = validate.is.table(1)  --> false, "expected table, got number"
 ```
 
-##### `thread(v)` {#is-thread}
+#### `thread`
 
-Returns `true` when `v` is a coroutine thread.
+Returns `true` when `v` is a thread. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.thread(coroutine.create(function() end)) -- true
-ok, err = validate.is.thread(function() end)
--- result: false, "expected thread, got function"
+co = coroutine.create(function() end)
+ok, err = validate.is.thread(co) --> true, nil
+ok, err = validate.is.thread(1)  --> false, "expected thread, got number"
 ```
 
-##### `userdata(v)` {#is-userdata}
+#### `userdata`
 
-Returns `true` when `v` is a userdata value.
+Returns `true` when `v` is userdata. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.userdata(io.stdout) -- true
-ok, err = validate.is.userdata({})
--- result: false, "expected userdata, got table"
+ok, err = validate.is.userdata(io.stdout) --> true, nil
+ok, err = validate.is.userdata(1)         --> false, "expected userdata, got number"
 ```
 
-#### Negated Value Checks
+#### `not_boolean`
 
-Validators for common truth/value semantics.
-
-##### `false(v)` {#is-false}
-
-Returns `true` when `v` is exactly `false`.
+Returns `true` when `v` is **not** a boolean. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.False(false) -- true
-ok, err = validate.is.False(true)
--- result: false, "expected false, got true"
+ok, err = validate.is_not.boolean(1)    --> true, nil
+ok, err = validate.is_not.boolean(true) --> false, "expected not boolean"
 ```
 
-##### `true(v)` {#is-true}
+#### `not_function`
 
-Returns `true` when `v` is exactly `true`.
+Returns `true` when `v` is **not** a function. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.True(true) -- true
-ok, err = validate.is.True(false)
--- result: false, "expected true, got false"
+ok, err = validate.is_not.Function(1)              --> true, nil
+ok, err = validate.is_not.Function(function() end) --> false, "expected not function"
 ```
 
-##### `falsy(v)` {#is-falsy}
+#### `not_nil`
 
-Returns `true` when `v` is `false` or `nil`.
+Returns `true` when `v` is **not** `nil`. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.falsy(false) -- true
-ok, err = validate.is.falsy(1)
--- result: false, "expected falsy, got number"
+ok, err = validate.is_not.Nil(0)   --> true, nil
+ok, err = validate.is_not.Nil(nil) --> false, "expected not nil"
 ```
 
-##### `callable(v)` {#is-callable}
+#### `not_number`
 
-Returns `true` when `v` can be called (function or callable table).
+Returns `true` when `v` is **not** a number. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.callable(function() end) -- true
-ok, err = validate.is.callable({})
--- result: false, "expected callable, got table"
+ok, err = validate.is_not.number("x") --> true, nil
+ok, err = validate.is_not.number(42)  --> false, "expected not number"
 ```
 
-##### `integer(v)` {#is-integer}
+#### `not_string`
 
-Returns `true` when `v` is a whole number.
+Returns `true` when `v` is **not** a string. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.integer(42) -- true
-ok, err = validate.is.integer(4.2)
--- result: false, "expected integer, got 4.2"
+ok, err = validate.is_not.string(1)       --> true, nil
+ok, err = validate.is_not.string("hello") --> false, "expected not string"
 ```
 
-##### `truthy(v)` {#is-truthy}
+#### `not_table`
 
-Returns `true` when `v` is neither `false` nor `nil`.
+Returns `true` when `v` is **not** a table. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.truthy("non-empty") -- true
-ok, err = validate.is.truthy(nil)
--- result: false, "expected truthy, got nil"
+ok, err = validate.is_not.table(1)  --> true, nil
+ok, err = validate.is_not.table({}) --> false, "expected not table"
 ```
 
-#### Path Checks
+#### `not_thread`
 
-Filesystem kind validators for paths.
-
-> [!IMPORTANT]
->
-> Path checks require LuaFileSystem
-> ([`lfs`](https://github.com/lunarmodules/luafilesystem)).
->
-> These functions raise an error if `lfs` is not installed.
-
-##### `block(path)` {#is-block}
-
-Returns `true` when `path` points to a block device.
+Returns `true` when `v` is **not** a thread. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.block("/dev/sda") -- true
-ok, err = validate.is.block(false)
--- result: false, "false is not a valid block path"
-ok, err = validate.is.block("/dev/null")
--- result: false, '"/dev/null" is not a valid block path'
+co = coroutine.create(function() end)
+ok, err = validate.is_not.thread(1)  --> true, nil
+ok, err = validate.is_not.thread(co) --> false, "expected not thread"
 ```
 
-##### `char(path)` {#is-char}
+#### `not_userdata`
 
-Returns `true` when `path` points to a character device.
+Returns `true` when `v` is **not** userdata. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.char("/dev/null") -- true
-ok, err = validate.is.char(nil)
--- result: false, "nil is not a valid char path"
-ok, err = validate.is.char("/tmp")
--- result: false, '"/tmp" is not a valid char path'
+ok, err = validate.is_not.userdata(1)         --> true, nil
+ok, err = validate.is_not.userdata(io.stdout) --> false, "expected not userdata"
 ```
 
-##### `device(path)` {#is-device}
+### Value Checks
 
-Returns `true` when `path` points to any device node.
+Value-state validators (exact true/false, truthy/falsy, callable, integer).
+
+#### `false`
+
+Returns `true` when `v` is exactly `false`. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.device("/dev/null") -- true
-ok, err = validate.is.device(true)
--- result: false, "true is not a valid device path"
-ok, err = validate.is.device("README.md")
--- result: false, '"README.md" is not a valid device path'
+ok, err = validate.is.False(false) --> true, nil
+ok, err = validate.is.False(true)  --> false, "expected false, got true"
 ```
 
-##### `dir(path)` {#is-dir}
+#### `true`
 
-Returns `true` when `path` points to a directory.
+Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is.dir("/tmp") -- true
-ok, err = validate.is.dir(0)
--- result: false, "0 is not a valid dir path"
-ok, err = validate.is.dir("README.md")
--- result: false, '"README.md" is not a valid dir path'
+ok, err = validate.is.True(true)  --> true, nil
+ok, err = validate.is.True(false) --> false, "expected true, got false"
 ```
 
-##### `fifo(path)` {#is-fifo}
+#### `falsy`
 
-Returns `true` when `path` points to a FIFO (named pipe).
+Returns `true` when `v` is falsy. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.fifo("/path/to/fifo") -- true
-ok, err = validate.is.fifo(7)
--- result: false, "7 is not a valid fifo path"
-ok, err = validate.is.fifo("README.md")
--- result: false, '"README.md" is not a valid fifo path'
+ok, err = validate.is.falsy(false) --> true, nil
+ok, err = validate.is.falsy(1)     --> false, "expected falsy, got number"
 ```
 
-##### `file(path)` {#is-file}
+#### `callable`
 
-Returns `true` when `path` points to a regular file.
+Returns `true` when `v` is callable. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.file("README.md") -- true
-ok, err = validate.is.file(42)
--- result: false, "42 is not a valid file path"
-ok, err = validate.is.file("src")
--- result: false, '"src" is not a valid file path'
+ok, err = validate.is.callable(type) --> true, nil
+ok, err = validate.is.callable(1)    --> false, "expected callable, got number"
 ```
 
-##### `link(path)` {#is-link}
+#### `integer`
 
-Returns `true` when `path` points to a symbolic link.
+Returns `true` when `v` is an integer. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.link("/path/to/link") -- true
-ok, err = validate.is.link(99)
--- result: false, "99 is not a valid link path"
-ok, err = validate.is.link("README.md")
--- result: false, '"README.md" is not a valid link path'
+ok, err = validate.is.integer(1)   --> true, nil
+ok, err = validate.is.integer(1.5) --> false, "expected integer, got 1.5"
 ```
 
-##### `socket(path)` {#is-socket}
+#### `truthy`
 
-Returns `true` when `path` points to a socket.
+Returns `true` when `v` is truthy. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is.socket("/path/to/socket") -- true
-ok, err = validate.is.socket(500)
--- result: false, "500 is not a valid socket path"
-ok, err = validate.is.socket("README.md")
--- result: false, '"README.md" is not a valid socket path'
+ok, err = validate.is.truthy(1)     --> true, nil
+ok, err = validate.is.truthy(false) --> false, "expected truthy, got boolean"
 ```
 
-### `is_not`
+#### `not_false`
 
-Negated validators. These checks pass only when the value does not match the
-expected type or check.
-
-> [!IMPORTANT]
->
-> `is_not` supports type and value checks. Path checks are available on
-> [`is`](#is) only.
-
-#### Type Checks
-
-Negated Lua type validators.
-
-##### `boolean(v)` {#is-not-boolean}
-
-Returns `true` when `v` is not a Lua boolean.
+Returns `true` when `v` is **not** exactly `false`. Otherwise returns `false`
+and an error message.
 
 ```lua
-local ok, err = validate.is_not.boolean(123) -- true
-ok, err = validate.is_not.boolean(true)
--- result: false, "expected not boolean"
+ok, err = validate.is_not.False(true)  --> true, nil
+ok, err = validate.is_not.False(false) --> false, "expected not false"
 ```
 
-##### `function(v)` {#is-not-function}
+#### `not_true`
 
-Returns `true` when `v` is not a function value.
+Returns `true` when `v` is **not** exactly `true`. Otherwise returns `false` and
+an error message.
 
 ```lua
-local ok, err = validate.is_not.Function("abc") -- true
-ok, err = validate.is_not.Function(function() end)
--- result: false, "expected not function"
+ok, err = validate.is_not.True(false) --> true, nil
+ok, err = validate.is_not.True(true)  --> false, "expected not true"
 ```
 
-##### `nil(v)` {#is-not-nil}
+#### `not_falsy`
 
-Returns `true` when `v` is not `nil`.
+Returns `true` when `v` is **not** falsy. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is_not.Nil(123) -- true
-ok, err = validate.is_not.Nil(nil)
--- result: false, "expected not nil"
+ok, err = validate.is_not.falsy(1)     --> true, nil
+ok, err = validate.is_not.falsy(false) --> false, "expected not falsy"
 ```
 
-##### `number(v)` {#is-not-number}
+#### `not_callable`
 
-Returns `true` when `v` is not a number.
+Returns `true` when `v` is **not** callable. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is_not.number("3.14") -- true
-ok, err = validate.is_not.number(3.14)
--- result: false, "expected not number"
+ok, err = validate.is_not.callable(1)              --> true, nil
+ok, err = validate.is_not.callable(function() end) --> false, "expected not callable"
 ```
 
-##### `string(v)` {#is-not-string}
+#### `not_integer`
 
-Returns `true` when `v` is not a string.
+Returns `true` when `v` is **not** an integer. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is_not.string(false) -- true
-ok, err = validate.is_not.string("hello")
--- result: false, "expected not string"
+ok, err = validate.is_not.integer(1.5) --> true, nil
+ok, err = validate.is_not.integer(1)   --> false, "expected non-integer, got 1"
 ```
 
-##### `table(v)` {#is-not-table}
+#### `not_truthy`
 
-Returns `true` when `v` is not a table.
+Returns `true` when `v` is **not** truthy. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is_not.table(false) -- true
-ok, err = validate.is_not.table({})
--- result: false, "expected not table"
+ok, err = validate.is_not.truthy(false) --> true, nil
+ok, err = validate.is_not.truthy(1)     --> false, "expected not truthy"
 ```
 
-##### `thread(v)` {#is-not-thread}
+### Path Checks
 
-Returns `true` when `v` is not a coroutine thread.
+#### `block`
+
+Returns `true` when `v` is a block device path. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is_not.thread(function() end) -- true
-ok, err = validate.is_not.thread(coroutine.create(function() end))
--- result: false, "expected not thread"
+ok, err = validate.is.block(".")
 ```
 
-##### `userdata(v)` {#is-not-userdata}
+#### `char`
 
-Returns `true` when `v` is not a userdata value.
+Returns `true` when `v` is a char device path. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is_not.userdata({}) -- true
-ok, err = validate.is_not.userdata(io.stdout)
--- result: false, "expected not userdata"
+ok, err = validate.is.char(".")
 ```
 
-#### Value Checks
+#### `device`
 
-Negated validators for common truth/value semantics.
-
-##### `false(v)` {#is-not-false}
-
-Returns `true` when `v` is not exactly `false`.
+Returns `true` when `v` is a block or char device path. Otherwise returns
+`false` and an error message.
 
 ```lua
-local ok, err = validate.is_not.False(true) -- true
-ok, err = validate.is_not.False(false)
--- result: false, "expected not false"
+ok, err = validate.is.device(".")
 ```
 
-##### `true(v)` {#is-not-true}
+#### `dir`
 
-Returns `true` when `v` is not exactly `true`.
+Returns `true` when `v` is a directory path. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is_not.True(false) -- true
-ok, err = validate.is_not.True(true)
--- result: false, "expected not true"
+ok, err = validate.is.dir(".")
 ```
 
-##### `falsy(v)` {#is-not-falsy}
+#### `fifo`
 
-Returns `true` when `v` is neither `false` nor `nil`.
+Returns `true` when `v` is a FIFO path. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is_not.falsy(true) -- true
-ok, err = validate.is_not.falsy(nil)
--- result: false, "expected not falsy"
+ok, err = validate.is.fifo(".")
 ```
 
-##### `callable(v)` {#is-not-callable}
+#### `file`
 
-Returns `true` when `v` cannot be called.
+Returns `true` when `v` is a file path. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is_not.callable({}) -- true
-ok, err = validate.is_not.callable(function() end)
--- result: false, "expected not callable"
+ok, err = validate.is.file(".")
 ```
 
-##### `integer(v)` {#is-not-integer}
+#### `link`
 
-Returns `true` when `v` is not a whole number.
+Returns `true` when `v` is a symlink path. Otherwise returns `false` and an
+error message.
 
 ```lua
-local ok, err = validate.is_not.integer(13.4) -- true
-ok, err = validate.is_not.integer(13)
--- result: false, "expected non-integer, got 13"
+ok, err = validate.is.link(".")
 ```
 
-##### `truthy(v)` {#is-not-truthy}
+#### `socket`
 
-Returns `true` when `v` is `false` or `nil`.
+Returns `true` when `v` is a socket path. Otherwise returns `false` and an error
+message.
 
 ```lua
-local ok, err = validate.is_not.truthy(nil) -- true
-ok, err = validate.is_not.truthy(1)
--- result: false, "expected not truthy"
+ok, err = validate.is.socket(".")
 ```
