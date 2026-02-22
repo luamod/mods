@@ -21,3 +21,4 @@ jobs:
       types_dir: types
       output_dir: docs/src/modules
       export_script: scripts/export.lua
+      exclude: "mods.lua"
