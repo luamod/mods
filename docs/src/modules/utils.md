@@ -1,33 +1,26 @@
 ---
-description: Common utility helpers.
+desc: "Small shared utility helpers used by modules in this library."
 ---
 
 # `utils`
 
-Common utility helpers.
+Small shared utility helpers used by modules in this library.
 
-## Import
+## Usage
 
 ```lua
-local utils = require("mods.utils")
+utils = require "mods.utils"
+
+print(utils.quote('hello "world"')) --> 'hello "world"'
 ```
-
-## Quick Reference
-
-| Function                               | Description                                           |
-| -------------------------------------- | ----------------------------------------------------- |
-| [`quote(v)`](#fn-quotev)               | Smart-quotes a string for readable Lua-like output.   |
 
 ## Functions
 
-### `quote(v)` {#fn-quotev}
+### `quote`
 
-Smart-quotes a string for readable Lua-like output.
+Smart-quote a string for readable Lua-like output.
 
 ```lua
-print(utils.quote('He said "hi"'))
--- 'He said "hi"'
-
-print(utils.quote([[say "hi" and 'bye']]))
--- "say \"hi\" and 'bye'"
+print(utils.quote('He said "hi"')) -- 'He said "hi"'
+print(utils.quote('say "hi" and \\'bye\\'')) -- "say \"hi\" and 'bye'"
 ```
