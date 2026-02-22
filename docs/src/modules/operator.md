@@ -1,513 +1,260 @@
 ---
-description:
-  Operator helpers exposed as functions for arithmetic, comparison, logic, and
-  indexing.
+desc: "Operator helpers as functions."
 ---
 
 # `operator`
 
 Operator helpers as functions.
 
-## Quick Reference
+## Usage
 
-**Arithmetic**:
+```lua
+operator = require "mods.operator"
 
-| Function                    | Description                                   |
-| --------------------------- | --------------------------------------------- |
-| [`add(a, b)`](#fn-adda-b)   | Returns `a + b`.                              |
-| [`sub(a, b)`](#fn-suba-b)   | Returns `a - b`.                              |
-| [`mul(a, b)`](#fn-mula-b)   | Returns `a * b`.                              |
-| [`div(a, b)`](#fn-diva-b)   | Returns `a / b`.                              |
-| [`idiv(a, b)`](#fn-idiva-b) | Returns integer division `math.floor(a / b)`. |
-| [`mod(a, b)`](#fn-moda-b)   | Returns `a % b`.                              |
-| [`pow(a, b)`](#fn-powa-b)   | Returns `a ^ b`.                              |
-| [`unm(a)`](#fn-unma)        | Returns `-a`.                                 |
-
-**Comparison**:
-
-| Function                  | Description       |
-| ------------------------- | ----------------- |
-| [`eq(a, b)`](#fn-eqa-b)   | Returns `a == b`. |
-| [`neq(a, b)`](#fn-neqa-b) | Returns `a ~= b`. |
-| [`lt(a, b)`](#fn-lta-b)   | Returns `a < b`.  |
-| [`le(a, b)`](#fn-lea-b)   | Returns `a <= b`. |
-| [`gt(a, b)`](#fn-gta-b)   | Returns `a > b`.  |
-| [`ge(a, b)`](#fn-gea-b)   | Returns `a >= b`. |
-
-**Logical**:
-
-| Function                    | Description        |
-| --------------------------- | ------------------ |
-| [`land(a, b)`](#fn-landa-b) | Returns `a and b`. |
-| [`lor(a, b)`](#fn-lora-b)   | Returns `a or b`.  |
-| [`lnot(a)`](#fn-lnota)      | Returns `not a`.   |
-
-**String & Length**:
-
-| Function                        | Description       |
-| ------------------------------- | ----------------- |
-| [`concat(a, b)`](#fn-concata-b) | Returns `a .. b`. |
-| [`len(a)`](#fn-lena)            | Returns `#a`.     |
-
-**Tables & Calls**:
-
-| Function                                 | Description                      |
-| ---------------------------------------- | -------------------------------- |
-| [`index(t, k)`](#fn-indext-k)            | Returns `t[k]`.                  |
-| [`setindex(t, k, v)`](#fn-setindext-k-v) | Sets `t[k] = v` and returns `v`. |
-| [`call(f, ...)`](#fn-callf-varargs)      | Calls `f(...)`.                  |
+print(operator.add(1, 2)) -->> 3
+```
 
 ## Functions
 
+**Arithmetic**:
+
+| Function        | Description                                                        |
+| --------------- | ------------------------------------------------------------------ |
+| [`add`](#add)   | Add two numbers.                                                   |
+| [`sub`](#sub)   | Subtract `b` from `a`.                                             |
+| [`mul`](#mul)   | Multiply two numbers.                                              |
+| [`div`](#div)   | Divide `a` by `b` using Lua's floating-point division.             |
+| [`idiv`](#idiv) | Divide `a` by `b` and return the integer quotient (`//` behavior). |
+| [`mod`](#mod)   | Return the modulo remainder of `a` divided by `b`.                 |
+| [`pow`](#pow)   | Raise `a` to the power of `b`.                                     |
+| [`unm`](#unm)   | Negate a number.                                                   |
+
+**Comparison**:
+
+| Function      | Description                                        |
+| ------------- | -------------------------------------------------- |
+| [`eq`](#eq)   | Check whether two values are equal.                |
+| [`neq`](#neq) | Check whether two values are not equal.            |
+| [`lt`](#lt)   | Check whether `a` is strictly less than `b`.       |
+| [`le`](#le)   | Check whether `a` is less than or equal to `b`.    |
+| [`gt`](#gt)   | Check whether `a` is strictly greater than `b`.    |
+| [`ge`](#ge)   | Check whether `a` is greater than or equal to `b`. |
+
+**Logical**:
+
+| Function        | Description                                          |
+| --------------- | ---------------------------------------------------- |
+| [`land`](#land) | Evaluate `a and b` with Lua short-circuit semantics. |
+| [`lor`](#lor)   | Evaluate `a or b` with Lua short-circuit semantics.  |
+| [`lnot`](#lnot) | Return the boolean negation of `a`.                  |
+
+**String & Length**:
+
+| Function            | Description                                                      |
+| ------------------- | ---------------------------------------------------------------- |
+| [`concat`](#concat) | Concatenate two strings.                                         |
+| [`len`](#len)       | Return the length of a string or table using Lua's `#` operator. |
+
+**Tables & Calls**:
+
+| Function                | Description                                                    |
+| ----------------------- | -------------------------------------------------------------- |
+| [`index`](#index)       | Return the value at key/index `k` in table `t`.                |
+| [`setindex`](#setindex) | Set `t[k] = v` and return the assigned value.                  |
+| [`call`](#call)         | Call a function with variadic arguments and return its result. |
+
 ### Arithmetic
 
-#### `add(a, b)` {#fn-adda-b}
+Numeric arithmetic operators as functions.
 
-Returns `a + b`.
+#### `add`
 
-::: code-group
+Add two numbers.
 
-```lua [example.lua]
-add(1, 2) -- 3
+```lua
+add(1, 2) --> 3
 ```
 
-```lua [signature.lua]
----@param a number
----@param b number
----@return number sum
----@nodiscard
-function add(a, b) end
+#### `sub`
+
+Subtract `b` from `a`.
+
+```lua
+sub(5, 3) --> 2
 ```
 
-:::
+#### `mul`
 
-#### `sub(a, b)` {#fn-suba-b}
+Multiply two numbers.
 
-Returns `a - b`.
-
-::: code-group
-
-```lua [example.lua]
-sub(5, 3) -- 2
+```lua
+mul(3, 4) --> 12
 ```
 
-```lua [signature.lua]
----@param a number
----@param b number
----@return number difference
----@nodiscard
-function sub(a, b) end
+#### `div`
+
+Divide `a` by `b` using Lua's floating-point division.
+
+```lua
+div(10, 4) --> 2.5
 ```
 
-:::
+#### `idiv`
 
-#### `mul(a, b)` {#fn-mula-b}
+Divide `a` by `b` and return the integer quotient (`//` behavior).
 
-Returns `a * b`.
-
-::: code-group
-
-```lua [example.lua]
-mul(3, 4) -- 12
+```lua
+idiv(5, 2) --> 2
 ```
 
-```lua [signature.lua]
----@param a number
----@param b number
----@return number product
----@nodiscard
-function mul(a, b) end
+#### `mod`
+
+Return the modulo remainder of `a` divided by `b`.
+
+```lua
+mod(5, 2) --> 1
 ```
 
-:::
+#### `pow`
 
-#### `div(a, b)` {#fn-diva-b}
+Raise `a` to the power of `b`.
 
-Returns `a / b`.
-
-::: code-group
-
-```lua [example.lua]
-div(10, 4) -- 2.5
+```lua
+pow(2, 4) --> 16
 ```
 
-```lua [signature.lua]
----@param a number
----@param b number
----@return number quotient
----@nodiscard
-function div(a, b) end
+#### `unm`
+
+Negate a number.
+
+```lua
+unm(3) --> -3
 ```
-
-:::
-
-#### `idiv(a, b)` {#fn-idiva-b}
-
-Returns integer division `math.floor(a / b)`.
-
-::: code-group
-
-```lua [example.lua]
-idiv(5, 2) -- 2
-```
-
-```lua [signature.lua]
----@param a number
----@param b number
----@return integer quotient
----@nodiscard
-function idiv(a, b) end
-```
-
-:::
-
-#### `mod(a, b)` {#fn-moda-b}
-
-Returns `a % b`.
-
-::: code-group
-
-```lua [example.lua]
-mod(5, 2) -- 1
-```
-
-```lua [signature.lua]
----@param a number
----@param b number
----@return number remainder
----@nodiscard
-function mod(a, b) end
-```
-
-:::
-
-#### `pow(a, b)` {#fn-powa-b}
-
-Returns `a ^ b`.
-
-::: code-group
-
-```lua [example.lua]
-pow(2, 4) -- 16
-```
-
-```lua [signature.lua]
----@param a number
----@param b number
----@return number power
----@nodiscard
-function pow(a, b) end
-```
-
-:::
-
-#### `unm(a)` {#fn-unma}
-
-Returns `-a`.
-
-::: code-group
-
-```lua [example.lua]
-unm(3) -- -3
-```
-
-```lua [signature.lua]
----@param a number
----@return number negated
----@nodiscard
-function unm(a) end
-```
-
-:::
 
 ### Comparison
 
-#### `eq(a, b)` {#fn-eqa-b}
+Equality and ordering comparison operators.
 
-Returns `a == b`.
+#### `eq`
 
-::: code-group
+Check whether two values are equal.
 
-```lua [example.lua]
-eq(1, 1) -- true
+```lua
+eq(1, 1) --> true
 ```
 
-```lua [signature.lua]
----@param a any
----@param b any
----@return boolean isEqual
----@nodiscard
-function eq(a, b) end
+#### `neq`
+
+Check whether two values are not equal.
+
+```lua
+neq(1, 2) --> true
 ```
 
-:::
+#### `lt`
 
-#### `neq(a, b)` {#fn-neqa-b}
+Check whether `a` is strictly less than `b`.
 
-Returns `a ~= b`.
-
-::: code-group
-
-```lua [example.lua]
-neq(1, 2) -- true
+```lua
+lt(1, 2) --> true
 ```
 
-```lua [signature.lua]
----@param a any
----@param b any
----@return boolean isNotEqual
----@nodiscard
-function neq(a, b) end
+#### `le`
+
+Check whether `a` is less than or equal to `b`.
+
+```lua
+lte(2, 2) --> true
 ```
 
-:::
+#### `gt`
 
-#### `lt(a, b)` {#fn-lta-b}
+Check whether `a` is strictly greater than `b`.
 
-Returns `a < b`.
-
-::: code-group
-
-```lua [example.lua]
-lt(1, 2) -- true
+```lua
+gt(3, 2) --> true
 ```
 
-```lua [signature.lua]
----@param a number
----@param b number
----@return boolean isLess
----@nodiscard
-function lt(a, b) end
+#### `ge`
+
+Check whether `a` is greater than or equal to `b`.
+
+```lua
+gte(2, 2) --> true
 ```
-
-:::
-
-#### `le(a, b)` {#fn-lea-b}
-
-Returns `a <= b`.
-
-::: code-group
-
-```lua [example.lua]
-lte(2, 2) -- true
-```
-
-```lua [signature.lua]
----@param a number
----@param b number
----@return boolean isLessOrEqual
----@nodiscard
-function le(a, b) end
-```
-
-:::
-
-#### `gt(a, b)` {#fn-gta-b}
-
-Returns `a > b`.
-
-::: code-group
-
-```lua [example.lua]
-gt(3, 2) -- true
-```
-
-```lua [signature.lua]
----@param a number
----@param b number
----@return boolean isGreater
----@nodiscard
-function gt(a, b) end
-```
-
-:::
-
-#### `ge(a, b)` {#fn-gea-b}
-
-Returns `a >= b`.
-
-::: code-group
-
-```lua [example.lua]
-gte(2, 2) -- true
-```
-
-```lua [signature.lua]
----@param a number
----@param b number
----@return boolean isGreaterOrEqual
----@nodiscard
-function ge(a, b) end
-```
-
-:::
 
 ### Logical
 
-#### `land(a, b)` {#fn-landa-b}
+Boolean logic operators with Lua truthiness semantics.
 
-Returns `a and b`.
+#### `land`
 
-::: code-group
+Evaluate `a and b` with Lua short-circuit semantics.
 
-```lua [example.lua]
-land(true, false) -- false
+```lua
+land(true, false) --> false
 ```
 
-```lua [signature.lua]
----@generic T1,T2
----@param a T1
----@param b T2
----@return T1|T2 andValue
----@nodiscard
-function land(a, b) end
+#### `lor`
+
+Evaluate `a or b` with Lua short-circuit semantics.
+
+```lua
+lor(false, true) --> true
 ```
 
-:::
+#### `lnot`
 
-#### `lor(a, b)` {#fn-lora-b}
+Return the boolean negation of `a`.
 
-Returns `a or b`.
-
-::: code-group
-
-```lua [example.lua]
-lor(false, true) -- true
+```lua
+lnot(true) --> false
 ```
-
-```lua [signature.lua]
----@generic T1,T2
----@param a T1
----@param b T2
----@return T1|T2 orValue
----@nodiscard
-function lor(a, b) end
-```
-
-:::
-
-#### `lnot(a)` {#fn-lnota}
-
-Returns `not a`.
-
-::: code-group
-
-```lua [example.lua]
-lnot(true) -- false
-```
-
-```lua [signature.lua]
----@param a any
----@return boolean isNot
----@nodiscard
-function lnot(a) end
-```
-
-:::
 
 ### String & Length
 
-#### `concat(a, b)` {#fn-concata-b}
+String concatenation and length operators.
 
-Returns `a .. b`.
+#### `concat`
 
-::: code-group
+Concatenate two strings.
 
-```lua [example.lua]
-concat("a", "b") -- "ab"
+```lua
+concat("a", "b") --> "ab"
 ```
 
-```lua [signature.lua]
----@param a string
----@param b string
----@return string concatenated
----@nodiscard
-function concat(a, b) end
+#### `len`
+
+Return the length of a string or table using Lua's `#` operator.
+
+```lua
+len("abc") --> 3
 ```
-
-:::
-
-#### `len(a)` {#fn-lena}
-
-Returns `#a`.
-
-::: code-group
-
-```lua [example.lua]
-len("abc") -- 3
-```
-
-```lua [signature.lua]
----@param a string|table
----@return integer length
----@nodiscard
-function len(a) end
-```
-
-:::
 
 ### Tables & Calls
 
-#### `index(t, k)` {#fn-indext-k}
+Table indexing helpers and function invocation.
 
-Returns `t[k]`.
+#### `index`
 
-::: code-group
+Return the value at key/index `k` in table `t`.
 
-```lua [example.lua]
-index({ a = 1 }, "a") -- 1
+```lua
+index({ a = 1 }, "a") --> 1
 ```
 
-```lua [signature.lua]
----@generic T
----@param t table
----@param k T
----@return T value
----@nodiscard
-function index(t, k) end
+#### `setindex`
+
+Set `t[k] = v` and return the assigned value.
+
+```lua
+setindex({}, "a", 1) --> 1
 ```
 
-:::
+#### `call`
 
-#### `setindex(t, k, v)` {#fn-setindext-k-v}
+Call a function with variadic arguments and return its result.
 
-Sets `t[k] = v` and returns `v`.
-
-::: code-group
-
-```lua [example.lua]
-setindex({}, "a", 1) -- 1
+```lua
+call(math.max, 1, 2) --> 2
 ```
-
-```lua [signature.lua]
----@generic T
----@param t table
----@param k any
----@param v T
----@return T value
----@nodiscard
-function setindex(t, k, v) end
-```
-
-:::
-
-#### `call(f, ...)` {#fn-callf-varargs}
-
-Calls `f(...)`.
-
-::: code-group
-
-```lua [example.lua]
-call(math.max, 1, 2) -- 2
-```
-
-```lua [signature.lua]
----@generic T,T2
----@param f fun(...:T):T2
----@param ... T
----@return T2 result
----@nodiscard
-function call(f, ...) end
-```
-
-:::

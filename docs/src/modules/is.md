@@ -1,211 +1,212 @@
 ---
-description:
-  Type, truthiness, callable, and filesystem path predicates for Lua values.
+desc: "Type predicates for Lua values and filesystem path kinds."
 ---
 
 # `is`
 
-Type predicates for Lua values and filesystem paths.
-
-## Import
-
-```lua
-local mods = require("mods")
-local is = mods.is
-```
+Type predicates for Lua values and filesystem path kinds.
 
 ## Usage
 
 ```lua
-local ok
+is = require "mods.is"
 
-ok = is.number(3.14) --> true
+ok = is.number(3.14)       --> true
 ok = is("hello", "string") --> true
-ok = is.Table({}) --> true
+ok = is.table({})          --> true
 ```
 
-> [!NOTE]
+> [!NOTE] Function names exist in both lowercase and capitalized forms, and `is`
+> is also callable as `is(v, tp)`.
 >
-> - Function names exist in both lowercase and capitalized forms (for example,
->   `is.table` or `is.Table`).
-> - `is` is callable as `is(v, tp)` where `v` is the value and `tp` is any
->   supported type name.
-
-## Quick Reference
-
-**Type Checks**:
-
-| Function                       | Description                            |
-| ------------------------------ | -------------------------------------- |
-| [`boolean(v)`](#fn-booleanv)   | Returns `true` when `v` is a boolean.  |
-| [`Function(v)`](#fn-functionv) | Returns `true` when `v` is a function. |
-| [`Nil(v)`](#fn-nilv)           | Returns `true` when `v` is `nil`.      |
-| [`number(v)`](#fn-numberv)     | Returns `true` when `v` is a number.   |
-| [`string(v)`](#fn-stringv)     | Returns `true` when `v` is a string.   |
-| [`table(v)`](#fn-tablev)       | Returns `true` when `v` is a table.    |
-| [`thread(v)`](#fn-threadv)     | Returns `true` when `v` is a thread.   |
-| [`userdata(v)`](#fn-userdatav) | Returns `true` when `v` is userdata.   |
-
-**Value Checks**:
-
-| Function                       | Description                                 |
-| ------------------------------ | ------------------------------------------- |
-| [`False(v)`](#fn-falsev)       | Returns `true` when `v` is exactly `false`. |
-| [`True(v)`](#fn-truev)         | Returns `true` when `v` is exactly `true`.  |
-| [`falsy(v)`](#fn-falsyv)       | Returns `true` when `v` is falsy.           |
-| [`callable(v)`](#fn-callablev) | Returns `true` when `v` is callable.        |
-| [`integer(v)`](#fn-integerv)   | Returns `true` when `v` is an integer.      |
-| [`truthy(v)`](#fn-truthyv)     | Returns `true` when `v` is truthy.          |
-
-**Path Checks**:
-
-| Function                   | Description                                             |
-| -------------------------- | ------------------------------------------------------- |
-| [`block(v)`](#fn-blockv)   | Returns `true` when `v` is a block device path.         |
-| [`char(v)`](#fn-charv)     | Returns `true` when `v` is a char device path.          |
-| [`device(v)`](#fn-devicev) | Returns `true` when `v` is a block or char device path. |
-| [`dir(v)`](#fn-dirv)       | Returns `true` when `v` is a directory path.            |
-| [`fifo(v)`](#fn-fifov)     | Returns `true` when `v` is a FIFO path.                 |
-| [`file(v)`](#fn-filev)     | Returns `true` when `v` is a file path.                 |
-| [`link(v)`](#fn-linkv)     | Returns `true` when `v` is a symlink path.              |
-| [`socket(v)`](#fn-socketv) | Returns `true` when `v` is a socket path.               |
+> ```lua
+> is.table({})          --> true
+> is.Table({})          --> true
+> is("hello", "string") --> true
+> is("hello", "String") --> true
+> ```
 
 ## Functions
 
+**Type Checks**:
+
+| Function                | Description                            |
+| ----------------------- | -------------------------------------- |
+| [`boolean`](#boolean)   | Returns `true` when `v` is a boolean.  |
+| [`Function`](#function) | Returns `true` when `v` is a function. |
+| [`Nil`](#nil)           | Returns `true` when `v` is `nil`.      |
+| [`number`](#number)     | Returns `true` when `v` is a number.   |
+| [`string`](#string)     | Returns `true` when `v` is a string.   |
+| [`table`](#table)       | Returns `true` when `v` is a table.    |
+| [`thread`](#thread)     | Returns `true` when `v` is a thread.   |
+| [`userdata`](#userdata) | Returns `true` when `v` is userdata.   |
+
+**Value Checks**:
+
+| Function                | Description                                 |
+| ----------------------- | ------------------------------------------- |
+| [`False`](#false)       | Returns `true` when `v` is exactly `false`. |
+| [`True`](#true)         | Returns `true` when `v` is exactly `true`.  |
+| [`falsy`](#falsy)       | Returns `true` when `v` is falsy.           |
+| [`callable`](#callable) | Returns `true` when `v` is callable.        |
+| [`integer`](#integer)   | Returns `true` when `v` is an integer.      |
+| [`truthy`](#truthy)     | Returns `true` when `v` is truthy.          |
+
+**Path Checks**:
+
+| Function            | Description                                             |
+| ------------------- | ------------------------------------------------------- |
+| [`block`](#block)   | Returns `true` when `v` is a block device path.         |
+| [`char`](#char)     | Returns `true` when `v` is a char device path.          |
+| [`device`](#device) | Returns `true` when `v` is a block or char device path. |
+| [`dir`](#dir)       | Returns `true` when `v` is a directory path.            |
+| [`fifo`](#fifo)     | Returns `true` when `v` is a FIFO path.                 |
+| [`file`](#file)     | Returns `true` when `v` is a file path.                 |
+| [`link`](#link)     | Returns `true` when `v` is a symlink path.              |
+| [`socket`](#socket) | Returns `true` when `v` is a socket path.               |
+
 ### Type Checks
 
-#### `boolean(v)` {#fn-booleanv}
+Core Lua type checks (`type(v)` family).
+
+#### `boolean`
 
 Returns `true` when `v` is a boolean.
 
 ```lua
-is.boolean(true) --> true
+is.boolean(true)
 ```
 
-#### `Function(v)` {#fn-functionv}
+#### `Function`
 
 Returns `true` when `v` is a function.
 
 ```lua
-is.Function(function() end) --> true
+is.Function(function() end)
 ```
 
-#### `Nil(v)` {#fn-nilv}
+#### `Nil`
 
 Returns `true` when `v` is `nil`.
 
 ```lua
-is.Nil(nil) --> true
+is.Nil(nil)
 ```
 
-#### `number(v)` {#fn-numberv}
+#### `number`
 
 Returns `true` when `v` is a number.
 
 ```lua
-is.number(3.14) --> true
+is.number(3.14)
 ```
 
-#### `string(v)` {#fn-stringv}
+#### `string`
 
 Returns `true` when `v` is a string.
 
 ```lua
-is.string("hello") --> true
+is.string("hello")
 ```
 
-#### `table(v)` {#fn-tablev}
+#### `table`
 
 Returns `true` when `v` is a table.
 
 ```lua
-is.table({}) --> true
+is.table({})
 ```
 
-#### `thread(v)` {#fn-threadv}
+#### `thread`
 
 Returns `true` when `v` is a thread.
 
 ```lua
-is.thread(coroutine.create(function() end)) --> true
+is.thread(coroutine.create(function() end))
 ```
 
-#### `userdata(v)` {#fn-userdatav}
+#### `userdata`
 
 Returns `true` when `v` is userdata.
 
 ```lua
-is.userdata(io.stdout) --> true
+is.userdata(io.stdout)
 ```
 
 ### Value Checks
 
-#### `False(v)` {#fn-falsev}
+Truthiness, exact-value, and callable checks.
+
+#### `False`
 
 Returns `true` when `v` is exactly `false`.
 
 ```lua
-is.False(false) --> true
+is.False(false)
 ```
 
-#### `True(v)` {#fn-truev}
+#### `True`
 
 Returns `true` when `v` is exactly `true`.
 
 ```lua
-is.True(true) --> true
+is.True(true)
 ```
 
-#### `falsy(v)` {#fn-falsyv}
+#### `falsy`
 
 Returns `true` when `v` is falsy.
 
 ```lua
-is.falsy(false) --> true
+is.falsy(false)
 ```
 
-#### `callable(v)` {#fn-callablev}
+#### `callable`
 
 Returns `true` when `v` is callable.
 
 ```lua
-is.callable(function() end) --> true
+is.callable(function() end)
 ```
 
-#### `integer(v)` {#fn-integerv}
+#### `integer`
 
 Returns `true` when `v` is an integer.
 
 ```lua
-is.integer(42) --> true
+is.integer(42)
 ```
 
-#### `truthy(v)` {#fn-truthyv}
+#### `truthy`
 
 Returns `true` when `v` is truthy.
 
 ```lua
-is.truthy("non-empty") --> true
+is.truthy("non-empty")
 ```
 
 ### Path Checks
 
+Filesystem path kind checks.
+
 > [!IMPORTANT]
 >
 > Path checks require **LuaFileSystem**
-> ([`lfs`](https://github.com/lunarmodules/luafilesystem)).
->
-> These functions raise an error if `lfs` is not installed.
+> ([`lfs`](https://github.com/lunarmodules/luafilesystem)) and raise an error it
+> is not installed.
 
-#### `block(v)` {#fn-blockv}
+#### `block`
 
 Returns `true` when `v` is a block device path.
+
+Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not
+installed.
 
 ```lua
 is.block("/dev/sda")
 ```
 
-#### `char(v)` {#fn-charv}
+#### `char`
 
 Returns `true` when `v` is a char device path.
 
@@ -213,7 +214,7 @@ Returns `true` when `v` is a char device path.
 is.char("/dev/null")
 ```
 
-#### `device(v)` {#fn-devicev}
+#### `device`
 
 Returns `true` when `v` is a block or char device path.
 
@@ -221,7 +222,7 @@ Returns `true` when `v` is a block or char device path.
 is.device("/dev/null")
 ```
 
-#### `dir(v)` {#fn-dirv}
+#### `dir`
 
 Returns `true` when `v` is a directory path.
 
@@ -229,7 +230,7 @@ Returns `true` when `v` is a directory path.
 is.dir("/tmp")
 ```
 
-#### `fifo(v)` {#fn-fifov}
+#### `fifo`
 
 Returns `true` when `v` is a FIFO path.
 
@@ -237,7 +238,7 @@ Returns `true` when `v` is a FIFO path.
 is.fifo("/path/to/fifo")
 ```
 
-#### `file(v)` {#fn-filev}
+#### `file`
 
 Returns `true` when `v` is a file path.
 
@@ -245,7 +246,7 @@ Returns `true` when `v` is a file path.
 is.file("README.md")
 ```
 
-#### `link(v)` {#fn-linkv}
+#### `link`
 
 Returns `true` when `v` is a symlink path.
 
@@ -253,7 +254,7 @@ Returns `true` when `v` is a symlink path.
 is.link("/path/to/link")
 ```
 
-#### `socket(v)` {#fn-socketv}
+#### `socket`
 
 Returns `true` when `v` is a socket path.
 

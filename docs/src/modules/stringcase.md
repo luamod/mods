@@ -1,209 +1,198 @@
 ---
-description:
-  Convert strings across naming conventions like snake_case, camelCase, and
-  kebab-case.
+desc: "String case conversion helpers."
 ---
 
 # `stringcase`
 
 String case conversion helpers.
 
-## Import
-
-```lua
-local sc = require("mods.stringcase")
-```
-
 ## Usage
 
 ```lua
-local s = "FooBar baz"
+sc = require "mods.stringcase"
 
-sc.snake(s) --> "foo_bar_baz"
-sc.camel(s) --> "fooBarBaz"
-sc.kebab(s) --> "foo-bar-baz"
-sc.title(s) --> "Foo Bar Baz"
+print(stringcase.snake("FooBar")) --> "foo_bar"
 ```
-
-## Quick Reference
-
-**Quick Reference: Basic**:
-
-| Function                 | Description                      |
-| ------------------------ | -------------------------------- |
-| [`lower(s)`](#fn-lowers) | Convert string to all lowercase. |
-| [`upper(s)`](#fn-uppers) | Convert string to all uppercase. |
-
-**Quick Reference: Word Case**:
-
-| Function                              | Description                                                           |
-| ------------------------------------- | --------------------------------------------------------------------- |
-| [`snake(s)`](#fn-snakes)              | Convert string to snake_case.                                         |
-| [`camel(s)`](#fn-camels)              | Convert string to camelCase.                                          |
-| [`replace(s, sep)`](#fn-replaces-sep) | Normalize to snake_case, then replace underscores with a separator.   |
-| [`acronym(s)`](#fn-acronyms)          | Get acronym of words in string (first letters only).                  |
-| [`title(s)`](#fn-titles)              | Convert string to Title Case (first letter of each word capitalized). |
-| [`constant(s)`](#fn-constants)        | Convert string to CONSTANT_CASE (uppercase snake_case).               |
-| [`pascal(s)`](#fn-pascals)            | Convert string to PascalCase.                                         |
-| [`kebab(s)`](#fn-kebabs)              | Convert string to kebab-case.                                         |
-| [`dot(s)`](#fn-dots)                  | Convert string to dot.case.                                           |
-| [`space(s)`](#fn-spaces)              | Convert string to space case (spaces between words).                  |
-| [`path(s)`](#fn-paths)                | Convert string to path/case (slashes between words).                  |
-
-**Quick Reference: Letter Case**:
-
-| Function                       | Description                                                               |
-| ------------------------------ | ------------------------------------------------------------------------- |
-| [`swap(s)`](#fn-swaps)         | Swap case of each letter.                                                 |
-| [`capital(s)`](#fn-capitals)   | Capitalize the first letter and lowercase the rest.                       |
-| [`sentence(s)`](#fn-sentences) | Convert string to sentence case (first letter uppercase, rest lowercase). |
 
 ## Functions
 
+**Basic**:
+
+| Function          | Description                      |
+| ----------------- | -------------------------------- |
+| [`lower`](#lower) | Convert string to all lowercase. |
+| [`upper`](#upper) | Convert string to all uppercase. |
+
+**Word Case**:
+
+| Function                | Description                                                           |
+| ----------------------- | --------------------------------------------------------------------- |
+| [`snake`](#snake)       | Convert string to snake_case.                                         |
+| [`camel`](#camel)       | Convert string to camelCase.                                          |
+| [`replace`](#replace)   | Normalize to snake_case, then replace underscores with a separator.   |
+| [`acronym`](#acronym)   | Get acronym of words in string (first letters only).                  |
+| [`title`](#title)       | Convert string to Title Case (first letter of each word capitalized). |
+| [`constant`](#constant) | Convert string to CONSTANT_CASE (uppercase snake_case).               |
+| [`pascal`](#pascal)     | Convert string to PascalCase.                                         |
+| [`kebab`](#kebab)       | Convert string to kebab-case.                                         |
+| [`dot`](#dot)           | Convert string to dot.case.                                           |
+| [`space`](#space)       | Convert string to space case (spaces between words).                  |
+| [`path`](#path)         | Convert string to path/case (slashes between words).                  |
+
+**Letter Case**:
+
+| Function                | Description                                                               |
+| ----------------------- | ------------------------------------------------------------------------- |
+| [`swap`](#swap)         | Swap case of each letter.                                                 |
+| [`capital`](#capital)   | Capitalize the first letter and lowercase the rest.                       |
+| [`sentence`](#sentence) | Convert string to sentence case (first letter uppercase, rest lowercase). |
+
 ### Basic
 
-#### `lower(s)` {#fn-lowers}
+#### `lower`
 
 Convert string to all lowercase.
 
 ```lua
-sc.lower("foo_bar-baz") --> "foo_bar-baz"
-sc.lower("FooBar baz") --> "foobar baz"
+lower("foo_bar-baz") --> "foo_bar-baz"
+lower("FooBar baz")  --> "foobar baz"
 ```
 
-#### `upper(s)` {#fn-uppers}
+#### `upper`
 
 Convert string to all uppercase.
 
 ```lua
-sc.upper("foo_bar-baz") --> "FOO_BAR-BAZ"
-sc.upper("FooBar baz") --> "FOOBAR BAZ"
+upper("foo_bar-baz") --> "FOO_BAR-BAZ"
+upper("FooBar baz")  --> "FOOBAR BAZ"
 ```
 
 ### Word Case
 
-#### `snake(s)` {#fn-snakes}
+#### `snake`
 
 Convert string to snake_case.
 
 ```lua
-sc.snake("foo_bar-baz") --> "foo_bar_baz"
-sc.snake("FooBar baz") --> "foo_bar_baz"
+snake("foo_bar-baz") --> "foo_bar_baz"
+snake("FooBar baz")  --> "foo_bar_baz"
 ```
 
-#### `camel(s)` {#fn-camels}
+#### `camel`
 
 Convert string to camelCase.
 
 ```lua
-sc.camel("foo_bar-baz") --> "fooBarBaz"
-sc.camel("FooBar baz") --> "fooBarBaz"
+camel("foo_bar-baz") --> "fooBarBaz"
+camel("FooBar baz")  --> "fooBarBaz"
 ```
 
-#### `replace(s, sep)` {#fn-replaces-sep}
+#### `replace`
 
 Normalize to snake_case, then replace underscores with a separator.
 
 ```lua
-sc.replace("foo_bar-baz", "-") --> "foo-bar-baz"
-sc.replace("FooBar baz", "-") --> "foo-bar-baz"
+replace("foo_bar-baz", "-") --> "foo-bar-baz"
+replace("FooBar baz", "-")  --> "foo-bar-baz"
 ```
 
-#### `acronym(s)` {#fn-acronyms}
+#### `acronym`
 
 Get acronym of words in string (first letters only).
 
 ```lua
-sc.acronym("foo_bar-baz") --> "FBB"
+acronym("foo_bar-baz") --> "FBB"
+acronym("FooBar baz")  --> "FBB"
 ```
 
-#### `title(s)` {#fn-titles}
+#### `title`
 
 Convert string to Title Case (first letter of each word capitalized).
 
 ```lua
-sc.title("foo_bar-baz") --> "Foo Bar Baz"
-sc.title("FooBar baz") --> "Foo Bar Baz"
+title("foo_bar-baz") --> "Foo Bar Baz"
+title("FooBar baz")  --> "Foo Bar Baz"
 ```
 
-#### `constant(s)` {#fn-constants}
+#### `constant`
 
 Convert string to CONSTANT_CASE (uppercase snake_case).
 
 ```lua
-sc.constant("foo_bar-baz") --> "FOO_BAR_BAZ"
+constant("foo_bar-baz") --> "FOO_BAR_BAZ"
+constant("FooBar baz")  --> "FOO_BAR_BAZ"
 ```
 
-#### `pascal(s)` {#fn-pascals}
+#### `pascal`
 
 Convert string to PascalCase.
 
 ```lua
-sc.pascal("foo_bar-baz") --> "FooBarBaz"
-sc.pascal("FooBar baz") --> "FooBarBaz"
+pascal("foo_bar-baz") --> "FooBarBaz"
+pascal("FooBar baz")  --> "FooBarBaz"
 ```
 
-#### `kebab(s)` {#fn-kebabs}
+#### `kebab`
 
 Convert string to kebab-case.
 
 ```lua
-sc.kebab("foo_bar-baz") --> "foo-bar-baz"
-sc.kebab("FooBar baz") --> "foo-bar-baz"
+kebab("foo_bar-baz") --> "foo-bar-baz"
+kebab("FooBar baz")  --> "foo-bar-baz"
 ```
 
-#### `dot(s)` {#fn-dots}
+#### `dot`
 
 Convert string to dot.case.
 
 ```lua
-sc.dot("foo_bar-baz") --> "foo.bar.baz"
-sc.dot("FooBar baz") --> "foo.bar.baz"
+dot("foo_bar-baz") --> "foo.bar.baz"
+dot("FooBar baz")  --> "foo.bar.baz"
 ```
 
-#### `space(s)` {#fn-spaces}
+#### `space`
 
 Convert string to space case (spaces between words).
 
 ```lua
-sc.space("foo_bar-baz") --> "foo bar baz"
-sc.space("FooBar baz") --> "foo bar baz"
+space("foo_bar-baz") --> "foo bar baz"
+space("FooBar baz")  --> "foo bar baz"
 ```
 
-#### `path(s)` {#fn-paths}
+#### `path`
 
 Convert string to path/case (slashes between words).
 
 ```lua
-sc.path("foo_bar-baz") --> "foo/bar/baz"
-sc.path("FooBar baz") --> "foo/bar/baz"
+path("foo_bar-baz") --> "foo/bar/baz"
+path("FooBar baz")  --> "foo/bar/baz"
 ```
 
 ### Letter Case
 
-#### `swap(s)` {#fn-swaps}
+#### `swap`
 
 Swap case of each letter.
 
 ```lua
-sc.swap("foo_bar-baz") --> "FOO_BAR-BAZ"
-sc.swap("FooBar baz") --> "fOObAR BAZ"
+swap("foo_bar-baz") --> "FOO_BAR-BAZ"
+swap("FooBar baz")  --> "fOObAR BAZ"
 ```
 
-#### `capital(s)` {#fn-capitals}
+#### `capital`
 
 Capitalize the first letter and lowercase the rest.
 
 ```lua
-sc.capital("foo_bar-baz") --> "Foo_bar-baz"
-sc.capital("FooBar baz") --> "Foobar baz"
+capital("foo_bar-baz") --> "Foo_bar-baz"
+capital("FooBar baz")  --> "Foobar baz"
 ```
 
-#### `sentence(s)` {#fn-sentences}
+#### `sentence`
 
 Convert string to sentence case (first letter uppercase, rest lowercase).
 
 ```lua
-sc.sentence("foo_bar-baz") --> "Foo_bar-baz"
-sc.sentence("FooBar baz") --> "FooBar baz"
+sentence("foo_bar-baz") --> "Foo_bar-baz"
+sentence("FooBar baz")  --> "FooBar baz"
 ```
