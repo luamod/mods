@@ -1,6 +1,13 @@
 ---@meta mods.str
 
 ---String utility helpers modeled after Python's `str`.
+---## Usage
+---
+---```lua
+---str = require "mods.str"
+---
+---print(str.capitalize("hello world")) --> "Hello world"
+---```
 ---@class mods.str
 local M = {}
 
@@ -10,9 +17,8 @@ local M = {}
 
 ---Return copy with first character capitalized and the rest lowercased.
 ---
----**Example:**
 ---```lua
----local s = capitalize("hello WORLD")
+---s = capitalize("hello WORLD")
 -----result: "Hello world"
 ---```
 ---@param s string
@@ -22,9 +28,8 @@ function M.capitalize(s) end
 
 ---Center string within width, padded with fill characters.
 ---
----**Example:**
 ---```lua
----local s = center("hi", 6, "-")
+---s = center("hi", 6, "-")
 -----result: "--hi--"
 ---```
 ---@param s string
@@ -36,9 +41,8 @@ function M.center(s, width, fillchar) end
 
 ---Count non-overlapping occurrences of a substring.
 ---
----**Example:**
 ---```lua
----local n = count("aaaa", "aa")
+---n = count("aaaa", "aa")
 -----result: 2
 ---
 ---n = count("aaaa", "a", 2, -1)
@@ -58,9 +62,8 @@ function M.count(s, sub, start, stop) end
 ---Return true if string ends with suffix.
 ---If suffix is a list, return true if any suffix matches.
 ---
----**Example:**
 ---```lua
----local ok = endswith("hello.lua", ".lua")
+---ok = endswith("hello.lua", ".lua")
 -----result: true
 ---```
 ---@param s string
@@ -73,9 +76,8 @@ function M.endswith(s, suffix, start, stop) end
 
 ---Expand tabs to spaces using given tabsize.
 ---
----**Example:**
 ---```lua
----local s = expandtabs("a\tb", 4)
+---s = expandtabs("a\tb", 4)
 -----result: "a   b"
 ---```
 ---@param s string
@@ -86,9 +88,8 @@ function M.expandtabs(s, tabsize) end
 
 ---Return lowest index of substring or nil if not found.
 ---
----**Example:**
 ---```lua
----local i = find("hello", "ll")
+---i = find("hello", "ll")
 -----result: 3
 ---```
 ---@param s string
@@ -101,9 +102,8 @@ function M.find(s, sub, start, stop) end
 
 ---Format string with mapping (key-based) replacement.
 ---
----**Example:**
 ---```lua
----local s = format_map("hi {name}", { name = "bob" })
+---s = format_map("hi {name}", { name = "bob" })
 -----result: "hi bob"
 ---```
 ---@param s string
@@ -118,9 +118,8 @@ function M.format_map(s, mapping) end
 
 ---Return true if all characters are alphanumeric and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isalnum("abc123")
+---ok = isalnum("abc123")
 -----result: true
 ---```
 ---
@@ -137,9 +136,8 @@ function M.isalnum(s) end
 
 ---Return true if all characters are alphabetic and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isalpha("abc")
+---ok = isalpha("abc")
 -----result: true
 ---```
 ---
@@ -156,9 +154,8 @@ function M.isalpha(s) end
 
 ---Return true if all characters are ASCII and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isascii("hello")
+---ok = isascii("hello")
 -----result: true
 ---```
 ---
@@ -171,9 +168,8 @@ function M.isascii(s) end
 
 ---Return true if all characters are decimal characters and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isdecimal("123")
+---ok = isdecimal("123")
 -----result: true
 ---```
 ---@param s string
@@ -183,9 +179,8 @@ function M.isdecimal(s) end
 
 ---Return true if all characters are digits and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isdigit("123")
+---ok = isdigit("123")
 -----result: true
 ---```
 ---
@@ -196,9 +191,8 @@ function M.isdigit(s) end
 
 ---Return true if string is a valid identifier and not a reserved keyword.
 ---
----**Example:**
 ---```lua
----local ok = isidentifier("foo_bar")
+---ok = isidentifier("foo_bar")
 -----result: true
 ---
 ---ok = isidentifier("2var")
@@ -214,9 +208,8 @@ function M.isidentifier(s) end
 
 ---Return true if all cased characters are lowercase and there is at least one cased character.
 ---
----**Example:**
 ---```lua
----local ok = islower("hello")
+---ok = islower("hello")
 -----result: true
 ---```
 ---@param s string
@@ -226,9 +219,8 @@ function M.islower(s) end
 
 ---Return true if all characters are numeric and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isnumeric("123")
+---ok = isnumeric("123")
 -----result: true
 ---```
 ---
@@ -239,9 +231,8 @@ function M.isnumeric(s) end
 
 ---Return true if all characters are printable and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isprintable("abc!")
+---ok = isprintable("abc!")
 -----result: true
 ---```
 ---
@@ -254,9 +245,8 @@ function M.isprintable(s) end
 
 ---Return true if all characters are whitespace and string is non-empty.
 ---
----**Example:**
 ---```lua
----local ok = isspace(" \t")
+---ok = isspace(" \t")
 -----result: true
 ---```
 ---@param s string
@@ -266,9 +256,8 @@ function M.isspace(s) end
 
 ---Return true if string is titlecased.
 ---
----**Example:**
 ---```lua
----local ok = istitle("Hello World")
+---ok = istitle("Hello World")
 -----result: true
 ---```
 ---@param s string
@@ -278,9 +267,8 @@ function M.istitle(s) end
 
 ---Return true if all cased characters are uppercase and there is at least one cased character.
 ---
----**Example:**
 ---```lua
----local ok = isupper("HELLO")
+---ok = isupper("HELLO")
 -----result: true
 ---```
 ---@param s string
@@ -294,9 +282,8 @@ function M.isupper(s) end
 
 ---Join an iterable of strings using this string as separator.
 ---
----**Example:**
 ---```lua
----local s = join(",", { "a", "b", "c" })
+---s = join(",", { "a", "b", "c" })
 -----result: "a,b,c"
 ---```
 ---@param sep string
@@ -307,9 +294,8 @@ function M.join(sep, ls) end
 
 ---Left-justify string in a field of given width.
 ---
----**Example:**
 ---```lua
----local s = ljust("hi", 5, ".")
+---s = ljust("hi", 5, ".")
 -----result: "hi..."
 ---```
 ---@param s string
@@ -321,9 +307,8 @@ function M.ljust(s, width, fillchar) end
 
 ---Return lowercased copy.
 ---
----**Example:**
 ---```lua
----local s = lower("HeLLo")
+---s = lower("HeLLo")
 -----result: "hello"
 ---```
 ---@param s string
@@ -333,9 +318,8 @@ function M.lower(s) end
 
 ---Remove leading characters (default: whitespace).
 ---
----**Example:**
 ---```lua
----local s = lstrip("  hello")
+---s = lstrip("  hello")
 -----result: "hello"
 ---```
 ---@param s string
@@ -346,9 +330,8 @@ function M.lstrip(s, chars) end
 
 ---Remove trailing characters (default: whitespace).
 ---
----**Example:**
 ---```lua
----local s = rstrip("hello  ")
+---s = rstrip("hello  ")
 -----result: "hello"
 ---```
 ---@param s string
@@ -359,9 +342,8 @@ function M.rstrip(s, chars) end
 
 ---Remove leading and trailing characters (default: whitespace).
 ---
----**Example:**
 ---```lua
----local s = strip("  hello  ")
+---s = strip("  hello  ")
 -----result: "hello"
 ---```
 ---@param s string
@@ -376,9 +358,8 @@ function M.strip(s, chars) end
 
 ---Partition string into head, sep, tail from left.
 ---
----**Example:**
 ---```lua
----local a, b, c = partition("a-b-c", "-")
+---a, b, c = partition("a-b-c", "-")
 -----result: "a", "-", "b-c"
 ---```
 ---@param s string
@@ -389,9 +370,8 @@ function M.partition(s, sep) end
 
 ---Remove prefix if present.
 ---
----**Example:**
 ---```lua
----local s = removeprefix("foobar", "foo")
+---s = removeprefix("foobar", "foo")
 -----result: "bar"
 ---```
 ---@param s string
@@ -402,9 +382,8 @@ function M.removeprefix(s, prefix) end
 
 ---Remove suffix if present.
 ---
----**Example:**
 ---```lua
----local s = removesuffix("foobar", "bar")
+---s = removesuffix("foobar", "bar")
 -----result: "foo"
 ---```
 ---@param s string
@@ -415,9 +394,8 @@ function M.removesuffix(s, suffix) end
 
 ---Return a copy of the string with all occurrences of a substring replaced.
 ---
----**Example:**
 ---```lua
----local s = replace("a-b-c", "-", "_", 1)
+---s = replace("a-b-c", "-", "_", 1)
 -----result: "a_b-c"
 ---```
 ---@param s string
@@ -430,9 +408,8 @@ function M.replace(s, old, new, count) end
 
 ---Return highest index of substring or nil if not found.
 ---
----**Example:**
 ---```lua
----local i = rfind("ababa", "ba")
+---i = rfind("ababa", "ba")
 -----result: 4
 ---```
 ---@param s string
@@ -445,9 +422,8 @@ function M.rfind(s, sub, start, stop) end
 
 ---Like rfind but raises on failure (placeholder).
 ---
----**Example:**
 ---```lua
----local i = rindex("ababa", "ba")
+---i = rindex("ababa", "ba")
 -----result: 4
 ---```
 ---@param s string
@@ -460,9 +436,8 @@ function M.rindex(s, sub, start, stop) end
 
 ---Right-justify string in a field of given width.
 ---
----**Example:**
 ---```lua
----local s = rjust("hi", 5, ".")
+---s = rjust("hi", 5, ".")
 -----result: "...hi"
 ---```
 ---@param s string
@@ -474,9 +449,8 @@ function M.rjust(s, width, fillchar) end
 
 ---Partition string into head, sep, tail from right.
 ---
----**Example:**
 ---```lua
----local a, b, c = rpartition("a-b-c", "-")
+---a, b, c = rpartition("a-b-c", "-")
 -----result: "a-b", "-", "c"
 ---```
 ---@param s string
@@ -487,9 +461,8 @@ function M.rpartition(s, sep) end
 
 ---Split from the right by separator, up to maxsplit.
 ---
----**Example:**
 ---```lua
----local parts = rsplit("a,b,c", ",", 1)
+---parts = rsplit("a,b,c", ",", 1)
 -----result: { "a,b", "c" }
 ---```
 ---@param s string
@@ -501,9 +474,8 @@ function M.rsplit(s, sep, maxsplit) end
 
 ---Split by separator (or whitespace) up to maxsplit.
 ---
----**Example:**
 ---```lua
----local parts = split("a,b,c", ",")
+---parts = split("a,b,c", ",")
 -----result: { "a", "b", "c" }
 ---```
 ---@param s string
@@ -515,9 +487,8 @@ function M.split(s, sep, maxsplit) end
 
 ---Split on line boundaries.
 ---
----**Example:**
 ---```lua
----local lines = splitlines("a\nb\r\nc")
+---lines = splitlines("a\nb\r\nc")
 -----result: { "a", "b", "c" }
 ---```
 ---@param s string
@@ -532,9 +503,8 @@ function M.splitlines(s, keepends) end
 
 ---Return a copy with case of alphabetic characters swapped.
 ---
----**Example:**
 ---```lua
----local s = swapcase("AbC")
+---s = swapcase("AbC")
 -----result: "aBc"
 ---```
 ---@param s string
@@ -545,9 +515,8 @@ function M.swapcase(s) end
 ---Return true if string starts with prefix.
 ---If prefix is a list, return true if any prefix matches.
 ---
----**Example:**
 ---```lua
----local ok = startswith("hello.lua", "he")
+---ok = startswith("hello.lua", "he")
 -----result: true
 ---```
 ---@param s string
@@ -560,9 +529,8 @@ function M.startswith(s, prefix, start, stop) end
 
 ---Return titlecased copy.
 ---
----**Example:**
 ---```lua
----local s = title("hello world")
+---s = title("hello world")
 -----result: "Hello World"
 ---```
 ---@param s string
@@ -572,10 +540,9 @@ function M.title(s) end
 
 ---Translate characters using a mapping table.
 ---
----**Example:**
 ---```lua
----local map = { [string.byte("a")] = "b", ["c"] = false }
----local s = translate("abc", map)
+---map = { [string.byte("a")] = "b", ["c"] = false }
+---s = translate("abc", map)
 -----result: "bb"
 ---```
 ---@param s string
@@ -586,9 +553,8 @@ function M.translate(s, table_map) end
 
 ---Return uppercased copy.
 ---
----**Example:**
 ---```lua
----local s = upper("Hello")
+---s = upper("Hello")
 -----result: "HELLO"
 ---```
 ---@param s string
@@ -598,9 +564,8 @@ function M.upper(s) end
 
 ---Pad numeric string on the left with zeros.
 ---
----**Example:**
 ---```lua
----local s = zfill("42", 5)
+---s = zfill("42", 5)
 -----result: "00042"
 ---```
 ---@param s string

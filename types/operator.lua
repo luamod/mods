@@ -1,18 +1,25 @@
 ---@meta mods.operator
 
 ---Operator helpers as functions.
+---## Usage
+---
+---```lua
+---operator = require "mods.operator"
+---
+---print(operator.add(1, 2)) -->> 3
+---```
 ---@class mods.operator
 local M = {}
 
 --------------------------------------------------------------------------------
 ---------------------------------- Arithmetic ----------------------------------
 --------------------------------------------------------------------------------
+---Numeric arithmetic operators as functions.
 
----Returns `a + b`.
+---Add two numbers.
 ---
----**Example:**
 ---```lua
----add(1, 2) -- 3
+---add(1, 2) --> 3
 ---```
 ---@param a number
 ---@param b number
@@ -20,11 +27,10 @@ local M = {}
 ---@nodiscard
 function M.add(a, b) end
 
----Returns `a - b`.
+---Subtract `b` from `a`.
 ---
----**Example:**
 ---```lua
----sub(5, 3) -- 2
+---sub(5, 3) --> 2
 ---```
 ---@param a number
 ---@param b number
@@ -32,11 +38,10 @@ function M.add(a, b) end
 ---@nodiscard
 function M.sub(a, b) end
 
----Returns `a * b`.
+---Multiply two numbers.
 ---
----**Example:**
 ---```lua
----mul(3, 4) -- 12
+---mul(3, 4) --> 12
 ---```
 ---@param a number
 ---@param b number
@@ -44,11 +49,10 @@ function M.sub(a, b) end
 ---@nodiscard
 function M.mul(a, b) end
 
----Returns `a / b`.
+---Divide `a` by `b` using Lua's floating-point division.
 ---
----**Example:**
 ---```lua
----div(10, 4) -- 2.5
+---div(10, 4) --> 2.5
 ---```
 ---@param a number
 ---@param b number
@@ -56,11 +60,10 @@ function M.mul(a, b) end
 ---@nodiscard
 function M.div(a, b) end
 
----Returns integer division `math.floor(a / b)`.
+---Divide `a` by `b` and return the integer quotient (`//` behavior).
 ---
----**Example:**
 ---```lua
----idiv(5, 2) -- 2
+---idiv(5, 2) --> 2
 ---```
 ---@param a number
 ---@param b number
@@ -68,11 +71,10 @@ function M.div(a, b) end
 ---@nodiscard
 function M.idiv(a, b) end
 
----Returns `a % b`.
+---Return the modulo remainder of `a` divided by `b`.
 ---
----**Example:**
 ---```lua
----mod(5, 2) -- 1
+---mod(5, 2) --> 1
 ---```
 ---@param a number
 ---@param b number
@@ -80,11 +82,10 @@ function M.idiv(a, b) end
 ---@nodiscard
 function M.mod(a, b) end
 
----Returns `a ^ b`.
+---Raise `a` to the power of `b`.
 ---
----**Example:**
 ---```lua
----pow(2, 4) -- 16
+---pow(2, 4) --> 16
 ---```
 ---@param a number
 ---@param b number
@@ -92,11 +93,10 @@ function M.mod(a, b) end
 ---@nodiscard
 function M.pow(a, b) end
 
----Returns `-a`.
+---Negate a number.
 ---
----**Example:**
 ---```lua
----unm(3) -- -3
+---unm(3) --> -3
 ---```
 ---@param a number
 ---@return number negated
@@ -106,12 +106,12 @@ function M.unm(a) end
 --------------------------------------------------------------------------------
 ---------------------------------- Comparison ----------------------------------
 --------------------------------------------------------------------------------
+---Equality and ordering comparison operators.
 
----Returns `a == b`.
+---Check whether two values are equal.
 ---
----**Example:**
 ---```lua
----eq(1, 1) -- true
+---eq(1, 1) --> true
 ---```
 ---@param a any
 ---@param b any
@@ -119,11 +119,10 @@ function M.unm(a) end
 ---@nodiscard
 function M.eq(a, b) end
 
----Returns `a ~= b`.
+---Check whether two values are not equal.
 ---
----**Example:**
 ---```lua
----neq(1, 2) -- true
+---neq(1, 2) --> true
 ---```
 ---@param a any
 ---@param b any
@@ -131,11 +130,10 @@ function M.eq(a, b) end
 ---@nodiscard
 function M.neq(a, b) end
 
----Returns `a < b`.
+---Check whether `a` is strictly less than `b`.
 ---
----**Example:**
 ---```lua
----lt(1, 2) -- true
+---lt(1, 2) --> true
 ---```
 ---@param a number
 ---@param b number
@@ -143,11 +141,10 @@ function M.neq(a, b) end
 ---@nodiscard
 function M.lt(a, b) end
 
----Returns `a <= b`.
+---Check whether `a` is less than or equal to `b`.
 ---
----**Example:**
 ---```lua
----lte(2, 2) -- true
+---lte(2, 2) --> true
 ---```
 ---@param a number
 ---@param b number
@@ -155,11 +152,10 @@ function M.lt(a, b) end
 ---@nodiscard
 function M.le(a, b) end
 
----Returns `a > b`.
+---Check whether `a` is strictly greater than `b`.
 ---
----**Example:**
 ---```lua
----gt(3, 2) -- true
+---gt(3, 2) --> true
 ---```
 ---@param a number
 ---@param b number
@@ -167,11 +163,10 @@ function M.le(a, b) end
 ---@nodiscard
 function M.gt(a, b) end
 
----Returns `a >= b`.
+---Check whether `a` is greater than or equal to `b`.
 ---
----**Example:**
 ---```lua
----gte(2, 2) -- true
+---gte(2, 2) --> true
 ---```
 ---@param a number
 ---@param b number
@@ -182,12 +177,12 @@ function M.ge(a, b) end
 --------------------------------------------------------------------------------
 ------------------------------------ Logical -----------------------------------
 --------------------------------------------------------------------------------
+---Boolean logic operators with Lua truthiness semantics.
 
----Returns `a and b`.
+---Evaluate `a and b` with Lua short-circuit semantics.
 ---
----**Example:**
 ---```lua
----land(true, false) -- false
+---land(true, false) --> false
 ---```
 ---@generic T1,T2
 ---@param a T1
@@ -196,11 +191,10 @@ function M.ge(a, b) end
 ---@nodiscard
 function M.land(a, b) end
 
----Returns `a or b`.
+---Evaluate `a or b` with Lua short-circuit semantics.
 ---
----**Example:**
 ---```lua
----lor(false, true) -- true
+---lor(false, true) --> true
 ---```
 ---@generic T1,T2
 ---@param a T1
@@ -209,11 +203,10 @@ function M.land(a, b) end
 ---@nodiscard
 function M.lor(a, b) end
 
----Returns `not a`.
+---Return the boolean negation of `a`.
 ---
----**Example:**
 ---```lua
----lnot(true) -- false
+---lnot(true) --> false
 ---```
 ---@param a any
 ---@return boolean isNot
@@ -223,12 +216,12 @@ function M.lnot(a) end
 --------------------------------------------------------------------------------
 ------------------------------- String & Length --------------------------------
 --------------------------------------------------------------------------------
+---String concatenation and length operators.
 
----Returns `a .. b`.
+---Concatenate two strings.
 ---
----**Example:**
 ---```lua
----concat("a", "b") -- "ab"
+---concat("a", "b") --> "ab"
 ---```
 ---@param a string
 ---@param b string
@@ -236,11 +229,10 @@ function M.lnot(a) end
 ---@nodiscard
 function M.concat(a, b) end
 
----Returns `#a`.
+---Return the length of a string or table using Lua's `#` operator.
 ---
----**Example:**
 ---```lua
----len("abc") -- 3
+---len("abc") --> 3
 ---```
 ---@param a string|table
 ---@return integer length
@@ -250,12 +242,12 @@ function M.len(a) end
 --------------------------------------------------------------------------------
 -------------------------------- Tables & Calls --------------------------------
 --------------------------------------------------------------------------------
+---Table indexing helpers and function invocation.
 
----Returns `t[k]`.
+---Return the value at key/index `k` in table `t`.
 ---
----**Example:**
 ---```lua
----index({ a = 1 }, "a") -- 1
+---index({ a = 1 }, "a") --> 1
 ---```
 ---@generic T
 ---@param t table
@@ -264,11 +256,10 @@ function M.len(a) end
 ---@nodiscard
 function M.index(t, k) end
 
----Sets `t[k] = v` and returns `v`.
+---Set `t[k] = v` and return the assigned value.
 ---
----**Example:**
 ---```lua
----setindex({}, "a", 1) -- 1
+---setindex({}, "a", 1) --> 1
 ---```
 ---@generic T
 ---@param t table
@@ -278,11 +269,10 @@ function M.index(t, k) end
 ---@nodiscard
 function M.setindex(t, k, v) end
 
----Calls `f(...)`.
+---Call a function with variadic arguments and return its result.
 ---
----**Example:**
 ---```lua
----call(math.max, 1, 2) -- 2
+---call(math.max, 1, 2) --> 2
 ---```
 ---@generic T,T2
 ---@param f fun(...:T):T2

@@ -50,11 +50,26 @@
 
 ---Type predicates for Lua values and filesystem path kinds.
 ---
----Function names exist in both lowercase and capitalized forms (for example,
----`is.table` or `is.Table`).
+---## Usage
 ---
----`is` is callable as `is(v, tp)` where `v` is the value and `tp` is any
----supported type name.
+---```lua
+---is = require "mods.is"
+---
+---ok = is.number(3.14)       --> true
+---ok = is("hello", "string") --> true
+---ok = is.table({})          --> true
+---```
+---
+---> [!NOTE]
+---> Function names exist in both lowercase and capitalized forms, and `is` is
+---> also callable as `is(v, tp)`.
+--->
+---> ```lua
+---> is.table({})          --> true
+---> is.Table({})          --> true
+---> is("hello", "string") --> true
+---> is("hello", "String") --> true
+---> ```
 ---
 ---@class mods.is
 ---@overload fun(v:any, tp:modsIsType):boolean
@@ -63,10 +78,12 @@ local M = {}
 --------------------------------------------------------------------------------
 ---------------------------------- Type Checks ---------------------------------
 --------------------------------------------------------------------------------
+---
+---Core Lua type checks (`type(v)` family).
+---
 
 ---Returns `true` when `v` is a boolean.
 ---
----**Example:**
 ---```lua
 ---is.boolean(true)
 ---```
@@ -78,7 +95,6 @@ M.Boolean = M.boolean
 
 ---Returns `true` when `v` is a function.
 ---
----**Example:**
 ---```lua
 ---is.Function(function() end)
 ---```
@@ -90,7 +106,6 @@ M["function"] = M.Function
 
 ---Returns `true` when `v` is `nil`.
 ---
----**Example:**
 ---```lua
 ---is.Nil(nil)
 ---```
@@ -102,7 +117,6 @@ M["nil"] = M.Nil
 
 ---Returns `true` when `v` is a number.
 ---
----**Example:**
 ---```lua
 ---is.number(3.14)
 ---```
@@ -114,7 +128,6 @@ M.Number = M.number
 
 ---Returns `true` when `v` is a string.
 ---
----**Example:**
 ---```lua
 ---is.string("hello")
 ---```
@@ -126,7 +139,6 @@ M.String = M.string
 
 ---Returns `true` when `v` is a table.
 ---
----**Example:**
 ---```lua
 ---is.table({})
 ---```
@@ -138,7 +150,6 @@ M.Table = M.table
 
 ---Returns `true` when `v` is a thread.
 ---
----**Example:**
 ---```lua
 ---is.thread(coroutine.create(function() end))
 ---```
@@ -150,7 +161,6 @@ M.Thread = M.thread
 
 ---Returns `true` when `v` is userdata.
 ---
----**Example:**
 ---```lua
 ---is.userdata(io.stdout)
 ---```
@@ -163,10 +173,12 @@ M.Userdata = M.userdata
 --------------------------------------------------------------------------------
 --------------------------------- Value Checks ---------------------------------
 --------------------------------------------------------------------------------
+---
+---Truthiness, exact-value, and callable checks.
+---
 
 ---Returns `true` when `v` is exactly `false`.
 ---
----**Example:**
 ---```lua
 ---is.False(false)
 ---```
@@ -178,7 +190,6 @@ M["false"] = M.False
 
 ---Returns `true` when `v` is exactly `true`.
 ---
----**Example:**
 ---```lua
 ---is.True(true)
 ---```
@@ -190,7 +201,6 @@ M["true"] = M.True
 
 ---Returns `true` when `v` is falsy.
 ---
----**Example:**
 ---```lua
 ---is.falsy(false)
 ---```
@@ -202,7 +212,6 @@ M.Falsy = M.falsy
 
 ---Returns `true` when `v` is callable.
 ---
----**Example:**
 ---```lua
 ---is.callable(function() end)
 ---```
@@ -214,7 +223,6 @@ M.Callable = M.callable
 
 ---Returns `true` when `v` is an integer.
 ---
----**Example:**
 ---```lua
 ---is.integer(42)
 ---```
@@ -226,7 +234,6 @@ M.Integer = M.integer
 
 ---Returns `true` when `v` is truthy.
 ---
----**Example:**
 ---```lua
 ---is.truthy("non-empty")
 ---```
@@ -239,15 +246,19 @@ M.Truthy = M.truthy
 --------------------------------------------------------------------------------
 --------------------------------- Path Checks ----------------------------------
 --------------------------------------------------------------------------------
+---
+---Filesystem path kind checks.
+---
+---> [!IMPORTANT]
+--->
+---> Path checks require **LuaFileSystem**
+---> ([`lfs`](https://github.com/lunarmodules/luafilesystem))
+---> and raise an error it is not installed.
 
 ---Returns `true` when `v` is a block device path.
 ---
 ---Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
 ---
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.block("/dev/sda")
 ---```
@@ -259,12 +270,6 @@ M.Block = M.block
 
 ---Returns `true` when `v` is a char device path.
 ---
----Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
----
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.char("/dev/null")
 ---```
@@ -276,12 +281,6 @@ M.Char = M.char
 
 ---Returns `true` when `v` is a block or char device path.
 ---
----Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
----
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.device("/dev/null")
 ---```
@@ -293,12 +292,6 @@ M.Device = M.device
 
 ---Returns `true` when `v` is a directory path.
 ---
----Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
----
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.dir("/tmp")
 ---```
@@ -310,12 +303,6 @@ M.Dir = M.dir
 
 ---Returns `true` when `v` is a FIFO path.
 ---
----Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
----
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.fifo("/path/to/fifo")
 ---```
@@ -327,12 +314,6 @@ M.Fifo = M.fifo
 
 ---Returns `true` when `v` is a file path.
 ---
----Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
----
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.file("README.md")
 ---```
@@ -344,12 +325,6 @@ M.File = M.file
 
 ---Returns `true` when `v` is a symlink path.
 ---
----Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
----
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.link("/path/to/link")
 ---```
@@ -361,12 +336,6 @@ M.Link = M.link
 
 ---Returns `true` when `v` is a socket path.
 ---
----Raises an error if [`lfs`](https://github.com/lunarmodules/luafilesystem) is not installed.
----
----> [!IMPORTANT]
----> Requires [`lfs`](https://github.com/lunarmodules/luafilesystem).
----
----**Example:**
 ---```lua
 ---is.socket("/path/to/socket")
 ---```

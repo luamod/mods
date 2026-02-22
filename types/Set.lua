@@ -2,6 +2,14 @@
 
 ---A Python-style set class providing common operations to create,
 ---modify, and query collections of unique values.
+---## Usage
+---
+---```lua
+---Set = require "mods.Set"
+---
+---s = Set({ "a" })
+---print(s:contains("a")) --> true
+---```
 ---@class mods.Set<T>:{[T]:true}
 ---@overload fun(t?:any[]|mods.Set|mods.List):mods.Set
 local Set = {}
@@ -10,14 +18,14 @@ Set.__index = Set
 --------------------------------------------------------------------------------
 ----------------------------------- Mutation -----------------------------------
 --------------------------------------------------------------------------------
+---
+---In-place operations that mutate the current set.
+---
 
 ---Add an element to the set.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a" })
----s:add("b")
------ result: s contains "a", "b"
+---s = Set({ "a" }):add("b") --> s contains "a", "b"
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -27,11 +35,8 @@ function Set:add(v) end
 
 ---Remove all elements from the set.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----s:clear()
------ result: s is empty
+---s = Set({ "a", "b" }):clear() --> s is empty
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -40,11 +45,8 @@ function Set:clear() end
 
 ---Remove elements found in another set (in place).
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----s:difference_update(Set({ "b" }))
------ result: s contains "a"
+---s = Set({ "a", "b" }):difference_update(Set({ "b" })) --> s contains "a"
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -54,11 +56,8 @@ function Set:difference_update(set) end
 
 ---Remove an element if present, do nothing otherwise.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----s:discard("b")
------ result: s contains "a"
+---s = Set({ "a", "b" }):discard("b") --> s contains "a"
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -68,11 +67,9 @@ function Set:discard(v) end
 
 ---Keep only elements common to both sets (in place).
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----s:intersection_update(Set({ "b", "c" }))
------ result: s contains "b"
+---s = Set({ "a", "b" }):intersection_update(Set({ "b", "c" }))
+-----> s contains "b"
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -82,10 +79,8 @@ function Set:intersection_update(set) end
 
 ---Remove and return an arbitrary element.
 ---
----**Example:**
 ---```lua
----local v = Set({ "a", "b" }):pop()
------ result: v is either "a" or "b"
+---v = Set({ "a", "b" }):pop() --> v is either "a" or "b"
 ---```
 ---@param self mods.Set|table<any,true>
 ---@return any
@@ -93,11 +88,9 @@ function Set:pop() end
 
 ---Update the set with elements not shared by both (in place).
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----s:symmetric_difference_update(Set({ "b", "c" }))
------ result: s contains "a", "c"
+---s = Set({ "a", "b" }):symmetric_difference_update(Set({ "b", "c" }))
+-----> s contains "a", "c"
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -107,11 +100,8 @@ function Set:symmetric_difference_update(set) end
 
 ---Add all elements from another set (in place).
 ---
----**Example:**
 ---```lua
----local s = Set({ "a" })
----s:update(Set({ "b" }))
------ result: s contains "a", "b"
+---s = Set({ "a" }):update(Set({ "b" })) --> s contains "a", "b"
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -122,29 +112,24 @@ function Set:update(set) end
 --------------------------------------------------------------------------------
 ----------------------------------- Copying ------------------------------------
 --------------------------------------------------------------------------------
+---
+---Non-mutating set operations that return new set instances.
+---
 
 ---Return a shallow copy of the set.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a" })
----local c = s:copy()
------ result: c is a new set with "a"
+---c = Set({ "a" }):copy() --> c is a new set with "a"
 ---```
 ---@param self mods.Set|table<any,true>
 ---@return mods.Set set
 ---@nodiscard
 function Set:copy() end
 
---- Set Operations ---
-
 ---Return elements in this set but not in another.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----local d = s:difference(Set({ "b" }))
------ result: d contains "a"
+---d = Set({ "a", "b" }):difference(Set({ "b" })) --> d contains "a"
 ---```
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -154,11 +139,8 @@ function Set:difference(set) end
 
 ---Return elements common to both sets.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----local i = s:intersection(Set({ "b", "c" }))
------ result: i contains "b"
+---i = Set({ "a", "b" }):intersection(Set({ "b", "c" })) --> i contains "b"
 ---```
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -168,11 +150,9 @@ function Set:intersection(set) end
 
 ---Return elements not shared by both sets.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a", "b" })
----local d = s:symmetric_difference(Set({ "b", "c" }))
------ result: d contains "a", "c"
+---d = Set({ "a", "b" }):symmetric_difference(Set({ "b", "c" }))
+-----> d contains "a", "c"
 ---```
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -182,10 +162,8 @@ function Set:symmetric_difference(set) end
 
 ---Return a new set with all elements from both.
 ---
----**Example:**
 ---```lua
----local s = Set({ "a" }):union(Set({ "b" }))
------ result: s contains "a", "b"
+---s = Set({ "a" }):union(Set({ "b" })) --> s contains "a", "b"
 ---```
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -196,13 +174,14 @@ function Set:union(set) end
 --------------------------------------------------------------------------------
 ---------------------------------- Predicates ----------------------------------
 --------------------------------------------------------------------------------
+---
+---Boolean checks about set relationships and emptiness.
+---
 
 ---Return true if sets have no elements in common.
 ---
----**Example:**
 ---```lua
----local ok = Set({ "a" }):isdisjoint(Set({ "b" }))
------ result: true
+---ok = Set({ "a" }):isdisjoint(Set({ "b" })) --> true
 ---```
 ---@generic T:mods.Set|table<any,true>
 ---@param self T
@@ -213,10 +192,8 @@ function Set:isdisjoint(set) end
 
 ---Return true if the set has no elements.
 ---
----**Example:**
 ---```lua
----local empty = Set({}):isempty()
------ result: true
+---empty = Set({}):isempty() --> true
 ---```
 ---@param self mods.Set|table<any,true>
 ---@return boolean
@@ -225,10 +202,8 @@ function Set:isempty() end
 
 ---Return true if all elements of this set are also in another set.
 ---
----**Example:**
 ---```lua
----local ok = Set({ "a" }):issubset(Set({ "a", "b" }))
------ result: true
+---ok = Set({ "a" }):issubset(Set({ "a", "b" })) --> true
 ---```
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -238,10 +213,8 @@ function Set:issubset(set) end
 
 ---Return true if this set contains all elements of another set.
 ---
----**Example:**
 ---```lua
----local ok = Set({ "a", "b" }):issuperset(Set({ "a" }))
------ result: true
+---ok = Set({ "a", "b" }):issuperset(Set({ "a" })) --> true
 ---```
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -252,6 +225,9 @@ function Set:issuperset(set) end
 --------------------------------------------------------------------------------
 ------------------------------------- Query ------------------------------------
 --------------------------------------------------------------------------------
+---
+---Read-only queries for membership and size.
+---
 
 ---Return true if the set contains `v`.
 ---
@@ -267,10 +243,8 @@ function Set:contains(v) end
 
 ---Return the number of elements in the set.
 ---
----**Example:**
 ---```lua
----local n = Set({ "a", "b" }):len()
------ result: 2
+---n = Set({ "a", "b" }):len() --> 2
 ---```
 ---@param self mods.Set|table<any,true>
 ---@return integer
@@ -280,13 +254,14 @@ function Set:len() end
 --------------------------------------------------------------------------------
 ----------------------------------- Transform ----------------------------------
 --------------------------------------------------------------------------------
+---
+---Value-to-value transformations and projection helpers.
+---
 
 ---Return a new set by mapping each value.
 ---
----**Example:**
 ---```lua
----local s = Set({ 1, 2 }):map(function(v) return v * 10 end)
------ result: s contains 10, 20
+---s = Set({ 1, 2 }):map(function(v) return v * 10 end) --> s contains 10, 20
 ---```
 ---@param self mods.Set|table<any,true>
 ---@param fn fun(v:any):any
@@ -296,10 +271,8 @@ function Set:map(fn) end
 
 ---Return a list of all values in the set.
 ---
----**Example:**
 ---```lua
----local values = Set({ "a", "b" }):values()
------ result: { "a", "b" }
+---values = Set({ "a", "b" }):values() --> { "a", "b" }
 ---```
 ---@param self mods.Set|table<any,true>
 ---@return mods.List values

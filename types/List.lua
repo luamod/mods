@@ -2,6 +2,17 @@
 
 ---A Python-style list class providing common operations to create,
 ---modify, and query sequences of values.
+---
+---## Usage
+---
+---```lua
+---lsist = require "mods.List"
+---
+---ls = List({ "a" }):append("b")
+---print(ls:contains("b")) --> true
+---print(ls:index("b")) --> 2
+---```
+---
 ---@class mods.List<T>:{[integer]:T}
 ---@overload fun(t?:{}):mods.List
 local List = {}
@@ -10,16 +21,21 @@ List.__index = List
 --------------------------------------------------------------------------------
 ---------------------------------- Predicates ----------------------------------
 --------------------------------------------------------------------------------
+---
+---Boolean checks for list-wide conditions.
+---
 
 ---Return true if all values match the predicate.
----Empty lists return true.
 ---
----**Example:**
 ---```lua
----local is_even = function(v) return v % 2 == 0 end
----local ok = List({ 2, 4 }):all(is_even)
------ result: true
+---is_even = function(v) return v % 2 == 0 end
+---ok = List({ 2, 4 }):all(is_even) --> true
 ---```
+---
+---> [!NOTE]
+---> Empty lists return `true`.
+---
+---
 ---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
 ---@return boolean
@@ -28,11 +44,9 @@ function List:all(pred) end
 
 ---Return true if any value matches the predicate.
 ---
----**Example:**
 ---```lua
----local has_len_2 = function(v) return #v == 2 end
----local ok = List({ "a", "bb" }):any(has_len_2)
------ result: true
+---has_len_2 = function(v) return #v == 2 end
+---ok = List({ "a", "bb" }):any(has_len_2) --> true
 ---```
 ---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
@@ -43,13 +57,14 @@ function List:any(pred) end
 --------------------------------------------------------------------------------
 ----------------------------------- Mutation -----------------------------------
 --------------------------------------------------------------------------------
+---
+---In-place operations that modify the current list.
+---
 
 ---Append a value to the end of the list.
 ---
----**Example:**
 ---```lua
----local l = List({ "a" }):append("b")
------ result: { "a", "b" }
+---ls = List({ "a" }):append("b") --> { "a", "b" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -58,10 +73,8 @@ function List:append(v) end
 
 ---Remove all elements from the list.
 ---
----**Example:**
 ---```lua
----local l = List({ "a", "b" }):clear()
------ result: { }
+---ls = List({ "a", "b" }):clear() --> { }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -70,11 +83,8 @@ function List:clear() end
 
 ---Extend the list with another list.
 ---
----**Example:**
 ---```lua
----local l = List({ "a" })
----l:extend({ "b", "c" })
------ result: { "a", "b", "c" }
+---ls = List({ "a" }):extend({ "b", "c" }) --> { "a", "b", "c" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -84,12 +94,10 @@ function List:extend(ls) end
 
 ---Extract values matching the predicate and remove them from the list.
 ---
----**Example:**
 ---```lua
----local l = List({ "a", "bb", "c" })
----local is_len_1 = function(v) return #v == 1 end
----local ex = l:extract(is_len_1)
------ result: ex = { "a", "c" }, l = { "bb" }
+---ls = List({ "a", "bb", "c" })
+---is_len_1 = function(v) return #v == 1 end
+---ex = ls:extract(is_len_1) --> ex = { "a", "c" }, ls = { "bb" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -100,10 +108,8 @@ function List:extract(pred) end
 
 ---Insert a value at the given position.
 ---
----**Example:**
 ---```lua
----local l = List({ "a", "c" }):insert(2, "b")
------ result: { "a", "b", "c" }
+---ls = List({ "a", "c" }):insert(2, "b") --> { "a", "b", "c" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -114,10 +120,8 @@ function List:insert(pos, v) end
 
 ---Append a value to the end of the list.
 ---
----**Example:**
 ---```lua
----local l = List({ "a", "b" }):insert("b")
------ result: { "a", "b", "c" }
+---ls = List({ "a", "b" }):insert("b") --> { "a", "b", "c" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -126,11 +130,10 @@ function List:insert(pos, v) end
 function List:insert(v) end
 
 ---Remove and return the last element.
----**Example:**
+---
 ---```lua
----local l = List({ "a", "b" })
----local v = l:pop()
------ result: v == "b"; l is { "a" }
+---ls = List({ "a", "b" })
+---v = ls:pop() --> v == "b"; ls is { "a" }
 ---```
 ---@param self mods.List|any[]
 ---@return any
@@ -138,11 +141,9 @@ function List:pop() end
 
 ---Remove and return the element at the given position.
 ---
----**Example:**
 ---```lua
----local l = List({ "a", "b", "c" })
----local v = l:pop(2)
------ result: v == "b"; l is { "a", "c" }
+---ls = List({ "a", "b", "c" })
+---v = ls:pop(2) --> v == "b"; ls is { "a", "c" }
 ---```
 ---@param self mods.List|any[]
 ---@param pos integer
@@ -151,11 +152,9 @@ function List:pop(pos) end
 
 ---Insert a value at the start of the list.
 ---
----**Example:**
 ---```lua
----local l = List({ "b", "c" })
----l:prepend("a")
------ result: { "a", "b", "c" }
+---ls = List({ "b", "c" })
+---ls:prepend("a") --> { "a", "b", "c" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -165,11 +164,9 @@ function List:prepend(v) end
 
 ---Remove the first matching value.
 ---
----**Example:**
 ---```lua
----local l = List({ "a", "b", "b" })
----l:remove("b")
------ result: { "a", "b" }
+---ls = List({ "a", "b", "b" })
+---ls:remove("b") --> { "a", "b" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -179,11 +176,9 @@ function List:remove(v) end
 
 ---Sort the list in place.
 ---
----**Example:**
 ---```lua
----local l = List({ 3, 1, 2 })
----l:sort()
------ result: { 1, 2, 3 }
+---ls = List({ 3, 1, 2 })
+---ls:sort() --> { 1, 2, 3 }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -194,13 +189,14 @@ function List:sort(comp) end
 --------------------------------------------------------------------------------
 ----------------------------------- Copying ------------------------------------
 --------------------------------------------------------------------------------
+---
+---Operations that return copied list data.
+---
 
 ---Return a shallow copy of the list.
 ---
----**Example:**
 ---```lua
----local c = List({ "a", "b" }):copy()
------ result: { "a", "b" }
+---c = List({ "a", "b" }):copy() --> { "a", "b" }
 ---```
 ---@param self mods.List|any[]
 ---@return mods.List ls
@@ -210,13 +206,14 @@ function List:copy() end
 --------------------------------------------------------------------------------
 ------------------------------------- Query ------------------------------------
 --------------------------------------------------------------------------------
+---
+---Read-only queries for membership, counts, and indices.
+---
 
 ---Return true if the list contains the value.
 ---
----**Example:**
 ---```lua
----local ok = List({ "a", "b" }):contains("b")
------ result: true
+---ok = List({ "a", "b" }):contains("b") --> true
 ---```
 ---@param self mods.List|any[]
 ---@param v any
@@ -226,10 +223,8 @@ function List:contains(v) end
 
 ---Count how many times a value appears.
 ---
----**Example:**
 ---```lua
----local n = List({ "a", "b", "b" }):count("b")
------ result: 2
+---n = List({ "a", "b", "b" }):count("b") --> 2
 ---```
 ---@param self mods.List|any[]
 ---@return integer
@@ -238,10 +233,8 @@ function List:count(v) end
 
 ---Return the index of the first matching value.
 ---
----**Example:**
 ---```lua
----local i = List({ "a", "b", "c", "b" }):index("b")
------ result: 2
+---i = List({ "a", "b", "c", "b" }):index("b") --> 2
 ---```
 ---@param self mods.List|any[]
 ---@param v any
@@ -252,11 +245,9 @@ function List:index(v) end
 
 ---Return the index of the first value matching the predicate.
 ---
----**Example:**
 ---```lua
----local gt_1 = function(x) return x > 1 end
----local i = List({ 1, 2, 3 }):index_if(gt_1)
------ result: 2
+---gt_1 = function(x) return x > 1 end
+---i = List({ 1, 2, 3 }):index_if(gt_1) --> 2
 ---```
 ---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
@@ -266,11 +257,13 @@ function List:index_if(pred) end
 
 ---Return the number of elements in the list.
 ---
----**Example:**
 ---```lua
----local n = List({ "a", "b", "c" }):len()
------ result: 3
+---n = List({ "a", "b", "c" }):len() --> 3
 ---```
+---
+---> [!NOTE]
+---> Uses Lua's `#` operator, so length is reliable for contiguous array-like lists.
+---
 ---@param self mods.List|any[]
 ---@return integer
 ---@nodiscard
@@ -279,25 +272,24 @@ function List:len() end
 --------------------------------------------------------------------------------
 ------------------------------------ Access ------------------------------------
 --------------------------------------------------------------------------------
-
----Return the first element or nil if empty.
 ---
----**Example:**
+---Direct element access helpers.
+---
+
+---Return the first element or `nil` if empty.
+---
 ---```lua
----local v = List({ "a", "b" }):first()
------ result: "a"
+---v = List({ "a", "b" }):first() --> "a"
 ---```
 ---@param self mods.List|any[]
 ---@return any
 ---@nodiscard
 function List:first() end
 
----Return the last element or nil if empty.
+---Return the last element or `nil` if empty.
 ---
----**Example:**
 ---```lua
----local v = List({ "a", "b" }):last()
------ result: "b"
+---v = List({ "a", "b" }):last() --> "b"
 ---```
 ---@param self mods.List|any[]
 ---@return any
@@ -307,13 +299,14 @@ function List:last() end
 --------------------------------------------------------------------------------
 --------------------------------- Transform ------------------------------------
 --------------------------------------------------------------------------------
+---
+---Non-mutating transformations and derived-list operations.
+---
 
 ---Return a new list with values not in the given list.
 ---
----**Example:**
 ---```lua
----local d = List({ "a", "b", "c" }):difference({ "b" })
------ result: { "a", "c" }
+---d = List({ "a", "b", "c" }):difference({ "b" }) --> { "a", "c" }
 ---```
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -323,10 +316,8 @@ function List:difference(ls) end
 
 ---Return a new list without the first n elements.
 ---
----**Example:**
 ---```lua
----local t = List({ "a", "b", "c" }):drop(1)
------ result: { "b", "c" }
+---t = List({ "a", "b", "c" }):drop(1) --> { "b", "c" }
 ---```
 ---@param self mods.List|any[]
 ---@param n integer
@@ -336,11 +327,9 @@ function List:drop(n) end
 
 ---Return a new list with values matching the predicate.
 ---
----**Example:**
 ---```lua
----local is_len_1 = function(v) return #v == 1 end
----local f = List({ "a", "bb", "c" }):filter(is_len_1)
------ result: { "a", "c" }
+---is_len_1 = function(v) return #v == 1 end
+---f = List({ "a", "bb", "c" }):filter(is_len_1) --> { "a", "c" }
 ---```
 ---@param self mods.List|any[]
 ---@param pred fun(v:any):boolean
@@ -350,10 +339,8 @@ function List:filter(pred) end
 
 ---Flatten one level of nested lists.
 ---
----**Example:**
 ---```lua
----local f = List({ { "a", "b" }, { "c" } }):flatten()
------ result: { "a", "b", "c" }
+---f = List({ { "a", "b" }, { "c" } }):flatten() --> { "a", "b", "c" }
 ---```
 ---@param self mods.List|any[]
 ---@return mods.List self
@@ -363,9 +350,10 @@ function List:flatten() end
 ---Apply a function to each element (for side effects).
 ---Returns nil.
 ---
----**Example:**
 ---```lua
 ---List({ "a", "b" }):foreach(print)
+-----> prints -> a
+-----> prints -> b
 ---```
 ---@param self mods.List|any[]
 ---@param fn fun(v:any)
@@ -374,11 +362,9 @@ function List:foreach(fn) end
 
 ---Group list values by a computed key.
 ---
----**Example:**
 ---```lua
----local words = { "aa", "b", "ccc", "dd" }
----local g = List(words):group_by(string.len)
------ result: { {"b"}, { "aa", "dd" }, { "ccc" } }
+---words = { "aa", "b", "ccc", "dd" }
+---g = List(words):group_by(string.len) --> { {"b"}, { "aa", "dd" }, { "ccc" } }
 ---```
 ---@param self mods.List|any[]
 ---@param fn fun(v:any):any
@@ -389,10 +375,8 @@ function List:group_by(fn) end
 ---Return values that are also present in the given list.
 ---Order is preserved from the original list.
 ---
----**Example:**
 ---```lua
----local i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
------ result: { "a", "a", "c" }
+---i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" }) --> { "a", "a", "c" }
 ---```
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
@@ -402,10 +386,8 @@ function List:intersection(ls) end
 
 ---Invert values to indices in a new table.
 ---
----**Example:**
 ---```lua
----local t = List({ "a", "b", "c" }):invert()
------ result: { a = 1, b = 2, c = 3 }
+---t = List({ "a", "b", "c" }):invert() --> { a = 1, b = 2, c = 3 }
 ---```
 ---@param self mods.List|any[]
 ---@return table
@@ -414,10 +396,8 @@ function List:invert() end
 
 ---Join list values into a string.
 ---
----**Example:**
 ---```lua
----local s = List({ "a", "b", "c" }):join(",")
------ result: "a,b,c"
+---s = List({ "a", "b", "c" }):join(",") --> "a,b,c"
 ---```
 ---@param self mods.List|any[]
 ---@param sep? string
@@ -427,11 +407,9 @@ function List:join(sep) end
 
 ---Return a new list by mapping each value.
 ---
----**Example:**
 ---```lua
----local to_upper = function(v) return v:upper() end
----local m = List({ "a", "b" }):map(to_upper)
------ result: { "A", "B" }
+---to_upper = function(v) return v:upper() end
+---m = List({ "a", "b" }):map(to_upper) --> { "A", "B" }
 ---```
 ---@param self mods.List|any[]
 ---@param fn fun(v):any
@@ -440,18 +418,18 @@ function List:join(sep) end
 function List:map(fn) end
 
 ---Reduce the list to a single value using an accumulator.
----If init is nil, the first element is used as the initial value.
----Empty lists return init (or nil if init is nil).
 ---
----**Example:**
 ---```lua
----local add = function(acc, v) return acc + v end
----local sum = List({ 1, 2, 3 }):reduce(add, 0)
------ result: 6
----
----sum = List({ 1, 2, 3 }):reduce(add, 10)
------ result: 16
+---add = function(acc, v) return acc + v end
+---sum = List({ 1, 2, 3 }):reduce(add, 0) --> 6
+---sum = List({ 1, 2, 3 }):reduce(add, 10) --> 16
 ---```
+---
+---> [!NOTE]
+--->
+---> If init is `nil`, the first element is used as the initial value.
+---> Empty lists return init (or `nil` if init is `nil`).
+---
 ---@param self mods.List|any[]
 ---@param fn fun(acc:any, v:any):any
 ---@param init? any
@@ -461,10 +439,8 @@ function List:reduce(fn, init) end
 
 ---Return a new list with items reversed.
 ---
----**Example:**
 ---```lua
----local r = List({ "a", "b", "c" }):reverse()
------ result: { "c", "b", "a" }
+---r = List({ "a", "b", "c" }):reverse() --> { "c", "b", "a" }
 ---```
 ---@param self mods.List|any[]
 ---@return mods.List ls
@@ -473,10 +449,8 @@ function List:reverse() end
 
 ---Convert the list to a set.
 ---
----**Example:**
 ---```lua
----local s = List({ "a", "b", "a" }):setify()
------ result: { a = true, b = true }
+---s = List({ "a", "b", "a" }):setify() --> { a = true, b = true }
 ---```
 ---@param self mods.List|any[]
 ---@return mods.Set
@@ -484,13 +458,14 @@ function List:reverse() end
 function List:setify() end
 
 ---Return a new list containing items from i to j (inclusive).
----Supports negative indices (-1 is last element).
 ---
----**Example:**
 ---```lua
----local t = List({ "a", "b", "c", "d" }):slice(2, 3)
------ result: { "b", "c" }
+---t = List({ "a", "b", "c", "d" }):slice(2, 3) --> { "b", "c" }
 ---```
+---
+---> [!NOTE]
+---> Supports negative indices (-1 is last element).
+---
 ---@param self mods.List|any[]
 ---@param i? integer
 ---@param j? integer
@@ -500,10 +475,8 @@ function List:slice(i, j) end
 
 ---Return the first n elements as a new list.
 ---
----**Example:**
 ---```lua
----local t = List({ "a", "b", "c" }):take(2)
------ result: { "a", "b" }
+---t = List({ "a", "b", "c" }):take(2) --> { "a", "b" }
 ---```
 ---@param self mods.List|any[]
 ---@param n integer
@@ -513,10 +486,8 @@ function List:take(n) end
 
 ---Return a new list with duplicates removed (first occurrence kept).
 ---
----**Example:**
 ---```lua
----local u = List({ "a", "b", "a", "c" }):uniq()
------ result: { "a", "b", "c" }
+---u = List({ "a", "b", "a", "c" }):uniq() --> { "a", "b", "c" }
 ---```
 ---@param self mods.List|any[]
 ---@return mods.List ls
@@ -524,13 +495,14 @@ function List:take(n) end
 function List:uniq() end
 
 ---Zip two lists into a list of 2-element tables.
----Length is the minimum of both lists.
 ---
----**Example:**
 ---```lua
----local z = List({ "a", "b" }):zip({ 1, 2 })
------ result: { {"a",1}, {"b",2} }
+---z = List({ "a", "b" }):zip({ 1, 2 }) --> { {"a",1}, {"b",2} }
 ---```
+---
+---> [!NOTE]
+---> Length is the minimum of both lists.
+---
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
 ---@return mods.List ls

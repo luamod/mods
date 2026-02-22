@@ -1,6 +1,13 @@
 ---@meta mods.utils
 
 ---Small shared utility helpers used by modules in this library.
+---## Usage
+---
+---```lua
+---utils = require "mods.utils"
+---
+---print(utils.quote('hello "world"')) --> 'hello "world"'
+---```
 ---@class mods.utils
 local M = {}
 

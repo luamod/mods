@@ -1,20 +1,26 @@
 ---@meta mods.tbl
 
 ---Utility functions for working with Lua tables.
+---## Usage
+---
+---```lua
+---tbl = require "mods.tbl"
+---
+---print(tbl.count({ a = 1, b = 2 })) --> 2
+---```
 ---@class mods.tbl
 local M = {}
 
 --------------------------------------------------------------------------------
 ------------------------------------ Basics ------------------------------------
 --------------------------------------------------------------------------------
+---Core table utilities for clearing and counting.
 
 ---Remove all entries from the table.
 ---
----**Example:**
 ---```lua
----local t = { a = 1, b = 2 }
----clear(t)
------ result: {}
+---t = { a = 1, b = 2 }
+---clear(t) --> t = {}
 ---```
 ---@param t table
 ---@return nil
@@ -22,10 +28,8 @@ function M.clear(t) end
 
 ---Return the number of keys in the table.
 ---
----**Example:**
 ---```lua
----local n = count({ a = 1, b = 2 })
------ result: 2
+---n = count({ a = 1, b = 2 }) --> 2
 ---```
 ---@param t table
 ---@return integer
@@ -35,13 +39,12 @@ function M.count(t) end
 --------------------------------------------------------------------------------
 ------------------------------------ Copying -----------------------------------
 --------------------------------------------------------------------------------
+---Shallow and deep copy helpers.
 
 ---Create a shallow copy of the table.
 ---
----**Example:**
 ---```lua
----local t = copy({ a = 1, b = 2 })
------ result: { a = 1, b = 2 }
+---t = copy({ a = 1, b = 2 }) --> { a = 1, b = 2 }
 ---```
 ---@generic T:table
 ---@param t T
@@ -52,13 +55,9 @@ function M.copy(t) end
 ---Create a deep copy of a value.
 ---If `v` is a table, all nested tables are copied recursively; other types are returned as-is.
 ---
----**Example:**
 ---```lua
----local n = deepcopy(42)
------ result: 42
----
----local t = deepcopy({ a = { b = 1 } })
------ result: { a = { b = 1 } }
+---t = deepcopy({ a = { b = 1 } }) --> { a = { b = 1 } }
+---n = deepcopy(42) --> 42
 ---```
 ---@generic T
 ---@param v T
@@ -69,15 +68,14 @@ function M.deepcopy(v) end
 --------------------------------------------------------------------------------
 ------------------------------------- Query ------------------------------------
 --------------------------------------------------------------------------------
+---Read-only lookup and selection helpers.
 
 ---Filter entries by a value predicate.
 ---
----**Example:**
 ---```lua
----local even = filter({ a = 1, b = 2, c = 3 }, function(v)
+---even = filter({ a = 1, b = 2, c = 3 }, function(v)
 ---  return v % 2 == 0
----end)
------ result: { b = 2 }
+---end) --> { b = 2 }
 ---```
 ---@param t table
 ---@param pred fun(v:any):boolean
@@ -87,10 +85,8 @@ function M.filter(t, pred) end
 
 ---Find the first key whose value equals the given value.
 ---
----**Example:**
 ---```lua
----local key = find({ a = 1, b = 2, c = 2 }, 2)
------ result: "b" or "c"
+---key = find({ a = 1, b = 2, c = 2 }, 2) --> "b" or "c"
 ---```
 ---@generic T1,T2
 ---@param t {[T1]:T2}
@@ -101,12 +97,10 @@ function M.find(t, v) end
 
 ---Find first value and key matching predicate.
 ---
----**Example:**
 ---```lua
----local v, k = find_if({ a = 1, b = 2 }, function(v, k)
+---v, k = find_if({ a = 1, b = 2 }, function(v, k)
 ---  return k == "b" and v == 2
----end)
------ result: 2, "b"
+---end) --> 2, "b"
 ---```
 ---@generic T1,T2
 ---@param t table
@@ -119,14 +113,10 @@ function M.find_if(t, pred) end
 ---Safely get nested value by keys.
 ---If no keys are provided, returns the input table.
 ---
----**Example:**
 ---```lua
----local t = { a = { b = { c = 1 } } }
----local v = get(t, "a", "b", "c")
------ result: 1
----
----local v2 = get(t)
------ result: { a = { b = { c = 1 } } }
+---t = { a = { b = { c = 1 } } }
+---v1 = get(t, "a", "b", "c") --> 1
+---v2 = get(t) --> { a = { b = { c = 1 } } }
 ---```
 ---@param t table
 ---@param ... any
@@ -137,13 +127,12 @@ function M.get(t, ...) end
 --------------------------------------------------------------------------------
 ---------------------------------- Transforms ----------------------------------
 --------------------------------------------------------------------------------
+---Table transformation and conversion utilities.
 
 ---Invert keys/values into new table.
 ---
----**Example:**
 ---```lua
----local t = invert({ a = 1, b = 2 })
------ result: { [1] = "a", [2] = "b" }
+---t = invert({ a = 1, b = 2 }) --> { [1] = "a", [2] = "b" }
 ---```
 ---@generic T1,T2
 ---@param t {[T1]:T2}
@@ -153,10 +142,8 @@ function M.invert(t) end
 
 ---Return true if table has no entries.
 ---
----**Example:**
 ---```lua
----local empty = isempty({})
------ result: true
+---empty = isempty({}) --> true
 ---```
 ---@param t table
 ---@return boolean
@@ -165,10 +152,8 @@ function M.isempty(t) end
 
 ---Return a list of all keys in the table.
 ---
----**Example:**
 ---```lua
----local keys = keys({ a = 1, b = 2 })
------ result: { "a", "b" }
+---keys = keys({ a = 1, b = 2 }) --> { "a", "b" }
 ---```
 ---@generic T
 ---@param t {[any]:T}
@@ -178,12 +163,10 @@ function M.keys(t) end
 
 ---Return a new table by mapping each value (keys preserved).
 ---
----**Example:**
 ---```lua
----local t = map({ a = 1, b = 2 }, function(v)
+---t = map({ a = 1, b = 2 }, function(v)
 ---  return v * 10
----end)
------ result: { a = 10, b = 20 }
+---end) --> { a = 10, b = 20 }
 ---```
 ---@generic T1,T2,T3
 ---@param t {[T1]:T2}
@@ -195,12 +178,10 @@ function M.map(t, fn) end
 ---Return a new table by mapping each key-value pair.
 ---The resulting table keeps the same keys, with values transformed by `fn`.
 ---
----**Example:**
 ---```lua
----local t = pairmap({ a = 1, b = 2 }, function(k, v)
+---t = pairmap({ a = 1, b = 2 }, function(k, v)
 ---  return k .. v
----end)
------ result: { a = "a1", b = "b2" }
+---end) --> { a = "a1", b = "b2" }
 ---```
 ---@generic T1,T2,T3
 ---@param t {[T1]:T2}
@@ -211,11 +192,9 @@ function M.pairmap(t, fn) end
 
 ---Merge entries from t2 into t1 and return t1.
 ---
----**Example:**
 ---```lua
----local t1 = { a = 1, b = 2 }
----update(t1, { b = 3, c = 4 })
------ result: t1 is { a = 1, b = 3, c = 4 }
+---t1 = { a = 1, b = 2 }
+---update(t1, { b = 3, c = 4 }) --> t1 is { a = 1, b = 3, c = 4 }
 ---```
 ---@generic T:table
 ---@param t1 T
@@ -226,10 +205,8 @@ function M.update(t1, t2) end
 
 ---Return a list of all values in the table.
 ---
----**Example:**
 ---```lua
----local vals = values({ a = 1, b = 2 })
------ result: { 1, 2 }
+---vals = values({ a = 1, b = 2 }) --> { 1, 2 }
 ---```
 ---@generic T
 ---@param t {[any]:T}

@@ -1,31 +1,88 @@
 ---@meta mods.template
 
----Render a simple template using the provided context.
----Supports nested paths (`{{user.name}}`), trims placeholder whitespace,
----invokes function values, and renders missing keys as an empty string.
----For more info, see [template docs](https://luamod.github.io/mods/modules/template).
+---Render lightweight templates with dot-path placeholders and function-aware values.
+---
+---## Usage
 ---
 ---```lua
----local template = require("mods.template")
+---template = require "mods.template"
 ---
----local view = {
----  user = { name = "Ada" },
----  count = 3,
+---view = {
+---  user = { name = "World" },
 ---}
 ---
----local out = template("Hello {{user.name}}!", view)
------result: "Hello Ada!"
----
----out = template("You have {{count}} new messages.", view)
------result: "You have 3 new messages."
----
----out = template("Role: {{ user.role }}", { user = { role = "Engineer" } })
------result: "Role: Engineer"
----
----out = template('Missing key: "{{missing}}"', view)
------result: 'Missing key: ""'
+---out = template("Hello {{user.name}}!", view) --> "Hello World!"
 ---```
----@alias mods.template fun(template:string,view:table):string
+---
+---## Rules
+---
+---* Placeholders use <code v-pre>{{name}}</code>.
+---
+---```lua
+---template("Hi {{name}}", { name = "Ada" }) --> "Hi Ada"
+---```
+---
+---* Whitespace inside placeholders is ignored.
+---
+---```lua
+--- template("Hi {{ name }}", { name = "Ada" }) --> "Hi Ada"
+---```
+---
+---* Dot paths are supported.
+---
+---```lua
+---template("Role: {{user.meta.role}}", {
+---  user = { meta = { role = "Engineer" } },
+---}) --> "Role: Engineer"
+---```
+---
+---* <code v-pre>{{.}}</code> resolves to the whole `view`.
+---
+---```lua
+---template("Value: {{.}}", 123) --> "Value: 123"
+---```
+---
+---* Function values are called and their return value is rendered.
+---
+---```lua
+---template("Hi {{name_func}}", { name_func = function() return "Ada" end })
+-----> "Hi Ada"
+---```
+---
+---* Table values render as first-depth key/value pairs. String values are
+---  quoted; nested tables/functions are summarized.
+---
+---```lua
+---template("Data: {{data}}", { data = { a = 1, b = true } })
+-----> {
+-----     a = 1,
+-----     b = true
+-----  }
+---```
+---
+---* Missing keys render as an empty string.
+---
+---```lua
+---template("Missing: {{unknown}}", {}) --> "Missing: "
+---```
+---
+---* If a tag is not closed (<code v-pre>{{name</code>), it is emitted as-is.
+---
+---```lua
+---template("Hi {{name", { name = "Ada" }) --> "Hi {{name"
+---```
+---
+---* `template(view)` is shorthand for <code v-pre>template("{{.}}", view)</code>.
+---
+---```lua
+---template({ a = 1, b = true })
+-----> {
+-----    a = 1,
+-----    b = true
+-----  }
+---```
+---@class mods.template
+---@overload fun(template:string,view:table):string
 
 ---@type mods.template
 local render
