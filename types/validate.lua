@@ -263,7 +263,8 @@ is.Boolean = is.boolean
 ---
 ---```lua
 ---ok, err = validate.is.Function(function() end) --> true, nil
----ok, err = validate.is.Function(1)              --> false, "expected function, got number"
+---ok, err = validate.is.Function(1)
+-----> false, "expected function, got number"
 ---```
 ---
 ---@param v any

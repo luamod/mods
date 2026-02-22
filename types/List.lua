@@ -376,7 +376,8 @@ function List:group_by(fn) end
 ---Order is preserved from the original list.
 ---
 ---```lua
----i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" }) --> { "a", "a", "c" }
+---i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
+-----> { "a", "a", "c" }
 ---```
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
