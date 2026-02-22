@@ -26,6 +26,38 @@
   color: var(--vp-c-brand-1) !important;
 }
 
+/* Add icons to VitePress/GitHub-style alert callouts */
+.VPDoc .custom-block.github-alert .custom-block-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.VPDoc .custom-block.note .custom-block-title::before {
+  content: "💡";
+}
+
+.VPDoc .custom-block.info .custom-block-title::before {
+  content: "ℹ️";
+}
+
+.VPDoc .custom-block.tip .custom-block-title::before {
+  content: "✅";
+}
+
+.VPDoc .custom-block.important .custom-block-title::before {
+  content: "❗";
+}
+
+.VPDoc .custom-block.warning .custom-block-title::before {
+  content: "⚠️";
+}
+
+.VPDoc .custom-block.danger .custom-block-title::before,
+.VPDoc .custom-block.caution .custom-block-title::before {
+  content: "❌";
+}
+
 /* Hide LLM copy/download controls on index page only */
 .index-page .markdown-copy-buttons {
   display: none !important;
