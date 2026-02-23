@@ -50,9 +50,12 @@ type ModuleTableRow = {
 };
 
 const moduleText = (name: string): string =>
-  name === "list" || name === "set" ? name[0].toUpperCase() + name.slice(1) : name;
+  name === "list" || name === "set"
+    ? name[0].toUpperCase() + name.slice(1)
+    : name;
 
-const stripWrappingQuotes = (s: string): string => s.replace(/^['"]|['"]$/g, "");
+const stripWrappingQuotes = (s: string): string =>
+  s.replace(/^['"]|['"]$/g, "");
 
 const readFrontmatterDesc = (src: string): string => {
   const frontmatter = src.match(/^---\n([\s\S]*?)\n---\n?/);
@@ -107,34 +110,41 @@ const moduleTableRows: ModuleTableRow[] = moduleNames.map((name) => {
   return { text: title, link: `${assetBasePath}modules/${name}`, desc };
 });
 
-const themeConfig: DefaultTheme.Config & { moduleTableRows: ModuleTableRow[] } = {
-  moduleTableRows,
-  logo: "/logo.svg",
-  outline: [2, 5], // show h2-h5
-  search: { provider: "local" },
-  socialLinks: [{ icon: "github", link: repoUrl }],
-  // prettier-ignore
-  nav: [
+const themeConfig: DefaultTheme.Config & { moduleTableRows: ModuleTableRow[] } =
+  {
+    moduleTableRows,
+    logo: "/logo.svg",
+    outline: [2, 5], // show h2-h5
+    search: { provider: "local" },
+    socialLinks: [{ icon: "github", link: repoUrl }],
+    // prettier-ignore
+    nav: [
     { text: "Home", link: "/" },
     { text: "Get Started", link: "/getting-started" },
     { text: "Modules", items: moduleItems },
     { text: "🇵🇸 Free Palestine", link: "https://techforpalestine.org/learn-more" },
   ],
-  sidebar: [
-    {
-      text: "Start",
-      items: [
-        { text: "What Is Mods?", link: "/" },
-        { text: "Getting Started", link: "/getting-started" },
-      ],
+    sidebar: [
+      {
+        text: "Start",
+        items: [
+          { text: "What Is Mods?", link: "/" },
+          { text: "Getting Started", link: "/getting-started" },
+        ],
+      },
+      { text: "Modules", items: moduleItems },
+    ],
+    editLink: {
+      pattern: (page) => {
+        const urlBase = page.frontmatter.repoUrl;
+        if (page.frontmatter.moduleTypeFile) {
+          return `${urlBase}/edit/main/types/${page.frontmatter.moduleTypeFile}`;
+        }
+        return `${urlBase}/edit/main/docs/src/${page.filePath}`;
+      },
+      text: "Edit this page",
     },
-    { text: "Modules", items: moduleItems },
-  ],
-  editLink: {
-    pattern: `${repoUrl}/edit/main/docs/src/:path`,
-    text: "Edit this page",
-  },
-};
+  };
 
 export default defineConfig({
   srcDir: "./src",
@@ -143,6 +153,14 @@ export default defineConfig({
   base: assetBasePath,
   sitemap: { hostname: siteUrl },
   cleanUrls: true,
+  transformPageData(pageData) {
+    pageData.frontmatter ??= {};
+    pageData.frontmatter.repoUrl = repoUrl;
+    const modulePath = pageData.filePath.match(/^modules\/(.+)\.md$/);
+    if (modulePath) {
+      pageData.frontmatter.moduleTypeFile = `${moduleText(modulePath[1])}.lua`;
+    }
+  },
   // prettier-ignore
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
