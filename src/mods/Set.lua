@@ -1,8 +1,15 @@
-local tbl = require("mods.tbl")
+local mods = require("mods")
 
 local ipairs = ipairs
 local next = next
 local pairs = pairs
+
+local tbl_map = {
+  update = "update",
+  values = "keys",
+  len = "count",
+  isempty = "isempty",
+}
 
 ---@type mods.Set
 local Set = {}
@@ -25,7 +32,11 @@ function Set:clear()
 end
 
 function Set:copy()
-  return setmetatable(tbl.copy(self), Set)
+  local set = Set()
+  for k in pairs(self) do
+    set[k] = true
+  end
+  return set
 end
 
 function Set:difference_update(set)
@@ -66,8 +77,6 @@ function Set:isdisjoint(set)
   return true
 end
 
-Set.isempty = tbl.isempty
-
 function Set:issubset(set)
   for k in pairs(self) do
     if not set[k] then
@@ -89,8 +98,6 @@ end
 function Set:contains(v)
   return self[v] ~= nil
 end
-
-Set.len = tbl.count
 
 function Set:map(fn)
   local set = new_set()
@@ -125,11 +132,15 @@ function Set:union(set)
   return self:copy():update(set)
 end
 
-Set.update = tbl.update
-
-Set.values = tbl.keys
-
 return setmetatable(Set, {
+  __index = function(t, k)
+    local fname = tbl_map[k]
+    if fname then
+      local fn = mods.tbl[fname]
+      rawset(t, k, fn)
+      return fn
+    end
+  end,
   __call = function(_, t)
     local set = new_set()
     for _, v in ipairs(t or {}) do
