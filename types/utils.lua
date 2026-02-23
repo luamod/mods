@@ -1,5 +1,6 @@
 ---@meta mods.utils
 
+---
 ---Small shared utility helpers used by modules in this library.
 ---
 ---## Usage
@@ -13,6 +14,7 @@
 ---@class mods.utils
 local M = {}
 
+---
 ---Smart-quote a string for readable Lua-like output.
 ---
 ---```lua
@@ -25,6 +27,7 @@ local M = {}
 ---@nodiscard
 function M.quote(v) end
 
+---
 ---Render any Lua value as a string.
 ---
 ---> [!NOTE]

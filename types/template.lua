@@ -1,5 +1,6 @@
 ---@meta mods.template
 
+---
 ---Render lightweight templates with dot-path placeholders and function-aware values.
 ---
 ---## Usage
@@ -81,6 +82,7 @@
 -----    b = true
 -----  }
 ---```
+---
 ---@class mods.template
 ---@overload fun(template:string,view:table):string
 

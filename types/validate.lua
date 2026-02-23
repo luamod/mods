@@ -41,6 +41,7 @@
 ---|'socket'
 ---|'Socket'
 
+---
 ---@ignore
 ---
 ---Validation checks for values and filesystem path types.
@@ -115,6 +116,14 @@ local is_not = {}
 ---> * Negated validators are available via `is_not`, `isnot`, `isNot`, `not`,
 --->   and `Not`, including underscore-insensitive top-level aliases (for
 --->   example, `validate.is_not_number` and `validate.isnotnumber`).
+---
+---## Dependencies
+---
+---Dependencies below are lazy-loaded 💤 on first access.
+---
+---* [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; required
+---  only for filesystem/path checks)
+---* [`mods.is`](https://luamod.github.io/mods/modules/is)
 ---
 ---## Callable Forms
 ---
@@ -242,6 +251,7 @@ local M = {}
 ---Basic Lua type validators (and their negated variants).
 ---
 
+---
 ---Returns `true` when `v` is a boolean. Otherwise returns `false` and an error
 ---message.
 ---
@@ -256,6 +266,7 @@ local M = {}
 is.boolean = function(v) end
 is.Boolean = is.boolean
 
+---
 ---@name function
 ---
 ---Returns `true` when `v` is a function. Otherwise returns `false` and an error
@@ -273,6 +284,7 @@ is.Boolean = is.boolean
 is.Function = function(v) end
 is["function"] = is.Function
 
+---
 ---@name nil
 ---
 ---Returns `true` when `v` is `nil`. Otherwise returns `false` and an error
@@ -289,6 +301,7 @@ is["function"] = is.Function
 is.Nil = function(v) end
 is["nil"] = is.Nil
 
+---
 ---Returns `true` when `v` is a number. Otherwise returns `false` and an error
 ---message.
 ---
@@ -303,6 +316,7 @@ is["nil"] = is.Nil
 is.number = function(v) end
 is.Number = is.number
 
+---
 ---Returns `true` when `v` is a string. Otherwise returns `false` and an error
 ---message.
 ---
@@ -317,6 +331,7 @@ is.Number = is.number
 is.string = function(v) end
 is.String = is.string
 
+---
 ---Returns `true` when `v` is a table. Otherwise returns `false` and an error
 ---message.
 ---
@@ -331,6 +346,7 @@ is.String = is.string
 is.table = function(v) end
 is.Table = is.table
 
+---
 ---Returns `true` when `v` is a thread. Otherwise returns `false` and an error
 ---message.
 ---
@@ -346,6 +362,7 @@ is.Table = is.table
 is.thread = function(v) end
 is.Thread = is.thread
 
+---
 ---Returns `true` when `v` is userdata. Otherwise returns `false` and an error
 ---message.
 ---
@@ -360,7 +377,9 @@ is.Thread = is.thread
 is.userdata = function(v) end
 is.Userdata = is.userdata
 
+---
 ---@name not_boolean
+---
 ---Returns `true` when `v` is **not** a boolean. Otherwise returns `false` and
 ---an error message.
 ---
@@ -380,7 +399,9 @@ M.not_boolean = is_not.boolean
 M.notBoolean = is_not.boolean
 M.NotBoolean = is_not.boolean
 
+---
 ---@name not_function
+---
 ---Returns `true` when `v` is **not** a function. Otherwise returns `false` and
 ---an error message.
 ---
@@ -400,7 +421,9 @@ M.not_function = is_not.Function
 M.notFunction = is_not.Function
 M.NotFunction = is_not.Function
 
+---
 ---@name not_nil
+---
 ---Returns `true` when `v` is **not** `nil`. Otherwise returns `false` and an
 ---error message.
 ---
@@ -420,7 +443,9 @@ M.not_nil = is_not.Nil
 M.notNil = is_not.Nil
 M.NotNil = is_not.Nil
 
+---
 ---@name not_number
+---
 ---Returns `true` when `v` is **not** a number. Otherwise returns `false` and
 ---an error message.
 ---
@@ -440,7 +465,9 @@ M.not_number = is_not.number
 M.notNumber = is_not.number
 M.NotNumber = is_not.number
 
+---
 ---@name not_string
+---
 ---Returns `true` when `v` is **not** a string. Otherwise returns `false` and
 ---an error message.
 ---
@@ -460,7 +487,9 @@ M.not_string = is_not.string
 M.notString = is_not.string
 M.NotString = is_not.string
 
+---
 ---@name not_table
+---
 ---Returns `true` when `v` is **not** a table. Otherwise returns `false` and an
 ---error message.
 ---
@@ -480,7 +509,9 @@ M.not_table = is_not.table
 M.notTable = is_not.table
 M.NotTable = is_not.table
 
+---
 ---@name not_thread
+---
 ---Returns `true` when `v` is **not** a thread. Otherwise returns `false` and
 ---an error message.
 ---
@@ -501,7 +532,9 @@ M.not_thread = is_not.thread
 M.notThread = is_not.thread
 M.NotThread = is_not.thread
 
+---
 ---@name not_userdata
+---
 ---Returns `true` when `v` is **not** userdata. Otherwise returns `false` and
 ---an error message.
 ---
@@ -528,7 +561,9 @@ M.NotUserdata = is_not.userdata
 ---Value-state validators (exact true/false, truthy/falsy, callable, integer).
 ---
 
+---
 ---@name false
+---
 ---Returns `true` when `v` is exactly `false`. Otherwise returns `false` and an
 ---error message.
 ---
@@ -543,7 +578,9 @@ M.NotUserdata = is_not.userdata
 is.False = function(v) end
 is["false"] = is.False
 
+---
 ---@name true
+---
 ---Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an
 ---error message.
 ---
@@ -558,6 +595,7 @@ is["false"] = is.False
 is.True = function(v) end
 is["true"] = is.True
 
+---
 ---Returns `true` when `v` is falsy. Otherwise returns `false` and an error
 ---message.
 ---
@@ -572,6 +610,7 @@ is["true"] = is.True
 is.falsy = function(v) end
 is.Falsy = is.falsy
 
+---
 ---Returns `true` when `v` is callable. Otherwise returns `false` and an error
 ---message.
 ---
@@ -586,6 +625,7 @@ is.Falsy = is.falsy
 is.callable = function(v) end
 is.Callable = is.callable
 
+---
 ---Returns `true` when `v` is an integer. Otherwise returns `false` and an error
 ---message.
 ---
@@ -600,6 +640,7 @@ is.Callable = is.callable
 is.integer = function(v) end
 is.Integer = is.integer
 
+---
 ---Returns `true` when `v` is truthy. Otherwise returns `false` and an error
 ---message.
 ---
@@ -614,7 +655,9 @@ is.Integer = is.integer
 is.truthy = function(v) end
 is.Truthy = is.truthy
 
+---
 ---@name not_false
+---
 ---Returns `true` when `v` is **not** exactly `false`. Otherwise returns
 ---`false` and an error message.
 ---
@@ -634,7 +677,9 @@ M.not_false = is_not.False
 M.notFalse = is_not.False
 M.NotFalse = is_not.False
 
+---
 ---@name not_true
+---
 ---Returns `true` when `v` is **not** exactly `true`. Otherwise returns `false`
 ---and an error message.
 ---
@@ -654,7 +699,9 @@ M.not_true = is_not.True
 M.notTrue = is_not.True
 M.NotTrue = is_not.True
 
+---
 ---@name not_falsy
+---
 ---Returns `true` when `v` is **not** falsy. Otherwise returns `false` and an
 ---error message.
 ---
@@ -674,7 +721,9 @@ M.not_falsy = is_not.falsy
 M.notFalsy = is_not.falsy
 M.NotFalsy = is_not.falsy
 
+---
 ---@name not_callable
+---
 ---Returns `true` when `v` is **not** callable. Otherwise returns `false` and
 ---an error message.
 ---
@@ -694,7 +743,9 @@ M.not_callable = is_not.callable
 M.notCallable = is_not.callable
 M.NotCallable = is_not.callable
 
+---
 ---@name not_integer
+---
 ---Returns `true` when `v` is **not** an integer. Otherwise returns `false` and
 ---an error message.
 ---
@@ -714,6 +765,7 @@ M.not_integer = is_not.integer
 M.notInteger = is_not.integer
 M.NotInteger = is_not.integer
 
+---
 ---@name not_truthy
 ---Returns `true` when `v` is **not** truthy. Otherwise returns `false` and an
 ---error message.
@@ -737,7 +789,7 @@ M.NotTruthy = is_not.truthy
 --------------------------------------------------------------------------------
 --------------------------------- Path Checks ----------------------------------
 --------------------------------------------------------------------------------
-
+---
 ---Filesystem path-kind validators backed by LuaFileSystem (`lfs`).
 ---
 ---Filesystem path kind checks.
@@ -748,6 +800,7 @@ M.NotTruthy = is_not.truthy
 ---> ([`lfs`](https://github.com/lunarmodules/luafilesystem))
 ---> and raise an error it is not installed.
 
+---
 ---Returns `true` when `v` is a block device path. Otherwise returns `false`
 --- and an error message.
 ---
@@ -761,6 +814,7 @@ M.NotTruthy = is_not.truthy
 is.block = function(v) end
 is.Block = is.block
 
+---
 ---Returns `true` when `v` is a char device path. Otherwise returns `false` and
 ---an error message.
 ---
@@ -774,6 +828,7 @@ is.Block = is.block
 is.char = function(v) end
 is.Char = is.char
 
+---
 ---Returns `true` when `v` is a block or char device path. Otherwise returns
 ---`false` and an error message.
 ---
@@ -787,6 +842,7 @@ is.Char = is.char
 is.device = function(v) end
 is.Device = is.device
 
+---
 ---Returns `true` when `v` is a directory path. Otherwise returns `false` and an
 ---error message.
 ---
@@ -800,6 +856,7 @@ is.Device = is.device
 is.dir = function(v) end
 is.Dir = is.dir
 
+---
 ---Returns `true` when `v` is a FIFO path. Otherwise returns `false` and an error
 ---message.
 ---
@@ -813,6 +870,7 @@ is.Dir = is.dir
 is.fifo = function(v) end
 is.Fifo = is.fifo
 
+---
 ---Returns `true` when `v` is a file path. Otherwise returns `false` and an error
 ---message.
 ---
@@ -826,6 +884,7 @@ is.Fifo = is.fifo
 is.file = function(v) end
 is.File = is.file
 
+---
 ---Returns `true` when `v` is a symlink path. Otherwise returns `false` and an
 ---error message.
 ---
@@ -839,6 +898,7 @@ is.File = is.file
 is.link = function(v) end
 is.Link = is.link
 
+---
 ---Returns `true` when `v` is a socket path. Otherwise returns `false` and an
 ---error message.
 ---
