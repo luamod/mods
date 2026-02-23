@@ -1,6 +1,4 @@
-local List = require("mods.List")
-local stringcase = require("mods.stringcase")
-local isidentifier = require("mods.keyword").isidentifier
+local mods = require("mods")
 
 local byte = string.byte
 local char = string.char
@@ -89,8 +87,6 @@ local function norm_range_exclusive(s, start, stop)
 
   return a, b
 end
-
-M.capitalize = stringcase.capital
 
 function M.center(s, width, fillchar)
   local len = #s
@@ -351,8 +347,6 @@ M.isupper = is_jit and isupper_bytes or isupper_pattern
 
 M.isdigit = M.isdecimal
 M.isnumeric = M.isdecimal
-M.isidentifier = isidentifier
-
 function M.isprintable(s)
   local len = #s
   for i = 1, len do
@@ -547,10 +541,10 @@ function M.rsplit(s, sep, maxsplit)
   if sep == nil then
     local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
-      return List(parts)
+      return mods.List(parts)
     end
     local keep = maxsplit + 1
-    local out = List()
+    local out = mods.List()
     local start = #parts - keep + 1
     out[1] = concat(parts, " ", 1, start - 1)
     for i = start, #parts do
@@ -565,7 +559,7 @@ function M.rsplit(s, sep, maxsplit)
 
   local splits = maxsplit or -1
   if splits == 0 then
-    return List({ s })
+    return mods.List({ s })
   end
 
   local parts = {}
@@ -586,7 +580,7 @@ function M.rsplit(s, sep, maxsplit)
 
   part_n = part_n + 1
   parts[part_n] = sub(s, 1, pos)
-  local out = List()
+  local out = mods.List()
   for idx = part_n, 1, -1 do
     out[#out + 1] = parts[idx]
   end
@@ -597,9 +591,9 @@ function M.split(s, sep, maxsplit)
   if sep == nil then
     local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
-      return List(parts)
+      return mods.List(parts)
     end
-    local out = List()
+    local out = mods.List()
     local keep = maxsplit + 1
     for i = 1, keep - 1 do
       out[#out + 1] = parts[i]
@@ -614,10 +608,10 @@ function M.split(s, sep, maxsplit)
 
   local splits = maxsplit or -1
   if splits == 0 then
-    return List({ s })
+    return mods.List({ s })
   end
 
-  local parts = List()
+  local parts = mods.List()
   local pos = 1
   while true do
     local i, j = find(s, sep, pos, true)
@@ -633,7 +627,7 @@ end
 
 function M.splitlines(s, keepends)
   local len = #s
-  local out = List()
+  local out = mods.List()
   local i = 1
   while i <= len do
     local j = i
@@ -665,8 +659,6 @@ function M.splitlines(s, keepends)
   end
   return out
 end
-
-M.swapcase = stringcase.swap
 
 function M.startswith(s, prefix, start, stop)
   if type(prefix) == "table" then
@@ -738,4 +730,20 @@ function M.zfill(s, width)
   return rep("0", width - len) .. s
 end
 
-return M
+return setmetatable(M, {
+  __index = function(t, k)
+    local fn
+    if k == "capitalize" then
+      fn = mods.stringcase.capital
+    elseif k == "swapcase" then
+      fn = mods.stringcase.swap
+    elseif k == "isidentifier" then
+      fn = mods.keyword.isidentifier
+    end
+
+    if fn then
+      rawset(t, k, fn)
+      return fn
+    end
+  end,
+})
