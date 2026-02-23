@@ -131,7 +131,7 @@ end
 function M.expandtabs(s, tabsize)
   local ts = tabsize or 8
   if ts <= 0 then
-    return gsub(s, "\t", "")
+    return (gsub(s, "\t", ""))
   end
 
   local out = {}
@@ -198,13 +198,15 @@ function M.find(s, subp, start, stop)
 end
 
 function M.format_map(s, mapping)
-  return gsub(s, "{(.-)}", function(k)
-    local v = mapping[k]
-    if v == nil then
-      return "nil"
-    end
-    return tostring(v)
-  end)
+  return (
+    gsub(s, "{(.-)}", function(k)
+      local v = mapping[k]
+      if v == nil then
+        return "nil"
+      end
+      return tostring(v)
+    end)
+  )
 end
 
 local function isalnum_bytes(s)
@@ -379,24 +381,24 @@ M.lower = lower
 
 function M.lstrip(s, chars)
   if chars == nil then
-    return gsub(s, "^%s+", "")
+    return (gsub(s, "^%s+", ""))
   end
   if chars == "" then
     return s
   end
   local set = escape_class(chars)
-  return gsub(s, "^[" .. set .. "]+", "")
+  return (gsub(s, "^[" .. set .. "]+", ""))
 end
 
 function M.rstrip(s, chars)
   if chars == nil then
-    return gsub(s, "%s+$", "")
+    return (gsub(s, "%s+$", ""))
   end
   if chars == "" then
     return s
   end
   local set = escape_class(chars)
-  return gsub(s, "[" .. set .. "]+$", "")
+  return (gsub(s, "[" .. set .. "]+$", ""))
 end
 
 function M.strip(s, chars)
@@ -698,9 +700,9 @@ function M.startswith(s, prefix, start, stop)
 end
 
 function M.title(s)
-  return gsub(lower(s), "(%a)([%w]*)", function(f, r)
+  return (gsub(lower(s), "(%a)([%w]*)", function(f, r)
     return upper(f) .. r
-  end)
+  end))
 end
 
 function M.translate(s, table_map)
