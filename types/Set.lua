@@ -54,17 +54,6 @@ function Set:clear() end
 ---@return T self
 function Set:difference_update(set) end
 
----Remove an element if present, do nothing otherwise.
----
----```lua
----s = Set({ "a", "b" }):discard("b") --> s contains "a"
----```
----@generic T:mods.Set|table<any,true>
----@param self T
----@param v any
----@return T self
-function Set:discard(v) end
-
 ---Keep only elements common to both sets (in place).
 ---
 ---```lua
@@ -147,6 +136,17 @@ function Set:difference(set) end
 ---@return mods.Set set
 ---@nodiscard
 function Set:intersection(set) end
+
+---Remove an element if present, do nothing otherwise.
+---
+---```lua
+---s = Set({ "a", "b" }):remove("b") --> s contains "a"
+---```
+---@generic T:mods.Set|table<any,true>
+---@param self T
+---@param v any
+---@return T self
+function Set:remove(v) end
 
 ---Return elements not shared by both sets.
 ---
@@ -278,7 +278,5 @@ function Set:map(fn) end
 ---@return mods.List values
 ---@nodiscard
 function Set:values() end
-
-Set.remove = Set.discard
 
 return Set

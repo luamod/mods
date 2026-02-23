@@ -30,7 +30,6 @@ describe("mods.Set", function()
     { "copy"                        , abcde , nil   , abcde    ,         },
     { "difference_update"           , a_c_e , _bcd_ , a___e    , true    },
     { "difference"                  , a_c_e , _bcd_ , a___e    ,         },
-    { "discard"                     , _bcd_ , "c"   , _b_d_    , true    },
     { "intersection_update"         , a_c_e , _bcd_ , __c__    , true    },
     { "intersection"                , a_c_e , _bcd_ , __c__    ,         },
     { "isdisjoint"                  , _b_d_ , ___de , false    ,         },

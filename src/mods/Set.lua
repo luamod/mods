@@ -50,11 +50,6 @@ function Set:difference(set)
   return self:copy():difference_update(set)
 end
 
-function Set:discard(v)
-  self[v] = nil
-  return self
-end
-
 function Set:intersection_update(set)
   for k in pairs(self) do
     if not set[k] then
@@ -115,7 +110,10 @@ function Set:pop()
   end
 end
 
-Set.remove = Set.discard
+function Set:remove(v)
+  self[v] = nil
+  return self
+end
 
 function Set:symmetric_difference_update(set)
   for k in pairs(set) do
