@@ -6,7 +6,7 @@
 ---## Usage
 ---
 ---```lua
----lsist = require "mods.List"
+---List = require "mods.List"
 ---
 ---ls = List({ "a" }):append("b")
 ---print(ls:contains("b")) --> true
@@ -451,12 +451,12 @@ function List:reverse() end
 ---Convert the list to a set.
 ---
 ---```lua
----s = List({ "a", "b", "a" }):setify() --> { a = true, b = true }
+---s = List({ "a", "b", "a" }):toset() --> { a = true, b = true }
 ---```
 ---@param self mods.List|any[]
 ---@return mods.Set
 ---@nodiscard
-function List:setify() end
+function List:toset() end
 
 ---Return a new list containing items from i to j (inclusive).
 ---

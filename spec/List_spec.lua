@@ -91,7 +91,7 @@ describe("mods.List", function()
     { "remove"       , abc__  , {        } , abc__      , true     },
     { "remove"       , AZAZA  , { "A"    } , _ZAZA      , true     },
     { "reverse"      , abcde  , {        } , edcba      ,          },
-    { "setify"       , AZAZA  , {        } , Set(AZAZA) ,          },
+    { "toset"        , AZAZA  , {        } , Set(AZAZA) ,          },
     { "slice"        , abcde  , {        } , abcde      ,          },
     { "slice"        , abcde  , { 2, 4   } , _bcd_      ,          },
     { "sort"         , edcba  , {        } , abcde      , true     },

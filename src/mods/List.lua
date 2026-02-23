@@ -390,7 +390,7 @@ end
 
 return setmetatable(List, {
   __index = function(t, k)
-    if k == "setify" then
+    if k == "toset" then
       local fn = mods.Set
       rawset(t, k, fn)
       return fn
