@@ -1,16 +1,19 @@
----@diagnostic disable: param-type-mismatch, undefined-global
+---@diagnostic disable: undefined-global
 
-local List = require("mods.List")
-local Set = require("pl.Set")
-local deepcopy = require("pl.tablex").deepcopy
-
+local mods = require("mods")
+local List = mods.List
+local Set = mods.Set
+local deepcopy = mods.tbl.deepcopy
+local fmt = string.format
 local upper = string.upper
 local len = string.len
 
 describe("mods.List", function()
-  ([[ _____ ____e ___de __c__ _b_d_ _bc__ _bcd_ a___e
+  local patterns = [[ _____ ____e ___de __c__ _b_d_ _bc__ _bcd_ a___e
       a_c__ a_c_e ab___ abc__ abcd_ abcde edcba
-      ABC__ AZ___ _ZAZA AZAZA ]]):gsub("%S+", function(p)
+      ABC__ AZ___ _ZAZA AZAZA ]]
+
+  patterns:gsub("%S+", function(p)
     local ls = {}
     p:gsub(".", function(c)
       ls[#ls + 1] = c ~= "_" and c or nil
@@ -41,7 +44,7 @@ describe("mods.List", function()
   }
 
   local tests = {
-    ------fname------|--list--|----args----|--expected--|-same_ref?---
+    ------fname------|--list--|---params---|--expected--|-same_ref?---
     { "all"          , _____  , { is_b   } , true       ,          },
     { "all"          , abc__  , { is_b   } , false      ,          },
     { "all"          , abc__  , { not_z  } , true       ,          },
@@ -99,11 +102,14 @@ describe("mods.List", function()
   -- stylua: ignore end
 
   for i = 1, #tests do
-    local fname, ls, args, expected, same_ref = unpack(tests[i], 1, 5)
+    local fname, ls, params, expected, same_ref = unpack(tests[i], 1, 5)
     ls = deepcopy(List(ls))
-    it(fname .. "() returns correct value", function()
-      local res = ls[fname](ls, unpack(args))
+
+    it(fmt("(%s):%s(%s) returns correct result", inspect(ls), fname, args_repr(params)), function()
+      ---@diagnostic disable-next-line: param-type-mismatch
+      local res = ls[fname](ls, unpack(params))
       assert.are_same(expected, res)
+
       if same_ref then
         assert.are_equal(ls, res, "Expected same list reference")
       else
@@ -114,11 +120,11 @@ describe("mods.List", function()
 
   it("foreach() applies a function to each element and returns nil", function()
     local ls = List({ "a", "b", "c" })
-    local seen = {}
+    local joined = ""
     local res = ls:foreach(function(v)
-      seen[#seen + 1] = v
+      joined = joined .. v
     end)
-    assert.are_same({ "a", "b", "c" }, seen)
+    assert.are_equal("abc", joined)
     assert.is_nil(res)
   end)
 end)

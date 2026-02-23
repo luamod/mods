@@ -1,13 +1,14 @@
----@diagnostic disable: param-type-mismatch
-
-local ops = require("mods.operator")
+local operator = require("mods").operator
+local fmt = string.format
 
 describe("mods.operator", function()
-  -- stylua: ignore start
-  local function sum(a, b) return a + b end
-  local tbl = { a = 1 }
+  local t = { a = 1 }
+  local function sum(a, b)
+    return a + b
+  end
+  -- stylua: ignore 
   local tests = {
-    ---operator--|---------args---------|-expected---
+    ---operator--|--------params--------|-expected---
     { "add"      , { 3, 4             } , 7       },
     { "sub"      , { 3, 4             } , -1      },
     { "mul"      , { 3, 4             } , 12      },
@@ -35,17 +36,17 @@ describe("mods.operator", function()
     { "concat"   , { "a", "b"         } , "ab"    },
     { "len"      , { "abc"            } , 3       },
 
-    { "index"    , { tbl, "a"         } , 1       },
-    { "index"    , { tbl, "b"         } , nil     },
+    { "index"    , { t, "a"           } , 1       },
+    { "index"    , { t, "b"           } , nil     },
     { "call"     , { sum, 1, 2        } , 3       },
-    { "setindex" , { tbl, "a", 2      } , 2       },
+    { "setindex" , { t, "a", 2        } , 2       },
   }
-  -- stylua: ignore end
 
   for i = 1, #tests do
-    local op, args, expected = unpack(tests[i])
-    it(op .. "() returns correct value", function()
-      assert.are_equal(expected, ops[op](unpack(args)))
+    local fname, params, expected = unpack(tests[i], 1, 3)
+    it(fmt("%s(%s) returns correct result", fname, args_repr(params)), function()
+      ---@diagnostic disable-next-line: param-type-mismatch
+      assert.are_equal(expected, operator[fname](unpack(params)))
     end)
   end
 end)

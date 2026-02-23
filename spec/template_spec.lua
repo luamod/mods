@@ -1,4 +1,5 @@
-local template = require("mods.template")
+local template = require("mods").template
+local fmt = string.format
 
 describe("mods.template", function()
   local function name_func()
@@ -31,7 +32,7 @@ describe("mods.template", function()
 
     -- Lookup
     { "{{user.name}}"                         , "Ada"                          },
-    { "{{.}}"                              ,    tostring(view)                 },
+    { "{{.}}"                                 , tostring(view)                 },
     { "{{user.meta.role}}"                    , "Engineer"                     },
     { "{{user.missing}}"                      , ""                             },
     { "{{user.name_func}}"                    , "Ada"                          },
@@ -51,7 +52,7 @@ describe("mods.template", function()
 
   for i = 1, #tests do
     local tmpl, expected = unpack(tests[i])
-    it(("render(%q)"):format(tmpl), function()
+    it(fmt("template(%q, {...}) returns correct result", tmpl), function()
       local res = template(tmpl, view)
       assert.are_equal(expected, res)
     end)

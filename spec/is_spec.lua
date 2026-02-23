@@ -1,6 +1,6 @@
----@diagnostic disable: undefined-field, param-type-mismatch, need-check-nil
-
-local is = require("mods.is")
+local mods = require("mods")
+local is = mods.is
+local Set = mods.Set
 local fmt = string.format
 
 describe("mods.is", function()
@@ -10,12 +10,12 @@ describe("mods.is", function()
   local nct = setmetatable({}, { __call = true })
 
   it("is is callable", function()
-    assert.is_callable(is)
+    assert.is_callable(is) ---@diagnostic disable-line: undefined-field
   end)
 
   -- stylua: ignore
   local tests = {
-    -----type----|----ok-----|-not-ok---
+    -----type----|----ok-----|--bad---
     { "Boolean"  , false     , 123   },
     { "Boolean"  , true      , nil   },
     { "Callable" , ct        , nct   },
@@ -37,31 +37,31 @@ describe("mods.is", function()
     { "Userdata" , io.stdout , {}    },
   }
 
+  local types = Set()
   for i = 1, #tests do
-    local tp, v1, v2 = unpack(tests[i], 1, 3)
+    local tp, ok, bad = unpack(tests[i], 1, 3)
+    types:add(tp)
 
-    it(fmt("exposes is.%s", tp), function()
-      assert.is_function(is[tp])
+    it(fmt("%s(%s) returns true", tp, inspect(ok)), function()
+      assert.is_true(is[tp](ok))
     end)
 
-    it(fmt("exposes is.%s", tp:lower()), function()
-      assert.is_function(is[tp:lower()])
+    it(fmt("%s(%s) returns false", tp, inspect(bad)), function()
+      assert.is_false(is[tp](bad))
     end)
 
-    it(fmt("is.%s returns true for %s", tp, inspect(v1)), function()
-      assert.is_true(is[tp](v1))
+    it(fmt("is(%q, %s) returns true", tp, inspect(ok)), function()
+      assert.is_true(is(ok, tp))
     end)
 
-    it(fmt("is.%s returns false for %s", tp, inspect(v2)), function()
-      assert.is_false(is[tp](v2))
+    it(fmt("is(%q, %s) returns false", tp, inspect(bad)), function()
+      assert.is_false(is(bad, tp))
     end)
+  end
 
-    it(fmt("is(%q, %s) returns true", tp, inspect(v1)), function()
-      assert.is_true(is(v1, tp))
-    end)
-
-    it(fmt("is(%q, %s) returns false", tp, inspect(v2)), function()
-      assert.is_false(is(v2, tp))
+  for _, tp in ipairs(types:values()) do
+    it(fmt("aliases %s to %s", tp, tp:lower()), function()
+      assert.are_equal(is[tp], is[tp:lower()])
     end)
   end
 end)

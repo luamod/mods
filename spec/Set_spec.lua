@@ -1,14 +1,18 @@
----@diagnostic disable: undefined-global
+---@diagnostic disable: undefined-global, need-check-nil
 
-local Set = require("mods.Set")
-local deepcopy = require("pl.tablex").deepcopy
-
+local mods = require("mods")
+local Set = mods.Set
+local List = mods.List
+local deepcopy = mods.tbl.deepcopy
 local upper = string.upper
+local fmt = string.format
 
 describe("mods.Set", function()
-  ([[ _____ ___de _b_d_ _bcd_ a_c__ __c__
+  local patterns = [[ _____ ___de _b_d_ _bcd_ a_c__ __c__
       a_c_e a___e abc__ abcd_ abcde
-      ab_de ABC__ ]]):gsub("%S+", function(p)
+      ab_de ABC__ ]]
+
+  patterns:gsub("%S+", function(p)
     local set = Set()
     p:gsub(".", function(c)
       set[c] = c ~= "_" and true or nil
@@ -18,9 +22,11 @@ describe("mods.Set", function()
 
   -- stylua: ignore
   local tests = {
-    --------------fname-------------|--set--|--arg--|-expected-|-same_ref?---
+    --------------fname-------------|--set--|-param-|-expected-|-same_ref?---
     { "add"                         , _b_d_ , "c"   , _bcd_    , true    },
     { "clear"                       , abcde , nil   , {}       , true    },
+    { "contains"                    , abcde , "a"   , true     ,         },
+    { "contains"                    , abcde , "z"   , false    ,         },
     { "copy"                        , abcde , nil   , abcde    ,         },
     { "difference_update"           , a_c_e , _bcd_ , a___e    , true    },
     { "difference"                  , a_c_e , _bcd_ , a___e    ,         },
@@ -35,8 +41,6 @@ describe("mods.Set", function()
     { "issubset"                    , abcde , abcd_ , false    ,         },
     { "issuperset"                  , abcd_ , abcde , false    ,         },
     { "issuperset"                  , abcde , abcd_ , true     ,         },
-    { "contains"                    , abcde , "a"   , true     ,         },
-    { "contains"                    , abcde , "z"   , false    ,         },
     { "len"                         , _____ , nil   , 0        ,         },
     { "len"                         , a_c__ , nil   , 2        ,         },
     { "map"                         , abc__ , upper , ABC__    ,         },
@@ -50,11 +54,13 @@ describe("mods.Set", function()
   }
 
   for i = 1, #tests do
-    local fname, set, arg_, expected, same_ref = unpack(tests[i], 1, 5)
-    it(fname .. "() returns correct value", function()
+    local fname, set, param, expected, same_ref = unpack(tests[i], 1, 5)
+    it(fmt("(%s):%s(%s) returns correct result", inspect(set:values()), fname, inspect(param)), function()
       set = deepcopy(set)
-      local res = set[fname](set, arg_)
+      local res = set[fname](set, param)
+
       assert.are_same(expected, res)
+
       if same_ref then
         assert.are_equal(set, res, "Expected same set instance")
       else
@@ -83,9 +89,10 @@ describe("mods.Set", function()
     assert.is_nil(s[v])
   end)
 
-  it("values() returns all values as a list", function()
+  it("values() returns a mods.List with all set values", function()
     local ls = { "a", "b", "c" }
     local res = Set(ls):values()
+    assert.are_equal(List, getmetatable(res))
     assert.are_same(ls, res:sort())
   end)
 end)

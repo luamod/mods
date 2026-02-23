@@ -1,31 +1,36 @@
-local List = require("mods.List")
-local Set = require("mods.Set")
-local kw = require("mods.keyword")
-
+local mods = require("mods")
+local List = mods.List
+local Set = mods.Set
+local kw = mods.keyword
 local fmt = string.format
 local is_lua51 = _VERSION == "Lua 5.1"
 
 describe("mods.keyword", function()
-  local fn = function() end
-  local co = coroutine.create(fn)
   -- stylua: ignore
-  local kwlist = List({
+  local keywords = List({
     "and"   , "break" , "do"  , "else"    , "elseif",
     "end"   , "false" , "for" , "function", "if"    ,
     "in"    , "local" , "nil" , "not"     , "or"    ,
     "repeat", "return", "then", "true"    , "until" , "while"
   })
+  keywords[#keywords + 1] = not is_lua51 and "goto" or nil
+  List:sort()
 
-  if not is_lua51 then
-    kwlist:append("goto"):sort()
-  end
-
-  local kwset = kwlist:setify()
+  local fn = function() end
+  local co = coroutine.create(fn)
+  local kwlist = keywords
+  local kwset = keywords:setify()
   local tests
 
   -------------------
   --- iskeyword() ---
   -------------------
+
+  for _, input in ipairs(kwlist) do
+    it(fmt("iskeyword(%s) returns true", inspect(input)), function()
+      assert.is_true(kw.iskeyword(input))
+    end)
+  end
 
   local non_keywords = {
     "_",
@@ -41,15 +46,7 @@ describe("mods.keyword", function()
     false,
   }
 
-  for i = 1, #kwlist do
-    local input = kwlist[i]
-    it(fmt("iskeyword(%s) returns true", inspect(input)), function()
-      assert.is_true(kw.iskeyword(input))
-    end)
-  end
-
-  for i = 1, #non_keywords do
-    local input = non_keywords[i]
+  for _, input in ipairs(non_keywords) do
     it(fmt("iskeyword(%s) returns false", inspect(input)), function()
       assert.is_false(kw.iskeyword(input))
     end)
@@ -61,6 +58,7 @@ describe("mods.keyword", function()
 
   -- stylua: ignore
   tests = {
+    ------input-----|-expected---
     { "hello"       , true     },
     { "hello_world" , true     },
     { "_name2"      , true     },
@@ -72,6 +70,7 @@ describe("mods.keyword", function()
     { "2bad"        , false    },
     { "bad-name"    , false    },
     { false         , false    },
+    { nil           , false    },
   }
 
   for i = 1, #tests do
@@ -115,14 +114,11 @@ describe("mods.keyword", function()
     end)
 
     it("returns a mods.List instance", function()
-      local kw = kw.kwlist()
-      assert.are_equal(List, getmetatable(kw))
+      assert.are_equal(List, getmetatable(kw.kwlist()))
     end)
 
     it("returns a fresh copy on each call", function()
-      local l1 = kw.kwlist()
-      local l2 = kw.kwlist()
-      assert.are_not_equal(l1, l2)
+      assert.are_not_equal(kw.kwlist(), kw.kwlist())
     end)
   end)
 
@@ -136,14 +132,11 @@ describe("mods.keyword", function()
     end)
 
     it("returns a mods.Set instance", function()
-      local kw = kw.kwset()
-      assert.are_equal(Set, getmetatable(kw))
+      assert.are_equal(Set, getmetatable(kw.kwset()))
     end)
 
     it("returns a fresh copy on each call", function()
-      local s1 = kw.kwset()
-      local s2 = kw.kwset()
-      assert.are_not_equal(s1, s2)
+      assert.are_not_equal(kw.kwset(), kw.kwset())
     end)
   end)
 end)

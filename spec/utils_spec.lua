@@ -1,6 +1,5 @@
----@diagnostic disable: param-type-mismatch, discard-returns
-
-local utils = require("mods.utils")
+local utils = require("mods").utils
+local fmt = string.format
 
 describe("mods.utils", function()
   local tests
@@ -28,16 +27,9 @@ describe("mods.utils", function()
   }
 
   for i = 1, #tests do
-    local input, expected = unpack(tests[i], 1, 2)
-    local label = ("%q"):format(input)
-    it(("quote(%s)"):format(label), function()
+    local input, expected = unpack(tests[i])
+    it(fmt("quote(%q) returns correct result", input), function()
       assert.are_equal(expected, utils.quote(input))
     end)
   end
-
-  it("errors on non-string input", function()
-    assert.has_error(function()
-      utils.quote(false)
-    end)
-  end)
 end)

@@ -1,9 +1,10 @@
-local stringcase = require("mods.stringcase")
+local stringcase = require("mods").stringcase
+local fmt = string.format
 
 describe("mods.stringcase", function()
   -- stylua: ignore
   local tests = {
-    -----case----|----foo_bar_baz--|--FooBar baz------
+    -----fname----|-------------expected--------------
     { "capital"  , { "Foo_bar-baz" , "Foobar baz"  } },
     { "sentence" , { "Foo_bar-baz" , "FooBar baz"  } },
     { "swap"     , { "FOO_BAR-BAZ" , "fOObAR BAZ"  } },
@@ -24,11 +25,8 @@ describe("mods.stringcase", function()
   for i = 1, #tests do
     local fname, expected = unpack(tests[i])
     for j, s in ipairs({ "foo_bar-baz", "FooBar baz" }) do
-      it(("converts to %s(%q)"):format(fname, s), function()
-        local res = stringcase[fname](s)
-        assert.are_equal(expected[j] or expected[1], res)
-      end)
-      it(("returns exactly one string %s(%q)"):format(fname, s), function()
+      it(fmt("%s(%q) returns correct result", fname, s), function()
+        -- Wrap in a table to make sure the function returns only one value.
         assert.are_same({ expected[j] or expected[1] }, { stringcase[fname](s) })
       end)
     end

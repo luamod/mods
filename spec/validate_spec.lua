@@ -1,10 +1,9 @@
----@diagnostic disable: undefined-field, param-type-mismatch, need-check-nil, assign-type-mismatch, inject-field
+---@diagnostic disable: undefined-field, need-check-nil, inject-field
 
-local validate = require("mods.validate")
-
-local fmt = string.format
+local validate = require("mods").validate
 local messages = validate.messages
 local quote = validate.quote
+local fmt = string.format
 
 local function render_value(v)
   return type(v) == "string" and quote(v) or tostring(v)
@@ -228,6 +227,7 @@ describe("mods.validate", function()
 
     it("errors on non-function", function()
       assert.has_error(function()
+        ---@diagnostic disable-next-line: assign-type-mismatch
         validate.on_fail = 123
       end, "validate.on_fail must be a function")
     end)

@@ -1,12 +1,12 @@
 local mods = require("mods")
-
+local kw = mods.keyword
 local repr = mods.repr
 local fmt = string.format
 
 describe("mods.repr", function()
   local fn = function() end
   local co = coroutine.create(fn)
-  local keywords = mods.keyword.kwlist()
+  local keywords = kw.kwlist()
 
   -- stylua: ignore
   local tests = {
@@ -26,9 +26,9 @@ describe("mods.repr", function()
 
   for i = 1, #tests do
     local input, expected = unpack(tests[i], 1, 2)
-    it(fmt("repr (%s)", inspect(input)), function()
+    it(fmt("repr(%s)", inspect(input)), function()
       local res = repr(input)
-      assert.are.equal(expected, res)
+      assert.are_equal(expected, res)
     end)
   end
 
@@ -39,7 +39,7 @@ describe("mods.repr", function()
     end)
   end
 
-  it("renders complex nested tables with shared refs and cycles", function()
+  it("renders complex nested tables", function()
     local root = { title = "root" }
     local child = { name = "child" }
     local leaf = { value = 99 }
@@ -52,6 +52,7 @@ describe("mods.repr", function()
     child.link = leaf
     leaf.owner = child
 
+    local res = repr(root)
     local expected = [[
 {
   child = {
@@ -95,7 +96,6 @@ describe("mods.repr", function()
   title = "root"
 }]]
 
-    local res = repr(root)
     assert.are_equal(expected, res)
   end)
 end)
