@@ -1,12 +1,13 @@
-local utils = require("mods").utils
+local mods = require("mods")
+local utils = mods.utils
 local fmt = string.format
 
 describe("mods.utils", function()
   local tests
 
-  -------------
-  --- quote ---
-  -------------
+  ---------------
+  --- quote() ---
+  ---------------
 
   -- stylua: ignore
   tests = {
@@ -32,4 +33,17 @@ describe("mods.utils", function()
       assert.are_equal(expected, utils.quote(input))
     end)
   end
+
+  --------------
+  --- repr() ---
+  --------------
+
+  it("repr() resolves to inspect or mods.repr", function()
+    local ok, inspect = pcall(require, "inspect")
+    if ok then
+      assert.are_equal(inspect, utils.repr)
+    else
+      assert.are_equal(mods.repr, utils.repr)
+    end
+  end)
 end)

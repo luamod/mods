@@ -1,3 +1,5 @@
+local mods = require("mods")
+
 local find = string.find
 local gsub = string.gsub
 
@@ -11,4 +13,13 @@ function M.quote(v)
   return '"' .. gsub(v, '"', '\\"') .. '"'
 end
 
-return M
+return setmetatable(M, {
+  __index = function(t, k)
+    if k == "repr" then
+      local ok, inspect = pcall(require, "inspect")
+      local repr = ok and inspect or mods.repr
+      rawset(t, k, repr)
+      return repr
+    end
+  end,
+})
