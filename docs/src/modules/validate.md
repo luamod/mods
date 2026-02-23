@@ -35,6 +35,14 @@ ok, err = validate.is_not.number(3.14)
 >   `Not`, including underscore-insensitive top-level aliases (for example,
 >   `validate.is_not_number` and `validate.isnotnumber`).
 
+## Dependencies
+
+Dependencies below are lazy-loaded 💤 on first access.
+
+- [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; required
+  only for filesystem/path checks)
+- [`mods.is`](https://luamod.github.io/mods/modules/is)
+
 ## Callable Forms
 
 `validate`, `validate.is`, and `validate.is_not` are all callable.
@@ -480,6 +488,16 @@ ok, err = validate.is_not.truthy(1)     --> false, "expected not truthy"
 ```
 
 ### Path Checks
+
+Filesystem path-kind validators backed by LuaFileSystem (`lfs`).
+
+Filesystem path kind checks.
+
+> [!IMPORTANT]
+>
+> Path checks require **LuaFileSystem**
+> ([`lfs`](https://github.com/lunarmodules/luafilesystem)) and raise an error it
+> is not installed.
 
 #### `block`
 

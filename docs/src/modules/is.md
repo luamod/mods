@@ -26,6 +26,13 @@ ok = is.table({})          --> true
 > is("hello", "String") --> true
 > ```
 
+## Dependencies
+
+Dependencies below are lazy-loaded 💤 on first access.
+
+- [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; required
+  only for filesystem/path checks)
+
 ## Functions
 
 **Type Checks**:
