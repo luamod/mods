@@ -1,21 +1,16 @@
+local mods = require("mods")
+
 local insert = table.insert
 local sort = table.sort
 local remove = table.remove
 local concat = table.concat
 local move = table.move
 
-local function Set(ls)
-  ---@diagnostic disable-next-line: cast-local-type
-  Set = require("mods.Set")
-  return Set(ls)
-end
-
 ---@type mods.List
 local List = {}
 List.__index = List
 
--- Intentionally use a plain table instead of `mods.Set` here:
--- this keeps lookup construction lightweight for hot-path membership checks.
+-- Use a plain table (not `mods.Set`) for fast, low-overhead membership lookups.
 local function build_lookup(ls)
   local lookup = {}
   for i = 1, #ls do
@@ -310,8 +305,6 @@ function List:reverse()
   return res
 end
 
-List.setify = Set
-
 List.pop = remove
 
 function List:slice(i, j)
@@ -396,6 +389,13 @@ function List:zip(other)
 end
 
 return setmetatable(List, {
+  __index = function(t, k)
+    if k == "setify" then
+      local fn = mods.Set
+      rawset(t, k, fn)
+      return fn
+    end
+  end,
   __call = function(_, ls)
     return setmetatable(ls or {}, List)
   end,
