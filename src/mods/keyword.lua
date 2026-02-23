@@ -1,20 +1,10 @@
+local mods = require("mods")
+
 local gsub = string.gsub
 local match = string.match
 
 ---@type mods.keyword
 local M = {}
-
--- Lazy-load to keep requiring mods.keyword lightweight.
-local function List(ls)
-  List = require("mods.List") ---@diagnostic disable-line: cast-local-type
-  return List(ls)
-end
-
--- Lazy-load to keep requiring mods.keyword lightweight.
-local function Set(ls)
-  Set = require("mods.Set") ---@diagnostic disable-line: cast-local-type
-  return Set(ls)
-end
 
 -- stylua: ignore
 local kwlist = {
@@ -46,11 +36,11 @@ function M.isidentifier(s)
 end
 
 function M.kwlist()
-  return List(kwlist):copy()
+  return mods.List(kwlist):copy()
 end
 
 function M.kwset()
-  return Set(kwlist)
+  return mods.Set(kwlist)
 end
 
 function M.normalize_identifier(v)
