@@ -14,19 +14,27 @@ str = require "mods.str"
 print(str.capitalize("hello world")) --> "Hello world"
 ```
 
+## Dependencies
+
+Dependencies below are lazy-loaded 💤 on first access.
+
+- [`mods.keyword`](https://luamod.github.io/mods/modules/keyword)
+- [`mods.List`](https://luamod.github.io/mods/modules/list)
+- [`mods.stringcase`](https://luamod.github.io/mods/modules/stringcase)
+
 ## Functions
 
 **Formatting**:
 
-| Function                    | Description                                                                                     |
-| --------------------------- | ----------------------------------------------------------------------------------------------- |
-| [`capitalize`](#capitalize) | Return copy with first character capitalized and the rest lowercased.                           |
-| [`center`](#center)         | Center string within width, padded with fill characters.                                        |
-| [`count`](#count)           | Count non-overlapping occurrences of a substring.                                               |
-| [`endswith`](#endswith)     | Return true if string ends with suffix. If suffix is a list, return true if any suffix matches. |
-| [`expandtabs`](#expandtabs) | Expand tabs to spaces using given tabsize.                                                      |
-| [`find`](#find)             | Return lowest index of substring or nil if not found.                                           |
-| [`format_map`](#format-map) | Format string with mapping (key-based) replacement.                                             |
+| Function                    | Description                                                           |
+| --------------------------- | --------------------------------------------------------------------- |
+| [`capitalize`](#capitalize) | Return copy with first character capitalized and the rest lowercased. |
+| [`center`](#center)         | Center string within width, padded with fill characters.              |
+| [`count`](#count)           | Count non-overlapping occurrences of a substring.                     |
+| [`endswith`](#endswith)     | Return true if string ends with suffix.                               |
+| [`expandtabs`](#expandtabs) | Expand tabs to spaces using given tabsize.                            |
+| [`find`](#find)             | Return lowest index of substring or nil if not found.                 |
+| [`format_map`](#format-map) | Format string with mapping (key-based) replacement.                   |
 
 **Predicates**:
 
@@ -74,14 +82,14 @@ print(str.capitalize("hello world")) --> "Hello world"
 
 **Casing & Transform**:
 
-| Function                    | Description                                                                                       |
-| --------------------------- | ------------------------------------------------------------------------------------------------- |
-| [`swapcase`](#swapcase)     | Return a copy with case of alphabetic characters swapped.                                         |
-| [`startswith`](#startswith) | Return true if string starts with prefix. If prefix is a list, return true if any prefix matches. |
-| [`title`](#title)           | Return titlecased copy.                                                                           |
-| [`translate`](#translate)   | Translate characters using a mapping table.                                                       |
-| [`upper`](#upper)           | Return uppercased copy.                                                                           |
-| [`zfill`](#zfill)           | Pad numeric string on the left with zeros.                                                        |
+| Function                    | Description                                               |
+| --------------------------- | --------------------------------------------------------- |
+| [`swapcase`](#swapcase)     | Return a copy with case of alphabetic characters swapped. |
+| [`startswith`](#startswith) | Return true if string starts with prefix.                 |
+| [`title`](#title)           | Return titlecased copy.                                   |
+| [`translate`](#translate)   | Translate characters using a mapping table.               |
+| [`upper`](#upper)           | Return uppercased copy.                                   |
+| [`zfill`](#zfill)           | Pad numeric string on the left with zeros.                |
 
 ### Formatting
 
@@ -120,8 +128,9 @@ n = count("abcd", "")
 
 #### `endswith`
 
-Return true if string ends with suffix. If suffix is a list, return true if any
-suffix matches.
+Return true if string ends with suffix.
+
+> [!NOTE] If suffix is a list, returns `true` when any suffix matches.
 
 ```lua
 ok = endswith("hello.lua", ".lua")
@@ -461,8 +470,9 @@ s = swapcase("AbC")
 
 #### `startswith`
 
-Return true if string starts with prefix. If prefix is a list, return true if
-any prefix matches.
+Return true if string starts with prefix.
+
+> [!NOTE] If prefix is a list, returns `true` when any prefix matches.
 
 ```lua
 ok = startswith("hello.lua", "he")

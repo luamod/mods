@@ -25,31 +25,31 @@ print(tbl.count({ a = 1, b = 2 })) --> 2
 
 **Copying**:
 
-| Function                | Description                                                                                                                 |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| [`copy`](#copy)         | Create a shallow copy of the table.                                                                                         |
-| [`deepcopy`](#deepcopy) | Create a deep copy of a value. If `v` is a table, all nested tables are copied recursively; other types are returned as-is. |
+| Function                | Description                         |
+| ----------------------- | ----------------------------------- |
+| [`copy`](#copy)         | Create a shallow copy of the table. |
+| [`deepcopy`](#deepcopy) | Create a deep copy of a value.      |
 
 **Query**:
 
-| Function              | Description                                                                        |
-| --------------------- | ---------------------------------------------------------------------------------- |
-| [`filter`](#filter)   | Filter entries by a value predicate.                                               |
-| [`find`](#find)       | Find the first key whose value equals the given value.                             |
-| [`find_if`](#find-if) | Find first value and key matching predicate.                                       |
-| [`get`](#get)         | Safely get nested value by keys. If no keys are provided, returns the input table. |
+| Function              | Description                                            |
+| --------------------- | ------------------------------------------------------ |
+| [`filter`](#filter)   | Filter entries by a value predicate.                   |
+| [`find`](#find)       | Find the first key whose value equals the given value. |
+| [`find_if`](#find-if) | Find first value and key matching predicate.           |
+| [`get`](#get)         | Safely get nested value by keys.                       |
 
 **Transforms**:
 
-| Function              | Description                                                                                                                  |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [`invert`](#invert)   | Invert keys/values into new table.                                                                                           |
-| [`isempty`](#isempty) | Return true if table has no entries.                                                                                         |
-| [`keys`](#keys)       | Return a list of all keys in the table.                                                                                      |
-| [`map`](#map)         | Return a new table by mapping each value (keys preserved).                                                                   |
-| [`pairmap`](#pairmap) | Return a new table by mapping each key-value pair. The resulting table keeps the same keys, with values transformed by `fn`. |
-| [`update`](#update)   | Merge entries from t2 into t1 and return t1.                                                                                 |
-| [`values`](#values)   | Return a list of all values in the table.                                                                                    |
+| Function              | Description                                                |
+| --------------------- | ---------------------------------------------------------- |
+| [`invert`](#invert)   | Invert keys/values into new table.                         |
+| [`isempty`](#isempty) | Return true if table has no entries.                       |
+| [`keys`](#keys)       | Return a list of all keys in the table.                    |
+| [`map`](#map)         | Return a new table by mapping each value (keys preserved). |
+| [`pairmap`](#pairmap) | Return a new table by mapping each key-value pair.         |
+| [`update`](#update)   | Merge entries from `t2` into `t1` and return `t1`.         |
+| [`values`](#values)   | Return a list of all values in the table.                  |
 
 ### Basics
 
@@ -86,8 +86,10 @@ t = copy({ a = 1, b = 2 }) --> { a = 1, b = 2 }
 
 #### `deepcopy`
 
-Create a deep copy of a value. If `v` is a table, all nested tables are copied
-recursively; other types are returned as-is.
+Create a deep copy of a value.
+
+> [!NOTE] If `v` is a table, all nested tables are copied recursively; other
+> types are returned as-is.
 
 ```lua
 t = deepcopy({ a = { b = 1 } }) --> { a = { b = 1 } }
@@ -128,14 +130,15 @@ end) --> 2, "b"
 
 #### `get`
 
-Safely get nested value by keys. If no keys are provided, returns the input
-table.
+Safely get nested value by keys.
 
 ```lua
 t = { a = { b = { c = 1 } } }
 v1 = get(t, "a", "b", "c") --> 1
 v2 = get(t) --> { a = { b = { c = 1 } } }
 ```
+
+> [!NOTE] If no keys are provided, returns the input table.
 
 ### Transforms
 
@@ -177,8 +180,9 @@ end) --> { a = 10, b = 20 }
 
 #### `pairmap`
 
-Return a new table by mapping each key-value pair. The resulting table keeps the
-same keys, with values transformed by `fn`.
+Return a new table by mapping each key-value pair.
+
+> [!NOTE] Output keeps original keys; only values are transformed by `fn`.
 
 ```lua
 t = pairmap({ a = 1, b = 2 }, function(k, v)
@@ -188,7 +192,7 @@ end) --> { a = "a1", b = "b2" }
 
 #### `update`
 
-Merge entries from t2 into t1 and return t1.
+Merge entries from `t2` into `t1` and return `t1`.
 
 ```lua
 t1 = { a = 1, b = 2 }

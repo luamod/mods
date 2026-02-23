@@ -11,7 +11,7 @@ Operator helpers as functions.
 ```lua
 operator = require "mods.operator"
 
-print(operator.add(1, 2)) -->> 3
+print(operator.add(1, 2)) --> 3
 ```
 
 ## Functions

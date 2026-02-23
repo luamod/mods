@@ -18,6 +18,12 @@ s = Set({ "a" })
 print(s:contains("a")) --> true
 ```
 
+## Dependencies
+
+Dependencies below are lazy-loaded 💤 on first access.
+
+- [`mods.tbl`](https://luamod.github.io/mods/modules/tbl)
+
 ## Functions
 
 **Mutation**:
@@ -27,7 +33,6 @@ print(s:contains("a")) --> true
 | [`add`](#add)                                                 | Add an element to the set.                                  |
 | [`clear`](#clear)                                             | Remove all elements from the set.                           |
 | [`difference_update`](#difference-update)                     | Remove elements found in another set (in place).            |
-| [`discard`](#discard)                                         | Remove an element if present, do nothing otherwise.         |
 | [`intersection_update`](#intersection-update)                 | Keep only elements common to both sets (in place).          |
 | [`pop`](#pop)                                                 | Remove and return an arbitrary element.                     |
 | [`symmetric_difference_update`](#symmetric-difference-update) | Update the set with elements not shared by both (in place). |
@@ -35,13 +40,14 @@ print(s:contains("a")) --> true
 
 **Copying**:
 
-| Function                                        | Description                                     |
-| ----------------------------------------------- | ----------------------------------------------- |
-| [`copy`](#copy)                                 | Return a shallow copy of the set.               |
-| [`difference`](#difference)                     | Return elements in this set but not in another. |
-| [`intersection`](#intersection)                 | Return elements common to both sets.            |
-| [`symmetric_difference`](#symmetric-difference) | Return elements not shared by both sets.        |
-| [`union`](#union)                               | Return a new set with all elements from both.   |
+| Function                                        | Description                                         |
+| ----------------------------------------------- | --------------------------------------------------- |
+| [`copy`](#copy)                                 | Return a shallow copy of the set.                   |
+| [`difference`](#difference)                     | Return elements in this set but not in another.     |
+| [`intersection`](#intersection)                 | Return elements common to both sets.                |
+| [`remove`](#remove)                             | Remove an element if present, do nothing otherwise. |
+| [`symmetric_difference`](#symmetric-difference) | Return elements not shared by both sets.            |
+| [`union`](#union)                               | Return a new set with all elements from both.       |
 
 **Predicates**:
 
@@ -92,14 +98,6 @@ Remove elements found in another set (in place).
 
 ```lua
 s = Set({ "a", "b" }):difference_update(Set({ "b" })) --> s contains "a"
-```
-
-#### `discard`
-
-Remove an element if present, do nothing otherwise.
-
-```lua
-s = Set({ "a", "b" }):discard("b") --> s contains "a"
 ```
 
 #### `intersection_update`
@@ -162,6 +160,14 @@ Return elements common to both sets.
 
 ```lua
 i = Set({ "a", "b" }):intersection(Set({ "b", "c" })) --> i contains "b"
+```
+
+#### `remove`
+
+Remove an element if present, do nothing otherwise.
+
+```lua
+s = Set({ "a", "b" }):remove("b") --> s contains "a"
 ```
 
 #### `symmetric_difference`

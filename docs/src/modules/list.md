@@ -12,12 +12,18 @@ query sequences of values.
 ## Usage
 
 ```lua
-lsist = require "mods.List"
+List = require "mods.List"
 
 ls = List({ "a" }):append("b")
 print(ls:contains("b")) --> true
 print(ls:index("b")) --> 2
 ```
+
+## Dependencies
+
+Dependencies below are lazy-loaded 💤 on first access.
+
+- [`mods.Set`](https://luamod.github.io/mods/modules/set)
 
 ## Functions
 
@@ -69,25 +75,25 @@ print(ls:index("b")) --> 2
 
 **Transform**:
 
-| Function                        | Description                                                                                       |
-| ------------------------------- | ------------------------------------------------------------------------------------------------- |
-| [`difference`](#difference)     | Return a new list with values not in the given list.                                              |
-| [`drop`](#drop)                 | Return a new list without the first n elements.                                                   |
-| [`filter`](#filter)             | Return a new list with values matching the predicate.                                             |
-| [`flatten`](#flatten)           | Flatten one level of nested lists.                                                                |
-| [`foreach`](#foreach)           | Apply a function to each element (for side effects). Returns nil.                                 |
-| [`group_by`](#group-by)         | Group list values by a computed key.                                                              |
-| [`intersection`](#intersection) | Return values that are also present in the given list. Order is preserved from the original list. |
-| [`invert`](#invert)             | Invert values to indices in a new table.                                                          |
-| [`join`](#join)                 | Join list values into a string.                                                                   |
-| [`map`](#map)                   | Return a new list by mapping each value.                                                          |
-| [`reduce`](#reduce)             | Reduce the list to a single value using an accumulator.                                           |
-| [`reverse`](#reverse)           | Return a new list with items reversed.                                                            |
-| [`setify`](#setify)             | Convert the list to a set.                                                                        |
-| [`slice`](#slice)               | Return a new list containing items from i to j (inclusive).                                       |
-| [`take`](#take)                 | Return the first n elements as a new list.                                                        |
-| [`uniq`](#uniq)                 | Return a new list with duplicates removed (first occurrence kept).                                |
-| [`zip`](#zip)                   | Zip two lists into a list of 2-element tables.                                                    |
+| Function                        | Description                                                        |
+| ------------------------------- | ------------------------------------------------------------------ |
+| [`difference`](#difference)     | Return a new list with values not in the given list.               |
+| [`drop`](#drop)                 | Return a new list without the first n elements.                    |
+| [`filter`](#filter)             | Return a new list with values matching the predicate.              |
+| [`flatten`](#flatten)           | Flatten one level of nested lists.                                 |
+| [`foreach`](#foreach)           | Apply a function to each element (for side effects).               |
+| [`group_by`](#group-by)         | Group list values by a computed key.                               |
+| [`intersection`](#intersection) | Return values that are also present in the given list.             |
+| [`invert`](#invert)             | Invert values to indices in a new table.                           |
+| [`join`](#join)                 | Join list values into a string.                                    |
+| [`map`](#map)                   | Return a new list by mapping each value.                           |
+| [`reduce`](#reduce)             | Reduce the list to a single value using an accumulator.            |
+| [`reverse`](#reverse)           | Return a new list with items reversed.                             |
+| [`toset`](#toset)               | Convert the list to a set.                                         |
+| [`slice`](#slice)               | Return a new list containing items from i to j (inclusive).        |
+| [`take`](#take)                 | Return the first n elements as a new list.                         |
+| [`uniq`](#uniq)                 | Return a new list with duplicates removed (first occurrence kept). |
+| [`zip`](#zip)                   | Zip two lists into a list of 2-element tables.                     |
 
 ### Predicates
 
@@ -331,7 +337,7 @@ f = List({ { "a", "b" }, { "c" } }):flatten() --> { "a", "b", "c" }
 
 #### `foreach`
 
-Apply a function to each element (for side effects). Returns nil.
+Apply a function to each element (for side effects).
 
 ```lua
 List({ "a", "b" }):foreach(print)
@@ -350,13 +356,14 @@ g = List(words):group_by(string.len) --> { {"b"}, { "aa", "dd" }, { "ccc" } }
 
 #### `intersection`
 
-Return values that are also present in the given list. Order is preserved from
-the original list.
+Return values that are also present in the given list.
 
 ```lua
 i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 --> { "a", "a", "c" }
 ```
+
+> [!NOTE] Order is preserved from the original list.
 
 #### `invert`
 
@@ -406,13 +413,15 @@ Return a new list with items reversed.
 r = List({ "a", "b", "c" }):reverse() --> { "c", "b", "a" }
 ```
 
-#### `setify`
+#### `toset`
 
 Convert the list to a set.
 
 ```lua
-s = List({ "a", "b", "a" }):setify() --> { a = true, b = true }
+s = List({ "a", "b", "a" }):toset() --> { a = true, b = true }
 ```
+
+> [!NOTE] Order is preserved from the original list.
 
 #### `slice`
 
