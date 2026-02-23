@@ -1,8 +1,4 @@
-local function List()
-  ---@diagnostic disable-next-line: cast-local-type
-  List = require("mods.List")
-  return List()
-end
+local mods = require("mods")
 
 ---@type mods.tbl
 local M = {}
@@ -109,7 +105,7 @@ function M.isempty(t)
 end
 
 function M.keys(t)
-  local ls = List()
+  local ls = mods.List()
   local i = 1
   for k in pairs(t) do
     ls[i] = k
@@ -142,7 +138,7 @@ function M.update(t1, t2)
 end
 
 function M.values(t)
-  local ls = List()
+  local ls = mods.List()
   local i = 1
   for _, v in pairs(t) do
     ls[i] = v
