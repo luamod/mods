@@ -45,8 +45,9 @@
 ---@ignore
 ---
 ---Validation checks for values and filesystem path types.
----entry to customize the error string returned by validators. Templates can use
----<code v-pre>{{expected}}</code>, <code v-pre>{{got}}</code>, and <code v-pre>{{value}}</code>.
+---entry to customize the error string returned by validators. Templates can
+---use <code v-pre>{{expected}}</code>, <code v-pre>{{got}}</code>, and
+---<code v-pre>{{value}}</code>.
 ---
 ---@class modsValidateMessages
 ---@field boolean? string
@@ -119,11 +120,9 @@ local is_not = {}
 ---
 ---## Dependencies
 ---
----Dependencies below are lazy-loaded 💤 on first access.
----
----* [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; required
----  only for filesystem/path checks)
 ---* [`mods.is`](https://luamod.github.io/mods/modules/is)
+---* [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional;
+---  lazy-loaded 💤 only for filesystem checks)
 ---
 ---## Callable Forms
 ---
