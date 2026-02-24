@@ -19,7 +19,7 @@ describe("mods.keyword", function()
   local fn = function() end
   local co = coroutine.create(fn)
   local kwlist = keywords
-  local kwset = keywords:setify()
+  local kwset = keywords:toset()
   local tests
 
   -------------------
