@@ -1,8 +1,8 @@
 ---@diagnostic disable: undefined-field, need-check-nil, inject-field
 
-local validate = require("mods").validate
-local messages = validate.messages
-local quote = validate.quote
+local mods = require("mods")
+local validate = mods.validate
+local quote = mods.utils.quote
 local fmt = string.format
 
 local function render_value(v)
@@ -190,7 +190,7 @@ describe("mods.validate", function()
       end)
 
       teardown(function()
-        messages.positive[tp] = prev_template
+        validate.messages.positive[tp] = prev_template
       end)
     end)
 
@@ -214,7 +214,7 @@ describe("mods.validate", function()
       end)
 
       teardown(function()
-        messages.negative[tp] = prev_template
+        validate.messages.negative[tp] = prev_template
       end)
     end)
   end
