@@ -90,7 +90,7 @@ local is_not = {}
 ---
 ---## Usage
 ---
----```lua [.lua]
+---```lua
 ---validate= require "mods.validate"
 ---
 ---ok, err = validate.is.number("nope")
