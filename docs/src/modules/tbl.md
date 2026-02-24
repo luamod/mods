@@ -88,8 +88,10 @@ t = copy({ a = 1, b = 2 }) --> { a = 1, b = 2 }
 
 Create a deep copy of a value.
 
-> [!NOTE] If `v` is a table, all nested tables are copied recursively; other
-> types are returned as-is.
+> [!NOTE]
+>
+> If `v` is a table, all nested tables are copied recursively; other types are
+> returned as-is.
 
 ```lua
 t = deepcopy({ a = { b = 1 } }) --> { a = { b = 1 } }
@@ -138,7 +140,9 @@ v1 = get(t, "a", "b", "c") --> 1
 v2 = get(t) --> { a = { b = { c = 1 } } }
 ```
 
-> [!NOTE] If no keys are provided, returns the input table.
+> [!NOTE]
+>
+> If no keys are provided, returns the input table.
 
 ### Transforms
 
@@ -182,7 +186,9 @@ end) --> { a = 10, b = 20 }
 
 Return a new table by mapping each key-value pair.
 
-> [!NOTE] Output keeps original keys; only values are transformed by `fn`.
+> [!NOTE]
+>
+> Output keeps original keys; only values are transformed by `fn`.
 
 ```lua
 t = pairmap({ a = 1, b = 2 }, function(k, v)

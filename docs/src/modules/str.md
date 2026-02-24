@@ -130,7 +130,9 @@ n = count("abcd", "")
 
 Return true if string ends with suffix.
 
-> [!NOTE] If suffix is a list, returns `true` when any suffix matches.
+> [!NOTE]
+>
+> If suffix is a list, returns `true` when any suffix matches.
 
 ```lua
 ok = endswith("hello.lua", ".lua")
@@ -175,8 +177,9 @@ ok = isalnum("abc123")
 --result: true
 ```
 
-> [!NOTE] Lua letters are ASCII by default, so non-ASCII letters are not
-> alphanumeric.
+> [!NOTE]
+>
+> Lua letters are ASCII by default, so non-ASCII letters are not alphanumeric.
 >
 > ```lua
 > isalnum("á1")` --> `false`
@@ -191,8 +194,9 @@ ok = isalpha("abc")
 --result: true
 ```
 
-> [!NOTE] Lua letters are ASCII by default, so non-ASCII letters are not
-> alphabetic.
+> [!NOTE]
+>
+> Lua letters are ASCII by default, so non-ASCII letters are not alphabetic.
 >
 > ```lua
 > isalpha("á")` --> `false`
@@ -207,7 +211,9 @@ ok = isascii("hello")
 --result: true
 ```
 
-> [!NOTE] The empty string returns `true`.
+> [!NOTE]
+>
+> The empty string returns `true`.
 
 #### `isdecimal`
 
@@ -270,7 +276,9 @@ ok = isprintable("abc!")
 --result: true
 ```
 
-> [!NOTE] The empty string returns `true`.
+> [!NOTE]
+>
+> The empty string returns `true`.
 
 #### `isspace`
 
@@ -472,7 +480,9 @@ s = swapcase("AbC")
 
 Return true if string starts with prefix.
 
-> [!NOTE] If prefix is a list, returns `true` when any prefix matches.
+> [!NOTE]
+>
+> If prefix is a list, returns `true` when any prefix matches.
 
 ```lua
 ok = startswith("hello.lua", "he")

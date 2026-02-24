@@ -16,8 +16,10 @@ ok = is("hello", "string") --> true
 ok = is.table({})          --> true
 ```
 
-> [!NOTE] Function names exist in both lowercase and capitalized forms, and `is`
-> is also callable as `is(v, tp)`.
+> [!NOTE]
+>
+> Function names exist in both lowercase and capitalized forms, and `is` is also
+> callable as `is(v, tp)`.
 >
 > ```lua
 > is.table({})          --> true

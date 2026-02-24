@@ -108,7 +108,9 @@ is_even = function(v) return v % 2 == 0 end
 ok = List({ 2, 4 }):all(is_even) --> true
 ```
 
-> [!NOTE] Empty lists return `true`.
+> [!NOTE]
+>
+> Empty lists return `true`.
 
 #### `any`
 
@@ -275,8 +277,10 @@ Return the number of elements in the list.
 n = List({ "a", "b", "c" }):len() --> 3
 ```
 
-> [!NOTE] Uses Lua's `#` operator, so length is reliable for contiguous
-> array-like lists.
+> [!NOTE]
+>
+> Uses Lua's `#` operator, so length is reliable for contiguous array-like
+> lists.
 
 ### Access
 
@@ -363,7 +367,9 @@ i = List({ "a", "b", "a", "c" }):intersection({ "a", "c" })
 --> { "a", "a", "c" }
 ```
 
-> [!NOTE] Order is preserved from the original list.
+> [!NOTE]
+>
+> Order is preserved from the original list.
 
 #### `invert`
 
@@ -421,7 +427,9 @@ Convert the list to a set.
 s = List({ "a", "b", "a" }):toset() --> { a = true, b = true }
 ```
 
-> [!NOTE] Order is preserved from the original list.
+> [!NOTE]
+>
+> Order is preserved from the original list.
 
 #### `slice`
 
@@ -431,7 +439,9 @@ Return a new list containing items from i to j (inclusive).
 t = List({ "a", "b", "c", "d" }):slice(2, 3) --> { "b", "c" }
 ```
 
-> [!NOTE] Supports negative indices (-1 is last element).
+> [!NOTE]
+>
+> Supports negative indices (-1 is last element).
 
 #### `take`
 
@@ -457,4 +467,6 @@ Zip two lists into a list of 2-element tables.
 z = List({ "a", "b" }):zip({ 1, 2 }) --> { {"a",1}, {"b",2} }
 ```
 
-> [!NOTE] Length is the minimum of both lists.
+> [!NOTE]
+>
+> Length is the minimum of both lists.
