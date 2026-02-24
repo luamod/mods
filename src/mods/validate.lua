@@ -245,8 +245,4 @@ setmetatable(isnot_checks, {
   end,
 })
 
-if rawget(_G, "_TEST") then
-  rawset(M, "quote", quote)
-end
-
 return M
