@@ -69,6 +69,7 @@ function M.copy(t) end
 ---Create a deep copy of a value.
 ---
 ---> [!NOTE]
+--->
 ---> If `v` is a table, all nested tables are copied recursively; other types
 ---> are returned as-is.
 ---
@@ -146,6 +147,7 @@ function M.find_if(t, pred) end
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> If no keys are provided, returns the input table.
 ---
 ---@param t table
@@ -219,6 +221,7 @@ function M.map(t, fn) end
 ---Return a new table by mapping each key-value pair.
 ---
 ---> [!NOTE]
+--->
 ---> Output keeps original keys; only values are transformed by `fn`.
 ---
 ---```lua

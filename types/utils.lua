@@ -31,6 +31,7 @@ function M.quote(v) end
 ---Render any Lua value as a string.
 ---
 ---> [!NOTE]
+--->
 ---> Uses [`inspect`](https://github.com/kikito/inspect.lua) when available,
 ---> otherwise falls back to
 ---> [`mods.repr`](https://luamod.github.io/mods/modules/repr).

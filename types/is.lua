@@ -62,6 +62,7 @@
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> Function names exist in both lowercase and capitalized forms, and `is` is
 ---> also callable as `is(v, tp)`.
 --->

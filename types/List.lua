@@ -41,6 +41,7 @@ List.__index = List
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> Empty lists return `true`.
 ---
 ---@param self mods.List|any[]
@@ -304,6 +305,7 @@ function List:index_if(pred) end
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> Uses Lua's `#` operator, so length is reliable for contiguous array-like lists.
 ---
 ---@param self mods.List|any[]
@@ -438,6 +440,7 @@ function List:group_by(fn) end
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> Order is preserved from the original list.
 ---
 ---@param self mods.List|any[]
@@ -526,6 +529,7 @@ function List:reverse() end
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> Order is preserved from the original list.
 ---
 ---@param self mods.List|any[]
@@ -541,6 +545,7 @@ function List:toset() end
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> Supports negative indices (-1 is last element).
 ---
 ---@param self mods.List|any[]
@@ -583,6 +588,7 @@ function List:uniq() end
 ---```
 ---
 ---> [!NOTE]
+--->
 ---> Length is the minimum of both lists.
 ---
 ---@param self mods.List|any[]

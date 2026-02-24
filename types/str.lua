@@ -80,6 +80,7 @@ function M.count(s, sub, start, stop) end
 ---Return true if string ends with suffix.
 ---
 ---> [!NOTE]
+--->
 ---> If suffix is a list, returns `true` when any suffix matches.
 ---
 ---```lua
@@ -151,7 +152,8 @@ function M.format_map(s, mapping) end
 -----result: true
 ---```
 ---
---->[!NOTE]
+---> [!NOTE]
+--->
 --->Lua letters are ASCII by default, so non-ASCII letters are not alphanumeric.
 --->
 --->```lua
@@ -170,7 +172,8 @@ function M.isalnum(s) end
 -----result: true
 ---```
 ---
---->[!NOTE]
+---> [!NOTE]
+--->
 --->Lua letters are ASCII by default, so non-ASCII letters are not alphabetic.
 --->
 --->```lua
@@ -189,7 +192,8 @@ function M.isalpha(s) end
 -----result: true
 ---```
 ---
---->[!NOTE]
+---> [!NOTE]
+--->
 --->The empty string returns `true`.
 ---@param s string
 ---@return boolean
@@ -275,7 +279,8 @@ function M.isnumeric(s) end
 -----result: true
 ---```
 ---
---->[!NOTE]
+---> [!NOTE]
+--->
 --->The empty string returns `true`.
 ---@param s string
 ---@return boolean
@@ -597,6 +602,7 @@ function M.swapcase(s) end
 ---Return true if string starts with prefix.
 ---
 ---> [!NOTE]
+--->
 ---> If prefix is a list, returns `true` when any prefix matches.
 ---
 ---```lua
