@@ -175,8 +175,6 @@ local is_not = {}
 ---* <code v-pre>{{value}}</code>: The passed value, formatted for display (strings
 ---  are quoted).
 ---
----### Example
----
 ---```lua
 ---validate.messages.positive.number = "need {{expected}}, got {{got}} (value={{value}})"
 ---validate.messages.negative.number = "must not be {{expected}} (value={{value}})"
