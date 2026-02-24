@@ -1,79 +1,194 @@
 # AGENTS Guidelines for This Repository
 
-This repo contains Lua modules in `src/mods`, type stubs in `types/` (kept
-aligned with `src/mods` behavior), and docs in `docs/` with module pages under
-`docs/modules/` (VitePress).
+This document provides guidelines for agentic coding agents operating in this
+repository.
 
-## Repository structure
+## Project Overview
 
-```text
+**Mods** is a pure Lua utility library with lazy-loaded inter-module
+dependencies, supporting Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
+
+## Directory Structure
+
+```txt
 .
 ├── src/
-│   └── mods/              runtime Lua modules
-├── types/                 Lua type stubs and API signatures
-├── spec/                  test suite (Busted)
-├── docs/                  documentation source (VitePress)
-│   └── modules/           per-module documentation pages
-├── .github/
-│   └── workflows/         CI pipelines (GitHub Actions)
-└── CHANGELOG.md           release notes for user-visible changes
+│   └── mods/              Source code modules
+├── spec/                  Busted test files
+├── types/                 Lua type annotations
+└── docs/                  VitePress documentation
 ```
 
-## Build and test commands
+## Build, Lint, and Test Commands
 
-- Install docs dependencies: `npm --prefix docs install`
-- Run all Lua tests: `busted`
-- Run one spec file while iterating: `busted spec/<module>_spec.lua`
-- Run Lua lint: `luacheck .`
-- Run focused Lua lint: `luacheck src spec types`
-- Run Markdown lint: `markdownlint-cli2 'docs/**/*.md' '!docs/.vitepress/**'`
-- Format Markdown: `prettier --write "**/*.md"`
-- Build docs: `npm --prefix docs run docs:build`
-- Run docs dev server: `npm --prefix docs run docs:dev`
+### Running Tests
 
-## Code style
+```sh
+# All tests
+busted
 
-- Match existing Lua style in `src` and `spec`.
-- Keep Lua formatting stable; only touch formatting when the change requires it.
-- Respect existing `-- stylua: ignore` blocks.
-- Ensure code is compatible with all supported Lua versions (5.1+).
-- Prefer simple, efficient implementations; avoid unnecessary allocations or
-  slow paths in hot code.
-- Avoid broad formatting-only edits outside the files required for the task.
+# Single spec file (most common for iteration)
+busted spec/<module>_spec.lua
+```
 
-## Change scope
+### Linting
 
-- Keep changes focused and small.
-- Update docs or types when behavior changes.
-- If runtime behavior changes in `src/mods`, update matching type stubs in
-  `types/`.
-- If public module behavior changes, update corresponding docs in
-  `docs/src/modules/`.
-- For cross-cutting refactors, separate mechanical edits from behavior changes
-  when practical.
+```sh
+# Lua static analysis
+luacheck .
 
-## Module additions
+# Markdown linting (docs)
+npx --yes markdownlint-cli2 'docs/**/*.md' '!docs/.vitepress/**'
+```
 
-If adding a new module under `src/mods/`, also update:
+### Formatting
 
-- `src/mods/init.lua` exports.
-- `types/mods.lua` type surface.
-- `README.md` modules table.
-- `docs/src/modules/index.md` modules table.
-- Rockspec template module entries in `mods.rockspec.template`.
+```sh
+# Format Lua files
+stylua .
 
-## Testing
+# Format Markdown, JSON, YAML, TS files
+npx --yes prettier --write .
+```
 
-- Add or update tests when behavior changes and tests exist.
-- When adding multiple related cases, prefer table-driven tests (case tables)
-  when practical.
-- Prefer running module-focused tests while iterating, then run broader checks
-  before finishing.
+### Documentation
 
-## CI parity
+```sh
+# Docs dev server
+npx --yes vitepress dev docs
 
-- Run local checks that mirror CI before finishing: tests, `luacheck`, docs lint
-  (`markdownlint-cli2`), and docs build when docs are touched.
-- When Markdown files change, run `prettier --write "**/*.md"` before commit.
-- If docs tooling changes, validate `npm --prefix docs run docs:build` still
-  succeeds.
+# Build docs
+npx --yes vitepress build docs
+
+# Preview built docs
+npx --yes vitepress preview docs
+```
+
+### CI Pipeline
+
+The project uses GitHub Actions. CI runs on `.github/workflows/ci.yml` - lints
+and tests on multiple Lua versions.
+
+## Code Style Guidelines
+
+### General Conventions
+
+- **Language**: Pure Lua (no C bindings) for maximum compatibility
+- **Lua versions**: 5.1, 5.2, 5.3, 5.4, LuaJIT
+- **Column limit**: 120 characters for Lua, 80 for Markdown
+- **Indentation**: 2 spaces (no tabs)
+
+### Formatting (StyLua)
+
+Configuration in `.stylua.toml`:
+
+```toml
+indent_type = "Spaces"
+indent_width = 2
+column_width = 120
+sort_requires.enabled = true
+```
+
+### Naming Conventions
+
+- **Modules**: lowercase or PascalCase (e.g., `str`, `tbl`, `List`, `Set`)
+- **Functions/variables**: snake_case (e.g., `is_empty`, `validate_args`)
+- **Constants**: UPPER_SNAKE_CASE
+- **Private functions**: prefix with underscore where appropriate
+
+### LuaLS Type Annotations
+
+Use Lua Language Server annotations for type hints:
+
+```lua
+---@type mods.str
+local M = {}
+
+---@param s string
+---@param width integer
+---@return string
+function M.center(s, width)
+  -- ...
+end
+```
+
+The project uses `---@type` module annotations (see `types/mods.lua` for
+reference).
+
+### Imports and Require
+
+- Use local references for performance (e.g., `local concat = table.concat`)
+- Sort requires alphabetically (enforced by StyLua)
+- Lazy-load inter-module dependencies via `src/mods/init.lua`
+
+### Error Handling
+
+- Return `nil, error_message` for error cases (Lua convention)
+- Use assertions sparingly; prefer explicit error returns
+- Validate inputs at module boundaries
+
+### Test Style
+
+Tests use busted framework. Use table-driven test format where possible:
+
+```lua
+describe("mods.str", function()
+  local tests = {
+    { "capitalize", "hello", {}, "Hello" },
+    { "count", "aaaa", { "a" }, 4 },
+  }
+  for _, tt in ipairs(tests) do
+    local fn = M[tt[1]]
+    local result = fn(tt[2], unpack(tt[3]))
+    assert.equals(tt[4], result)
+  end)
+end)
+```
+
+Test helpers defined in `.busted`:
+
+- `_TEST` global is set
+- `inspect` available for debugging
+- `args_repr` for table comparison
+
+### Adding New Modules
+
+When adding a module to `src/mods/`, also update:
+
+1. `src/mods/init.lua` - add module name
+2. `types/mods.lua` - add type definition
+3. `README.md` - add to modules table
+4. `docs/modules/index.md` - add documentation entry
+
+## Code Review Checklist
+
+- [ ] All tests pass: `busted`
+- [ ] No luacheck warnings: `luacheck .`
+- [ ] Code formatted: `stylua .` and `prettier --write .`
+- [ ] New module added to `init.lua`, types, README, docs
+- [ ] Tests added/updated in `spec/`
+
+## Commit Message Format
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```txt
+<type>(<scope>): <description>
+
+[optional body]
+```
+
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+## Additional Notes
+
+- Never edit module documentation files under `docs/src/modules/`; these files
+  are auto-generated.
+- `_G._TEST = true` is set for test-specific behavior (see `.busted`)
+- LuaCheck globals: `_TEST`, `inspect` (defined in `.luarc.json`)
+
+## Additional Resources
+
+- [Documentation](https://luamod.github.io/mods/)
+- [LuaRocks](https://luarocks.org/modules/luamod/mods)
+- [GitHub Discussions](https://github.com/luamod/mods/discussions)
