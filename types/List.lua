@@ -469,6 +469,10 @@ function List:invert() end
 ---s = List({ "a", "b", "c" }):join(",") --> "a,b,c"
 ---```
 ---
+---> [!NOTE]
+--->
+---> Values are converted with `tostring` before joining.
+---
 ---@param self mods.List|any[]
 ---@param sep? string
 ---@return string

@@ -6,6 +6,7 @@ local remove = table.remove
 local concat = table.concat
 local move = table.move
 local unpack = table.unpack or unpack
+local tostring = tostring
 
 ---@type mods.List
 local List = {}
@@ -241,7 +242,16 @@ function List:invert()
 end
 
 function List:join(sep)
-  return concat(self, sep)
+  local out = {}
+  for i = 1, #self do
+    local v = self[i]
+    if v == self then
+      out[i] = "<self>"
+    else
+      out[i] = tostring(v)
+    end
+  end
+  return concat(out, sep)
 end
 
 function List:keypath()
