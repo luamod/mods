@@ -487,17 +487,20 @@ function List:concat(sep, i, j) end
 ---
 ---```lua
 ---s = List({ "a", "b", "c" }):join(",") --> "a,b,c"
+---s = List({ "a", "b", "c" }):join(", ", true) --> '"a", "b", "c"'
 ---```
 ---
 ---> [!NOTE]
 --->
 ---> Values are converted with `tostring` before joining.
+---> Set `quoted = true` to quote string values.
 ---
 ---@param self mods.List|any[]
 ---@param sep? string
+---@param quoted? boolean
 ---@return string
 ---@nodiscard
-function List:join(sep) end
+function List:join(sep, quoted) end
 
 ---
 ---Render list items as a table-access key path.

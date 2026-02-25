@@ -136,6 +136,11 @@ describe("mods.List", function()
       assert.are_equal("a,1,true", ls:join(","))
     end)
 
+    it("quotes strings when quoted is enabled", function()
+      local ls = List({ "a", "b", 1 })
+      assert.are_equal('"a", "b", 1', ls:join(", ", true))
+    end)
+
     it("handles self-reference", function()
       local ls = List({ "a" })
       ls:append(ls)

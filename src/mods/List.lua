@@ -7,6 +7,8 @@ local concat = table.concat
 local move = table.move
 local unpack = table.unpack or unpack
 local tostring = tostring
+local type = type
+local quote = mods.utils.quote
 
 ---@type mods.List
 local List = {}
@@ -243,12 +245,14 @@ end
 
 List.concat = concat
 
-function List:join(sep)
+function List:join(sep, quoted)
   local out = {}
   for i = 1, #self do
     local v = self[i]
     if v == self then
       out[i] = "<self>"
+    elseif quoted and type(v) == "string" then
+      out[i] = quote(v)
     else
       out[i] = tostring(v)
     end
