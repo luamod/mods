@@ -503,6 +503,18 @@ function List:concat(sep, i, j) end
 function List:join(sep, quoted) end
 
 ---
+---Render the list to a string via the regular method form.
+---
+---```lua
+---s = List({ "a", "b", 1 }):tostring() --> '{ "a", "b", 1 }'
+---```
+---
+---@param self mods.List|any[]
+---@return string
+---@nodiscard
+function List:tostring() end
+
+---
 ---Render list items as a table-access key path.
 ---
 ---```lua
@@ -659,5 +671,16 @@ function List:zip(ls) end
 ---@param ls mods.List|any[]
 ---@return mods.List|any[] self
 function List.__add(self, ls) end
+
+---
+---Render the list to a string like `{ "a", "b", 1 }`.
+---
+---```lua
+---s = tostring(List({ "a", "b", 1 })) --> '{ "a", "b", 1 }'
+---```
+---
+---@param self mods.List|any[]
+---@return string
+function List.__tostring(self) end
 
 return List

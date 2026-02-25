@@ -260,6 +260,10 @@ function List:join(sep, quoted)
   return concat(out, sep)
 end
 
+function List:tostring()
+  return "{ " .. self:join(", ", true) .. " }"
+end
+
 function List:keypath()
   return mods.tbl.keypath(unpack(self))
 end
@@ -410,6 +414,7 @@ function List:zip(other)
 end
 
 List.__add = List.extend
+List.__tostring = List.tostring
 
 return setmetatable(List, {
   __index = function(t, k)
