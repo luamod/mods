@@ -76,6 +76,7 @@ describe("mods.List", function()
     { "invert"       , a___e  , {        } , a1_e2      ,          },
     { "join"         , abc__  , { ","    } , "a,b,c"    ,          },
     { "join"         , abcde  , {        } , "abcde"    ,          },
+    { "keypath"      , abc__  , {        } , "a.b.c"    ,          },
     { "last"         , abc__  , {        } , "c"        ,          },
     { "len"          , _____  , {        } , 0          ,          },
     { "len"          , a_c__  , {        } , 2          ,          },
@@ -111,9 +112,9 @@ describe("mods.List", function()
       assert.are_same(expected, res)
 
       if same_ref then
-        assert.are_equal(ls, res, "Expected same list reference")
+        assert.are_equal(true, rawequal(ls, res), "Expected same list reference")
       else
-        assert.not_equal(ls, res, "Expected different list reference")
+        assert.are_equal(false, rawequal(ls, res), "Expected different list reference")
       end
     end)
   end

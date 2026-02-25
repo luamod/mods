@@ -475,6 +475,18 @@ function List:invert() end
 function List:join(sep) end
 
 ---
+---Render list items as a table-access key path.
+---
+---```lua
+---p = List({ "ctx", "users", 1, "name" }):keypath() --> "ctx.users[1].name"
+---```
+---
+---@param self mods.List|any[]
+---@return string
+---@nodiscard
+function List:keypath() end
+
+---
 ---Return a new list by mapping each value.
 ---
 ---```lua

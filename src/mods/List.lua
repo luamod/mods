@@ -5,6 +5,7 @@ local sort = table.sort
 local remove = table.remove
 local concat = table.concat
 local move = table.move
+local unpack = table.unpack or unpack
 
 ---@type mods.List
 local List = {}
@@ -241,6 +242,10 @@ end
 
 function List:join(sep)
   return concat(self, sep)
+end
+
+function List:keypath()
+  return mods.tbl.keypath(unpack(self))
 end
 
 function List:last()
