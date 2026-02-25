@@ -21,6 +21,7 @@
 ---* [`mods.Set`](https://luamod.github.io/mods/modules/set)
 ---
 ---@class mods.List<T>:{[integer]:T}
+---@operator add(mods.List):mods.List
 ---@overload fun(t?:{}):mods.List
 local List = {}
 List.__index = List
@@ -608,5 +609,28 @@ function List:uniq() end
 ---@return mods.List ls
 ---@nodiscard
 function List:zip(ls) end
+
+--------------------------------------------------------------------------------
+---------------------------------- Metamethods ---------------------------------
+--------------------------------------------------------------------------------
+
+---
+---Extend the left-hand list in place with right-hand values, then return the
+---same left-hand list reference.
+---
+---```lua
+---a = List({ "a", "b" })
+---b = { "c", "d" }
+---c = a + b --> c and a are the same reference: { "a", "b", "c", "d" }
+---```
+---
+---> [!NOTE]
+--->
+---> `__add` mutates and returns the left-hand value (same reference).
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return mods.List|any[] self
+function List.__add(self, ls) end
 
 return List

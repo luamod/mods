@@ -393,6 +393,8 @@ function List:zip(other)
   return res
 end
 
+List.__add = List.extend
+
 return setmetatable(List, {
   __index = function(t, k)
     if k == "toset" then

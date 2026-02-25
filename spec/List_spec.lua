@@ -128,4 +128,15 @@ describe("mods.List", function()
     assert.are_equal("abc", joined)
     assert.is_nil(res)
   end)
+
+  describe("metamethods", function()
+    it("__add extends and returns the left list", function()
+      local a = List({ "a", "b" })
+      local b = { "c", "d" }
+      local c = { "e", "f" }
+      local d = a + b + c
+      assert.are_same(d, { "a", "b", "c", "d", "e", "f" })
+      assert.are_equal(true, rawequal(a, d), "__add returns same lhs ref")
+    end)
+  end)
 end)
