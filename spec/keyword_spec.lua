@@ -118,7 +118,7 @@ describe("mods.keyword", function()
     end)
 
     it("returns a fresh copy on each call", function()
-      assert.are_not_equal(kw.kwlist(), kw.kwlist())
+      assert.is_false(rawequal(kw.kwlist(), kw.kwlist()))
     end)
   end)
 
@@ -136,7 +136,7 @@ describe("mods.keyword", function()
     end)
 
     it("returns a fresh copy on each call", function()
-      assert.are_not_equal(kw.kwset(), kw.kwset())
+      assert.is_false(rawequal(kw.kwset(), kw.kwset()))
     end)
   end)
 end)
