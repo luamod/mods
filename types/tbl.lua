@@ -156,6 +156,21 @@ function M.find_if(t, pred) end
 ---@nodiscard
 function M.get(t, ...) end
 
+---
+---Format a key chain as a Lua-like table access path.
+---
+---```lua
+---p1 = keypath("t", "a", "b", "c")        --> "t.a.b.c"
+---p2 = keypath("ctx", "users", 1, "name") --> "ctx.users[1].name"
+---p3 = keypath("ctx", "invalid-key")      --> 'ctx["invalid-key"]'
+---p4 = keypath()                          --> ""
+---```
+---
+---@param ... any
+---@return string
+---@nodiscard
+function M.keypath(...) end
+
 --------------------------------------------------------------------------------
 ---------------------------------- Transforms ----------------------------------
 --------------------------------------------------------------------------------

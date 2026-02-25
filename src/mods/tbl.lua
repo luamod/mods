@@ -1,5 +1,14 @@
 local mods = require("mods")
 
+local concat = table.concat
+
+-- Self-replacing wrappers: 💤 lazy-load once, then call cached callable directly.
+-- stylua: ignore start
+local function isidentifier(v) isidentifier = mods.keyword.isidentifier return isidentifier(v) end
+local function quote(v) quote = mods.utils.quote return quote(v) end
+local function List(v) List = mods.List return List(v) end ---@diagnostic disable-line: cast-local-type
+-- stylua: ignore end
+
 ---@type mods.tbl
 local M = {}
 
@@ -92,6 +101,26 @@ function M.get(t, ...)
   return v
 end
 
+function M.keypath(...)
+  local n = select("#", ...)
+  if n == 0 then
+    return ""
+  end
+
+  local res = {}
+  for i = 1, n do
+    local k = select(i, ...)
+    if isidentifier(k) then
+      res[#res + 1] = (#res > 0 and "." or "") .. k
+    elseif type(k) == "string" then
+      res[#res + 1] = "[" .. quote(k) .. "]"
+    else
+      res[#res + 1] = "[" .. tostring(k) .. "]"
+    end
+  end
+  return concat(res)
+end
+
 function M.invert(t)
   local res = {}
   for k, v in pairs(t) do
@@ -105,7 +134,7 @@ function M.isempty(t)
 end
 
 function M.keys(t)
-  local ls = mods.List()
+  local ls = List()
   local i = 1
   for k in pairs(t) do
     ls[i] = k
@@ -138,7 +167,7 @@ function M.update(t1, t2)
 end
 
 function M.values(t)
-  local ls = mods.List()
+  local ls = List()
   local i = 1
   for _, v in pairs(t) do
     ls[i] = v

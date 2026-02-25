@@ -8,6 +8,7 @@ describe("mods.tbl", function()
   local loc = { a = { b = { c = { d = {} } } } }
   local n123 = { 1, 2, 3 }
   local abc = { "a", "b", "c" }
+  local fn = function() end
 
   -- stylua: ignore start
   local a1_b2_c3    = { a = 1    ,  b = 2    , c = 3    }
@@ -30,31 +31,46 @@ describe("mods.tbl", function()
   local is_equal = function(a, b) return a == b end
 
   local tests = {
-    -----fname---|---------params---------|--expected---|-same_ref?---
-    { "copy"     , { a1_b2_c3           } , a1_b2_c3    ,         },
-    { "count"    , { {}                 } , 0           ,         },
-    { "count"    , { a1_b2_c3           } , 3           ,         },
-    { "deepcopy" , { a1_b2_c3           } , a1_b2_c3    ,         },
-    { "filter"   , { a1_b2_c3, gt_2     } , { c = 3 }   ,         },
-    { "filter"   , { a1_b2_c3, gt_5     } , {}          ,         },
-    { "filter"   , { Aa_Bb_Cc, not_b    } , Aa_Cc       ,         },
-    { "find_if"  , { a1_b2_cc, is_equal } , "c"         ,         },
-    { "find"     , { a1_b2_c3, "2"      } , nil         ,         },
-    { "find"     , { a1_b2_c3, 2        } , "b"         ,         },
-    { "find"     , { abc, "b"           } , 2           ,         },
-    { "get"      , { loc                } , loc         , true    },
-    { "get"      , { loc, "a", "b", "c" } , loc.a.b.c   ,         },
-    { "get"      , { loc, "a", "d", "d" } , nil         ,         },
-    { "invert"   , { aA_bB_cC           } , Aa_Bb_Cc    ,         },
-    { "invert"   , { Aa_Bb_Cc           } , aA_bB_cC    ,         },
-    { "isempty"  , { {}                 } , true        ,         },
-    { "isempty"  , { abc                } , false       ,         },
-    { "keys"     , { a1_b2_c3,          } , abc         ,         },
-    { "map"      , { a1_b2_c3, multi    } , a2_b4_c6    ,         },
-    { "pairmap"  , { a1_b2_c3, concat   } , aa1_bb2_cc3 ,         },
-    { "update"   , { x1_y2, y3_z4       } , x1_y3_z4    , true    },
-    { "update"   , { y3_z4, x1_y2       } , x1_y2_z4    , true    },
-    { "values"   , { a1_b2_c3           } , n123        ,         },
+    -----fname---|-------------params------------|---------expected---------|-same_ref?---
+    { "count"    , { {}                        } , 0                        ,       },
+    { "count"    , { a1_b2_c3                  } , 3                        ,       },
+
+    { "filter"   , { a1_b2_c3, gt_2            } , { c = 3 }                , false },
+    { "filter"   , { a1_b2_c3, gt_5            } , {}                       , false },
+    { "filter"   , { Aa_Bb_Cc, not_b           } , Aa_Cc                    , false },
+
+    { "find"     , { a1_b2_c3, "2"             } , nil                      ,       },
+    { "find"     , { a1_b2_c3, 2               } , "b"                      ,       },
+    { "find"     , { abc, "b"                  } , 2                        ,       },
+
+    { "get"      , { loc                       } , loc                      , true  },
+    { "get"      , { loc, "a", "b", "c"        } , loc.a.b.c                , false },
+    { "get"      , { loc, "a", "d", "d"        } , nil                      ,       },
+
+    { "invert"   , { aA_bB_cC                  } , Aa_Bb_Cc                 , false },
+    { "invert"   , { Aa_Bb_Cc                  } , aA_bB_cC                 , false },
+
+    { "isempty"  , { {}                        } , true                     ,       },
+    { "isempty"  , { abc                       } , false                    ,       },
+
+    { "keypath"  , {                           } , ""                       ,       },
+    { "keypath"  , { "ctx", "end"              } , 'ctx["end"]'             ,       },
+    { "keypath"  , { "ctx", "invalid-key"      } , 'ctx["invalid-key"]'     ,       },
+    { "keypath"  , { "ctx", "users", 1, "name" } , "ctx.users[1].name"      ,       },
+    { "keypath"  , { "t"                       } , "t"                      ,       },
+    { "keypath"  , { "t", "a", "b", "c"        } , "t.a.b.c"                ,       },
+    { "keypath"  , { fn, "end"                 } , fmt('[%s]["end"]', fn)   ,       },
+
+    { "update"   , { x1_y2, y3_z4              } , x1_y3_z4                 , true  },
+    { "update"   , { y3_z4, x1_y2              } , x1_y2_z4                 , true  },
+
+    { "copy"     , { a1_b2_c3                  } , a1_b2_c3                 , false },
+    { "deepcopy" , { a1_b2_c3                  } , a1_b2_c3                 , false },
+    { "find_if"  , { a1_b2_cc, is_equal        } , "c"                      , false },
+    { "keys"     , { a1_b2_c3,                 } , abc                      , false },
+    { "map"      , { a1_b2_c3, multi           } , a2_b4_c6                 , false },
+    { "pairmap"  , { a1_b2_c3, concat          } , aa1_bb2_cc3              , false },
+    { "values"   , { a1_b2_c3                  } , n123                     , false },
   }
   -- stylua: ignore end
 
@@ -68,9 +84,9 @@ describe("mods.tbl", function()
       actual = (fname == "keys" or fname == "values") and actual:sort() or actual
       assert.are_same(expected, actual)
 
-      if same_ref then
+      if same_ref == true then
         assert.are_equal(params[1], actual, "Expected same table reference")
-      else
+      elseif same_ref == false then
         assert.not_equal(params[1], actual, "Expected different table reference")
       end
     end)
