@@ -241,6 +241,8 @@ function List:invert()
   return res
 end
 
+List.concat = concat
+
 function List:join(sep)
   local out = {}
   for i = 1, #self do

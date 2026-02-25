@@ -76,6 +76,7 @@ describe("mods.List", function()
     { "invert"       , a___e  , {        } , a1_e2      ,          },
     { "join"         , abc__  , { ","    } , "a,b,c"    ,          },
     { "join"         , abcde  , {        } , "abcde"    ,          },
+    { "concat"       , abcde  , {        } , "abcde"    ,          },
     { "keypath"      , abc__  , {        } , "a.b.c"    ,          },
     { "last"         , abc__  , {        } , "c"        ,          },
     { "len"          , _____  , {        } , 0          ,          },

@@ -463,6 +463,26 @@ function List:intersection(ls) end
 function List:invert() end
 
 ---
+---Concatenate list values using Lua's native `table.concat` behavior.
+---
+---```lua
+---s = List({ "a", "b", "c" }):concat(",") --> "a,b,c"
+---```
+---
+---> [!NOTE]
+--->
+---> This method forwards to `table.concat` directly and keeps its strict
+---> element rules.
+---
+---@param self mods.List|any[]
+---@param sep? string
+---@param i? integer
+---@param j? integer
+---@return string
+---@nodiscard
+function List:concat(sep, i, j) end
+
+---
 ---Join list values into a string.
 ---
 ---```lua
