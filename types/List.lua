@@ -101,6 +101,34 @@ function List:any(pred) end
 ---@nodiscard
 function List:equals(ls) end
 
+---
+---Compare two lists lexicographically (Python-style `<`).
+---
+---```lua
+---ok = List({ 1, 2 }):lt({ 1, 3 })    --> true
+---ok = List({ 1, 2 }):lt({ 1, 2, 0 }) --> true
+---```
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return boolean
+---@nodiscard
+function List:lt(ls) end
+
+---
+---Compare two lists lexicographically (Python-style `<=`).
+---
+---```lua
+---ok = List({ 1, 2 }):le({ 1, 2 })  --> true
+---ok = List({ 1, 2 }):le({ 1, 1 })  --> false
+---```
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return boolean
+---@nodiscard
+function List:le(ls) end
+
 --------------------------------------------------------------------------------
 ----------------------------------- Mutation -----------------------------------
 --------------------------------------------------------------------------------
@@ -733,6 +761,30 @@ function List:zip(ls) end
 ---@param ls mods.List|any[]
 ---@return boolean
 function List.__eq(self, ls) end
+
+---
+---Compare two lists lexicographically using `<`.
+---
+---```lua
+---ok = List({ 1, 2 }) < List({ 1, 3 }) --> true
+---```
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return boolean
+function List.__lt(self, ls) end
+
+---
+---Compare two lists lexicographically using `<=`.
+---
+---```lua
+---ok = List({ 1, 2 }) <= List({ 1, 2 }) --> true
+---```
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return boolean
+function List.__le(self, ls) end
 
 ---
 ---Extend the left-hand list in place with right-hand values, then return the

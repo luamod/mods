@@ -50,6 +50,31 @@ local function copy_range(self, start_i, end_i)
   return res
 end
 
+local function lex_cmp(a, b)
+  local limit = #a
+  if #b < limit then
+    limit = #b
+  end
+  for i = 1, limit do
+    local av = a[i]
+    local bv = b[i]
+    if av ~= bv then
+      if av < bv then
+        return -1
+      elseif bv < av then
+        return 1
+      end
+      return nil
+    end
+  end
+  if #a < #b then
+    return -1
+  elseif #a > #b then
+    return 1
+  end
+  return 0
+end
+
 function List:all(pred)
   for i = 1, #self do
     if not pred(self[i]) then
@@ -283,6 +308,15 @@ function List:len()
   return #self
 end
 
+function List:lt(ls)
+  return lex_cmp(self, ls) == -1
+end
+
+function List:le(ls)
+  local cmp = lex_cmp(self, ls)
+  return cmp == -1 or cmp == 0
+end
+
 function List:map(fn)
   local ls = List()
   local ri = 1
@@ -420,6 +454,8 @@ end
 
 List.__add = List.extend
 List.__eq = List.equals
+List.__le = List.le
+List.__lt = List.lt
 List.__sub = List.difference
 List.__tostring = List.tostring
 
