@@ -199,7 +199,6 @@ end
 
 function List:group_by(fn)
   local res = {}
-  local counts = {}
   for i = 1, #self do
     local v = self[i]
     local key = fn(v)
@@ -207,13 +206,8 @@ function List:group_by(fn)
     if bucket == nil then
       bucket = List()
       res[key] = bucket
-      counts[key] = 1
-      bucket[1] = v
-    else
-      local idx = counts[key] + 1
-      counts[key] = idx
-      bucket[idx] = v
     end
+    bucket[#bucket + 1] = v
   end
   return res
 end
@@ -232,7 +226,6 @@ function List:index_if(pred)
       return i
     end
   end
-  return nil
 end
 
 function List:insert(pos, v)
@@ -413,11 +406,9 @@ function List:zip(other)
   if other == nil then
     return res
   end
-  local len = #self
-  local other_len = #other
-  local limit = len
-  if other_len < limit then
-    limit = other_len
+  local limit = #self
+  if #other < limit then
+    limit = #other
   end
   local ri = 1
   for i = 1, limit do
