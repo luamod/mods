@@ -234,6 +234,26 @@ function Set:union(set) end
 function Set:isdisjoint(set) end
 
 ---
+---Return true when both sets contain exactly the same members.
+---
+---```lua
+---a = Set({ "a", "b" })
+---b = Set({ "b", "a" })
+---ok = a:equals(b) --> true
+---```
+---
+---> [!NOTE]
+--->
+---> `equals` is also available as the `__eq` (`==`) operator.
+---> `a:equals(b)` is equivalent to `a == b`.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return boolean
+---@nodiscard
+function Set:equals(set) end
+
+---
 ---Return true if the set has no elements.
 ---
 ---```lua
@@ -362,6 +382,22 @@ function Set:values() end
 ---@param set mods.Set|table<any,true>
 ---@return mods.Set
 function Set.__add(self, set) end
+
+---
+---Return true if both sets contain exactly the same members using `==`.
+---
+---```lua
+---ok = Set({ "a", "b" }) == Set({ "b", "a" }) --> true
+---```
+---
+---> [!NOTE]
+--->
+---> `__eq` is the operator form of `:equals(set)`.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return boolean
+function Set.__eq(self, set) end
 
 ---
 ---Return true if the left set is a subset of the right set using `<=`.

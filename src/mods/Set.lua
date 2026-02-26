@@ -1,14 +1,7 @@
-local mods = require("mods")
+local tbl = require("mods.tbl")
 
 local next = next
 local pairs = pairs
-
-local tbl_map = {
-  update = "update",
-  values = "keys",
-  len = "count",
-  isempty = "isempty",
-}
 
 ---@type mods.Set
 local Set = {}
@@ -49,6 +42,8 @@ function Set:difference(set)
   return self:copy():difference_update(set)
 end
 
+Set.equals = tbl.same
+
 function Set:intersection_update(set)
   for k in pairs(self) do
     if not set[k] then
@@ -71,6 +66,8 @@ function Set:isdisjoint(set)
   return true
 end
 
+Set.isempty = tbl.isempty
+
 function Set:issubset(set)
   for k in pairs(self) do
     if not set[k] then
@@ -88,6 +85,8 @@ function Set:issuperset(set)
   end
   return true
 end
+
+Set.len = tbl.count
 
 function Set:contains(v)
   return self[v] ~= nil
@@ -130,7 +129,11 @@ function Set:union(set)
   return self:copy():update(set)
 end
 
+Set.update = tbl.update
+Set.values = tbl.keys
+
 Set.__add = Set.union
+Set.__eq = tbl.same
 Set.__le = Set.issubset
 Set.__lt = function(a, b)
   return a:issubset(b) and not a:issuperset(b)
@@ -138,14 +141,6 @@ end
 Set.__sub = Set.difference
 
 return setmetatable(Set, {
-  __index = function(t, k)
-    local fname = tbl_map[k]
-    if fname then
-      local fn = mods.tbl[fname]
-      rawset(t, k, fn)
-      return fn
-    end
-  end,
   __call = function(_, t)
     local set = new()
     if t == nil then

@@ -23,33 +23,35 @@ describe("mods.Set", function()
   -- stylua: ignore
   local tests = {
     --------------fname-------------|--set--|-param-|-expected-|-same_ref?---
-    { "add"                         , _b_d_ , "c"   , _bcd_    , true    },
-    { "clear"                       , abcde , nil   , {}       , true    },
-    { "contains"                    , abcde , "a"   , true     ,         },
-    { "contains"                    , abcde , "z"   , false    ,         },
-    { "copy"                        , abcde , nil   , abcde    ,         },
-    { "difference_update"           , a_c_e , _bcd_ , a___e    , true    },
-    { "difference"                  , a_c_e , _bcd_ , a___e    ,         },
-    { "intersection_update"         , a_c_e , _bcd_ , __c__    , true    },
-    { "intersection"                , a_c_e , _bcd_ , __c__    ,         },
-    { "isdisjoint"                  , _b_d_ , ___de , false    ,         },
-    { "isdisjoint"                  , _b_d_ , a___e , true     ,         },
-    { "isempty"                     , _____ , nil   , true     ,         },
-    { "isempty"                     , abcde , nil   , false    ,         },
-    { "issubset"                    , abcd_ , abcde , true     ,         },
-    { "issubset"                    , abcde , abcd_ , false    ,         },
-    { "issuperset"                  , abcd_ , abcde , false    ,         },
-    { "issuperset"                  , abcde , abcd_ , true     ,         },
-    { "len"                         , _____ , nil   , 0        ,         },
-    { "len"                         , a_c__ , nil   , 2        ,         },
-    { "map"                         , abc__ , upper , ABC__    ,         },
-    { "pop"                         , _____ , nil   , nil      ,         },
-    { "remove"                      , _bcd_ , "c"   , _b_d_    , true    },
-    { "symmetric_difference_update" , a_c_e , _bcd_ , ab_de    , true    },
-    { "symmetric_difference"        , a_c_e , _bcd_ , ab_de    ,         },
-    { "union"                       , abc__ , ___de , abcde    ,         },
-    { "update"                      , abc__ , ___de , abcde    , true    },
-    { "values"                      , _____ , nil   , {}       ,         },
+    { "add"                         , _b_d_ , "c"   , _bcd_    , true  },
+    { "clear"                       , abcde , nil   , {}       , true  },
+    { "contains"                    , abcde , "a"   , true     ,       },
+    { "contains"                    , abcde , "z"   , false    ,       },
+    { "copy"                        , abcde , nil   , abcde    , false },
+    { "difference_update"           , a_c_e , _bcd_ , a___e    , true  },
+    { "difference"                  , a_c_e , _bcd_ , a___e    , false },
+    { "equals"                      , abcde , abcde , true     ,       },
+    { "equals"                      , abcde , abcd_ , false    ,       },
+    { "intersection_update"         , a_c_e , _bcd_ , __c__    , true  },
+    { "intersection"                , a_c_e , _bcd_ , __c__    , false },
+    { "isdisjoint"                  , _b_d_ , ___de , false    ,       },
+    { "isdisjoint"                  , _b_d_ , a___e , true     ,       },
+    { "isempty"                     , _____ , nil   , true     ,       },
+    { "isempty"                     , abcde , nil   , false    ,       },
+    { "issubset"                    , abcd_ , abcde , true     ,       },
+    { "issubset"                    , abcde , abcd_ , false    ,       },
+    { "issuperset"                  , abcd_ , abcde , false    ,       },
+    { "issuperset"                  , abcde , abcd_ , true     ,       },
+    { "len"                         , _____ , nil   , 0        ,       },
+    { "len"                         , a_c__ , nil   , 2        ,       },
+    { "map"                         , abc__ , upper , ABC__    , false },
+    { "pop"                         , _____ , nil   , nil      ,       },
+    { "remove"                      , _bcd_ , "c"   , _b_d_    , true  },
+    { "symmetric_difference_update" , a_c_e , _bcd_ , ab_de    , true  },
+    { "symmetric_difference"        , a_c_e , _bcd_ , ab_de    , false },
+    { "union"                       , abc__ , ___de , abcde    , false },
+    { "update"                      , abc__ , ___de , abcde    , true  },
+    { "values"                      , _____ , nil   , {}       ,       },
   }
 
   for i = 1, #tests do
@@ -61,9 +63,9 @@ describe("mods.Set", function()
       assert.are_same(expected, res)
 
       if same_ref then
-        assert.are_equal(set, res, "Expected same set instance")
+        assert.are_equal(true, rawequal(set, res), "Expected same set instance")
       else
-        assert.not_equal(set, res, "Expected different set instances")
+        assert.are_equal(false, rawequal(set, res), "Expected different set instances")
       end
     end)
   end
@@ -112,6 +114,12 @@ describe("mods.Set", function()
       assert.are_same({ a = true, c = true }, d)
       assert.are_same({ a = true, b = true, c = true }, a)
       assert.are_same({ b = true, x = true }, b)
+    end)
+
+    it("__eq returns set member equality", function()
+      assert.is_true(Set({ "a", "b" }) == Set({ "b", "a" }))
+      assert.is_false(Set({ "a", "b" }) == Set({ "a", "c" }))
+      assert.is_false(Set({ "a", "b" }) == Set({ "a", "b", "c" }))
     end)
 
     it("__le returns subset check", function()
