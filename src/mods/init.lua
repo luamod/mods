@@ -6,6 +6,7 @@ local module_names = {
   "List",
   "operator",
   "repr",
+  "runtime",
   "Set",
   "str",
   "stringcase",

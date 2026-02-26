@@ -1,0 +1,92 @@
+---@meta mods.runtime
+
+---
+---A tiny module that exposes Lua runtime metadata and version compatibility flags.
+---
+---## Usage
+---
+---```lua
+---runtime = require "mods.runtime"
+---
+---print(runtime.version)     --> "Lua 5.x"
+---print(runtime.version_num) --> 501 | 502 | 503 | 504
+---print(runtime.is_lua54)    --> true | false
+---```
+---
+---@class mods.runtime
+---
+---Version string reported by the runtime.
+---
+---```lua
+---print(runtime.version) --> "Lua 5.x"
+---```
+---
+---@field version "Lua 5.1"|"Lua 5.2"|"Lua 5.3"|"Lua 5.4"
+---
+---Major version number parsed from `version`.
+---
+---```lua
+---print(runtime.major) --> 5
+---```
+---
+---@field major 5
+---
+---Minor version number parsed from `version`.
+---
+---```lua
+---print(runtime.minor) --> 1 | 2 | 3 | 4
+---```
+---
+---@field minor 1|2|3|4
+---
+---Numeric version encoded as `major * 100 + minor`.
+---
+---```lua
+---print(runtime.version_num) --> 501 | 502 | 503 | 504
+---```
+---
+---@field version_num 501|502|503|504
+---
+---True when running under LuaJIT.
+---
+---```lua
+---print(runtime.is_luajit) --> true | false
+---```
+---
+---@field is_luajit boolean
+---
+---True only on Lua 5.1 runtimes.
+---
+---```lua
+---print(runtime.is_lua51) --> true | false
+---```
+---
+---@field is_lua51 boolean
+---
+---True only on Lua 5.2 runtimes.
+---
+---```lua
+---print(runtime.is_lua52) --> true | false
+---```
+---
+---@field is_lua52 boolean
+---
+---True only on Lua 5.3 runtimes.
+---
+---```lua
+---print(runtime.is_lua53) --> true | false
+---```
+---
+---@field is_lua53 boolean
+---
+---True only on Lua 5.4 runtimes.
+---
+---```lua
+---print(runtime.is_lua54) --> true | false
+---```
+---
+---@field is_lua54 boolean
+---
+local M = {}
+
+return M

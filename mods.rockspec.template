@@ -9,13 +9,13 @@ source = {
 }
 
 description = {
+  summary = "Pure Lua modules",
   homepage = "https://luamod.github.io/mods",
   license = "MIT",
-  summary = "Pure Lua modules",
   detailed = [[
 Mods provides small, focused Lua modules:
-List, Set, is, keyword, operator, repr, str, stringcase, tbl, template, and
-validate.
+is, keyword, List, operator, repr, runtime, Set, str, stringcase, tbl, 
+template, and validate.
 ]],
 }
 
@@ -33,6 +33,7 @@ build = {
     ["mods.List"] = "src/mods/List.lua",
     ["mods.operator"] = "src/mods/operator.lua",
     ["mods.repr"] = "src/mods/repr.lua",
+    ["mods.runtime"] = "src/mods/runtime.lua",
     ["mods.Set"] = "src/mods/Set.lua",
     ["mods.str"] = "src/mods/str.lua",
     ["mods.stringcase"] = "src/mods/stringcase.lua",
