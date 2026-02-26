@@ -15,13 +15,6 @@ kw.iskeyword("local"))         --> true
 kw.isidentifier("hello_world") --> true
 ```
 
-## Dependencies
-
-Dependencies below are lazy-loaded 💤 on first access.
-
-- [`mods.Set`](https://luamod.github.io/mods/modules/set)
-- [`mods.List`](https://luamod.github.io/mods/modules/list)
-
 ## Functions
 
 | Function                                        | Description                                                                         |

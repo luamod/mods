@@ -18,12 +18,6 @@ s = Set({ "a" })
 print(s:contains("a")) --> true
 ```
 
-## Dependencies
-
-Dependencies below are lazy-loaded 💤 on first access.
-
-- [`mods.tbl`](https://luamod.github.io/mods/modules/tbl)
-
 ## Functions
 
 **Mutation**:
@@ -54,6 +48,7 @@ Dependencies below are lazy-loaded 💤 on first access.
 | Function                    | Description                                                      |
 | --------------------------- | ---------------------------------------------------------------- |
 | [`isdisjoint`](#isdisjoint) | Return true if sets have no elements in common.                  |
+| [`equals`](#equals)         | Return true when both sets contain exactly the same members.     |
 | [`isempty`](#isempty)       | Return true if the set has no elements.                          |
 | [`issubset`](#issubset)     | Return true if all elements of this set are also in another set. |
 | [`issuperset`](#issuperset) | Return true if this set contains all elements of another set.    |
@@ -71,6 +66,19 @@ Dependencies below are lazy-loaded 💤 on first access.
 | ------------------- | --------------------------------------- |
 | [`map`](#map)       | Return a new set by mapping each value. |
 | [`values`](#values) | Return a list of all values in the set. |
+
+**Metamethods**:
+
+| Function          | Description                                                                |
+| ----------------- | -------------------------------------------------------------------------- |
+| [`__add`](#add)   | Return the union of two sets using `+`.                                    |
+| [`__bor`](#bor)   | Return the union of two sets using `\|`.                                   |
+| [`__band`](#band) | Return the intersection of two sets using `&`.                             |
+| [`__bxor`](#bxor) | Return elements present in exactly one set using `^`.                      |
+| [`__eq`](#eq)     | Return true if both sets contain exactly the same members using `==`.      |
+| [`__le`](#le)     | Return true if the left set is a subset of the right set using `<=`.       |
+| [`__lt`](#lt)     | Return true if the left set is a proper subset of the right set using `<`. |
+| [`__sub`](#sub)   | Return the difference of two sets using `-`.                               |
 
 ### Mutation
 
@@ -154,6 +162,11 @@ Return elements in this set but not in another.
 d = Set({ "a", "b" }):difference(Set({ "b" })) --> d contains "a"
 ```
 
+> [!NOTE]
+>
+> `difference` is also available as the `__sub` (`-`) operator.
+> `a:difference(b)` is equivalent to `a - b`.
+
 #### `intersection`
 
 Return elements common to both sets.
@@ -161,6 +174,10 @@ Return elements common to both sets.
 ```lua
 i = Set({ "a", "b" }):intersection(Set({ "b", "c" })) --> i contains "b"
 ```
+
+> [!NOTE]
+>
+> `intersection` is also available as `__band` (`&`) on Lua 5.3+.
 
 #### `remove`
 
@@ -179,6 +196,10 @@ d = Set({ "a", "b" }):symmetric_difference(Set({ "b", "c" }))
 --> d contains "a", "c"
 ```
 
+> [!NOTE]
+>
+> `symmetric_difference` is also available as `__bxor` (`^`) on Lua 5.3+.
+
 #### `union`
 
 Return a new set with all elements from both.
@@ -186,6 +207,11 @@ Return a new set with all elements from both.
 ```lua
 s = Set({ "a" }):union(Set({ "b" })) --> s contains "a", "b"
 ```
+
+> [!NOTE]
+>
+> `union` is available as `__add` (`+`) and `__bor` (`|`) on Lua 5.3+.
+> `a:union(b)` is equivalent to `a + b` and `a | b`.
 
 ### Predicates
 
@@ -198,6 +224,21 @@ Return true if sets have no elements in common.
 ```lua
 ok = Set({ "a" }):isdisjoint(Set({ "b" })) --> true
 ```
+
+#### `equals`
+
+Return true when both sets contain exactly the same members.
+
+```lua
+a = Set({ "a", "b" })
+b = Set({ "b", "a" })
+ok = a:equals(b) --> true
+```
+
+> [!NOTE]
+>
+> `equals` is also available as the `__eq` (`==`) operator. `a:equals(b)` is
+> equivalent to `a == b`.
 
 #### `isempty`
 
@@ -214,6 +255,11 @@ Return true if all elements of this set are also in another set.
 ```lua
 ok = Set({ "a" }):issubset(Set({ "a", "b" })) --> true
 ```
+
+> [!NOTE]
+>
+> `issubset` is also available as the `__le` (`<=`) operator. `a:issubset(b)` is
+> equivalent to `a <= b`.
 
 #### `issuperset`
 
@@ -263,3 +309,111 @@ Return a list of all values in the set.
 ```lua
 values = Set({ "a", "b" }):values() --> { "a", "b" }
 ```
+
+### Metamethods
+
+#### `__add`
+
+Return the union of two sets using `+`.
+
+```lua
+a = Set({ "a", "b" })
+b = Set({ "b", "c" })
+u = a + b --> { a = true, b = true, c = true }
+```
+
+> [!NOTE]
+>
+> `__add` is the operator form of `:union(set)`.
+
+#### `__bor`
+
+Return the union of two sets using `|`.
+
+```lua
+a = Set({ "a", "b" })
+b = Set({ "b", "c" })
+u = a | b --> { a = true, b = true, c = true }
+```
+
+> [!NOTE]
+>
+> `__bor` is the operator form of `:union(set)` on Lua 5.3+.
+
+#### `__band`
+
+Return the intersection of two sets using `&`.
+
+```lua
+a = Set({ "a", "b" })
+b = Set({ "b", "c" })
+i = a & b --> { b = true }
+```
+
+> [!NOTE]
+>
+> `__band` is the operator form of `:intersection(set)` on Lua 5.3+.
+
+#### `__bxor`
+
+Return elements present in exactly one set using `^`.
+
+```lua
+a = Set({ "a", "b" })
+b = Set({ "b", "c" })
+d = a ^ b --> { a = true, c = true }
+```
+
+> [!NOTE]
+>
+> `__bxor` is the operator form of `:symmetric_difference(set)` on Lua 5.3+.
+
+#### `__eq`
+
+Return true if both sets contain exactly the same members using `==`.
+
+```lua
+ok = Set({ "a", "b" }) == Set({ "b", "a" }) --> true
+```
+
+> [!NOTE]
+>
+> `__eq` is the operator form of `:equals(set)`.
+
+#### `__le`
+
+Return true if the left set is a subset of the right set using `<=`.
+
+```lua
+a = Set({ "a" })
+b = Set({ "a", "b" })
+ok = a <= b --> true
+```
+
+> [!NOTE]
+>
+> `__le` is the operator form of `:issubset(set)`.
+
+#### `__lt`
+
+Return true if the left set is a proper subset of the right set using `<`.
+
+```lua
+a = Set({ "a" })
+b = Set({ "a", "b" })
+ok = a < b --> true
+```
+
+#### `__sub`
+
+Return the difference of two sets using `-`.
+
+```lua
+a = Set({ "a", "b" })
+b = Set({ "b", "c" })
+d = a - b --> { a = true }
+```
+
+> [!NOTE]
+>
+> `__sub` is the operator form of `:difference(set)`.

@@ -32,12 +32,14 @@ print(tbl.count({ a = 1, b = 2 })) --> 2
 
 **Query**:
 
-| Function              | Description                                            |
-| --------------------- | ------------------------------------------------------ |
-| [`filter`](#filter)   | Filter entries by a value predicate.                   |
-| [`find`](#find)       | Find the first key whose value equals the given value. |
-| [`find_if`](#find-if) | Find first value and key matching predicate.           |
-| [`get`](#get)         | Safely get nested value by keys.                       |
+| Function              | Description                                                      |
+| --------------------- | ---------------------------------------------------------------- |
+| [`filter`](#filter)   | Filter entries by a value predicate.                             |
+| [`find`](#find)       | Find the first key whose value equals the given value.           |
+| [`same`](#same)       | Return `true` if two tables have the same keys and equal values. |
+| [`find_if`](#find-if) | Find first value and key matching predicate.                     |
+| [`get`](#get)         | Safely get nested value by keys.                                 |
+| [`keypath`](#keypath) | Format a key chain as a Lua-like table access path.              |
 
 **Transforms**:
 
@@ -120,6 +122,15 @@ Find the first key whose value equals the given value.
 key = find({ a = 1, b = 2, c = 2 }, 2) --> "b" or "c"
 ```
 
+#### `same`
+
+Return `true` if two tables have the same keys and equal values.
+
+```lua
+ok = same({ a = 1, b = 2 }, { b = 2, a = 1 }) --> true
+ok = same({ a = {} }, { a = {} })             --> false
+```
+
 #### `find_if`
 
 Find first value and key matching predicate.
@@ -143,6 +154,17 @@ v2 = get(t) --> { a = { b = { c = 1 } } }
 > [!NOTE]
 >
 > If no keys are provided, returns the input table.
+
+#### `keypath`
+
+Format a key chain as a Lua-like table access path.
+
+```lua
+p1 = keypath("t", "a", "b", "c")        --> "t.a.b.c"
+p2 = keypath("ctx", "users", 1, "name") --> "ctx.users[1].name"
+p3 = keypath("ctx", "invalid-key")      --> 'ctx["invalid-key"]'
+p4 = keypath()                          --> ""
+```
 
 ### Transforms
 
