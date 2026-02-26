@@ -1,7 +1,7 @@
 # Mods
 
-Mods is a set of pure Lua modules for daily development. Minimal dependencies,
-predictable APIs, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
+**Mods** is a pure Lua utility library with predictable APIs, 💤 lazy-loaded
+inter-module dependencies, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
 
 This project is inspired by
 [Penlight (pl)](https://github.com/lunarmodules/Penlight).
@@ -43,8 +43,6 @@ luarocks install mods
 
 ## Modules
 
-<!-- Keep this section in sync with docs/modules/index.md. -->
-
 | Module         | Description                                                     |
 | -------------- | --------------------------------------------------------------- |
 | [`is`]         | Type predicates for Lua values and filesystem path kinds.       |
@@ -52,6 +50,7 @@ luarocks install mods
 | [`List`]       | Python-style list helpers for mapping, filtering, and slicing.  |
 | [`operator`]   | Operator helpers as functions.                                  |
 | [`repr`]       | Readable Lua value rendering with deterministic table ordering. |
+| [`runtime`]    | Lua runtime/version capability flags.                           |
 | [`Set`]        | Set operations and helpers for unique values.                   |
 | [`str`]        | String utility helpers modeled after Python's `str`.            |
 | [`stringcase`] | String case conversion helpers.                                 |
@@ -78,6 +77,7 @@ Thanks to these Lua ecosystem projects:
 [`List`]: https://luamod.github.io/mods/modules/list
 [`operator`]: https://luamod.github.io/mods/modules/operator
 [`repr`]: https://luamod.github.io/mods/modules/repr
+[`runtime`]: https://github.com/luamod/mods/blob/main/src/mods/runtime.lua
 [`Set`]: https://luamod.github.io/mods/modules/set
 [`str`]: https://luamod.github.io/mods/modules/str
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase
