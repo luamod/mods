@@ -21,6 +21,7 @@
 ---
 ---@class mods.Set<T>:{[T]:true}
 ---@operator add(mods.Set):mods.Set
+---@operator sub(mods.Set):mods.Set
 ---@overload fun(t?:any[]|mods.Set|mods.List):mods.Set
 local Set = {}
 Set.__index = Set
@@ -352,5 +353,23 @@ function Set:values() end
 ---@param set mods.Set|table<any,true>
 ---@return mods.Set
 function Set.__add(self, set) end
+
+---
+---Return the difference of two sets using `-`.
+---
+---```lua
+---a = Set({ "a", "b" })
+---b = Set({ "b", "c" })
+---d = a - b --> { a = true }
+---```
+---
+---> [!NOTE]
+--->
+---> `__sub` is the operator form of `:difference(set)`.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set
+function Set.__sub(self, set) end
 
 return Set

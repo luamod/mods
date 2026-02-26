@@ -131,6 +131,7 @@ function Set:union(set)
 end
 
 Set.__add = Set.union
+Set.__sub = Set.difference
 
 return setmetatable(Set, {
   __index = function(t, k)
