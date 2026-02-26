@@ -131,6 +131,10 @@ function Set:union(set)
 end
 
 Set.__add = Set.union
+Set.__le = Set.issubset
+Set.__lt = function(a, b)
+  return a:issubset(b) and not a:issuperset(b)
+end
 Set.__sub = Set.difference
 
 return setmetatable(Set, {

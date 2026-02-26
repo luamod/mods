@@ -248,6 +248,11 @@ function Set:isempty() end
 ---ok = Set({ "a" }):issubset(Set({ "a", "b" })) --> true
 ---```
 ---
+---> [!NOTE]
+--->
+---> `issubset` is also available as the `__le` (`<=`) operator.
+---> `a:issubset(b)` is equivalent to `a <= b`.
+---
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
 ---@return boolean
@@ -353,6 +358,38 @@ function Set:values() end
 ---@param set mods.Set|table<any,true>
 ---@return mods.Set
 function Set.__add(self, set) end
+
+---
+---Return true if the left set is a subset of the right set using `<=`.
+---
+---```lua
+---a = Set({ "a" })
+---b = Set({ "a", "b" })
+---ok = a <= b --> true
+---```
+---
+---> [!NOTE]
+--->
+---> `__le` is the operator form of `:issubset(set)`.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return boolean
+function Set.__le(self, set) end
+
+---
+---Return true if the left set is a proper subset of the right set using `<`.
+---
+---```lua
+---a = Set({ "a" })
+---b = Set({ "a", "b" })
+---ok = a < b --> true
+---```
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return boolean
+function Set.__lt(self, set) end
 
 ---
 ---Return the difference of two sets using `-`.
