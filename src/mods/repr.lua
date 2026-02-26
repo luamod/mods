@@ -74,7 +74,6 @@ local function render(value, depth, seen)
   local indent = rep(INDENT, depth - 1)
   local out = {}
   local pad = indent .. INDENT
-  local first = true
   local entries = {}
   for k, v in next, value do
     entries[#entries + 1] = { key = k, value = v }
@@ -86,9 +85,7 @@ local function render(value, depth, seen)
     local entry = entries[i]
     local k = entry.key
     local v = entry.value
-    if first then
-      first = false
-    else
+    if i > 1 then
       out[#out + 1] = ",\n"
     end
     out[#out + 1] = pad .. render_key(k) .. " = " .. render(v, depth + 1, seen)
