@@ -1,6 +1,5 @@
 local mods = require("mods")
 
-local ipairs = ipairs
 local next = next
 local pairs = pairs
 
@@ -15,7 +14,7 @@ local tbl_map = {
 local Set = {}
 Set.__index = Set
 
-local function new_set()
+local function new()
   return setmetatable({}, Set)
 end
 
@@ -32,7 +31,7 @@ function Set:clear()
 end
 
 function Set:copy()
-  local set = Set()
+  local set = new()
   for k in pairs(self) do
     set[k] = true
   end
@@ -95,7 +94,7 @@ function Set:contains(v)
 end
 
 function Set:map(fn)
-  local set = new_set()
+  local set = new()
   for k in pairs(self) do
     set[fn(k)] = true
   end
@@ -104,10 +103,11 @@ end
 
 function Set:pop()
   local k = next(self)
-  if k ~= nil then
-    self[k] = nil
-    return k
+  if k == nil then
+    return
   end
+  self[k] = nil
+  return k
 end
 
 function Set:remove(v)
@@ -140,9 +140,12 @@ return setmetatable(Set, {
     end
   end,
   __call = function(_, t)
-    local set = new_set()
-    for _, v in ipairs(t or {}) do
-      set[v] = true
+    local set = new()
+    if t == nil then
+      return set
+    end
+    for i = 1, #t do
+      set[t[i]] = true
     end
     return set
   end,
