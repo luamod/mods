@@ -114,6 +114,20 @@ function List:drop(n)
   return copy_range(self, n + 1, len)
 end
 
+function List:equals(ls)
+  local len = #self
+  if len ~= #ls then
+    return false
+  end
+
+  for i = 1, len do
+    if self[i] ~= ls[i] then
+      return false
+    end
+  end
+  return true
+end
+
 function List:extend(ls)
   for i = 1, #ls do
     self[#self + 1] = ls[i]
@@ -414,6 +428,7 @@ function List:zip(other)
 end
 
 List.__add = List.extend
+List.__eq = List.equals
 List.__tostring = List.tostring
 
 return setmetatable(List, {

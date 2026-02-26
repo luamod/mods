@@ -65,6 +65,41 @@ function List:all(pred) end
 ---@nodiscard
 function List:any(pred) end
 
+---
+---Compare two lists using shallow element equality (`==`).
+---
+---```lua
+---a = List({ "x", "y" })
+---b = List({ "x", "y" })
+---ok = a:equals(b) --> true
+---```
+---
+---> [!NOTE]
+--->
+---> Unlike `==`, this method also works when `ls` is a plain array table.
+--->
+---> ```lua
+---> a = List({ "a", 1 })
+---> b = { "a", 1 }
+---> ok = a:equals(b) --> true
+---> ```
+--->
+---> `equals` checks only array positions (`1..#list`), so extra non-array keys
+---> are ignored:
+--->
+---> ```lua
+---> t = {}
+---> a = List({ "a", t })
+---> b = { "a", t, a = 1 }
+---> ok = a:equals(b) --> true
+---> ```
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return boolean
+---@nodiscard
+function List:equals(ls) end
+
 --------------------------------------------------------------------------------
 ----------------------------------- Mutation -----------------------------------
 --------------------------------------------------------------------------------
@@ -652,6 +687,46 @@ function List:zip(ls) end
 --------------------------------------------------------------------------------
 ---------------------------------- Metamethods ---------------------------------
 --------------------------------------------------------------------------------
+
+---Compare two lists using shallow element equality (`==`).
+---
+---```lua
+---a = List({ "a", { 1 } })
+---b = List({ "a", { 1 } })
+---ok = a == b --> false (different nested table references)
+---
+---t = { 1 }
+---a = List({ "a", t })
+---b = List({ "a", t })
+---ok = a == b --> true (same nested table reference)
+---```
+---
+---> [!NOTE]
+--->
+---> `==` will not use this metamethod when the other operand is a plain table.
+---> Use `:equals(other)` for `List` vs plain-table comparisons.
+--->
+---> ```lua
+---> t = { "a", 1 }
+---> a = List(t)
+---> b = { "a", 1 }
+---> ok = (a == b)     --> false
+---> ok2 = a:equals(b) --> true
+---> ```
+--->
+---> Like `:equals`, `__eq` compares only array positions (`1..#list`), so
+---> extra non-array keys are ignored when both operands are `List`.
+--->
+---> ```lua
+---> a = List({ "a", t })
+---> b = List({ "a", t, extra = 1 })
+---> ok = (a == b) --> true
+---> ```
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return boolean
+function List.__eq(self, ls) end
 
 ---
 ---Extend the left-hand list in place with right-hand values, then return the

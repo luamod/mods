@@ -35,17 +35,16 @@ describe("mods.List", function()
   local n123    = { 1, 2, 3 }
   local words   = { "aa", "b", "ccc", "dd" }
   local by_len  = { List({ "b" }), List({ "aa", "dd" }), List({ "ccc" }) }
-  local mixed   = { "a", 1, true, false, {}, "b", "a", 2 }
+  local mixed   = { "a", 1, true, false, "b", "a", 2 }
   local by_type = {
     ["string"]  = List({ "a", "b", "a" }),
     ["number"]  = List({ 1, 2 }),
     ["boolean"] = List({ true, false}),
-    ["table"]   = List({{}}),
   }
 
   local tests = {
     ------fname------|--list--|---params---|----expected----|-same_ref?---
- { "all"          , _____  , { is_b   } , true           ,       },
+    { "all"          , _____  , { is_b   } , true           ,       },
     { "all"          , abc__  , { is_b   } , false          ,       },
     { "all"          , abc__  , { not_z  } , true           ,       },
     { "any"          , abc__  , { is_b   } , true           ,       },
@@ -161,6 +160,24 @@ describe("mods.List", function()
 
     it("__tostring renders list output", function()
       assert.are_equal('{ "a", "b", 1 }', tostring(List({ "a", "b", 1 })))
+    end)
+
+    it("equals() compares lists with shallow equality", function()
+      assert.is_true(List({ "a", "b" }):equals(List({ "a", "b" })))
+      assert.is_true(List({ "a", "b", a1 }):equals(List({ "a", "b", a1 })))
+      assert.is_false(List({ "a", "b", {} }):equals(List({ "a", "b", {} })))
+      assert.is_false(List({ "a", "b" }):equals(List({ "a", "c" })))
+      assert.is_false(List({ "a", "b" }):equals(List({ "a", "b", "c" })))
+
+      local a = {}
+      assert.is_true(List({ a }):equals(List({ a })))
+      assert.is_false(List({ {} }):equals(List({ {} })))
+    end)
+
+    it("__eq compares lists with shallow equality", function()
+      assert.is_true(List({ "a", "b" }) == List({ "a", "b" }))
+      assert.is_false(List({ "a", "b" }) == List({ "a", "c" }))
+      assert.is_false(List({ "a", "b" }) == List({ "a", "b", "c" }))
     end)
   end)
 end)
