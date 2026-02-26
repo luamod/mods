@@ -149,6 +149,11 @@ function Set:copy() end
 ---d = Set({ "a", "b" }):difference(Set({ "b" })) --> d contains "a"
 ---```
 ---
+---> [!NOTE]
+--->
+---> `difference` is also available as the `__sub` (`-`) operator.
+---> `a:difference(b)` is equivalent to `a - b`.
+---
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
 ---@return mods.Set set
@@ -201,6 +206,11 @@ function Set:symmetric_difference(set) end
 ---```lua
 ---s = Set({ "a" }):union(Set({ "b" })) --> s contains "a", "b"
 ---```
+---
+---> [!NOTE]
+--->
+---> `union` is also available as the `__add` (`+`) operator.
+---> `a:union(b)` is equivalent to `a + b`.
 ---
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
