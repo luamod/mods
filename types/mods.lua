@@ -6,7 +6,6 @@
 ---@field keyword mods.keyword
 ---@field List mods.List
 ---@field operator mods.operator
----@field path mods.path
 ---@field repr mods.repr
 ---@field runtime mods.runtime
 ---@field Set mods.Set
