@@ -78,6 +78,15 @@ function List:any(pred) end
 ---
 ---> [!NOTE]
 --->
+---> `equals` is also available as the `__eq` (`==`) operator when both
+---> operands are `List`.
+--->
+---> ```lua
+---> a = List({ "a", 1 })
+---> b = List({ "a", 1 })
+---> ok = (a == b) --> true
+---> ```
+--->
 ---> Unlike `==`, this method also works when `ls` is a plain array table.
 --->
 ---> ```lua
@@ -110,6 +119,11 @@ function List:equals(ls) end
 ---ok = List({ 1, 2 }):lt({ 1, 2, 0 }) --> true
 ---```
 ---
+---> [!NOTE]
+--->
+---> `lt` is also available as the `__lt` (`<`) operator.
+---> `a:lt(b)` is equivalent to `a < b`.
+---
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
 ---@return boolean
@@ -123,6 +137,11 @@ function List:lt(ls) end
 ---ok = List({ 1, 2 }):le({ 1, 2 })  --> true
 ---ok = List({ 1, 2 }):le({ 1, 1 })  --> false
 ---```
+---
+---> [!NOTE]
+--->
+---> `le` is also available as the `__le` (`<=`) operator.
+---> `a:le(b)` is equivalent to `a <= b`.
 ---
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
@@ -167,6 +186,11 @@ function List:clear() end
 ---```lua
 ---ls = List({ "a" }):extend({ "b", "c" }) --> { "a", "b", "c" }
 ---```
+---
+---> [!NOTE]
+--->
+---> `extend` is also available as the `__add` (`+`) operator.
+---> `a:extend(b)` is equivalent to `a + b`.
 ---
 ---@generic T:mods.List|any[]
 ---@param self T
@@ -579,6 +603,11 @@ function List:join(sep, quoted) end
 ---s = List({ "a", "b", 1 }):tostring() --> '{ "a", "b", 1 }'
 ---```
 ---
+---> [!NOTE]
+--->
+---> `tostring` is also available as the `__tostring` metamethod.
+---> `tostring(list)` is equivalent to `list:tostring()`.
+---
 ---@param self mods.List|any[]
 ---@return string
 ---@nodiscard
@@ -788,6 +817,10 @@ function List.__eq(self, ls) end
 ---ok = List({ 1, 2 }) < List({ 1, 3 }) --> true
 ---```
 ---
+---> [!NOTE]
+--->
+---> `__lt` is the operator form of `:lt(ls)`.
+---
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
 ---@return boolean
@@ -799,6 +832,10 @@ function List.__lt(self, ls) end
 ---```lua
 ---ok = List({ 1, 2 }) <= List({ 1, 2 }) --> true
 ---```
+---
+---> [!NOTE]
+--->
+---> `__le` is the operator form of `:le(ls)`.
 ---
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
@@ -834,7 +871,8 @@ function List.__mul(self, n) end
 ---
 ---> [!NOTE]
 --->
----> `__add` mutates and returns the left-hand value (same reference).
+---> * `__add` mutates and returns the left-hand value (same reference).
+---> * `__add` is the operator form of `:extend(ls)`.
 ---
 ---@param self mods.List|any[]
 ---@param ls mods.List|any[]
@@ -865,6 +903,10 @@ function List.__sub(self, ls) end
 ---```lua
 ---s = tostring(List({ "a", "b", 1 })) --> '{ "a", "b", 1 }'
 ---```
+---
+---> [!NOTE]
+--->
+---> `__tostring` is the operator form of `:tostring()`.
 ---
 ---@param self mods.List|any[]
 ---@return string
