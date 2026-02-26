@@ -127,6 +127,15 @@ describe("mods.Set", function()
         assert.are_same({ a = true, b = true, c = true }, a)
         assert.are_same({ b = true, x = true }, b)
       end)
+
+      it("__bxor (^) returns set symmetric difference", function()
+        local a = Set({ "a", "b", "c" })
+        local b = Set({ "b", "x" })
+        local d = assert(load("local x, y = ...; return x ~ y"))(a, b)
+        assert.are_same({ a = true, c = true, x = true }, d)
+        assert.are_same({ a = true, b = true, c = true }, a)
+        assert.are_same({ b = true, x = true }, b)
+      end)
     end
 
     it("__eq (==) returns set member equality", function()

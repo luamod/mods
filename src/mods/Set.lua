@@ -134,6 +134,7 @@ Set.values = tbl.keys
 
 Set.__add = Set.union
 Set.__band = Set.intersection
+Set.__bxor = Set.symmetric_difference
 Set.__eq = tbl.same
 Set.__le = Set.issubset
 Set.__lt = function(a, b)

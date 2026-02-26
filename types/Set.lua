@@ -16,6 +16,7 @@
 ---@class mods.Set<T>:{[T]:true}
 ---@operator add(mods.Set):mods.Set
 ---@operator band(mods.Set):mods.Set
+---@operator bxor(mods.Set):mods.Set
 ---@operator sub(mods.Set):mods.Set
 ---@overload fun(t?:any[]|mods.Set|mods.List):mods.Set
 local Set = {}
@@ -192,6 +193,10 @@ function Set:remove(v) end
 ---d = Set({ "a", "b" }):symmetric_difference(Set({ "b", "c" }))
 -----> d contains "a", "c"
 ---```
+---
+---> [!NOTE]
+--->
+---> `symmetric_difference` is also available as `__bxor` (`^`) on Lua 5.3+.
 ---
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -405,6 +410,24 @@ function Set.__add(self, set) end
 ---@param set mods.Set|table<any,true>
 ---@return mods.Set
 function Set.__band(self, set) end
+
+---
+---Return elements present in exactly one set using `^`.
+---
+---```lua
+---a = Set({ "a", "b" })
+---b = Set({ "b", "c" })
+---d = a ^ b --> { a = true, c = true }
+---```
+---
+---> [!NOTE]
+--->
+---> `__bxor` is the operator form of `:symmetric_difference(set)` on Lua 5.3+.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set
+function Set.__bxor(self, set) end
 
 ---
 ---Return true if both sets contain exactly the same members using `==`.
