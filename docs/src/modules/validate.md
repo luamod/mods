@@ -8,7 +8,7 @@ Validation checks for values and filesystem path types.
 
 ## Usage
 
-```lua [.lua]
+```lua
 validate= require "mods.validate"
 
 ok, err = validate.is.number("nope")
@@ -37,11 +37,9 @@ ok, err = validate.is_not.number(3.14)
 
 ## Dependencies
 
-Dependencies below are lazy-loaded 💤 on first access.
-
-- [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; required
-  only for filesystem/path checks)
 - [`mods.is`](https://luamod.github.io/mods/modules/is)
+- [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; lazy-loaded
+  💤 only for filesystem checks)
 
 ## Callable Forms
 
@@ -92,8 +90,6 @@ Available placeholders:
   path validators use `invalid path`).
 - <code v-pre>{{value}}</code>: The passed value, formatted for display (strings
   are quoted).
-
-### Example
 
 ```lua
 validate.messages.positive.number = "need {{expected}}, got {{got}} (value={{value}})"

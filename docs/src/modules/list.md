@@ -19,20 +19,17 @@ print(ls:contains("b")) --> true
 print(ls:index("b")) --> 2
 ```
 
-## Dependencies
-
-Dependencies below are lazy-loaded 💤 on first access.
-
-- [`mods.Set`](https://luamod.github.io/mods/modules/set)
-
 ## Functions
 
 **Predicates**:
 
-| Function      | Description                                     |
-| ------------- | ----------------------------------------------- |
-| [`all`](#all) | Return true if all values match the predicate.  |
-| [`any`](#any) | Return true if any value matches the predicate. |
+| Function            | Description                                              |
+| ------------------- | -------------------------------------------------------- |
+| [`all`](#all)       | Return true if all values match the predicate.           |
+| [`any`](#any)       | Return true if any value matches the predicate.          |
+| [`equals`](#equals) | Compare two lists using shallow element equality (`==`). |
+| [`lt`](#lt)         | Compare two lists lexicographically (Python-style `<`).  |
+| [`le`](#le)         | Compare two lists lexicographically (Python-style `<=`). |
 
 **Mutation**:
 
@@ -75,25 +72,41 @@ Dependencies below are lazy-loaded 💤 on first access.
 
 **Transform**:
 
-| Function                        | Description                                                        |
-| ------------------------------- | ------------------------------------------------------------------ |
-| [`difference`](#difference)     | Return a new list with values not in the given list.               |
-| [`drop`](#drop)                 | Return a new list without the first n elements.                    |
-| [`filter`](#filter)             | Return a new list with values matching the predicate.              |
-| [`flatten`](#flatten)           | Flatten one level of nested lists.                                 |
-| [`foreach`](#foreach)           | Apply a function to each element (for side effects).               |
-| [`group_by`](#group-by)         | Group list values by a computed key.                               |
-| [`intersection`](#intersection) | Return values that are also present in the given list.             |
-| [`invert`](#invert)             | Invert values to indices in a new table.                           |
-| [`join`](#join)                 | Join list values into a string.                                    |
-| [`map`](#map)                   | Return a new list by mapping each value.                           |
-| [`reduce`](#reduce)             | Reduce the list to a single value using an accumulator.            |
-| [`reverse`](#reverse)           | Return a new list with items reversed.                             |
-| [`toset`](#toset)               | Convert the list to a set.                                         |
-| [`slice`](#slice)               | Return a new list containing items from i to j (inclusive).        |
-| [`take`](#take)                 | Return the first n elements as a new list.                         |
-| [`uniq`](#uniq)                 | Return a new list with duplicates removed (first occurrence kept). |
-| [`zip`](#zip)                   | Zip two lists into a list of 2-element tables.                     |
+| Function                        | Description                                                              |
+| ------------------------------- | ------------------------------------------------------------------------ |
+| [`difference`](#difference)     | Return a new list with values not in the given list.                     |
+| [`drop`](#drop)                 | Return a new list without the first n elements.                          |
+| [`filter`](#filter)             | Return a new list with values matching the predicate.                    |
+| [`flatten`](#flatten)           | Flatten one level of nested lists.                                       |
+| [`foreach`](#foreach)           | Apply a function to each element (for side effects).                     |
+| [`group_by`](#group-by)         | Group list values by a computed key.                                     |
+| [`intersection`](#intersection) | Return values that are also present in the given list.                   |
+| [`invert`](#invert)             | Invert values to indices in a new table.                                 |
+| [`concat`](#concat)             | Concatenate list values using Lua's native `table.concat` behavior.      |
+| [`join`](#join)                 | Join list values into a string.                                          |
+| [`tostring`](#tostring)         | Render the list to a string via the regular method form.                 |
+| [`keypath`](#keypath)           | Render list items as a table-access key path.                            |
+| [`map`](#map)                   | Return a new list by mapping each value.                                 |
+| [`mul`](#mul)                   | Return a new list repeated `n` times (Python-style list multiplication). |
+| [`reduce`](#reduce)             | Reduce the list to a single value using an accumulator.                  |
+| [`reverse`](#reverse)           | Return a new list with items reversed.                                   |
+| [`toset`](#toset)               | Convert the list to a set.                                               |
+| [`slice`](#slice)               | Return a new list containing items from i to j (inclusive).              |
+| [`take`](#take)                 | Return the first n elements as a new list.                               |
+| [`uniq`](#uniq)                 | Return a new list with duplicates removed (first occurrence kept).       |
+| [`zip`](#zip)                   | Zip two lists into a list of 2-element tables.                           |
+
+**Metamethods**:
+
+| Function                  | Description                                                                                               |
+| ------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [`__eq`](#eq)             | Compare two lists using shallow element equality (`==`).                                                  |
+| [`__lt`](#lt)             | Compare two lists lexicographically using `<`.                                                            |
+| [`__le`](#le)             | Compare two lists lexicographically using `<=`.                                                           |
+| [`__mul`](#mul)           | Repeat a list `n` times using `*`.                                                                        |
+| [`__add`](#add)           | Extend the left-hand list in place with right-hand values, then return the same left-hand list reference. |
+| [`__sub`](#sub)           | Return values from the left list that are not present in the right list.                                  |
+| [`__tostring`](#tostring) | Render the list to a string like `{ "a", "b", 1 }`.                                                       |
 
 ### Predicates
 
@@ -120,6 +133,73 @@ Return true if any value matches the predicate.
 has_len_2 = function(v) return #v == 2 end
 ok = List({ "a", "bb" }):any(has_len_2) --> true
 ```
+
+#### `equals`
+
+Compare two lists using shallow element equality (`==`).
+
+```lua
+a = List({ "x", "y" })
+b = List({ "x", "y" })
+ok = a:equals(b) --> true
+```
+
+> [!NOTE]
+>
+> `equals` is also available as the `__eq` (`==`) operator when both operands
+> are `List`.
+>
+> ```lua
+> a = List({ "a", 1 })
+> b = List({ "a", 1 })
+> ok = (a == b) --> true
+> ```
+>
+> Unlike `==`, this method also works when `ls` is a plain array table.
+>
+> ```lua
+> a = List({ "a", 1 })
+> b = { "a", 1 }
+> ok = a:equals(b) --> true
+> ```
+>
+> `equals` checks only array positions (`1..#list`), so extra non-array keys are
+> ignored:
+>
+> ```lua
+> t = {}
+> a = List({ "a", t })
+> b = { "a", t, a = 1 }
+> ok = a:equals(b) --> true
+> ```
+
+#### `lt`
+
+Compare two lists lexicographically (Python-style `<`).
+
+```lua
+ok = List({ 1, 2 }):lt({ 1, 3 })    --> true
+ok = List({ 1, 2 }):lt({ 1, 2, 0 }) --> true
+```
+
+> [!NOTE]
+>
+> `lt` is also available as the `__lt` (`<`) operator. `a:lt(b)` is equivalent
+> to `a < b`.
+
+#### `le`
+
+Compare two lists lexicographically (Python-style `<=`).
+
+```lua
+ok = List({ 1, 2 }):le({ 1, 2 })  --> true
+ok = List({ 1, 2 }):le({ 1, 1 })  --> false
+```
+
+> [!NOTE]
+>
+> `le` is also available as the `__le` (`<=`) operator. `a:le(b)` is equivalent
+> to `a <= b`.
 
 ### Mutation
 
@@ -148,6 +228,11 @@ Extend the list with another list.
 ```lua
 ls = List({ "a" }):extend({ "b", "c" }) --> { "a", "b", "c" }
 ```
+
+> [!NOTE]
+>
+> `extend` is also available as the `__add` (`+`) operator. `a:extend(b)` is
+> equivalent to `a + b`.
 
 #### `extract`
 
@@ -314,6 +399,11 @@ Return a new list with values not in the given list.
 d = List({ "a", "b", "c" }):difference({ "b" }) --> { "a", "c" }
 ```
 
+> [!NOTE]
+>
+> `difference` is also available as the `__sub` (`-`) operator.
+> `a:difference(b)` is equivalent to `a - b`.
+
 #### `drop`
 
 Return a new list without the first n elements.
@@ -379,12 +469,52 @@ Invert values to indices in a new table.
 t = List({ "a", "b", "c" }):invert() --> { a = 1, b = 2, c = 3 }
 ```
 
+#### `concat`
+
+Concatenate list values using Lua's native `table.concat` behavior.
+
+```lua
+s = List({ "a", "b", "c" }):concat(",") --> "a,b,c"
+```
+
+> [!NOTE]
+>
+> This method forwards to `table.concat` directly and keeps its strict element
+> rules.
+
 #### `join`
 
 Join list values into a string.
 
 ```lua
 s = List({ "a", "b", "c" }):join(",") --> "a,b,c"
+s = List({ "a", "b", "c" }):join(", ", true) --> '"a", "b", "c"'
+```
+
+> [!NOTE]
+>
+> Values are converted with `tostring` before joining. Set `quoted = true` to
+> quote string values.
+
+#### `tostring`
+
+Render the list to a string via the regular method form.
+
+```lua
+s = List({ "a", "b", 1 }):tostring() --> '{ "a", "b", 1 }'
+```
+
+> [!NOTE]
+>
+> `tostring` is also available as the `__tostring` metamethod. `tostring(list)`
+> is equivalent to `list:tostring()`.
+
+#### `keypath`
+
+Render list items as a table-access key path.
+
+```lua
+p = List({ "ctx", "users", 1, "name" }):keypath() --> "ctx.users[1].name"
 ```
 
 #### `map`
@@ -395,6 +525,19 @@ Return a new list by mapping each value.
 to_upper = function(v) return v:upper() end
 m = List({ "a", "b" }):map(to_upper) --> { "A", "B" }
 ```
+
+#### `mul`
+
+Return a new list repeated `n` times (Python-style list multiplication).
+
+```lua
+ls = List({ "a", "b" }):mul(3) --> { "a", "b", "a", "b", "a", "b" }
+```
+
+> [!NOTE]
+>
+> `mul` is also available as the `__mul` (`*`) operator. `a:mul(n)` is
+> equivalent to `a * n`.
 
 #### `reduce`
 
@@ -470,3 +613,121 @@ z = List({ "a", "b" }):zip({ 1, 2 }) --> { {"a",1}, {"b",2} }
 > [!NOTE]
 >
 > Length is the minimum of both lists.
+
+### Metamethods
+
+#### `__eq`
+
+Compare two lists using shallow element equality (`==`).
+
+```lua
+a = List({ "a", { 1 } })
+b = List({ "a", { 1 } })
+ok = a == b --> false (different nested table references)
+
+t = { 1 }
+a = List({ "a", t })
+b = List({ "a", t })
+ok = a == b --> true (same nested table reference)
+```
+
+> [!NOTE]
+>
+> `==` will not use this metamethod when the other operand is a plain table. Use
+> `:equals(other)` for `List` vs plain-table comparisons.
+>
+> ```lua
+> t = { "a", 1 }
+> a = List(t)
+> b = { "a", 1 }
+> ok = (a == b)     --> false
+> ok2 = a:equals(b) --> true
+> ```
+>
+> Like `:equals`, `__eq` compares only array positions (`1..#list`), so extra
+> non-array keys are ignored when both operands are `List`.
+>
+> ```lua
+> a = List({ "a", t })
+> b = List({ "a", t, extra = 1 })
+> ok = (a == b) --> true
+> ```
+
+#### `__lt`
+
+Compare two lists lexicographically using `<`.
+
+```lua
+ok = List({ 1, 2 }) < List({ 1, 3 }) --> true
+```
+
+> [!NOTE]
+>
+> `__lt` is the operator form of `:lt(ls)`.
+
+#### `__le`
+
+Compare two lists lexicographically using `<=`.
+
+```lua
+ok = List({ 1, 2 }) <= List({ 1, 2 }) --> true
+```
+
+> [!NOTE]
+>
+> `__le` is the operator form of `:le(ls)`.
+
+#### `__mul`
+
+Repeat a list `n` times using `*`.
+
+```lua
+l1 = List({ "a", "b" }) * 3 --> { "a", "b", "a", "b", "a", "b" }
+l2 = 3 * List({ "a", "b" }) --> { "a", "b", "a", "b", "a", "b" }
+```
+
+> [!NOTE]
+>
+> `__mul` is the operator form of `:mul(n)`.
+
+#### `__add`
+
+Extend the left-hand list in place with right-hand values, then return the same
+left-hand list reference.
+
+```lua
+a = List({ "a", "b" })
+b = { "c", "d" }
+c = a + b --> c and a are the same reference: { "a", "b", "c", "d" }
+```
+
+> [!NOTE]
+>
+> - `__add` mutates and returns the left-hand value (same reference).
+> - `__add` is the operator form of `:extend(ls)`.
+
+#### `__sub`
+
+Return values from the left list that are not present in the right list.
+
+```lua
+a = List({ "a", "b", "c" })
+b = { "b" }
+d = a - b --> { "a", "c" }
+```
+
+> [!NOTE]
+>
+> `__sub` is the operator form of `:difference(ls)`.
+
+#### `__tostring`
+
+Render the list to a string like `{ "a", "b", 1 }`.
+
+```lua
+s = tostring(List({ "a", "b", 1 })) --> '{ "a", "b", 1 }'
+```
+
+> [!NOTE]
+>
+> `__tostring` is the operator form of `:tostring()`.
