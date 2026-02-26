@@ -286,7 +286,7 @@ describe("mods.str", function()
 
   for i = 1, #tests do
     local fname, params = unpack(tests[i])
-    it(fmt("%s(%s) returns mods.List", fname, params), function()
+    it(fmt("%s(%s) returns mods.List", fname, args_repr(params)), function()
       local res = str[fname](unpack(params))
       assert.are_equal(List, getmetatable(res))
     end)
