@@ -14,7 +14,7 @@ describe("mods.keyword", function()
     "repeat", "return", "then", "true"    , "until" , "while"
   })
   keywords[#keywords + 1] = not is_lua51 and "goto" or nil
-  List:sort()
+  keywords:sort()
 
   local fn = function() end
   local co = coroutine.create(fn)
