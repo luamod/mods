@@ -133,6 +133,7 @@ Set.update = tbl.update
 Set.values = tbl.keys
 
 Set.__add = Set.union
+Set.__band = Set.intersection
 Set.__eq = tbl.same
 Set.__le = Set.issubset
 Set.__lt = function(a, b)

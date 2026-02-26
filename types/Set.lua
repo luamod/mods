@@ -15,6 +15,7 @@
 ---
 ---@class mods.Set<T>:{[T]:true}
 ---@operator add(mods.Set):mods.Set
+---@operator band(mods.Set):mods.Set
 ---@operator sub(mods.Set):mods.Set
 ---@overload fun(t?:any[]|mods.Set|mods.List):mods.Set
 local Set = {}
@@ -160,6 +161,10 @@ function Set:difference(set) end
 ---```lua
 ---i = Set({ "a", "b" }):intersection(Set({ "b", "c" })) --> i contains "b"
 ---```
+---
+---> [!NOTE]
+--->
+---> `intersection` is also available as `__band` (`&`) on Lua 5.3+.
 ---
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -382,6 +387,24 @@ function Set:values() end
 ---@param set mods.Set|table<any,true>
 ---@return mods.Set
 function Set.__add(self, set) end
+
+---
+---Return the intersection of two sets using `&`.
+---
+---```lua
+---a = Set({ "a", "b" })
+---b = Set({ "b", "c" })
+---i = a & b --> { b = true }
+---```
+---
+---> [!NOTE]
+--->
+---> `__band` is the operator form of `:intersection(set)` on Lua 5.3+.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set
+function Set.__band(self, set) end
 
 ---
 ---Return true if both sets contain exactly the same members using `==`.

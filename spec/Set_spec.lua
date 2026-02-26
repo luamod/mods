@@ -3,9 +3,11 @@
 local mods = require("mods")
 local Set = mods.Set
 local List = mods.List
+local runtime = mods.runtime
 local deepcopy = mods.tbl.deepcopy
 local upper = string.upper
 local fmt = string.format
+local load = loadstring or load
 
 describe("mods.Set", function()
   local patterns = [[ _____ ___de _b_d_ _bcd_ a_c__ __c__
@@ -115,6 +117,17 @@ describe("mods.Set", function()
       assert.are_same({ a = true, b = true, c = true }, a)
       assert.are_same({ b = true, x = true }, b)
     end)
+
+    if runtime.version_num > 502 then
+      it("__band (&) returns set intersection", function()
+        local a = Set({ "a", "b", "c" })
+        local b = Set({ "b", "x" })
+        local i = assert(load("local x, y = ...; return x & y"))(a, b)
+        assert.are_same({ b = true }, i)
+        assert.are_same({ a = true, b = true, c = true }, a)
+        assert.are_same({ b = true, x = true }, b)
+      end)
+    end
 
     it("__eq returns set member equality", function()
       assert.is_true(Set({ "a", "b" }) == Set({ "b", "a" }))
