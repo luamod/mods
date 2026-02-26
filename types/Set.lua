@@ -16,6 +16,7 @@
 ---@class mods.Set<T>:{[T]:true}
 ---@operator add(mods.Set):mods.Set
 ---@operator band(mods.Set):mods.Set
+---@operator bor(mods.Set):mods.Set
 ---@operator bxor(mods.Set):mods.Set
 ---@operator sub(mods.Set):mods.Set
 ---@overload fun(t?:any[]|mods.Set|mods.List):mods.Set
@@ -213,8 +214,8 @@ function Set:symmetric_difference(set) end
 ---
 ---> [!NOTE]
 --->
----> `union` is also available as the `__add` (`+`) operator.
----> `a:union(b)` is equivalent to `a + b`.
+---> `union` is available as `__add` (`+`) and `__bor` (`|`) on Lua 5.3+.
+---> `a:union(b)` is equivalent to `a + b` and `a | b`.
 ---
 ---@param self mods.Set|table<any,true>
 ---@param set mods.Set|table<any,true>
@@ -392,6 +393,24 @@ function Set:values() end
 ---@param set mods.Set|table<any,true>
 ---@return mods.Set
 function Set.__add(self, set) end
+
+---
+---Return the union of two sets using `|`.
+---
+---```lua
+---a = Set({ "a", "b" })
+---b = Set({ "b", "c" })
+---u = a | b --> { a = true, b = true, c = true }
+---```
+---
+---> [!NOTE]
+--->
+---> `__bor` is the operator form of `:union(set)` on Lua 5.3+.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set
+function Set.__bor(self, set) end
 
 ---
 ---Return the intersection of two sets using `&`.

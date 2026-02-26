@@ -119,6 +119,15 @@ describe("mods.Set", function()
     end)
 
     if runtime.version_num > 502 then
+      it("__bor (|) returns set union", function()
+        local a = Set({ "a", "b" })
+        local b = Set({ "b", "x" })
+        local u = assert(load("local x, y = ...; return x | y"))(a, b)
+        assert.are_same({ a = true, b = true, x = true }, u)
+        assert.are_same({ a = true, b = true }, a)
+        assert.are_same({ b = true, x = true }, b)
+      end)
+
       it("__band (&) returns set intersection", function()
         local a = Set({ "a", "b", "c" })
         local b = Set({ "b", "x" })
