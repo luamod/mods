@@ -33,6 +33,7 @@ describe("mods.List", function()
   local b2      = { "b", 2 }
   local n12     = { 1, 2 }
   local n123    = { 1, 2, 3 }
+  local abcabc  = { "a", "b", "c", "a", "b", "c" }
   local words   = { "aa", "b", "ccc", "dd" }
   local by_len  = { List({ "b" }), List({ "aa", "dd" }), List({ "ccc" }) }
   local mixed   = { "a", 1, true, false, "b", "a", 2 }
@@ -81,6 +82,8 @@ describe("mods.List", function()
     { "len"          , _____  , {        } , 0              ,       },
     { "len"          , a_c__  , {        } , 2              ,       },
     { "map"          , abc__  , { upper  } , ABC__          , false },
+    { "mul"          , abc__  , { 2      } , abcabc         , false },
+    { "mul"          , abc__  , { 0      } , _____          , false },
     { "pop"          , abc__  , {        } , "c"            ,       },
     { "pop"          , abcde  , { 1      } , "a"            ,       },
     { "pop"          , abcde  , { 5      } , "e"            ,       },
@@ -212,6 +215,13 @@ describe("mods.List", function()
       assert.is_true(List({ 1, 2 }) <= List({ 1, 2 }))
       assert.is_true(List({ 1, 2 }) <= List({ 1, 3 }))
       assert.is_false(List({ 1, 3 }) <= List({ 1, 2 }))
+    end)
+
+    it("__mul repeats lists", function()
+      local a = List({ "a", "b" })
+      assert.are_same({ "a", "b", "a", "b", "a", "b" }, a * 3)
+      assert.are_same({ "a", "b", "a", "b", "a", "b" }, 3 * a)
+      assert.are_same({ "a", "b" }, a)
     end)
 
     it("> compares lists via __lt", function()

@@ -22,6 +22,7 @@
 ---
 ---@class mods.List<T>:{[integer]:T}
 ---@operator add(mods.List):mods.List
+---@operator mul(integer):mods.List
 ---@operator sub(mods.List):mods.List
 ---@overload fun(t?:{}):mods.List
 local List = {}
@@ -610,6 +611,24 @@ function List:keypath() end
 function List:map(fn) end
 
 ---
+---Return a new list repeated `n` times (Python-style list multiplication).
+---
+---```lua
+---ls = List({ "a", "b" }):mul(3) --> { "a", "b", "a", "b", "a", "b" }
+---```
+---
+---> [!NOTE]
+--->
+---> `mul` is also available as the `__mul` (`*`) operator.
+---> `a:mul(n)` is equivalent to `a * n`.
+---
+---@param self mods.List|any[]
+---@param n integer
+---@return mods.List
+---@nodiscard
+function List:mul(n) end
+
+---
 ---Reduce the list to a single value using an accumulator.
 ---
 ---```lua
@@ -785,6 +804,23 @@ function List.__lt(self, ls) end
 ---@param ls mods.List|any[]
 ---@return boolean
 function List.__le(self, ls) end
+
+---
+---Repeat a list `n` times using `*`.
+---
+---```lua
+---l1 = List({ "a", "b" }) * 3 --> { "a", "b", "a", "b", "a", "b" }
+---l2 = 3 * List({ "a", "b" }) --> { "a", "b", "a", "b", "a", "b" }
+---```
+---
+---> [!NOTE]
+--->
+---> `__mul` is the operator form of `:mul(n)`.
+---
+---@param self integer|mods.List
+---@param n integer|mods.List
+---@return mods.List
+function List.__mul(self, n) end
 
 ---
 ---Extend the left-hand list in place with right-hand values, then return the

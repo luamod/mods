@@ -327,6 +327,17 @@ function List:map(fn)
   return ls
 end
 
+function List:mul(n)
+  local res = List()
+  if n == nil or n <= 0 then
+    return res
+  end
+  for _ = 1, n do
+    res:extend(self)
+  end
+  return res
+end
+
 function List:prepend(v)
   insert(self, 1, v)
   return self
@@ -456,6 +467,10 @@ List.__add = List.extend
 List.__eq = List.equals
 List.__le = List.le
 List.__lt = List.lt
+List.__mul = function(a, b)
+  ---@diagnostic disable-next-line: param-type-mismatch
+  return type(a) == "number" and b:mul(a) or a:mul(b)
+end
 List.__sub = List.difference
 List.__tostring = List.tostring
 
