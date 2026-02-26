@@ -1,23 +1,18 @@
 ---@meta mods.is
 
 ---@alias modsIsType
----|'boolean'
+---|type
 ---|'Boolean'
----|'function'
 ---|'Function'
----|'nil'
 ---|'Nil'
----|'number'
 ---|'Number'
----|'string'
 ---|'String'
----|'table'
 ---|'Table'
----|'thread'
 ---|'Thread'
----|'userdata'
 ---|'Userdata'
 ---
+---|'callable'
+---|'Callable'
 ---|'false'
 ---|'False'
 ---|'falsy'
@@ -31,8 +26,6 @@
 ---
 ---|'block'
 ---|'Block'
----|'callable'
----|'Callable'
 ---|'char'
 ---|'Char'
 ---|'device'
@@ -43,10 +36,11 @@
 ---|'Fifo'
 ---|'file'
 ---|'File'
----|'link'
----|'Link'
 ---|'socket'
 ---|'Socket'
+---
+---|'link'
+---|'Link'
 
 ---
 ---Type predicates for Lua values and filesystem path kinds.
@@ -72,13 +66,6 @@
 ---> is("hello", "string") --> true
 ---> is("hello", "String") --> true
 ---> ```
----
----## Dependencies
----
----Dependencies below are lazy-loaded 💤 on first access.
----
----* [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; required
----  only for filesystem/path checks)
 ---
 ---@class mods.is
 ---@overload fun(v:any, tp:modsIsType):boolean

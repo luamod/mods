@@ -11,14 +11,6 @@
 ---print(str.capitalize("hello world")) --> "Hello world"
 ---```
 ---
----## Dependencies
----
----Dependencies below are lazy-loaded 💤 on first access.
----
----* [`mods.keyword`](https://luamod.github.io/mods/modules/keyword)
----* [`mods.List`](https://luamod.github.io/mods/modules/list)
----* [`mods.stringcase`](https://luamod.github.io/mods/modules/stringcase)
----
 ---@class mods.str
 local M = {}
 
