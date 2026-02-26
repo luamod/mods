@@ -420,6 +420,7 @@ end
 
 List.__add = List.extend
 List.__eq = List.equals
+List.__sub = List.difference
 List.__tostring = List.tostring
 
 return setmetatable(List, {

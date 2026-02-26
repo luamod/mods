@@ -158,6 +158,13 @@ describe("mods.List", function()
       assert.are_equal(true, rawequal(a, d), "__add returns same lhs ref")
     end)
 
+    it("__sub returns list difference", function()
+      local a = List({ "a", "b", "c", "a" })
+      local b = { "b", "x" }
+      assert.are_same({ "a", "c", "a" }, a - b)
+      assert.are_same({ "a", "b", "c", "a" }, a)
+    end)
+
     it("__tostring renders list output", function()
       assert.are_equal('{ "a", "b", 1 }', tostring(List({ "a", "b", 1 })))
     end)

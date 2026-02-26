@@ -22,6 +22,7 @@
 ---
 ---@class mods.List<T>:{[integer]:T}
 ---@operator add(mods.List):mods.List
+---@operator sub(mods.List):mods.List
 ---@overload fun(t?:{}):mods.List
 local List = {}
 List.__index = List
@@ -394,6 +395,11 @@ function List:last() end
 ---d = List({ "a", "b", "c" }):difference({ "b" }) --> { "a", "c" }
 ---```
 ---
+---> [!NOTE]
+--->
+---> `difference` is also available as the `__sub` (`-`) operator.
+---> `a:difference(b)` is equivalent to `a - b`.
+---
 ---@generic T:mods.List|any[]
 ---@param self T
 ---@return T ls
@@ -746,6 +752,24 @@ function List.__eq(self, ls) end
 ---@param ls mods.List|any[]
 ---@return mods.List|any[] self
 function List.__add(self, ls) end
+
+---
+---Return values from the left list that are not present in the right list.
+---
+---```lua
+---a = List({ "a", "b", "c" })
+---b = { "b" }
+---d = a - b --> { "a", "c" }
+---```
+---
+---> [!NOTE]
+--->
+---> `__sub` is the operator form of `:difference(ls)`.
+---
+---@param self mods.List|any[]
+---@param ls mods.List|any[]
+---@return mods.List ls
+function List.__sub(self, ls) end
 
 ---
 ---Render the list to a string like `{ "a", "b", 1 }`.
