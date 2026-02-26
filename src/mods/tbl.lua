@@ -79,6 +79,20 @@ function M.find(t, v)
   end
 end
 
+function M.same(a, b)
+  for k, v in pairs(a) do
+    if b[k] ~= v then
+      return false
+    end
+  end
+  for k, v in pairs(b) do
+    if a[k] ~= v then
+      return false
+    end
+  end
+  return true
+end
+
 function M.find_if(t, pred)
   for k, v in pairs(t) do
     if pred(v, k) then

@@ -121,6 +121,20 @@ function M.filter(t, pred) end
 function M.find(t, v) end
 
 ---
+---Return `true` if two tables have the same keys and equal values.
+---
+---```lua
+---ok = same({ a = 1, b = 2 }, { b = 2, a = 1 }) --> true
+---ok = same({ a = {} }, { a = {} })             --> false
+---```
+---
+---@param a table
+---@param b table
+---@return boolean
+---@nodiscard
+function M.same(a, b) end
+
+---
 ---Find first value and key matching predicate.
 ---
 ---```lua

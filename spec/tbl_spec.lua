@@ -43,6 +43,10 @@ describe("mods.tbl", function()
     { "find"     , { a1_b2_c3, 2               } , "b"                      ,       },
     { "find"     , { abc, "b"                  } , 2                        ,       },
 
+    { "same"     , { a1_b2_c3, a1_b2_c3        } , true                     , false },
+    { "same"     , { a1_b2_c3, a2_b4_c6        } , false                    , false },
+    { "same"     , { x1_y2, x1_y2_z4           } , false                    , false },
+
     { "get"      , { loc                       } , loc                      , true  },
     { "get"      , { loc, "a", "b", "c"        } , loc.a.b.c                , false },
     { "get"      , { loc, "a", "d", "d"        } , nil                      ,       },
@@ -84,7 +88,7 @@ describe("mods.tbl", function()
       actual = (fname == "keys" or fname == "values") and actual:sort() or actual
       assert.are_same(expected, actual)
 
-      if same_ref == true then
+      if same_ref then
         assert.are_equal(params[1], actual, "Expected same table reference")
       elseif same_ref == false then
         assert.not_equal(params[1], actual, "Expected different table reference")
