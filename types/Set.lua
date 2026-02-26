@@ -20,6 +20,7 @@
 ---* [`mods.tbl`](https://luamod.github.io/mods/modules/tbl)
 ---
 ---@class mods.Set<T>:{[T]:true}
+---@operator add(mods.Set):mods.Set
 ---@overload fun(t?:any[]|mods.Set|mods.List):mods.Set
 local Set = {}
 Set.__index = Set
@@ -329,5 +330,27 @@ function Set:map(fn) end
 ---@return mods.List values
 ---@nodiscard
 function Set:values() end
+
+--------------------------------------------------------------------------------
+---------------------------------- Metamethods ---------------------------------
+--------------------------------------------------------------------------------
+
+---
+---Return the union of two sets using `+`.
+---
+---```lua
+---a = Set({ "a", "b" })
+---b = Set({ "b", "c" })
+---u = a + b --> { a = true, b = true, c = true }
+---```
+---
+---> [!NOTE]
+--->
+---> `__add` is the operator form of `:union(set)`.
+---
+---@param self mods.Set|table<any,true>
+---@param set mods.Set|table<any,true>
+---@return mods.Set
+function Set.__add(self, set) end
 
 return Set

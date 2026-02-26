@@ -130,6 +130,8 @@ function Set:union(set)
   return self:copy():update(set)
 end
 
+Set.__add = Set.union
+
 return setmetatable(Set, {
   __index = function(t, k)
     local fname = tbl_map[k]
