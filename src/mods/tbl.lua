@@ -52,7 +52,7 @@ local function deepcopy(v, seen)
 
   local mt = getmetatable(v)
   if mt ~= nil then
-    return setmetatable(res, mt)
+    setmetatable(res, mt)
   end
   return res
 end
@@ -85,7 +85,6 @@ function M.find_if(t, pred)
       return v, k
     end
   end
-  return nil
 end
 
 function M.get(t, ...)
