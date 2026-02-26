@@ -177,18 +177,19 @@ end
 
 function M.find(s, subp, start, stop)
   local a, b = norm_range_exclusive(s, start, stop)
+
   if subp == "" then
     return a <= b and a or nil
   end
   if b <= a then
-    return nil
+    return
   end
   local i = find(s, subp, a, true)
   if not i then
-    return nil
+    return
   end
   if i + #subp - 1 >= b then
-    return nil
+    return
   end
   return i
 end
@@ -481,7 +482,7 @@ function M.rfind(s, subp, start, stop)
     return b
   end
   if b < a then
-    return nil
+    return
   end
   local slice = sub(s, a, b)
   local last
@@ -495,7 +496,7 @@ function M.rfind(s, subp, start, stop)
     pos = i + 1
   end
   if not last then
-    return nil
+    return
   end
   return a + last - 1
 end
