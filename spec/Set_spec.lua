@@ -100,7 +100,7 @@ describe("mods.Set", function()
   end)
 
   describe("metamethods", function()
-    it("__add returns set union", function()
+    it("__add (+) returns set union", function()
       local a = Set({ "a", "b" })
       local b = Set({ "b", "c" })
       local u = a + b
@@ -109,7 +109,7 @@ describe("mods.Set", function()
       assert.are_same({ b = true, c = true }, b)
     end)
 
-    it("__sub returns set difference", function()
+    it("__sub (-) returns set difference", function()
       local a = Set({ "a", "b", "c" })
       local b = Set({ "b", "x" })
       local d = a - b
@@ -129,13 +129,13 @@ describe("mods.Set", function()
       end)
     end
 
-    it("__eq returns set member equality", function()
+    it("__eq (==) returns set member equality", function()
       assert.is_true(Set({ "a", "b" }) == Set({ "b", "a" }))
       assert.is_false(Set({ "a", "b" }) == Set({ "a", "c" }))
       assert.is_false(Set({ "a", "b" }) == Set({ "a", "b", "c" }))
     end)
 
-    it("__le returns subset check", function()
+    it("__le (<=) returns subset check", function()
       local a = Set({ "a" })
       local b = Set({ "a", "b" })
       local c = Set({ "a", "b" })
@@ -144,7 +144,7 @@ describe("mods.Set", function()
       assert.is_false(b <= a)
     end)
 
-    it("__lt returns proper subset check", function()
+    it("__lt (<) returns proper subset check", function()
       local a = Set({ "a" })
       local b = Set({ "a", "b" })
       local c = Set({ "a", "b" })
