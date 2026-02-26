@@ -1,15 +1,26 @@
 local mods = {}
 
-([[ is keyword List operator repr Set
-    str stringcase tbl template utils validate ]]):gsub("%S+", function(name)
+local module_names = {
+  "is",
+  "keyword",
+  "List",
+  "operator",
+  "repr",
+  "Set",
+  "str",
+  "stringcase",
+  "tbl",
+  "template",
+  "utils",
+  "validate",
+}
+
+for i = 1, #module_names do
+  local name = module_names[i]
   mods[name] = "mods." .. name
-end)
+end
 
----@type mods
----@diagnostic disable-next-line: missing-fields
-local M = {}
-
-setmetatable(M, {
+return setmetatable({}, {
   __index = function(t, k)
     local mod = mods[k]
     if mod then
@@ -19,5 +30,3 @@ setmetatable(M, {
     end
   end,
 })
-
-return M
