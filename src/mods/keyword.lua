@@ -26,7 +26,7 @@ for i = 1, #kwlist do
 end
 
 local function iskeyword(s)
-  return kwset[s] == true
+  return kwset[s] ~= nil
 end
 
 M.iskeyword = iskeyword
