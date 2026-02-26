@@ -20,7 +20,7 @@ local function lookup(view, name)
       end
       view = view[part]
       if view == nil then
-        return nil
+        return
       end
     end
   end
