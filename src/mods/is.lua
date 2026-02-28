@@ -1,9 +1,30 @@
-local fs = require("mods._fs")
-
 local type = type
 local getmt = getmetatable
-local mode = fs.mode
-local link_mode = fs.link_mode
+local lfs
+
+local function get_lfs()
+  if lfs then
+    return lfs
+  end
+
+  local ok, mod = pcall(require, "lfs")
+  if not ok then
+    error("lfs is required for filesystem operations")
+  end
+
+  lfs = mod
+  return mod
+end
+
+local function attrs(path, field)
+  attrs = get_lfs().attributes
+  return attrs(path, field)
+end
+
+local function slattrs(path, field)
+  slattrs = get_lfs().symlinkattributes
+  return slattrs(path, field)
+end
 
 ---@type mods.is
 local M = {}
@@ -54,18 +75,18 @@ function M.Device(v)
   if type(v) ~= "string" then
     return false
   end
-  local file_mode = mode(v)
+  local file_mode = attrs(v, "mode")
   return file_mode == "char device" or file_mode == "block device"
 end
 
 -- stylua: ignore start
-function M.Block(v)  return type(v) == "string" and mode(v)      == "block device" end
-function M.Char(v)   return type(v) == "string" and mode(v)      == "char device"  end
-function M.Dir(v)    return type(v) == "string" and mode(v)      == "directory"    end
-function M.Fifo(v)   return type(v) == "string" and mode(v)      == "named pipe"   end
-function M.File(v)   return type(v) == "string" and mode(v)      == "file"         end
-function M.Socket(v) return type(v) == "string" and mode(v)      == "socket"       end
-function M.Link(v)   return type(v) == "string" and link_mode(v) == "link"         end
+function M.Block(v)  return type(v) == "string" and attrs(v, "mode")   == "block device" end
+function M.Char(v)   return type(v) == "string" and attrs(v, "mode")   == "char device"  end
+function M.Dir(v)    return type(v) == "string" and attrs(v, "mode")   == "directory"    end
+function M.Fifo(v)   return type(v) == "string" and attrs(v, "mode")   == "named pipe"   end
+function M.File(v)   return type(v) == "string" and attrs(v, "mode")   == "file"         end
+function M.Socket(v) return type(v) == "string" and attrs(v, "mode")   == "socket"       end
+function M.Link(v)   return type(v) == "string" and slattrs(v, "mode") == "link"         end
 -- stylua: ignore end
 
 --------------------------------
