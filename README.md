@@ -3,6 +3,10 @@
 **Mods** is a pure Lua utility library with predictable APIs, 💤 lazy-loaded
 inter-module dependencies, and support for Lua 5.1, 5.2, 5.3, 5.4, and LuaJIT.
 
+> [!IMPORTANT]
+>
+> This library is not stable yet, and APIs may change between releases.
+
 This project is inspired by
 [Penlight (pl)](https://github.com/lunarmodules/Penlight).
 
