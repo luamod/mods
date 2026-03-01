@@ -1,6 +1,7 @@
 local concat = table.concat
 local fmt = string.format
 local insert = table.insert
+local FIELD_OVERVIEW_MIN = 4
 
 local function first_match(items, pred)
   for _, item in ipairs(items or {}) do
@@ -37,6 +38,28 @@ local function has_function_items(items)
   return first_match(items, function(it)
     return it.kind == "function"
   end) ~= nil
+end
+
+local function collect_class_fields(items)
+  local out = {}
+  local seen = {}
+  for _, item in ipairs(items or {}) do
+    if item and item.kind == "class" then
+      local tags = item.tags
+      local fields = tags and tags.fields
+      if type(fields) == "table" then
+        for _, field in ipairs(fields) do
+          local name = field and field.name
+          local desc = (field and field.desc or ""):gsub("%s+", " "):gsub("^%s+", ""):gsub("%s+$", "")
+          if name and desc ~= "" and not seen[name] then
+            seen[name] = true
+            insert(out, field)
+          end
+        end
+      end
+    end
+  end
+  return out
 end
 
 ---Extract one-sentence short description from a longer description.
@@ -98,6 +121,21 @@ local function append_quick_ref_table(doc, rows)
   end
 end
 
+local function append_fields_table(doc, fields)
+  if not fields or #fields == 0 then
+    return
+  end
+
+  insert(doc, "Field | Type | Description")
+  insert(doc, "---- | ---- | ----")
+  for _, field in ipairs(fields) do
+    local name = esc_table_cell(field.name or "")
+    local view = esc_table_cell(field.view or "")
+    local desc = esc_table_cell(first_paragraph(field.desc))
+    insert(doc, fmt("`%s` | `%s` | %s", name, view, desc))
+  end
+end
+
 ---Check whether any item has a `section` field in tags.
 local function has_section_field(items)
   for _, item in ipairs(items or {}) do
@@ -123,6 +161,8 @@ end
 local function build_markdown(items)
   local module_name = pick_module_name(items)
   local module_desc = pick_module_desc(items)
+  local fields = collect_class_fields(items)
+  local has_functions = has_function_items(items)
   local frontmatter = render_frontmatter(module_desc)
   local section_fields = has_section_field(items)
   local function_heading_level = section_fields and "####" or "###"
@@ -146,14 +186,16 @@ local function build_markdown(items)
     return concat(doc, "\n")
   end
 
-  if not has_function_items(items) then
+  if not has_functions and #fields == 0 then
     return concat(doc, "\n")
   end
 
-  insert(doc, "## Functions")
+  if has_functions then
+    insert(doc, "## Functions")
+  end
 
   for _, item in ipairs(items) do
-    if item.kind == "section" then
+    if has_functions and item.kind == "section" then
       current_section = item.name or "Section"
       if not seen_sections[current_section] then
         insert(section_order, current_section)
@@ -163,7 +205,7 @@ local function build_markdown(items)
       if item.desc then
         insert(details, item.desc)
       end
-    elseif item.kind == "function" then
+    elseif has_functions and item.kind == "function" then
       function_count = function_count + 1
       local row = {
         shortname = item.shortname or "",
@@ -191,7 +233,7 @@ local function build_markdown(items)
   end
 
   -- Show quick reference only for larger modules.
-  if function_count > 3 then
+  if has_functions and function_count > 3 then
     if section_fields then
       for _, section_name in ipairs(section_order) do
         local rows = quick_ref_sections[section_name]
@@ -207,6 +249,19 @@ local function build_markdown(items)
 
   for _, line in ipairs(details) do
     insert(doc, line)
+  end
+
+  if #fields > 0 then
+    insert(doc, "## Fields")
+    if #fields >= FIELD_OVERVIEW_MIN then
+      append_fields_table(doc, fields)
+    end
+    for _, field in ipairs(fields) do
+      insert(doc, fmt("### `%s`", field.name or ""))
+      if field.desc then
+        insert(doc, field.desc)
+      end
+    end
   end
 
   return concat(doc, "\n")
