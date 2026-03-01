@@ -1,3 +1,5 @@
+---@diagnostic disable: invisible
+
 local mods = require("mods")
 
 local insert = table.insert
