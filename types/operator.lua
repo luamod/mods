@@ -28,9 +28,9 @@ local M = {}
 ---add(1, 2) --> 3
 ---```
 ---
----@param a number
----@param b number
----@return number sum
+---@param a number Left numeric value.
+---@param b number Right numeric value.
+---@return number sum Sum of `a` and `b`.
 ---@nodiscard
 function M.add(a, b) end
 
@@ -41,9 +41,9 @@ function M.add(a, b) end
 ---sub(5, 3) --> 2
 ---```
 ---
----@param a number
----@param b number
----@return number difference
+---@param a number Left numeric value.
+---@param b number Right numeric value.
+---@return number difference Difference `a - b`.
 ---@nodiscard
 function M.sub(a, b) end
 
@@ -54,9 +54,9 @@ function M.sub(a, b) end
 ---mul(3, 4) --> 12
 ---```
 ---
----@param a number
----@param b number
----@return number product
+---@param a number Left numeric value.
+---@param b number Right numeric value.
+---@return number product Product `a * b`.
 ---@nodiscard
 function M.mul(a, b) end
 
@@ -67,22 +67,22 @@ function M.mul(a, b) end
 ---div(10, 4) --> 2.5
 ---```
 ---
----@param a number
----@param b number
----@return number quotient
+---@param a number Dividend value.
+---@param b number Divisor value.
+---@return number quotient Quotient `a / b`.
 ---@nodiscard
 function M.div(a, b) end
 
 ---
----Divide `a` by `b` and return the integer quotient (`//` behavior).
+---Divide `a` by `b` and return the floor-division quotient.
 ---
 ---```lua
 ---idiv(5, 2) --> 2
 ---```
 ---
----@param a number
----@param b number
----@return integer quotient
+---@param a number Dividend value.
+---@param b number Divisor value.
+---@return integer quotient Floor-division result.
 ---@nodiscard
 function M.idiv(a, b) end
 
@@ -93,9 +93,9 @@ function M.idiv(a, b) end
 ---mod(5, 2) --> 1
 ---```
 ---
----@param a number
----@param b number
----@return number remainder
+---@param a number Dividend value.
+---@param b number Divisor value.
+---@return number remainder Remainder of `a % b`.
 ---@nodiscard
 function M.mod(a, b) end
 
@@ -106,9 +106,9 @@ function M.mod(a, b) end
 ---pow(2, 4) --> 16
 ---```
 ---
----@param a number
----@param b number
----@return number power
+---@param a number Base value.
+---@param b number Exponent value.
+---@return number power Result of `a ^ b`.
 ---@nodiscard
 function M.pow(a, b) end
 
@@ -119,8 +119,8 @@ function M.pow(a, b) end
 ---unm(3) --> -3
 ---```
 ---
----@param a number
----@return number negated
+---@param a number Input numeric value.
+---@return number negated Result of `-a`.
 ---@nodiscard
 function M.unm(a) end
 
@@ -138,9 +138,9 @@ function M.unm(a) end
 ---eq(1, 1) --> true
 ---```
 ---
----@param a any
----@param b any
----@return boolean isEqual
+---@param a any Left value.
+---@param b any Right value.
+---@return boolean isEqual True when `a == b`.
 ---@nodiscard
 function M.eq(a, b) end
 
@@ -151,9 +151,9 @@ function M.eq(a, b) end
 ---neq(1, 2) --> true
 ---```
 ---
----@param a any
----@param b any
----@return boolean isNotEqual
+---@param a any Left value.
+---@param b any Right value.
+---@return boolean isNotEqual True when `a ~= b`.
 ---@nodiscard
 function M.neq(a, b) end
 
@@ -164,9 +164,9 @@ function M.neq(a, b) end
 ---lt(1, 2) --> true
 ---```
 ---
----@param a number
----@param b number
----@return boolean isLess
+---@param a number Left numeric value.
+---@param b number Right numeric value.
+---@return boolean isLess True when `a < b`.
 ---@nodiscard
 function M.lt(a, b) end
 
@@ -174,12 +174,12 @@ function M.lt(a, b) end
 ---Check whether `a` is less than or equal to `b`.
 ---
 ---```lua
----lte(2, 2) --> true
+---le(2, 2) --> true
 ---```
 ---
----@param a number
----@param b number
----@return boolean isLessOrEqual
+---@param a number Left numeric value.
+---@param b number Right numeric value.
+---@return boolean isLessOrEqual True when `a <= b`.
 ---@nodiscard
 function M.le(a, b) end
 
@@ -190,9 +190,9 @@ function M.le(a, b) end
 ---gt(3, 2) --> true
 ---```
 ---
----@param a number
----@param b number
----@return boolean isGreater
+---@param a number Left numeric value.
+---@param b number Right numeric value.
+---@return boolean isGreater True when `a > b`.
 ---@nodiscard
 function M.gt(a, b) end
 
@@ -200,12 +200,12 @@ function M.gt(a, b) end
 ---Check whether `a` is greater than or equal to `b`.
 ---
 ---```lua
----gte(2, 2) --> true
+---ge(2, 2) --> true
 ---```
 ---
----@param a number
----@param b number
----@return boolean isGreaterOrEqual
+---@param a number Left numeric value.
+---@param b number Right numeric value.
+---@return boolean isGreaterOrEqual True when `a >= b`.
 ---@nodiscard
 function M.ge(a, b) end
 
@@ -224,9 +224,9 @@ function M.ge(a, b) end
 ---```
 ---
 ---@generic T1,T2
----@param a T1
----@param b T2
----@return T1|T2 andValue
+---@param a T1 First operand.
+---@param b T2 Second operand.
+---@return T1|T2 andValue Result of `a and b`.
 ---@nodiscard
 function M.land(a, b) end
 
@@ -238,9 +238,9 @@ function M.land(a, b) end
 ---```
 ---
 ---@generic T1,T2
----@param a T1
----@param b T2
----@return T1|T2 orValue
+---@param a T1 First operand.
+---@param b T2 Second operand.
+---@return T1|T2 orValue Result of `a or b`.
 ---@nodiscard
 function M.lor(a, b) end
 
@@ -251,8 +251,8 @@ function M.lor(a, b) end
 ---lnot(true) --> false
 ---```
 ---
----@param a any
----@return boolean isNot
+---@param a any Input value.
+---@return boolean isNot Result of `not a`.
 ---@nodiscard
 function M.lnot(a) end
 
@@ -270,9 +270,9 @@ function M.lnot(a) end
 ---concat("a", "b") --> "ab"
 ---```
 ---
----@param a string
----@param b string
----@return string concatenated
+---@param a string Left string.
+---@param b string Right string.
+---@return string concatenated Concatenated result `a .. b`.
 ---@nodiscard
 function M.concat(a, b) end
 
@@ -283,8 +283,8 @@ function M.concat(a, b) end
 ---len("abc") --> 3
 ---```
 ---
----@param a string|table
----@return integer length
+---@param a string|table Value supporting Lua's `#` operator.
+---@return integer length Length computed by `#a`.
 ---@nodiscard
 function M.len(a) end
 
@@ -303,9 +303,9 @@ function M.len(a) end
 ---```
 ---
 ---@generic T
----@param t table
----@param k T
----@return T value
+---@param t table Source table.
+---@param k T Key/index value.
+---@return T value Value stored at `t[k]`.
 ---@nodiscard
 function M.index(t, k) end
 
@@ -317,10 +317,10 @@ function M.index(t, k) end
 ---```
 ---
 ---@generic T
----@param t table
----@param k any
----@param v T
----@return T value
+---@param t table Target table.
+---@param k any Key/index value.
+---@param v T Value to set.
+---@return T value Assigned value `v`.
 ---@nodiscard
 function M.setindex(t, k, v) end
 
@@ -331,10 +331,10 @@ function M.setindex(t, k, v) end
 ---call(math.max, 1, 2) --> 2
 ---```
 ---
----@generic T,T2
----@param f fun(...:T):T2
----@param ... T
----@return T2 result
+---@generic T1,T2
+---@param f fun(...:T1):T2 Function to call.
+---@param ... T1 Additional arguments.
+---@return T2 result Return value(s) from `f(...)`.
 ---@nodiscard
 function M.call(f, ...) end
 
