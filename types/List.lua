@@ -1,7 +1,7 @@
 ---@meta mods.List
 
 ---
----A Python-style list class providing common operations to create,
+---A list class providing common operations to create,
 ---modify, and query sequences of values.
 ---
 ---## Usage
@@ -11,7 +11,7 @@
 ---
 ---ls = List({ "a" }):append("b")
 ---print(ls:contains("b")) --> true
----print(ls:index("b")) --> 2
+---print(ls:index("b"))    --> 2
 ---```
 ---
 ---@class mods.List<T>:{[integer]:T}
@@ -41,9 +41,9 @@ List.__index = List
 --->
 ---> Empty lists return `true`.
 ---
----@param self mods.List|any[]
----@param pred fun(v:any):boolean
----@return boolean
+---@param self mods.List Current list instance.
+---@param pred fun(v:any):boolean Predicate function.
+---@return boolean ok Whether the condition is met.
 ---@nodiscard
 function List:all(pred) end
 
@@ -55,14 +55,14 @@ function List:all(pred) end
 ---ok = List({ "a", "bb" }):any(has_len_2) --> true
 ---```
 ---
----@param self mods.List|any[]
----@param pred fun(v:any):boolean
----@return boolean
+---@param self mods.List Current list instance.
+---@param pred fun(v:any):boolean Predicate function.
+---@return boolean ok Whether the condition is met.
 ---@nodiscard
 function List:any(pred) end
 
 ---
----Compare two lists using shallow element equality (`==`).
+---Compare two lists using shallow element equality.
 ---
 ---```lua
 ---a = List({ "x", "y" })
@@ -72,41 +72,41 @@ function List:any(pred) end
 ---
 ---> [!NOTE]
 --->
----> `equals` is also available as the `__eq` (`==`) operator when both
----> operands are `List`.
+---> * `equals` is also available through the `==` operator when both
+--->   operands are `List`.
 --->
----> ```lua
----> a = List({ "a", 1 })
----> b = List({ "a", 1 })
----> ok = (a == b) --> true
----> ```
+--->   ```lua
+--->   a = List({ "a", 1 })
+--->   b = List({ "a", 1 })
+--->   ok = (a == b) --> true
+--->   ```
 --->
----> Unlike `==`, this method also works when `ls` is a plain array table.
+---> * Unlike `==`, this method also works when `ls` is a plain array table.
 --->
----> ```lua
----> a = List({ "a", 1 })
----> b = { "a", 1 }
----> ok = a:equals(b) --> true
----> ```
+--->   ```lua
+--->   a = List({ "a", 1 })
+--->   b = { "a", 1 }
+--->   ok = a:equals(b) --> true
+--->   ```
 --->
----> `equals` checks only array positions (`1..#list`), so extra non-array keys
----> are ignored:
+---> * `equals` checks only array positions (`1..#list`), so extra non-array
+--->   keys are ignored:
 --->
----> ```lua
----> t = {}
----> a = List({ "a", t })
----> b = { "a", t, a = 1 }
----> ok = a:equals(b) --> true
----> ```
+--->   ```lua
+--->   t = {}
+--->   a = List({ "a", t })
+--->   b = { "a", t, a = 1 }
+--->   ok = a:equals(b) --> true
+--->   ```
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return boolean
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return boolean ok Whether the condition is met.
 ---@nodiscard
 function List:equals(ls) end
 
 ---
----Compare two lists lexicographically (Python-style `<`).
+---Compare two lists lexicographically.
 ---
 ---```lua
 ---ok = List({ 1, 2 }):lt({ 1, 3 })    --> true
@@ -115,17 +115,16 @@ function List:equals(ls) end
 ---
 ---> [!NOTE]
 --->
----> `lt` is also available as the `__lt` (`<`) operator.
----> `a:lt(b)` is equivalent to `a < b`.
+---> `lt` is also available through the `<` operator.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return boolean
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return boolean ok Whether the condition is met.
 ---@nodiscard
 function List:lt(ls) end
 
 ---
----Compare two lists lexicographically (Python-style `<=`).
+---Compare two lists lexicographically.
 ---
 ---```lua
 ---ok = List({ 1, 2 }):le({ 1, 2 })  --> true
@@ -134,12 +133,11 @@ function List:lt(ls) end
 ---
 ---> [!NOTE]
 --->
----> `le` is also available as the `__le` (`<=`) operator.
----> `a:le(b)` is equivalent to `a <= b`.
+---> `le` is also available through the `<=` operator.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return boolean
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return boolean ok Whether the condition is met.
 ---@nodiscard
 function List:le(ls) end
 
@@ -158,8 +156,8 @@ function List:le(ls) end
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@return T self
+---@param self T Current list instance.
+---@return T self Current list instance.
 function List:append(v) end
 
 ---
@@ -170,8 +168,8 @@ function List:append(v) end
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@return T self
+---@param self T Current list instance.
+---@return T self Current list instance.
 function List:clear() end
 
 ---
@@ -183,13 +181,12 @@ function List:clear() end
 ---
 ---> [!NOTE]
 --->
----> `extend` is also available as the `__add` (`+`) operator.
----> `a:extend(b)` is equivalent to `a + b`.
+---> `extend` is also available through the `+` operator.
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@param ls any[]
----@return T self
+---@param self T Current list instance.
+---@param ls any[] List values.
+---@return T self Current list instance.
 function List:extend(ls) end
 
 ---
@@ -202,9 +199,9 @@ function List:extend(ls) end
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@param pred fun(v:any):boolean
----@return T self
+---@param self T Current list instance.
+---@param pred fun(v:any):boolean Predicate function.
+---@return mods.List ls Extracted values.
 ---@nodiscard
 function List:extract(pred) end
 
@@ -216,23 +213,23 @@ function List:extract(pred) end
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@param pos integer
----@param v any
----@return T self
+---@param self T Current list instance.
+---@param pos integer Insert position.
+---@param v any Value to insert.
+---@return T self Current list instance.
 function List:insert(pos, v) end
 
 ---
 ---Append a value to the end of the list.
 ---
 ---```lua
----ls = List({ "a", "b" }):insert("b") --> { "a", "b", "c" }
+---ls = List({ "a", "b" }):insert("c") --> { "a", "b", "c" }
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@param v any
----@return T self
+---@param self T Current list instance.
+---@param v any Value to append.
+---@return T self Current list instance.
 function List:insert(v) end
 
 ---
@@ -243,8 +240,8 @@ function List:insert(v) end
 ---v = ls:pop() --> v == "b"; ls is { "a" }
 ---```
 ---
----@param self mods.List|any[]
----@return any
+---@param self mods.List Current list instance.
+---@return any value Removed value.
 function List:pop() end
 
 ---
@@ -255,9 +252,9 @@ function List:pop() end
 ---v = ls:pop(2) --> v == "b"; ls is { "a", "c" }
 ---```
 ---
----@param self mods.List|any[]
----@param pos integer
----@return any
+---@param self mods.List Current list instance.
+---@param pos integer Numeric value.
+---@return any value Removed value.
 function List:pop(pos) end
 
 ---
@@ -269,9 +266,9 @@ function List:pop(pos) end
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@param v any
----@return T self
+---@param self T Current list instance.
+---@param v any Value to validate.
+---@return T self Current list instance.
 function List:prepend(v) end
 
 ---
@@ -283,9 +280,9 @@ function List:prepend(v) end
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@param v any
----@return T self
+---@param self T Current list instance.
+---@param v any Value to validate.
+---@return T self Current list instance.
 function List:remove(v) end
 
 ---
@@ -297,9 +294,9 @@ function List:remove(v) end
 ---```
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@param comp? fun(a,b):boolean
----@return T self
+---@param self T Current list instance.
+---@param comp? fun(a,b):boolean Optional comparison function (defaults to `nil`).
+---@return T self Current list instance.
 function List:sort(comp) end
 
 --------------------------------------------------------------------------------
@@ -316,8 +313,8 @@ function List:sort(comp) end
 ---c = List({ "a", "b" }):copy() --> { "a", "b" }
 ---```
 ---
----@param self mods.List|any[]
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:copy() end
 
@@ -335,9 +332,9 @@ function List:copy() end
 ---ok = List({ "a", "b" }):contains("b") --> true
 ---```
 ---
----@param self mods.List|any[]
----@param v any
----@return any
+---@param self mods.List Current list instance.
+---@param v any Value to validate.
+---@return boolean ok Whether the condition is met.
 ---@nodiscard
 function List:contains(v) end
 
@@ -348,8 +345,9 @@ function List:contains(v) end
 ---n = List({ "a", "b", "b" }):count("b") --> 2
 ---```
 ---
----@param self mods.List|any[]
----@return integer
+---@param self mods.List Current list instance.
+---@param v any Value to validate.
+---@return integer res Result count.
 ---@nodiscard
 function List:count(v) end
 
@@ -360,10 +358,9 @@ function List:count(v) end
 ---i = List({ "a", "b", "c", "b" }):index("b") --> 2
 ---```
 ---
----@param self mods.List|any[]
----@param v any
----@return any value
----@return integer? index
+---@param self mods.List Current list instance.
+---@param v any Value to validate.
+---@return integer? index Result index, or nil when not found.
 ---@nodiscard
 function List:index(v) end
 
@@ -375,9 +372,9 @@ function List:index(v) end
 ---i = List({ 1, 2, 3 }):index_if(gt_1) --> 2
 ---```
 ---
----@param self mods.List|any[]
----@param pred fun(v:any):boolean
----@return integer? index
+---@param self mods.List Current list instance.
+---@param pred fun(v:any):boolean Predicate function.
+---@return integer? index Result index, or nil when no value matches.
 ---@nodiscard
 function List:index_if(pred) end
 
@@ -390,10 +387,10 @@ function List:index_if(pred) end
 ---
 ---> [!NOTE]
 --->
----> Uses Lua's `#` operator, so length is reliable for contiguous array-like lists.
+---> Uses Lua's `#` operator.
 ---
----@param self mods.List|any[]
----@return integer
+---@param self mods.List Current list instance.
+---@return integer count Element count.
 ---@nodiscard
 function List:len() end
 
@@ -411,8 +408,8 @@ function List:len() end
 ---v = List({ "a", "b" }):first() --> "a"
 ---```
 ---
----@param self mods.List|any[]
----@return any
+---@param self mods.List Current list instance.
+---@return any value First value, or `nil` if empty.
 ---@nodiscard
 function List:first() end
 
@@ -423,8 +420,8 @@ function List:first() end
 ---v = List({ "a", "b" }):last() --> "b"
 ---```
 ---
----@param self mods.List|any[]
----@return any
+---@param self mods.List Current list instance.
+---@return any value Last value, or `nil` if empty.
 ---@nodiscard
 function List:last() end
 
@@ -444,12 +441,12 @@ function List:last() end
 ---
 ---> [!NOTE]
 --->
----> `difference` is also available as the `__sub` (`-`) operator.
----> `a:difference(b)` is equivalent to `a - b`.
+---> `difference` is also available through the `-` operator.
 ---
 ---@generic T:mods.List|any[]
----@param self T
----@return T ls
+---@param self T Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return T ls New list.
 ---@nodiscard
 function List:difference(ls) end
 
@@ -460,9 +457,9 @@ function List:difference(ls) end
 ---t = List({ "a", "b", "c" }):drop(1) --> { "b", "c" }
 ---```
 ---
----@param self mods.List|any[]
----@param n integer
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@param n integer Numeric value.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:drop(n) end
 
@@ -474,9 +471,9 @@ function List:drop(n) end
 ---f = List({ "a", "bb", "c" }):filter(is_len_1) --> { "a", "c" }
 ---```
 ---
----@param self mods.List|any[]
----@param pred fun(v:any):boolean
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@param pred fun(v:any):boolean Predicate function.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:filter(pred) end
 
@@ -487,8 +484,8 @@ function List:filter(pred) end
 ---f = List({ { "a", "b" }, { "c" } }):flatten() --> { "a", "b", "c" }
 ---```
 ---
----@param self mods.List|any[]
----@return mods.List self
+---@param self mods.List Current list instance.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:flatten() end
 
@@ -501,9 +498,9 @@ function List:flatten() end
 -----> prints -> b
 ---```
 ---
----@param self mods.List|any[]
----@param fn fun(v:any)
----@return nil
+---@param self mods.List Current list instance.
+---@param fn fun(v:any) Callback function.
+---@return nil none
 function List:foreach(fn) end
 
 ---
@@ -514,9 +511,9 @@ function List:foreach(fn) end
 ---g = List(words):group_by(string.len) --> { {"b"}, { "aa", "dd" }, { "ccc" } }
 ---```
 ---
----@param self mods.List|any[]
----@param fn fun(v:any):any
----@return table
+---@param self mods.List Current list instance.
+---@param fn fun(v:any):any Callback function.
+---@return table groups Groups keyed by the callback result.
 ---@nodiscard
 function List:group_by(fn) end
 
@@ -532,9 +529,9 @@ function List:group_by(fn) end
 --->
 ---> Order is preserved from the original list.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return mods.List self
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:intersection(ls) end
 
@@ -545,8 +542,8 @@ function List:intersection(ls) end
 ---t = List({ "a", "b", "c" }):invert() --> { a = 1, b = 2, c = 3 }
 ---```
 ---
----@param self mods.List|any[]
----@return table
+---@param self mods.List Current list instance.
+---@return table idxByValue Table mapping each value to its last index.
 ---@nodiscard
 function List:invert() end
 
@@ -562,11 +559,11 @@ function List:invert() end
 ---> This method forwards to `table.concat` directly and keeps its strict
 ---> element rules.
 ---
----@param self mods.List|any[]
----@param sep? string
----@param i? integer
----@param j? integer
----@return string
+---@param self mods.List Current list instance.
+---@param sep? string Optional separator value (defaults to `""`).
+---@param i? integer Optional start index (defaults to `1`).
+---@param j? integer Optional end index (defaults to `#self`).
+---@return string s Concatenated string.
 ---@nodiscard
 function List:concat(sep, i, j) end
 
@@ -574,7 +571,7 @@ function List:concat(sep, i, j) end
 ---Join list values into a string.
 ---
 ---```lua
----s = List({ "a", "b", "c" }):join(",") --> "a,b,c"
+---s = List({ "a", "b", "c" }):join(",")        --> "a,b,c"
 ---s = List({ "a", "b", "c" }):join(", ", true) --> '"a", "b", "c"'
 ---```
 ---
@@ -583,10 +580,10 @@ function List:concat(sep, i, j) end
 ---> Values are converted with `tostring` before joining.
 ---> Set `quoted = true` to quote string values.
 ---
----@param self mods.List|any[]
----@param sep? string
----@param quoted? boolean
----@return string
+---@param self mods.List Current list instance.
+---@param sep? string Optional separator value (defaults to `""`).
+---@param quoted? boolean Optional boolean flag (defaults to `false`).
+---@return string s Joined string.
 ---@nodiscard
 function List:join(sep, quoted) end
 
@@ -599,11 +596,10 @@ function List:join(sep, quoted) end
 ---
 ---> [!NOTE]
 --->
----> `tostring` is also available as the `__tostring` metamethod.
----> `tostring(list)` is equivalent to `list:tostring()`.
+---> `tostring(list)` calls `list:tostring()`.
 ---
----@param self mods.List|any[]
----@return string
+---@param self mods.List Current list instance.
+---@return string s Rendered list string.
 ---@nodiscard
 function List:tostring() end
 
@@ -614,8 +610,8 @@ function List:tostring() end
 ---p = List({ "ctx", "users", 1, "name" }):keypath() --> "ctx.users[1].name"
 ---```
 ---
----@param self mods.List|any[]
----@return string
+---@param self mods.List Current list instance.
+---@return string s Key-path string.
 ---@nodiscard
 function List:keypath() end
 
@@ -627,14 +623,14 @@ function List:keypath() end
 ---m = List({ "a", "b" }):map(to_upper) --> { "A", "B" }
 ---```
 ---
----@param self mods.List|any[]
----@param fn fun(v):any
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@param fn fun(v):any Callback function.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:map(fn) end
 
 ---
----Return a new list repeated `n` times (Python-style list multiplication).
+---Return a new list repeated `n` times (list multiplication behavior).
 ---
 ---```lua
 ---ls = List({ "a", "b" }):mul(3) --> { "a", "b", "a", "b", "a", "b" }
@@ -642,12 +638,11 @@ function List:map(fn) end
 ---
 ---> [!NOTE]
 --->
----> `mul` is also available as the `__mul` (`*`) operator.
----> `a:mul(n)` is equivalent to `a * n`.
+---> `mul` is also available through the `*` operator.
 ---
----@param self mods.List|any[]
----@param n integer
----@return mods.List
+---@param self mods.List Current list instance.
+---@param n integer Numeric value.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:mul(n) end
 
@@ -662,13 +657,12 @@ function List:mul(n) end
 ---
 ---> [!NOTE]
 --->
----> If init is `nil`, the first element is used as the initial value.
----> Empty lists return init (or `nil` if init is `nil`).
+---> For empty lists, returns `init` unchanged (or `nil` when omitted).
 ---
----@param self mods.List|any[]
----@param fn fun(acc:any, v:any):any
----@param init? any
----@return any
+---@param self mods.List Current list instance.
+---@param fn fun(acc:any, v:any):any Reducer function.
+---@param init? any Optional initial accumulator; for non-empty lists, `nil` or omitted uses the first item.
+---@return any res Reduced value.
 ---@nodiscard
 function List:reduce(fn, init) end
 
@@ -679,8 +673,8 @@ function List:reduce(fn, init) end
 ---r = List({ "a", "b", "c" }):reverse() --> { "c", "b", "a" }
 ---```
 ---
----@param self mods.List|any[]
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:reverse() end
 
@@ -695,8 +689,8 @@ function List:reverse() end
 --->
 ---> Order is preserved from the original list.
 ---
----@param self mods.List|any[]
----@return mods.Set
+---@param self mods.List Current list instance.
+---@return mods.Set set New set.
 ---@nodiscard
 function List:toset() end
 
@@ -711,10 +705,10 @@ function List:toset() end
 --->
 ---> Supports negative indices (-1 is last element).
 ---
----@param self mods.List|any[]
----@param i? integer
----@param j? integer
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@param i? integer Optional start index (defaults to `1`).
+---@param j? integer Optional end index (defaults to `#self`).
+---@return mods.List ls New list.
 ---@nodiscard
 function List:slice(i, j) end
 
@@ -725,9 +719,9 @@ function List:slice(i, j) end
 ---t = List({ "a", "b", "c" }):take(2) --> { "a", "b" }
 ---```
 ---
----@param self mods.List|any[]
----@param n integer
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@param n integer Numeric value.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:take(n) end
 
@@ -738,8 +732,8 @@ function List:take(n) end
 ---u = List({ "a", "b", "a", "c" }):uniq() --> { "a", "b", "c" }
 ---```
 ---
----@param self mods.List|any[]
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:uniq() end
 
@@ -754,9 +748,9 @@ function List:uniq() end
 --->
 ---> Length is the minimum of both lists.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return mods.List ls New list.
 ---@nodiscard
 function List:zip(ls) end
 
@@ -779,33 +773,34 @@ function List:zip(ls) end
 ---
 ---> [!NOTE]
 --->
----> `==` will not use this metamethod when the other operand is a plain table.
----> Use `:equals(other)` for `List` vs plain-table comparisons.
+---> * `==` returns `false` for `List` vs plain-table comparisons.
+--->   Use `equals()` for `List` vs plain-table comparisons.
 --->
----> ```lua
----> t = { "a", 1 }
----> a = List(t)
----> b = { "a", 1 }
----> ok = (a == b)     --> false
----> ok2 = a:equals(b) --> true
----> ```
+--->   ```lua
+--->   t = { "a", 1 }
+--->   a = List(t)
+--->   b = { "a", 1 }
+--->   ok = (a == b)     --> false
+--->   ok = a:equals(b) --> true
+--->   ```
 --->
----> Like `:equals`, `__eq` compares only array positions (`1..#list`), so
----> extra non-array keys are ignored when both operands are `List`.
+---> * Like `equals()`, `==` compares only array positions (`1..#list`), so
+--->   extra non-array keys are ignored when both operands are `List`.
 --->
----> ```lua
----> a = List({ "a", t })
----> b = List({ "a", t, extra = 1 })
----> ok = (a == b) --> true
----> ```
+--->   ```lua
+--->   a = List({ "a", t })
+--->   b = List({ "a", t, extra = 1 })
+--->   ok = (a == b) --> true
+--->   ```
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return boolean
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return boolean ok Whether the condition is met.
+---@private
 function List.__eq(self, ls) end
 
 ---
----Compare two lists lexicographically using `<`.
+---Compare two lists lexicographically (`<`).
 ---
 ---```lua
 ---ok = List({ 1, 2 }) < List({ 1, 3 }) --> true
@@ -813,15 +808,16 @@ function List.__eq(self, ls) end
 ---
 ---> [!NOTE]
 --->
----> `__lt` is the operator form of `:lt(ls)`.
+---> `<` is equivalent to `:lt(ls)`.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return boolean
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return boolean ok Whether the condition is met.
+---@private
 function List.__lt(self, ls) end
 
 ---
----Compare two lists lexicographically using `<=`.
+---Compare two lists lexicographically (`<=`).
 ---
 ---```lua
 ---ok = List({ 1, 2 }) <= List({ 1, 2 }) --> true
@@ -829,15 +825,16 @@ function List.__lt(self, ls) end
 ---
 ---> [!NOTE]
 --->
----> `__le` is the operator form of `:le(ls)`.
+---> `<=` is equivalent to `:le(ls)`.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return boolean
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return boolean ok Whether the condition is met.
+---@private
 function List.__le(self, ls) end
 
 ---
----Repeat a list `n` times using `*`.
+---Repeat a list `n` times (`*`).
 ---
 ---```lua
 ---l1 = List({ "a", "b" }) * 3 --> { "a", "b", "a", "b", "a", "b" }
@@ -846,16 +843,17 @@ function List.__le(self, ls) end
 ---
 ---> [!NOTE]
 --->
----> `__mul` is the operator form of `:mul(n)`.
+---> `*` is equivalent to `:mul(n)`.
 ---
----@param self integer|mods.List
----@param n integer|mods.List
----@return mods.List
+---@param self integer|mods.List Left operand.
+---@param n integer|mods.List Right operand.
+---@return mods.List ls New list.
+---@private
 function List.__mul(self, n) end
 
 ---
 ---Extend the left-hand list in place with right-hand values, then return the
----same left-hand list reference.
+---same left-hand list reference (`+`).
 ---
 ---```lua
 ---a = List({ "a", "b" })
@@ -865,16 +863,16 @@ function List.__mul(self, n) end
 ---
 ---> [!NOTE]
 --->
----> * `__add` mutates and returns the left-hand value (same reference).
----> * `__add` is the operator form of `:extend(ls)`.
+---> `+` operator is equivalent to `extend()`.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return mods.List|any[] self
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return mods.List|any[] self Current list instance.
+---@private
 function List.__add(self, ls) end
 
 ---
----Return values from the left list that are not present in the right list.
+---Return values from the left list that are not present in the right list (`-`).
 ---
 ---```lua
 ---a = List({ "a", "b", "c" })
@@ -884,11 +882,12 @@ function List.__add(self, ls) end
 ---
 ---> [!NOTE]
 --->
----> `__sub` is the operator form of `:difference(ls)`.
+---> `-` operator is equivalent to `:difference(ls)`.
 ---
----@param self mods.List|any[]
----@param ls mods.List|any[]
----@return mods.List ls
+---@param self mods.List Current list instance.
+---@param ls mods.List|any[] Other list value.
+---@return mods.List ls New list.
+---@private
 function List.__sub(self, ls) end
 
 ---
@@ -900,10 +899,11 @@ function List.__sub(self, ls) end
 ---
 ---> [!NOTE]
 --->
----> `__tostring` is the operator form of `:tostring()`.
+---> `tostring(ls)` is equivalent to `ls:tostring()`.
 ---
----@param self mods.List|any[]
----@return string
+---@param self mods.List Current list instance.
+---@return string s Rendered list string.
+---@private
 function List.__tostring(self) end
 
 return List
