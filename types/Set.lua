@@ -1,8 +1,8 @@
 ---@meta mods.Set
 
 ---
----A Python-style set class providing common operations to create,
----modify, and query collections of unique values.
+---A set class providing common operations to create, modify, and query
+---collections of unique values.
 ---
 ---## Usage
 ---
@@ -19,7 +19,7 @@
 ---@operator bor(mods.Set):mods.Set
 ---@operator bxor(mods.Set):mods.Set
 ---@operator sub(mods.Set):mods.Set
----@overload fun(t?:any[]|mods.Set|mods.List):mods.Set
+---@overload fun(t?:any[]|mods.List):mods.Set
 local Set = {}
 Set.__index = Set
 
@@ -38,9 +38,9 @@ Set.__index = Set
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@param v any
----@return T self
+---@param self T Current set instance.
+---@param v any Value to add.
+---@return T self Current set instance.
 function Set:add(v) end
 
 ---
@@ -51,8 +51,8 @@ function Set:add(v) end
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@return T self
+---@param self T Current set instance.
+---@return T self Current set instance.
 function Set:clear() end
 
 ---
@@ -63,9 +63,9 @@ function Set:clear() end
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T self
+---@param self T Current set instance.
+---@param set T Other set value.
+---@return T self Current set instance.
 function Set:difference_update(set) end
 
 ---
@@ -77,9 +77,9 @@ function Set:difference_update(set) end
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T self
+---@param self T Current set instance.
+---@param set T Other set value.
+---@return T self Current set instance.
 function Set:intersection_update(set) end
 
 ---
@@ -89,8 +89,8 @@ function Set:intersection_update(set) end
 ---v = Set({ "a", "b" }):pop() --> v is either "a" or "b"
 ---```
 ---
----@param self mods.Set|table<any,true>
----@return any
+---@param self mods.Set|table<any,true> Current set instance.
+---@return any value Removed value, or `nil` when the set is empty.
 function Set:pop() end
 
 ---
@@ -102,9 +102,9 @@ function Set:pop() end
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T self
+---@param self T Current set instance.
+---@param set T Other set value.
+---@return T self Current set instance.
 function Set:symmetric_difference_update(set) end
 
 ---
@@ -115,9 +115,9 @@ function Set:symmetric_difference_update(set) end
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return T self
+---@param self T Current set instance.
+---@param set T Other set value.
+---@return T self Current set instance.
 function Set:update(set) end
 
 --------------------------------------------------------------------------------
@@ -134,8 +134,8 @@ function Set:update(set) end
 ---c = Set({ "a" }):copy() --> c is a new set with "a"
 ---```
 ---
----@param self mods.Set|table<any,true>
----@return mods.Set set
+---@param self mods.Set|table<any,true> Current set instance.
+---@return mods.Set set New set.
 ---@nodiscard
 function Set:copy() end
 
@@ -151,9 +151,9 @@ function Set:copy() end
 ---> `difference` is also available as the `__sub` (`-`) operator.
 ---> `a:difference(b)` is equivalent to `a - b`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set set
+---@param self mods.Set|table<any,true> Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
 ---@nodiscard
 function Set:difference(set) end
 
@@ -168,9 +168,9 @@ function Set:difference(set) end
 --->
 ---> `intersection` is also available as `__band` (`&`) on Lua 5.3+.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set set
+---@param self mods.Set|table<any,true> Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
 ---@nodiscard
 function Set:intersection(set) end
 
@@ -182,9 +182,9 @@ function Set:intersection(set) end
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@param v any
----@return T self
+---@param self T Current set instance.
+---@param v any Value to remove.
+---@return T self Current set instance.
 function Set:remove(v) end
 
 ---
@@ -199,9 +199,9 @@ function Set:remove(v) end
 --->
 ---> `symmetric_difference` is also available as `__bxor` (`^`) on Lua 5.3+.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set set
+---@param self mods.Set|table<any,true> Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
 ---@nodiscard
 function Set:symmetric_difference(set) end
 
@@ -217,9 +217,9 @@ function Set:symmetric_difference(set) end
 ---> `union` is available as `__add` (`+`) and `__bor` (`|`) on Lua 5.3+.
 ---> `a:union(b)` is equivalent to `a + b` and `a | b`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set set
+---@param self mods.Set|table<any,true> Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
 ---@nodiscard
 function Set:union(set) end
 
@@ -238,9 +238,9 @@ function Set:union(set) end
 ---```
 ---
 ---@generic T:mods.Set|table<any,true>
----@param self T
----@param set T
----@return boolean
+---@param self T Current set instance.
+---@param set T Other set value.
+---@return boolean ok True when sets have no elements in common.
 ---@nodiscard
 function Set:isdisjoint(set) end
 
@@ -258,9 +258,9 @@ function Set:isdisjoint(set) end
 ---> `equals` is also available as the `__eq` (`==`) operator.
 ---> `a:equals(b)` is equivalent to `a == b`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return boolean
+---@param self mods.Set|table<any,true> Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return boolean ok True when both sets contain the same members.
 ---@nodiscard
 function Set:equals(set) end
 
@@ -271,8 +271,8 @@ function Set:equals(set) end
 ---empty = Set({}):isempty() --> true
 ---```
 ---
----@param self mods.Set|table<any,true>
----@return boolean
+---@param self mods.Set|table<any,true> Current set instance.
+---@return boolean ok True when the set has no elements.
 ---@nodiscard
 function Set:isempty() end
 
@@ -288,9 +288,9 @@ function Set:isempty() end
 ---> `issubset` is also available as the `__le` (`<=`) operator.
 ---> `a:issubset(b)` is equivalent to `a <= b`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return boolean
+---@param self mods.Set|table<any,true> Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return boolean ok True when every element of `self` exists in `set`.
 ---@nodiscard
 function Set:issubset(set) end
 
@@ -301,9 +301,9 @@ function Set:issubset(set) end
 ---ok = Set({ "a", "b" }):issuperset(Set({ "a" })) --> true
 ---```
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return boolean
+---@param self mods.Set|table<any,true> Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return boolean ok True when `self` contains every element of `set`.
 ---@nodiscard
 function Set:issuperset(set) end
 
@@ -322,9 +322,9 @@ function Set:issuperset(set) end
 ---ok = Set({ "a", "b" }):contains("z") --> false
 ---```
 ---
----@param self mods.Set|table<any,true>
----@param v any
----@return boolean
+---@param self mods.Set|table<any,true> Current set instance.
+---@param v any Value to check.
+---@return boolean ok True when `v` is present in the set.
 ---@nodiscard
 function Set:contains(v) end
 
@@ -335,8 +335,8 @@ function Set:contains(v) end
 ---n = Set({ "a", "b" }):len() --> 2
 ---```
 ---
----@param self mods.Set|table<any,true>
----@return integer
+---@param self mods.Set|table<any,true> Current set instance.
+---@return integer count Element count.
 ---@nodiscard
 function Set:len() end
 
@@ -354,9 +354,9 @@ function Set:len() end
 ---s = Set({ 1, 2 }):map(function(v) return v * 10 end) --> s contains 10, 20
 ---```
 ---
----@param self mods.Set|table<any,true>
----@param fn fun(v:any):any
----@return mods.Set set
+---@param self mods.Set|table<any,true> Current set instance.
+---@param fn fun(v:any):any Mapping function.
+---@return mods.Set set New set.
 ---@nodiscard
 function Set:map(fn) end
 
@@ -367,8 +367,8 @@ function Set:map(fn) end
 ---values = Set({ "a", "b" }):values() --> { "a", "b" }
 ---```
 ---
----@param self mods.Set|table<any,true>
----@return mods.List values
+---@param self mods.Set|table<any,true> Current set instance.
+---@return mods.List values List of set values.
 ---@nodiscard
 function Set:values() end
 
@@ -389,9 +389,10 @@ function Set:values() end
 --->
 ---> `__add` is the operator form of `:union(set)`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
+---@private
 function Set.__add(self, set) end
 
 ---
@@ -407,9 +408,10 @@ function Set.__add(self, set) end
 --->
 ---> `__bor` is the operator form of `:union(set)` on Lua 5.3+.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
+---@private
 function Set.__bor(self, set) end
 
 ---
@@ -425,9 +427,10 @@ function Set.__bor(self, set) end
 --->
 ---> `__band` is the operator form of `:intersection(set)` on Lua 5.3+.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
+---@private
 function Set.__band(self, set) end
 
 ---
@@ -443,9 +446,10 @@ function Set.__band(self, set) end
 --->
 ---> `__bxor` is the operator form of `:symmetric_difference(set)` on Lua 5.3+.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
+---@private
 function Set.__bxor(self, set) end
 
 ---
@@ -459,9 +463,10 @@ function Set.__bxor(self, set) end
 --->
 ---> `__eq` is the operator form of `:equals(set)`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return boolean
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return boolean ok True when both sets contain the same members.
+---@private
 function Set.__eq(self, set) end
 
 ---
@@ -477,9 +482,10 @@ function Set.__eq(self, set) end
 --->
 ---> `__le` is the operator form of `:issubset(set)`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return boolean
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return boolean ok True when `self` is a subset of `set`.
+---@private
 function Set.__le(self, set) end
 
 ---
@@ -491,9 +497,10 @@ function Set.__le(self, set) end
 ---ok = a < b --> true
 ---```
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return boolean
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return boolean ok True when `self` is a proper subset of `set`.
+---@private
 function Set.__lt(self, set) end
 
 ---
@@ -509,9 +516,10 @@ function Set.__lt(self, set) end
 --->
 ---> `__sub` is the operator form of `:difference(set)`.
 ---
----@param self mods.Set|table<any,true>
----@param set mods.Set|table<any,true>
----@return mods.Set
+---@param self mods.Set Current set instance.
+---@param set mods.Set|table<any,true> Other set value.
+---@return mods.Set set New set.
+---@private
 function Set.__sub(self, set) end
 
 return Set
