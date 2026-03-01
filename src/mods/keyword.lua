@@ -43,18 +43,12 @@ function M.kwset()
   return mods.Set(kwlist)
 end
 
-function M.normalize_identifier(v)
-  if v == "" then
+function M.normalize_identifier(s)
+  if s == "" then
     return "_"
   end
 
-  local vt = type(v)
-  local out = v
-  if vt == "boolean" then
-    out = tostring(v)
-  elseif vt ~= "string" then
-    out = vt .. "_"
-  end
+  local out = s
 
   out = gsub(out, "^%s+", "") -- Trim leading whitespace.
   out = gsub(out, "%s+$", "") -- Trim trailing whitespace.

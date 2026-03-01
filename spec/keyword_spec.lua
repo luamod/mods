@@ -16,8 +16,6 @@ describe("mods.keyword", function()
   keywords[#keywords + 1] = not is_lua51 and "goto" or nil
   keywords:sort()
 
-  local fn = function() end
-  local co = coroutine.create(fn)
   local kwlist = keywords
   local kwset = keywords:toset()
   local tests
@@ -91,10 +89,6 @@ describe("mods.keyword", function()
     { "local"        , "local_"      },
     { ""             , "_"           },
     { "   "          , "_"           },
-    { false          , "false_"      },
-    { fn             , "function_"   },
-    { {}             , "table_"      },
-    { co             , "thread_"     },
   }
 
   for i = 1, #tests do
