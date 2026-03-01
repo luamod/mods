@@ -16,28 +16,28 @@
 local M = {}
 
 ---
----Return `true` when `s` is a reserved Lua keyword.
+---Return `true` when `v` is a reserved Lua keyword.
 ---
 ---```lua
 ---kw.iskeyword("function") --> true
 ---kw.iskeyword("hello") --> false
 ---```
 ---
----@param v any
----@return boolean ok
+---@param v any Value to validate.
+---@return boolean ok Whether the check succeeds.
 ---@nodiscard
 function M.iskeyword(v) end
 
 ---
----Return `true` when `s` is a valid non-keyword Lua identifier.
+---Return `true` when `v` is a valid non-keyword Lua identifier.
 ---
 ---```lua
 ---kw.isidentifier("hello_world") --> true
 ---kw.isidentifier("local") --> false
 ---```
 ---
----@param v any
----@return boolean ok
+---@param v any Value to validate.
+---@return boolean ok Whether the check succeeds.
 ---@nodiscard
 function M.isidentifier(v) end
 
@@ -48,7 +48,7 @@ function M.isidentifier(v) end
 ---kw.kwlist():contains("and") --> true
 ---```
 ---
----@return mods.List<string> words
+---@return mods.List<string> words List of Lua keywords.
 ---@nodiscard
 function M.kwlist() end
 
@@ -59,7 +59,7 @@ function M.kwlist() end
 ---kw.kwlset():contains("and") --> true
 ---```
 ---
----@return mods.Set<string> words
+---@return mods.Set<string> words Set of Lua keywords.
 ---@nodiscard
 function M.kwset() end
 
@@ -70,8 +70,8 @@ function M.kwset() end
 ---kw.normalize_identifier(" 2 bad-name ") --> "_2_bad_name"
 ---```
 ---
----@param s any
----@return string ident
+---@param s string Input string.
+---@return string ident Normalized Lua identifier.
 ---@nodiscard
 function M.normalize_identifier(s) end
 
