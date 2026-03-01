@@ -774,7 +774,7 @@ function List:zip(ls) end
 ---> [!NOTE]
 --->
 ---> * `==` returns `false` for `List` vs plain-table comparisons.
---->   Use `equals()` for `List` vs plain-table comparisons.
+--->   Use `:equals(ls)` for `List` vs plain-table comparisons.
 --->
 --->   ```lua
 --->   t = { "a", 1 }
@@ -784,7 +784,7 @@ function List:zip(ls) end
 --->   ok = a:equals(b) --> true
 --->   ```
 --->
----> * Like `equals()`, `==` compares only array positions (`1..#list`), so
+---> * Like `:equals(ls)`, `==` compares only array positions (`1..#list`), so
 --->   extra non-array keys are ignored when both operands are `List`.
 --->
 --->   ```lua
@@ -863,7 +863,7 @@ function List.__mul(self, n) end
 ---
 ---> [!NOTE]
 --->
----> `+` operator is equivalent to `extend()`.
+---> `+` operator is equivalent to `:extend(ls)`.
 ---
 ---@param self mods.List Current list instance.
 ---@param ls mods.List|any[] Other list value.
@@ -899,7 +899,7 @@ function List.__sub(self, ls) end
 ---
 ---> [!NOTE]
 --->
----> `tostring(ls)` is equivalent to `ls:tostring()`.
+---> `tostring(ls)` is equivalent to `:tostring()`.
 ---
 ---@param self mods.List Current list instance.
 ---@return string s Rendered list string.
