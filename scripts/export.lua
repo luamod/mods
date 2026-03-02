@@ -137,114 +137,6 @@ local function trim(s)
   return ((s or ""):gsub("^%s+", ""):gsub("%s+$", ""))
 end
 
-local function sanitize_param_name(name, idx)
-  local n = trim(name)
-  if n == "" then
-    return "arg" .. tostring(idx)
-  end
-  if n == "..." then
-    return "..."
-  end
-  n = n:gsub("%?$", ""):gsub("[^%w_]", "_")
-  if n == "" then
-    return "arg" .. tostring(idx)
-  end
-  return n
-end
-
-local LUA_KEYWORDS = {
-  ["and"] = true,
-  ["break"] = true,
-  ["do"] = true,
-  ["else"] = true,
-  ["elseif"] = true,
-  ["end"] = true,
-  ["false"] = true,
-  ["for"] = true,
-  ["function"] = true,
-  ["if"] = true,
-  ["in"] = true,
-  ["local"] = true,
-  ["nil"] = true,
-  ["not"] = true,
-  ["or"] = true,
-  ["repeat"] = true,
-  ["return"] = true,
-  ["then"] = true,
-  ["true"] = true,
-  ["until"] = true,
-  ["while"] = true,
-}
-
-local function is_lua_identifier(name)
-  return type(name) == "string" and name:match("^[%a_][%w_]*$") and not LUA_KEYWORDS[name]
-end
-
-local function build_signature_lua(item)
-  local out = {}
-  local tags = item.tags or {}
-  local params = tags.params or {}
-  local returns = tags.returns or {}
-  local fn_params = {}
-  local function hash_desc(desc)
-    local d = trim(desc or "")
-    if d == "" then
-      return ""
-    end
-    if d:sub(1, 1) == "#" then
-      return d
-    end
-    return "# " .. d
-  end
-
-  for i, param in ipairs(params) do
-    local pname = param and param.name or ("arg" .. tostring(i))
-    local pview = param and param.view or "any"
-    local pdesc = hash_desc(param and param.desc or "")
-    if pname ~= "self" then
-      if pdesc ~= "" then
-        insert(out, fmt("---@param %s %s %s", pname, pview, pdesc))
-      else
-        insert(out, fmt("---@param %s %s", pname, pview))
-      end
-      insert(fn_params, sanitize_param_name(pname, i))
-    end
-  end
-
-  for _, ret in ipairs(returns) do
-    local rview = ret and ret.view
-    if rview and rview ~= "" then
-      local rname = ret and ret.name
-      local rdesc = hash_desc(ret and ret.desc or "")
-      if rname and rname ~= "" then
-        if rdesc ~= "" then
-          insert(out, fmt("---@return %s %s %s", rview, rname, rdesc))
-        else
-          insert(out, fmt("---@return %s %s", rview, rname))
-        end
-      else
-        if rdesc ~= "" then
-          insert(out, fmt("---@return %s %s", rview, rdesc))
-        else
-          insert(out, fmt("---@return %s", rview))
-        end
-      end
-    end
-  end
-
-  if tags.nodiscard then
-    insert(out, "---@nodiscard")
-  end
-
-  local fname = item.shortname or item.name or "fn"
-  if is_lua_identifier(fname) then
-    insert(out, fmt("function %s(%s) end", fname, concat(fn_params, ", ")))
-  else
-    insert(out, fmt("M[%q] = function(%s) end", fname, concat(fn_params, ", ")))
-  end
-  return concat(out, "\n")
-end
-
 local function normalize_api_desc(desc)
   local d = trim(desc or "")
   d = d:gsub("^#%s*", "")
@@ -279,9 +171,9 @@ local function append_function_api_contract(doc, item)
       local pdesc = normalize_api_desc(param and param.desc or "")
       if pname ~= "" and pname ~= "self" then
         if pdesc ~= "" then
-          insert(doc, fmt("- **%s** (`%s`): %s", pname, pview, pdesc))
+          insert(doc, fmt("- `%s` (`%s`): %s", pname, pview, pdesc))
         else
-          insert(doc, fmt("- **%s** (`%s`)", pname, pview))
+          insert(doc, fmt("- `%s` (`%s`)", pname, pview))
         end
       end
     end
@@ -289,12 +181,12 @@ local function append_function_api_contract(doc, item)
 
   if has_returns then
     insert(doc, "")
-    insert(doc, "**Returns**:")
+    insert(doc, "**Return**:")
     for _, ret in ipairs(returns) do
       local rname = ret and ret.name or ""
       local rview = ret and ret.view or "any"
       local rdesc = normalize_api_desc(ret and ret.desc or "")
-      local label = rname ~= "" and ("**" .. rname .. "**") or "**value**"
+      local label = rname ~= "" and ("`" .. rname .. "`") or "**value**"
       if rdesc ~= "" then
         insert(doc, fmt("- %s (`%s`): %s", label, rview, rdesc))
       else
