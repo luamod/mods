@@ -11,6 +11,7 @@ local unpack = table.unpack or unpack
 local tostring = tostring
 local type = type
 local quote = mods.utils.quote
+local keypath = mods.utils.keypath
 
 ---@type mods.List
 local List = {}
@@ -299,7 +300,7 @@ function List:tostring()
 end
 
 function List:keypath()
-  return mods.tbl.keypath(unpack(self))
+  return keypath(unpack(self))
 end
 
 function List:last()

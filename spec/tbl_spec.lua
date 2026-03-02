@@ -8,7 +8,6 @@ describe("mods.tbl", function()
   local loc = { a = { b = { c = { d = {} } } } }
   local n123 = { 1, 2, 3 }
   local abc = { "a", "b", "c" }
-  local fn = function() end
 
   -- stylua: ignore start
   local a1_b2_c3    = { a = 1    ,  b = 2    , c = 3    }
@@ -56,14 +55,6 @@ describe("mods.tbl", function()
 
     { "isempty"  , { {}                        } , true                             ,       },
     { "isempty"  , { abc                       } , false                            ,       },
-
-    { "keypath"  , {                           } , ""                               ,       },
-    { "keypath"  , { "ctx", "end"              } , 'ctx["end"]'                     ,       },
-    { "keypath"  , { "ctx", "invalid-key"      } , 'ctx["invalid-key"]'             ,       },
-    { "keypath"  , { "ctx", "users", 1, "name" } , "ctx.users[1].name"              ,       },
-    { "keypath"  , { "t"                       } , "t"                              ,       },
-    { "keypath"  , { "t", "a", "b", "c"        } , "t.a.b.c"                        ,       },
-    { "keypath"  , { fn, "end"                 } , fmt('[%s]["end"]', tostring(fn)) ,       },
 
     { "update"   , { x1_y2, y3_z4              } , x1_y3_z4                         , true  },
     { "update"   , { y3_z4, x1_y2              } , x1_y2_z4                         , true  },

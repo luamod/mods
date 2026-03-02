@@ -27,4 +27,19 @@ local M = {}
 ---@nodiscard
 function M.quote(v) end
 
+---
+---Format a key chain as a Lua-like table access path.
+---
+---```lua
+---p1 = utils.keypath("t", "a", "b", "c")        --> "t.a.b.c"
+---p2 = utils.keypath("ctx", "users", 1, "name") --> "ctx.users[1].name"
+---p3 = utils.keypath("ctx", "invalid-key")      --> 'ctx["invalid-key"]'
+---p4 = utils.keypath()                          --> ""
+---```
+---
+---@param ... any Additional arguments.
+---@return string path Rendered key path.
+---@nodiscard
+function M.keypath(...) end
+
 return M
