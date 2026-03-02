@@ -15,62 +15,107 @@ kw.iskeyword("local"))         --> true
 kw.isidentifier("hello_world") --> true
 ```
 
-## Dependencies
-
-Dependencies below are lazy-loaded 💤 on first access.
-
-- [`mods.Set`](https://luamod.github.io/mods/modules/set)
-- [`mods.List`](https://luamod.github.io/mods/modules/list)
-
 ## Functions
 
-| Function                                        | Description                                                                         |
-| ----------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [`iskeyword`](#iskeyword)                       | Return `true` when `s` is a reserved Lua keyword.                                   |
-| [`isidentifier`](#isidentifier)                 | Return `true` when `s` is a valid non-keyword Lua identifier.                       |
-| [`kwlist`](#kwlist)                             | Return Lua keywords as a [`mods.List`](https://luamod.github.io/mods/modules/list). |
-| [`kwset`](#kwset)                               | Return Lua keywords as a [`mods.Set`](https://luamod.github.io/mods/modules/set).   |
-| [`normalize_identifier`](#normalize-identifier) | Normalize an input into a safe Lua identifier.                                      |
+| Function                                              | Description                                                                         |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [`iskeyword(v)`](#fn-iskeyword)                       | Return `true` when `v` is a reserved Lua keyword.                                   |
+| [`isidentifier(v)`](#fn-isidentifier)                 | Return `true` when `v` is a valid non-keyword Lua identifier.                       |
+| [`kwlist()`](#fn-kwlist)                              | Return Lua keywords as a [`mods.List`](https://luamod.github.io/mods/modules/list). |
+| [`kwset()`](#fn-kwset)                                | Return Lua keywords as a [`mods.Set`](https://luamod.github.io/mods/modules/set).   |
+| [`normalize_identifier(s)`](#fn-normalize-identifier) | Normalize an input into a safe Lua identifier.                                      |
 
-### `iskeyword`
+<a id="fn-iskeyword"></a>
 
-Return `true` when `s` is a reserved Lua keyword.
+### `iskeyword(v)`
+
+Return `true` when `v` is a reserved Lua keyword.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+
+**Example**:
 
 ```lua
 kw.iskeyword("function") --> true
 kw.iskeyword("hello") --> false
 ```
 
-### `isidentifier`
+<a id="fn-isidentifier"></a>
 
-Return `true` when `s` is a valid non-keyword Lua identifier.
+### `isidentifier(v)`
+
+Return `true` when `v` is a valid non-keyword Lua identifier.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+
+**Example**:
 
 ```lua
 kw.isidentifier("hello_world") --> true
 kw.isidentifier("local") --> false
 ```
 
-### `kwlist`
+<a id="fn-kwlist"></a>
+
+### `kwlist()`
 
 Return Lua keywords as a
 [`mods.List`](https://luamod.github.io/mods/modules/list).
+
+**Return**:
+
+- `words` (`mods.List<string>`): List of Lua keywords.
+
+**Example**:
 
 ```lua
 kw.kwlist():contains("and") --> true
 ```
 
-### `kwset`
+<a id="fn-kwset"></a>
+
+### `kwset()`
 
 Return Lua keywords as a
 [`mods.Set`](https://luamod.github.io/mods/modules/set).
+
+**Return**:
+
+- `words` (`mods.Set<string>`): Set of Lua keywords.
+
+**Example**:
 
 ```lua
 kw.kwlset():contains("and") --> true
 ```
 
-### `normalize_identifier`
+<a id="fn-normalize-identifier"></a>
+
+### `normalize_identifier(s)`
 
 Normalize an input into a safe Lua identifier.
+
+**Parameters**:
+
+- `s` (`string`): Input string.
+
+**Return**:
+
+- `ident` (`string`): Normalized Lua identifier.
+
+**Example**:
 
 ```lua
 kw.normalize_identifier(" 2 bad-name ") --> "_2_bad_name"

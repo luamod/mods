@@ -8,83 +8,649 @@ Validation checks for values and filesystem path types.
 
 ## Usage
 
-```lua [.lua]
-validate= require "mods.validate"
+```lua
+local validate = require "mods.validate"
 
-ok, err = validate.is.number("nope")
---> false, "expected number, got string"
-
-ok, err = validate.is_not.number(3.14)
---> false, "expected not number"
+ok, err = validate.number("nope") --> false, "expected number, got string"
+ok, err = validate(123, "number") --> true, nil
 ```
 
-> [!IMPORTANT]
->
-> Behavior without `tp`:
->
-> - `validate()` is equivalent to `validate(nil, "nil")` (passes)
-> - `validate(1)` is equivalent to `validate(1, "nil")` (fails with
->   `expected nil, got number`)
->
-> Validator access is case-insensitive:
->
-> - `validate.is.number` and `validate.IS.Number` are equivalent.
-> - Top-level aliases are underscore-insensitive: `validate.is_number`,
->   `validate.IS_NUMBER`, and `validate.isnumber`.
-> - Negated validators are available via `is_not`, `isnot`, `isNot`, `not`, and
->   `Not`, including underscore-insensitive top-level aliases (for example,
->   `validate.is_not_number` and `validate.isnotnumber`).
+## `validate()`
 
-## Dependencies
-
-Dependencies below are lazy-loaded 💤 on first access.
-
-- [`lfs`](https://github.com/lunarmodules/luafilesystem) (optional; required
-  only for filesystem/path checks)
-- [`mods.is`](https://luamod.github.io/mods/modules/is)
-
-## Callable Forms
-
-`validate`, `validate.is`, and `validate.is_not` are all callable.
+`validate(v, tp)` dispatches to the registered validator `tp`. If `tp` is
+omitted, it defaults to `"truthy"`.
 
 ```lua
-ok, err = validate(1, "number")        --> true, nil
-ok, err = validate.is("x", "string")   --> true, nil
-ok, err = validate.is_not(1, "number") --> false, "expected not number"
+validate()         --> false, "expected truthy value, got no value"
+validate(1)        --> true, nil
+validate(1, "nil") --> false, "expected nil, got number"
 ```
+
+## Validator Names
+
+Validator names are case-insensitive for field access.
+
+```lua
+validate.number(1) --> true, nil
+validate.NumBer(1) --> true, nil
+```
+
+`tp` in `validate(v, tp)` is matched as-is (case-sensitive):
+
+```lua
+validate(1, "number") --> true, nil
+validate(1, "NuMbEr") --> false, "expected NuMbEr, got number"
+```
+
+## Functions
+
+**Type Checks**:
+
+| Function                      | Description                                                                                  |
+| ----------------------------- | -------------------------------------------------------------------------------------------- |
+| [`boolean(v)`](#fn-boolean)   | Returns `true` when `v` is a boolean. Otherwise returns `false` and an error message.        |
+| [`function(v)`](#fn-function) | Returns `true` when `v` is a function. Otherwise returns `false` and an error message.       |
+| [`nil(v)`](#fn-nil)           | Returns `true` when `v` is `nil`. Otherwise returns `false` and an error message.            |
+| [`number(v)`](#fn-number)     | Returns `true` when `v` is a number. Otherwise returns `false` and an error message.         |
+| [`string(v)`](#fn-string)     | Returns `true` when `v` is a string. Otherwise returns `false` and an error message.         |
+| [`table(v)`](#fn-table)       | Returns `true` when `v` is a table. Otherwise returns `false` and an error message.          |
+| [`thread(v)`](#fn-thread)     | Returns `true` when `v` is a thread. Otherwise returns `false` and an error message.         |
+| [`userdata(v)`](#fn-userdata) | Returns `true` when `v` is a userdata value. Otherwise returns `false` and an error message. |
+
+**Value Checks**:
+
+| Function                      | Description                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------- |
+| [`false(v)`](#fn-false)       | Returns `true` when `v` is exactly `false`. Otherwise returns `false` and an error message. |
+| [`true(v)`](#fn-true)         | Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an error message.  |
+| [`falsy(v)`](#fn-falsy)       | Returns `true` when `v` is falsy. Otherwise returns `false` and an error message.           |
+| [`callable(v)`](#fn-callable) | Returns `true` when `v` is callable. Otherwise returns `false` and an error message.        |
+| [`integer(v)`](#fn-integer)   | Returns `true` when `v` is an integer. Otherwise returns `false` and an error message.      |
+| [`truthy(v)`](#fn-truthy)     | Returns `true` when `v` is truthy. Otherwise returns `false` and an error message.          |
+
+**Path Checks**:
+
+| Function                  | Description                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`block(v)`](#fn-block)   | Returns `true` when `v` is a block device path. Otherwise returns `false` and an error message.         |
+| [`char(v)`](#fn-char)     | Returns `true` when `v` is a char device path. Otherwise returns `false` and an error message.          |
+| [`device(v)`](#fn-device) | Returns `true` when `v` is a block or char device path. Otherwise returns `false` and an error message. |
+| [`dir(v)`](#fn-dir)       | Returns `true` when `v` is a directory path. Otherwise returns `false` and an error message.            |
+| [`fifo(v)`](#fn-fifo)     | Returns `true` when `v` is a FIFO path. Otherwise returns `false` and an error message.                 |
+| [`file(v)`](#fn-file)     | Returns `true` when `v` is a file path. Otherwise returns `false` and an error message.                 |
+| [`link(v)`](#fn-link)     | Returns `true` when `v` is a symlink path. Otherwise returns `false` and an error message.              |
+| [`socket(v)`](#fn-socket) | Returns `true` when `v` is a socket path. Otherwise returns `false` and an error message.               |
+
+**Validator API**:
+
+| Function                                      | Description                                        |
+| --------------------------------------------- | -------------------------------------------------- |
+| [`register(name, check, msg?)`](#fn-register) | Register or override a validator function by name. |
+
+### Type Checks
+
+Basic Lua type validators (and their negated variants). <a id="fn-boolean"></a>
+
+#### `boolean(v)`
+
+Returns `true` when `v` is a boolean. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.boolean(true) --> true, nil
+ok, err = validate.boolean(1)    --> false, "expected boolean, got number"
+```
+
+<a id="fn-function"></a>
+
+#### `function(v)`
+
+Returns `true` when `v` is a function. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.Function(function() end) --> true, nil
+ok, err = validate.Function(1)
+--> false, "expected function, got number"
+```
+
+<a id="fn-nil"></a>
+
+#### `nil(v)`
+
+Returns `true` when `v` is `nil`. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.Nil(nil) --> true, nil
+ok, err = validate.Nil(0)   --> false, "expected nil, got number"
+```
+
+<a id="fn-number"></a>
+
+#### `number(v)`
+
+Returns `true` when `v` is a number. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.number(42)  --> true, nil
+ok, err = validate.number("x") --> false, "expected number, got string"
+```
+
+<a id="fn-string"></a>
+
+#### `string(v)`
+
+Returns `true` when `v` is a string. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.string("hello") --> true, nil
+ok, err = validate.string(1)       --> false, "expected string, got number"
+```
+
+<a id="fn-table"></a>
+
+#### `table(v)`
+
+Returns `true` when `v` is a table. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.table({}) --> true, nil
+ok, err = validate.table(1)  --> false, "expected table, got number"
+```
+
+<a id="fn-thread"></a>
+
+#### `thread(v)`
+
+Returns `true` when `v` is a thread. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+co = coroutine.create(function() end)
+ok, err = validate.thread(co) --> true, nil
+ok, err = validate.thread(1)  --> false, "expected thread, got number"
+```
+
+<a id="fn-userdata"></a>
+
+#### `userdata(v)`
+
+Returns `true` when `v` is a userdata value. Otherwise returns `false` and an
+error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.userdata(io.stdout) --> true, nil
+ok, err = validate.userdata(1)         --> false, "expected userdata, got number"
+```
+
+### Value Checks
+
+Value-state validators (exact true/false, truthy/falsy, callable, integer).
+<a id="fn-false"></a>
+
+#### `false(v)`
+
+Returns `true` when `v` is exactly `false`. Otherwise returns `false` and an
+error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.False(false) --> true, nil
+ok, err = validate.False(true)  --> false, "expected false, got true"
+```
+
+<a id="fn-true"></a>
+
+#### `true(v)`
+
+Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an
+error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.True(true)  --> true, nil
+ok, err = validate.True(false) --> false, "expected true, got false"
+```
+
+<a id="fn-falsy"></a>
+
+#### `falsy(v)`
+
+Returns `true` when `v` is falsy. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.falsy(false) --> true, nil
+ok, err = validate.falsy(1)     --> false, "expected falsy, got number"
+```
+
+<a id="fn-callable"></a>
+
+#### `callable(v)`
+
+Returns `true` when `v` is callable. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.callable(type) --> true, nil
+ok, err = validate.callable(1)    --> false, "expected callable, got number"
+```
+
+<a id="fn-integer"></a>
+
+#### `integer(v)`
+
+Returns `true` when `v` is an integer. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.integer(1)   --> true, nil
+ok, err = validate.integer(1.5) --> false, "expected integer, got 1.5"
+```
+
+<a id="fn-truthy"></a>
+
+#### `truthy(v)`
+
+Returns `true` when `v` is truthy. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.truthy(1)     --> true, nil
+ok, err = validate.truthy(false) --> false, "expected truthy, got boolean"
+```
+
+### Path Checks
+
+Filesystem path-kind validators backed by LuaFileSystem (`lfs`).
 
 > [!IMPORTANT]
 >
-> When `tp` is omitted, the default check is `"nil"`:
+> Path checks require **LuaFileSystem**
+> ([`lfs`](https://github.com/lunarmodules/luafilesystem)) and raise an error if
+> it is not installed. <a id="fn-block"></a>
+
+#### `block(v)`
+
+Returns `true` when `v` is a block device path. Otherwise returns `false` and an
+error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.block(".")
+```
+
+<a id="fn-char"></a>
+
+#### `char(v)`
+
+Returns `true` when `v` is a char device path. Otherwise returns `false` and an
+error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.char(".")
+```
+
+<a id="fn-device"></a>
+
+#### `device(v)`
+
+Returns `true` when `v` is a block or char device path. Otherwise returns
+`false` and an error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.device(".")
+```
+
+<a id="fn-dir"></a>
+
+#### `dir(v)`
+
+Returns `true` when `v` is a directory path. Otherwise returns `false` and an
+error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.dir(".")
+```
+
+<a id="fn-fifo"></a>
+
+#### `fifo(v)`
+
+Returns `true` when `v` is a FIFO path. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.fifo(".")
+```
+
+<a id="fn-file"></a>
+
+#### `file(v)`
+
+Returns `true` when `v` is a file path. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.file(".")
+```
+
+<a id="fn-link"></a>
+
+#### `link(v)`
+
+Returns `true` when `v` is a symlink path. Otherwise returns `false` and an
+error message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.link(".")
+```
+
+<a id="fn-socket"></a>
+
+#### `socket(v)`
+
+Returns `true` when `v` is a socket path. Otherwise returns `false` and an error
+message.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `ok` (`boolean`): Whether the check succeeds.
+- `err` (`string?`): Error message when the check fails.
+
+**Example**:
+
+```lua
+ok, err = validate.socket(".")
+```
+
+### Validator API
+
+<a id="fn-register"></a>
+
+#### `register(name, check, msg?)`
+
+Register or override a validator function by name.
+
+**Parameters**:
+
+- `name` (`string`): Validator name.
+- `check` (`fun(v:any):(ok:boolean)`): Validator function.
+- `msg?` (`string`): Optional default message template.
+
+**Return**:
+
+- `none` (`nil`)
+
+**Example**:
+
+```lua
+validate.register("odd", function(v)
+  return type(v) == "number" and v % 2 == 1
+end, "{{value}} does not satisfy {{expected}}")
+
+ok, err = validate.odd(3)     --> true, nil
+ok, err = validate.odd("x")   --> false, '"x" does not satisfy odd'
+ok, err = validate(2, "odd")  --> false, "2 does not satisfy odd"
+```
+
+> [!NOTE]
 >
-> - `validate()` is equivalent to `validate(nil, "nil")` (passes)
-> - `validate(1)` is equivalent to `validate(1, "nil")` (fails)
->
-> Callable namespace aliases are case-insensitive, and negated aliases are
-> underscore-insensitive:
->
-> - `validate.is`, `validate.IS`
-> - `validate.is_not`, `validate.isnot`, `validate.isNot`, `validate["not"]`,
->   `validate.Not`
->
-> ```lua
-> validate.is(1, "number")     --> true
-> validate.IS(1, "number")     --> true
-> validate.is_not(1, "number") --> false, "expected not number"
-> validate.Not(1, "number")    --> false, "expected not number"
-> ```
+> - If `msg` is provided, it becomes the default message template for that
+>   validator.
+> - If `msg` is omitted, failures use: `expected {{expected}}, got {{got}}`.
 
-## Custom Messages
+## Fields
 
-Customize validator error messages through `validate.messages`.
+### `messages`
 
-- `validate.messages.positive.<name>` customizes positive checks
-- `validate.messages.negative.<name>` customizes negated checks
+Custom error-message templates for validator failures. Set
+`validate.messages.<name>`, where `<name>` is a validator name (for example:
+`number`, `truthy`, `file`). The template is used only when validation fails and
+an error message is returned.
 
-`<name>` is the validator key (for example: `number`, `string`, `truthy`,
-`integer`, `callable`, `file`, `dir`, etc.).
+```lua
+validate.messages.number = "need {{expected}}, got {{got}}"
+ok, err = validate.number("x") --> false, "need number, got string"
+```
 
-Available placeholders:
+**Placeholders**:
 
 - <code v-pre>{{expected}}</code>: The check target (for example `number`,
   `string`, `truthy`).
@@ -93,480 +659,17 @@ Available placeholders:
 - <code v-pre>{{value}}</code>: The passed value, formatted for display (strings
   are quoted).
 
-### Example
-
-```lua
-validate.messages.positive.number = "need {{expected}}, got {{got}} (value={{value}})"
-validate.messages.negative.number = "must not be {{expected}} (value={{value}})"
-
-ok, err = validate.is.number("x")
---> false, 'need number, got string (value="x")'
-
-ok, err = validate.is_not.number(42)
---> false, "must not be number (value=42)"
-```
-
-## Default Messages
-
-By default, validate uses built-in templates unless
-`validate.messages.positive.<name>` or `validate.messages.negative.<name>` is
-overridden:
-
-- Positive type/value checks (`validate.is.*`):
-  `expected {{expected}}, got {{got}}`
-- Positive path checks (`validate.is.block`, `char`, `device`, `dir`, `fifo`,
-  `file`, `link`, `socket`): `{{value}} is not a valid {{expected}} path`
-- Negative checks (`validate.is_not.*`): `expected not {{expected}}`
-
-`integer` uses a more specific default that includes the passed value:
-
-- Positive `integer`: `expected integer, got {{value}}`
-- Negative `integer`: `expected non-integer, got {{value}}`
-
-## On Fail Hook
-
-Set `validate.on_fail` to handle failed validations globally.
-
-- If `on_fail` is set, it is called with the rendered error message.
-- If `on_fail` returns a truthy value, that value is used as the returned error.
-- If `on_fail` returns a falsy value, the default rendered error is returned.
-- If `on_fail` is `nil`, validators return `false, err` as usual.
-
-```lua
-validate.on_fail = function(errmsg)
-  print("validation failed:", errmsg)
-  return "custom failure"
-end
-
-ok, err = validate.number("x")
---> prints -> validation failed: expected number, got string
---> false, "custom failure"
-```
-
-## Functions
-
-**Type Checks**:
-
-| Function                        | Description                                                                                    |
-| ------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [`boolean`](#boolean)           | Returns `true` when `v` is a boolean. Otherwise returns `false` and an error message.          |
-| [`function`](#function)         | Returns `true` when `v` is a function. Otherwise returns `false` and an error message.         |
-| [`nil`](#nil)                   | Returns `true` when `v` is `nil`. Otherwise returns `false` and an error message.              |
-| [`number`](#number)             | Returns `true` when `v` is a number. Otherwise returns `false` and an error message.           |
-| [`string`](#string)             | Returns `true` when `v` is a string. Otherwise returns `false` and an error message.           |
-| [`table`](#table)               | Returns `true` when `v` is a table. Otherwise returns `false` and an error message.            |
-| [`thread`](#thread)             | Returns `true` when `v` is a thread. Otherwise returns `false` and an error message.           |
-| [`userdata`](#userdata)         | Returns `true` when `v` is userdata. Otherwise returns `false` and an error message.           |
-| [`not_boolean`](#not-boolean)   | Returns `true` when `v` is **not** a boolean. Otherwise returns `false` and an error message.  |
-| [`not_function`](#not-function) | Returns `true` when `v` is **not** a function. Otherwise returns `false` and an error message. |
-| [`not_nil`](#not-nil)           | Returns `true` when `v` is **not** `nil`. Otherwise returns `false` and an error message.      |
-| [`not_number`](#not-number)     | Returns `true` when `v` is **not** a number. Otherwise returns `false` and an error message.   |
-| [`not_string`](#not-string)     | Returns `true` when `v` is **not** a string. Otherwise returns `false` and an error message.   |
-| [`not_table`](#not-table)       | Returns `true` when `v` is **not** a table. Otherwise returns `false` and an error message.    |
-| [`not_thread`](#not-thread)     | Returns `true` when `v` is **not** a thread. Otherwise returns `false` and an error message.   |
-| [`not_userdata`](#not-userdata) | Returns `true` when `v` is **not** userdata. Otherwise returns `false` and an error message.   |
-
-**Value Checks**:
-
-| Function                        | Description                                                                                         |
-| ------------------------------- | --------------------------------------------------------------------------------------------------- |
-| [`false`](#false)               | Returns `true` when `v` is exactly `false`. Otherwise returns `false` and an error message.         |
-| [`true`](#true)                 | Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an error message.          |
-| [`falsy`](#falsy)               | Returns `true` when `v` is falsy. Otherwise returns `false` and an error message.                   |
-| [`callable`](#callable)         | Returns `true` when `v` is callable. Otherwise returns `false` and an error message.                |
-| [`integer`](#integer)           | Returns `true` when `v` is an integer. Otherwise returns `false` and an error message.              |
-| [`truthy`](#truthy)             | Returns `true` when `v` is truthy. Otherwise returns `false` and an error message.                  |
-| [`not_false`](#not-false)       | Returns `true` when `v` is **not** exactly `false`. Otherwise returns `false` and an error message. |
-| [`not_true`](#not-true)         | Returns `true` when `v` is **not** exactly `true`. Otherwise returns `false` and an error message.  |
-| [`not_falsy`](#not-falsy)       | Returns `true` when `v` is **not** falsy. Otherwise returns `false` and an error message.           |
-| [`not_callable`](#not-callable) | Returns `true` when `v` is **not** callable. Otherwise returns `false` and an error message.        |
-| [`not_integer`](#not-integer)   | Returns `true` when `v` is **not** an integer. Otherwise returns `false` and an error message.      |
-| [`not_truthy`](#not-truthy)     | Returns `true` when `v` is **not** truthy. Otherwise returns `false` and an error message.          |
-
-**Path Checks**:
-
-| Function            | Description                                                                                             |
-| ------------------- | ------------------------------------------------------------------------------------------------------- |
-| [`block`](#block)   | Returns `true` when `v` is a block device path. Otherwise returns `false` and an error message.         |
-| [`char`](#char)     | Returns `true` when `v` is a char device path. Otherwise returns `false` and an error message.          |
-| [`device`](#device) | Returns `true` when `v` is a block or char device path. Otherwise returns `false` and an error message. |
-| [`dir`](#dir)       | Returns `true` when `v` is a directory path. Otherwise returns `false` and an error message.            |
-| [`fifo`](#fifo)     | Returns `true` when `v` is a FIFO path. Otherwise returns `false` and an error message.                 |
-| [`file`](#file)     | Returns `true` when `v` is a file path. Otherwise returns `false` and an error message.                 |
-| [`link`](#link)     | Returns `true` when `v` is a symlink path. Otherwise returns `false` and an error message.              |
-| [`socket`](#socket) | Returns `true` when `v` is a socket path. Otherwise returns `false` and an error message.               |
-
-### Type Checks
-
-Basic Lua type validators (and their negated variants).
-
-#### `boolean`
-
-Returns `true` when `v` is a boolean. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.boolean(true) --> true, nil
-ok, err = validate.is.boolean(1)    --> false, "expected boolean, got number"
-```
-
-#### `function`
-
-Returns `true` when `v` is a function. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.Function(function() end) --> true, nil
-ok, err = validate.is.Function(1)
---> false, "expected function, got number"
-```
-
-#### `nil`
-
-Returns `true` when `v` is `nil`. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.Nil(nil) --> true, nil
-ok, err = validate.is.Nil(0)   --> false, "expected nil, got number"
-```
-
-#### `number`
-
-Returns `true` when `v` is a number. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.number(42)  --> true, nil
-ok, err = validate.is.number("x") --> false, "expected number, got string"
-```
-
-#### `string`
-
-Returns `true` when `v` is a string. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.string("hello") --> true, nil
-ok, err = validate.is.string(1)       --> false, "expected string, got number"
-```
-
-#### `table`
-
-Returns `true` when `v` is a table. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.table({}) --> true, nil
-ok, err = validate.is.table(1)  --> false, "expected table, got number"
-```
-
-#### `thread`
-
-Returns `true` when `v` is a thread. Otherwise returns `false` and an error
-message.
-
-```lua
-co = coroutine.create(function() end)
-ok, err = validate.is.thread(co) --> true, nil
-ok, err = validate.is.thread(1)  --> false, "expected thread, got number"
-```
-
-#### `userdata`
-
-Returns `true` when `v` is userdata. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.userdata(io.stdout) --> true, nil
-ok, err = validate.is.userdata(1)         --> false, "expected userdata, got number"
-```
-
-#### `not_boolean`
-
-Returns `true` when `v` is **not** a boolean. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.boolean(1)    --> true, nil
-ok, err = validate.is_not.boolean(true) --> false, "expected not boolean"
-```
-
-#### `not_function`
-
-Returns `true` when `v` is **not** a function. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.Function(1)              --> true, nil
-ok, err = validate.is_not.Function(function() end) --> false, "expected not function"
-```
-
-#### `not_nil`
-
-Returns `true` when `v` is **not** `nil`. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is_not.Nil(0)   --> true, nil
-ok, err = validate.is_not.Nil(nil) --> false, "expected not nil"
-```
-
-#### `not_number`
-
-Returns `true` when `v` is **not** a number. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.number("x") --> true, nil
-ok, err = validate.is_not.number(42)  --> false, "expected not number"
-```
-
-#### `not_string`
-
-Returns `true` when `v` is **not** a string. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.string(1)       --> true, nil
-ok, err = validate.is_not.string("hello") --> false, "expected not string"
-```
-
-#### `not_table`
-
-Returns `true` when `v` is **not** a table. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.table(1)  --> true, nil
-ok, err = validate.is_not.table({}) --> false, "expected not table"
-```
-
-#### `not_thread`
-
-Returns `true` when `v` is **not** a thread. Otherwise returns `false` and an
-error message.
-
-```lua
-co = coroutine.create(function() end)
-ok, err = validate.is_not.thread(1)  --> true, nil
-ok, err = validate.is_not.thread(co) --> false, "expected not thread"
-```
-
-#### `not_userdata`
-
-Returns `true` when `v` is **not** userdata. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.userdata(1)         --> true, nil
-ok, err = validate.is_not.userdata(io.stdout) --> false, "expected not userdata"
-```
-
-### Value Checks
-
-Value-state validators (exact true/false, truthy/falsy, callable, integer).
-
-#### `false`
-
-Returns `true` when `v` is exactly `false`. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is.False(false) --> true, nil
-ok, err = validate.is.False(true)  --> false, "expected false, got true"
-```
-
-#### `true`
-
-Returns `true` when `v` is exactly `true`. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is.True(true)  --> true, nil
-ok, err = validate.is.True(false) --> false, "expected true, got false"
-```
-
-#### `falsy`
-
-Returns `true` when `v` is falsy. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.falsy(false) --> true, nil
-ok, err = validate.is.falsy(1)     --> false, "expected falsy, got number"
-```
-
-#### `callable`
-
-Returns `true` when `v` is callable. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.callable(type) --> true, nil
-ok, err = validate.is.callable(1)    --> false, "expected callable, got number"
-```
-
-#### `integer`
-
-Returns `true` when `v` is an integer. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.integer(1)   --> true, nil
-ok, err = validate.is.integer(1.5) --> false, "expected integer, got 1.5"
-```
-
-#### `truthy`
-
-Returns `true` when `v` is truthy. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.truthy(1)     --> true, nil
-ok, err = validate.is.truthy(false) --> false, "expected truthy, got boolean"
-```
-
-#### `not_false`
-
-Returns `true` when `v` is **not** exactly `false`. Otherwise returns `false`
-and an error message.
-
-```lua
-ok, err = validate.is_not.False(true)  --> true, nil
-ok, err = validate.is_not.False(false) --> false, "expected not false"
-```
-
-#### `not_true`
-
-Returns `true` when `v` is **not** exactly `true`. Otherwise returns `false` and
-an error message.
-
-```lua
-ok, err = validate.is_not.True(false) --> true, nil
-ok, err = validate.is_not.True(true)  --> false, "expected not true"
-```
-
-#### `not_falsy`
-
-Returns `true` when `v` is **not** falsy. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is_not.falsy(1)     --> true, nil
-ok, err = validate.is_not.falsy(false) --> false, "expected not falsy"
-```
-
-#### `not_callable`
-
-Returns `true` when `v` is **not** callable. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.callable(1)              --> true, nil
-ok, err = validate.is_not.callable(function() end) --> false, "expected not callable"
-```
-
-#### `not_integer`
-
-Returns `true` when `v` is **not** an integer. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.integer(1.5) --> true, nil
-ok, err = validate.is_not.integer(1)   --> false, "expected non-integer, got 1"
-```
-
-#### `not_truthy`
-
-Returns `true` when `v` is **not** truthy. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is_not.truthy(false) --> true, nil
-ok, err = validate.is_not.truthy(1)     --> false, "expected not truthy"
-```
-
-### Path Checks
-
-Filesystem path-kind validators backed by LuaFileSystem (`lfs`).
-
-Filesystem path kind checks.
-
-> [!IMPORTANT]
+> [!NOTE]
 >
-> Path checks require **LuaFileSystem**
-> ([`lfs`](https://github.com/lunarmodules/luafilesystem)) and raise an error it
-> is not installed.
+> When the passed value is `nil`, rendered value text uses `no value`.
+>
+> ```lua
+> validate.messages.truthy = "expected {{expected}} value, got {{value}}"
+> validate.truthy(nil) --> false, "expected truthy value, got no value"
+> ```
+>
+> **Default Messages**:
 
-#### `block`
-
-Returns `true` when `v` is a block device path. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is.block(".")
-```
-
-#### `char`
-
-Returns `true` when `v` is a char device path. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is.char(".")
-```
-
-#### `device`
-
-Returns `true` when `v` is a block or char device path. Otherwise returns
-`false` and an error message.
-
-```lua
-ok, err = validate.is.device(".")
-```
-
-#### `dir`
-
-Returns `true` when `v` is a directory path. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is.dir(".")
-```
-
-#### `fifo`
-
-Returns `true` when `v` is a FIFO path. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.fifo(".")
-```
-
-#### `file`
-
-Returns `true` when `v` is a file path. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.file(".")
-```
-
-#### `link`
-
-Returns `true` when `v` is a symlink path. Otherwise returns `false` and an
-error message.
-
-```lua
-ok, err = validate.is.link(".")
-```
-
-#### `socket`
-
-Returns `true` when `v` is a socket path. Otherwise returns `false` and an error
-message.
-
-```lua
-ok, err = validate.is.socket(".")
-```
+- Type checks: <code v-pre>expected {{expected}}, got {{got}}</code>
+- Value checks: <code v-pre>expected {{expected}} value, got {{value}}</code>
+- Path checks: <code v-pre>{{value}} is not a valid {{expected}} path</code>

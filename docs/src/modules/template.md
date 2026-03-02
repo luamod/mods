@@ -1,13 +1,10 @@
 ---
-desc:
-  "Render lightweight templates with dot-path placeholders and function-aware
-  values."
+desc: "Interpolate string placeholders of the form <code v-pre>{{."
 ---
 
 # `template`
 
-Render lightweight templates with dot-path placeholders and function-aware
-values.
+Interpolate string placeholders of the form <code v-pre>{{...}}</code>.
 
 ## Usage
 
@@ -15,76 +12,113 @@ values.
 template = require "mods.template"
 
 view = {
-  user = { name = "World" },
+  user = { name = "Ada" },
 }
 
-out = template("Hello {{user.name}}!", view) --> "Hello World!"
+out = template("Hello {{user.name}}!", view) --> "Hello Ada!"
 ```
 
-## Rules
+<a id="fn-template"></a>
 
-- Placeholders use <code v-pre>{{name}}</code>.
+## `template(tmpl, view)`
+
+Render string templates with <code v-pre>{{...}}</code> placeholders.
+
+**Parameters**:
+
+- `tmpl` (`string`): Template string with placeholders.
+- `view` (`table`): Input data used to resolve placeholders.
+
+**Return**:
+
+- `out` (`string`): Rendered output string.
+
+**Example**:
 
 ```lua
-template("Hi {{name}}", { name = "Ada" }) --> "Hi Ada"
+view = { subject = "World" }
+template("Hello {{subject}}", view) --> "Hello World"
 ```
 
-- Whitespace inside placeholders is ignored.
+> [!NOTE]
+>
+> Whitespace inside placeholders is ignored.
+>
+> ```lua
+> template("Hi {{ name }}", { name = "Ada" }) --> "Hi Ada"
+> ```
+
+## Dot Paths
+
+Use dot notation to access nested values in `view`.
 
 ```lua
-template("Hi {{ name }}", { name = "Ada" }) --> "Hi Ada"
+view = { user = { meta = { role = "Engineer" } } }
+template("Role: {{user.meta.role}}", view) --> "Role: Engineer"
 ```
 
-- Dot paths are supported.
+> [!NOTE]
+>
+> <code v-pre>{{.}}</code> renders the entire root `view` table, not a nested
+> field.
+>
+> ```lua
+> template("View: {{.}}", { value = 123 })
+> --> View: {
+> --    value = 123
+> --  }
+> ```
+
+## Function Values
+
+If a placeholder resolves to a function, that function is called and its result
+is rendered.
 
 ```lua
-template("Role: {{user.meta.role}}", {
-  user = { meta = { role = "Engineer" } },
-}) --> "Role: Engineer"
+view = { name_func = function() return "Ada" end }
+template("Hi {{name_func}}", view) --> "Hi Ada"
 ```
 
-- <code v-pre>{{.}}</code> resolves to the whole `view`.
+> [!NOTE]
+>
+> If the function returns `nil`, the placeholder renders as an empty string.
+
+## Table Values
+
+Table placeholders are rendered using
+[`mods.repr`](https://luamod.github.io/mods/modules/repr).
 
 ```lua
-template("Value: {{.}}", 123) --> "Value: 123"
-```
-
-- Function values are called and their return value is rendered.
-
-```lua
-template("Hi {{name_func}}", { name_func = function() return "Ada" end })
---> "Hi Ada"
-```
-
-- Table values render as first-depth key/value pairs. String values are quoted;
-  nested tables/functions are summarized.
-
-```lua
-template("Data: {{data}}", { data = { a = 1, b = true } })
---> {
---     a = 1,
---     b = true
---  }
-```
-
-- Missing keys render as an empty string.
-
-```lua
-template("Missing: {{unknown}}", {}) --> "Missing: "
-```
-
-- If a tag is not closed (<code v-pre>{{name</code>), it is emitted as-is.
-
-```lua
-template("Hi {{name", { name = "Ada" }) --> "Hi {{name"
-```
-
-- `template(view)` is shorthand for <code v-pre>template("{{.}}", view)</code>.
-
-```lua
-template({ a = 1, b = true })
---> {
+view = { data = { a = 1, b = true } }
+template("Data: {{data}}", view)
+--> Data: {
 --    a = 1,
 --    b = true
 --  }
+```
+
+## Missing and Invalid Placeholders
+
+Missing keys render as an empty string.
+
+```lua
+view = {}
+template("Missing: {{unknown}}", view) --> "Missing: "
+```
+
+Invalid placeholder names render as an empty string (for example:
+<code v-pre>{{..}}</code>, <code v-pre>{{.name}}</code>,
+<code v-pre>{{user.}}</code>, <code v-pre>{{user..name}}</code>).
+
+```lua
+view = { user = { name = "Ada" } }
+template("Bad: {{user..name}}", view) --> "Bad: "
+```
+
+If a placeholder is not closed (<code v-pre>{{unclosed</code>), it is emitted
+as-is.
+
+```lua
+view = { name = "Ada" }
+template("Hi {{name", view) --> "Hi {{name"
 ```
