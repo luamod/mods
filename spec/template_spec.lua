@@ -91,7 +91,7 @@ describe("mods.template", function()
   for i = 1, #tests do
     local tmpl, v, expected = unpack(tests[i], 1, 3)
     it(fmt("template(%q, %s) handles edge case", tmpl, inspect(v)), function()
-      local res = template(tmpl, v)
+      local res = template(tmpl, v --[[@as table]])
       assert.are_equal(expected, res)
     end)
   end
@@ -111,7 +111,8 @@ describe("mods.template", function()
     local params, errmsg = unpack(tests[i], 1, 3)
     it(fmt("template(%s) errors", args_repr(params)), function()
       assert.has_error(function()
-        template(unpack(params)) ---@diagnostic disable-line: param-type-mismatch
+        ---@diagnostic disable-next-line: param-type-mismatch
+        _ = template(unpack(params, 1, 2))
       end, errmsg --[[@as string]])
     end)
   end
