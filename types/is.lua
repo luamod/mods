@@ -43,7 +43,7 @@
 ---|'Link'
 
 ---
----Type predicates for Lua values and filesystem path kinds.
+---Type predicates for Lua values and filesystem path types.
 ---
 ---## Usage
 ---
@@ -279,13 +279,13 @@ M.Truthy = M.truthy
 --------------------------------- Path Checks ----------------------------------
 --------------------------------------------------------------------------------
 ---
----Filesystem path kind checks.
+---Filesystem path type checks.
 ---
 ---> [!IMPORTANT]
 --->
 ---> Path checks require **LuaFileSystem**
 ---> ([`lfs`](https://github.com/lunarmodules/luafilesystem))
----> and raise an error it is not installed.
+---> and raise an error if it is not installed.
 
 ---
 ---Returns `true` when `v` is a block device path.
@@ -301,7 +301,7 @@ M.block = function(v) end
 M.Block = M.block
 
 ---
----Returns `true` when `v` is a char device path.
+---Returns `true` when `v` is a character device path.
 ---
 ---```lua
 ---is.char("/dev/null")
@@ -314,7 +314,7 @@ M.char = function(v) end
 M.Char = M.char
 
 ---
----Returns `true` when `v` is a block or char device path.
+---Returns `true` when `v` is a block or character device path.
 ---
 ---```lua
 ---is.device("/dev/null")
