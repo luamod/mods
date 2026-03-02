@@ -6,6 +6,44 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0](https://github.com/luamod/mods/compare/v0.3.0...v0.4.0) (2026-03-02)
+
+
+### Features
+
+* **fs:** add internal filesystem helper module ([#8](https://github.com/luamod/mods/issues/8)) ([1c13573](https://github.com/luamod/mods/commit/1c13573e322b0c2ab3b4617cdba99ab3369adb95))
+* **keyword:** add keyword module with docs, types, and tests ([#6](https://github.com/luamod/mods/issues/6)) ([d0103c1](https://github.com/luamod/mods/commit/d0103c1d11fd62b57f4b0a5d3ae8060a7ac9eb4d))
+* **List:** add and document __add operator behavior ([44420a5](https://github.com/luamod/mods/commit/44420a58d4e13dcdfca52e969141014c3f2e6405))
+* **List:** add equals method and __eq metamethod ([f5099fe](https://github.com/luamod/mods/commit/f5099fe8e781228c0bf47d67aafb42618d32983c))
+* **List:** add keypath() method ([08f15d8](https://github.com/luamod/mods/commit/08f15d8d47742d107e2f09ba62605ae8326b38a4))
+* **List:** add lexicographic lt/le comparisons ([967dd74](https://github.com/luamod/mods/commit/967dd74a81ee4b006ca3eaaffdd16183623e3e23))
+* **List:** add mul method and __mul operator ([a24d77b](https://github.com/luamod/mods/commit/a24d77b71624c96647c8ee3009c7db4bf261a28b))
+* **List:** add native concat method ([3110103](https://github.com/luamod/mods/commit/31101037669599ccd1fced988c4c5642501f053f))
+* **List:** add optional quoted mode to join ([a095afb](https://github.com/luamod/mods/commit/a095afb6524d7dbee1bd739699279ebcc7acf4fb))
+* **List:** add tostring method and metamethod ([94f8516](https://github.com/luamod/mods/commit/94f8516be17549799b0214175708e82899a8b028))
+* **List:** make join stringify values safely ([fb89a80](https://github.com/luamod/mods/commit/fb89a809755cc4c9140634227fed6b7c667cc7fa))
+* **List:** support subtraction operator for difference ([211bc1a](https://github.com/luamod/mods/commit/211bc1adde5c977712e9dd934d5fc5b766ba065b))
+* **repr:** add repr module ([#7](https://github.com/luamod/mods/issues/7)) ([da6bcec](https://github.com/luamod/mods/commit/da6bcec36eb0e0c4980e45944d0271a58a56bbb7))
+* **runtime:** add runtime metadata module ([dd38008](https://github.com/luamod/mods/commit/dd38008dc191343148a2a33ac5f5211721030d40))
+* **Set:** add __add metamethod for union ([60c989e](https://github.com/luamod/mods/commit/60c989e76578533cfb77e0c5312e08673f857335))
+* **Set:** add __lt and __le subset comparisons ([bc77e7f](https://github.com/luamod/mods/commit/bc77e7ffb4e2e5832cb3b3ec3b31b2580ff699a9))
+* **Set:** add __sub metamethod for difference ([347300f](https://github.com/luamod/mods/commit/347300fa2d90acf7fb8ea1130ff368d8102dfe8e))
+* **Set:** add & operator for intersection ([b22cc21](https://github.com/luamod/mods/commit/b22cc214797dd274d0d6a71426cf93d38a465084))
+* **Set:** add ^ operator for symmetric difference ([3a9b379](https://github.com/luamod/mods/commit/3a9b3790b930e52bb2311bf61e7c35b683eb3ba9))
+* **Set:** add | operator for union ([9478734](https://github.com/luamod/mods/commit/9478734b485e142eab1c12bed883f4f2c310b66c))
+* **Set:** add contains method ([b11f050](https://github.com/luamod/mods/commit/b11f0502fe7a47787a16401330c45735d95735bd))
+* **Set:** add equality method and __eq metamethod ([f51af8d](https://github.com/luamod/mods/commit/f51af8df943d4c8ecc25166dbf3617c36c490c2e))
+* **tbl:** add keypath() function ([4b2f590](https://github.com/luamod/mods/commit/4b2f590e352d0921dace1482a08eff195ce8e30f))
+* **tbl:** add same function ([c8e0c55](https://github.com/luamod/mods/commit/c8e0c556c58431f4834bbdb52978a06ff830c557))
+* **utils:** add lazy repr resolver with inspect fallback ([aec7f60](https://github.com/luamod/mods/commit/aec7f60c15534b66d62aac70c597ab0baa0e1725))
+
+
+### Bug Fixes
+
+* **is:** add __index for case-insensitive type lookups ([6423e02](https://github.com/luamod/mods/commit/6423e025fdc9979469e43377b295946e26d867bf))
+* **str:** return single values from gsub-backed helpers ([d8ab831](https://github.com/luamod/mods/commit/d8ab83140a2fb95ab535d0616c94ceb8c8e80b6c))
+* **template:** validate template and view argument types ([e55f1a2](https://github.com/luamod/mods/commit/e55f1a2df5daa61dddef615c20d461464da96f00))
+
 ## [0.3.0](https://github.com/luamod/mods/compare/v0.2.0...v0.3.0) (2026-02-17)
 
 
