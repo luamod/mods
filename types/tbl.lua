@@ -29,8 +29,8 @@ local M = {}
 ---clear(t) --> t = {}
 ---```
 ---
----@param t table
----@return nil
+---@param t table Target table.
+---@return nil none
 function M.clear(t) end
 
 ---
@@ -40,8 +40,8 @@ function M.clear(t) end
 ---n = count({ a = 1, b = 2 }) --> 2
 ---```
 ---
----@param t table
----@return integer
+---@param t table Input table.
+---@return integer count Number of keys in `t`.
 ---@nodiscard
 function M.count(t) end
 
@@ -60,27 +60,27 @@ function M.count(t) end
 ---```
 ---
 ---@generic T:table
----@param t T
----@return T
+---@param t T Source table.
+---@return T copy Shallow-copied table.
 ---@nodiscard
 function M.copy(t) end
 
 ---
 ---Create a deep copy of a value.
 ---
----> [!NOTE]
---->
----> If `v` is a table, all nested tables are copied recursively; other types
----> are returned as-is.
----
 ---```lua
 ---t = deepcopy({ a = { b = 1 } }) --> { a = { b = 1 } }
 ---n = deepcopy(42) --> 42
 ---```
 ---
+---> [!NOTE]
+--->
+---> If `v` is a table, all nested tables are copied recursively; other types
+---> are returned as-is.
+---
 ---@generic T
----@param v T
----@return T
+---@param v T Input value.
+---@return T copy Deep-copied value.
 ---@nodiscard
 function M.deepcopy(v) end
 
@@ -100,9 +100,9 @@ function M.deepcopy(v) end
 ---end) --> { b = 2 }
 ---```
 ---
----@param t table
----@param pred fun(v:any):boolean
----@return table
+---@param t table Input table.
+---@param pred fun(v:any):boolean Value predicate.
+---@return table filtered Table containing entries where `pred(v)` is true.
 ---@nodiscard
 function M.filter(t, pred) end
 
@@ -114,9 +114,9 @@ function M.filter(t, pred) end
 ---```
 ---
 ---@generic T1,T2
----@param t {[T1]:T2}
----@param v T2
----@return T1?
+---@param t {[T1]:T2} Input table.
+---@param v T2 Value to find.
+---@return T1? key First matching key, or `nil` when not found.
 ---@nodiscard
 function M.find(t, v) end
 
@@ -128,9 +128,9 @@ function M.find(t, v) end
 ---ok = same({ a = {} }, { a = {} })             --> false
 ---```
 ---
----@param a table
----@param b table
----@return boolean
+---@param a table Left table.
+---@param b table Right table.
+---@return boolean ok True when both tables have the same keys and values.
 ---@nodiscard
 function M.same(a, b) end
 
@@ -144,10 +144,10 @@ function M.same(a, b) end
 ---```
 ---
 ---@generic T1,T2
----@param t table
----@param pred fun(v:T1,k:T2):boolean
----@return T1? v
----@return T2? k
+---@param t table Input table.
+---@param pred fun(v:T1,k:T2):boolean Predicate function.
+---@return T1? v First matching value, or `nil` when not found.
+---@return T2? k Key for the first matching value, or `nil` when not found.
 ---@nodiscard
 function M.find_if(t, pred) end
 
@@ -157,16 +157,16 @@ function M.find_if(t, pred) end
 ---```lua
 ---t = { a = { b = { c = 1 } } }
 ---v1 = get(t, "a", "b", "c") --> 1
----v2 = get(t) --> { a = { b = { c = 1 } } }
+---v2 = get(t)                --> { a = { b = { c = 1 } } }
 ---```
 ---
 ---> [!NOTE]
 --->
 ---> If no keys are provided, returns the input table.
 ---
----@param t table
----@param ... any
----@return any
+---@param t table Root table.
+---@param ... any Additional arguments.
+---@return any value Nested value, or `nil` when any key is missing.
 ---@nodiscard
 function M.get(t, ...) end
 
@@ -180,8 +180,8 @@ function M.get(t, ...) end
 ---p4 = keypath()                          --> ""
 ---```
 ---
----@param ... any
----@return string
+---@param ... any Additional arguments.
+---@return string path Rendered key path.
 ---@nodiscard
 function M.keypath(...) end
 
@@ -200,8 +200,8 @@ function M.keypath(...) end
 ---```
 ---
 ---@generic T1,T2
----@param t {[T1]:T2}
----@return {[T2]:T1}
+---@param t {[T1]:T2} Input table.
+---@return {[T2]:T1} inverted Inverted table (`value -> key`).
 ---@nodiscard
 function M.invert(t) end
 
@@ -212,8 +212,8 @@ function M.invert(t) end
 ---empty = isempty({}) --> true
 ---```
 ---
----@param t table
----@return boolean
+---@param t table Input table.
+---@return boolean ok True when `t` has no entries.
 ---@nodiscard
 function M.isempty(t) end
 
@@ -225,8 +225,8 @@ function M.isempty(t) end
 ---```
 ---
 ---@generic T
----@param t {[any]:T}
----@return mods.List<T>
+---@param t {[T]:any} Input table.
+---@return mods.List<T> keys List of keys in `t`.
 ---@nodiscard
 function M.keys(t) end
 
@@ -240,18 +240,14 @@ function M.keys(t) end
 ---```
 ---
 ---@generic T1,T2,T3
----@param t {[T1]:T2}
----@param fn fun(v:T2):T3
----@return {[T1]:T3}
+---@param t {[T1]:T2} Input table.
+---@param fn fun(v:T2):T3 Mapping function.
+---@return {[T1]:T3} mapped New table with mapped values.
 ---@nodiscard
 function M.map(t, fn) end
 
 ---
 ---Return a new table by mapping each key-value pair.
----
----> [!NOTE]
---->
----> Output keeps original keys; only values are transformed by `fn`.
 ---
 ---```lua
 ---t = pairmap({ a = 1, b = 2 }, function(k, v)
@@ -259,10 +255,14 @@ function M.map(t, fn) end
 ---end) --> { a = "a1", b = "b2" }
 ---```
 ---
+---> [!NOTE]
+--->
+---> Output keeps original keys; only values are transformed by `fn`.
+---
 ---@generic T1,T2,T3
----@param t {[T1]:T2}
----@param fn fun(k:T1, v:T2):T3
----@return {[T1]:T3}
+---@param t {[T1]:T2} Input table.
+---@param fn fun(k:T1, v:T2):T3 Key-value mapping function.
+---@return {[T1]:T3} mapped New table with mapped values.
 ---@nodiscard
 function M.pairmap(t, fn) end
 
@@ -275,9 +275,9 @@ function M.pairmap(t, fn) end
 ---```
 ---
 ---@generic T:table
----@param t1 T
----@param t2 table
----@return T
+---@param t1 T Target table.
+---@param t2 table Source table.
+---@return T t1 Updated `t1` table.
 ---@nodiscard
 function M.update(t1, t2) end
 
@@ -289,8 +289,8 @@ function M.update(t1, t2) end
 ---```
 ---
 ---@generic T
----@param t {[any]:T}
----@return mods.List<T>
+---@param t {[any]:T} Input table.
+---@return mods.List<T> values List of values in `t`.
 ---@nodiscard
 function M.values(t) end
 
