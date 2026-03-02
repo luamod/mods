@@ -45,6 +45,60 @@ local function has_function_items(items)
   end) ~= nil
 end
 
+local function collect_include_paths(items)
+  local out = {}
+  local seen = {}
+  for _, item in ipairs(items or {}) do
+    local tags = item and item.tags
+    local includes = tags and tags.includes
+    if type(includes) == "table" then
+      for _, path in ipairs(includes) do
+        if type(path) == "string" and path ~= "" and not seen[path] then
+          seen[path] = true
+          insert(out, path)
+        end
+      end
+    end
+  end
+  return out
+end
+
+local function collect_include_blocks(items)
+  local out = {}
+  for _, item in ipairs(items or {}) do
+    local tags = item and item.tags
+    local blocks = tags and tags.include_blocks
+    if type(blocks) == "table" then
+      for _, block in ipairs(blocks) do
+        if type(block) == "string" and block ~= "" then
+          insert(out, block)
+        end
+      end
+    end
+  end
+  return out
+end
+
+local function read_text_file(path)
+  local f = io.open(path, "rb")
+  if not f then
+    return nil
+  end
+  local content = f:read("*a")
+  f:close()
+  return content
+end
+
+local function count_function_items(items)
+  local n = 0
+  for _, item in ipairs(items or {}) do
+    if item and item.kind == "function" then
+      n = n + 1
+    end
+  end
+  return n
+end
+
 local function collect_class_fields(items)
   local out = {}
   local seen = {}
@@ -287,9 +341,20 @@ local function build_markdown(items)
   local module_desc = pick_module_desc(items)
   local fields = collect_class_fields(items)
   local has_functions = has_function_items(items)
+  local total_functions = count_function_items(items)
+  local has_functions_header = has_functions and total_functions > 1
+  local include_paths = collect_include_paths(items)
+  local include_blocks = collect_include_blocks(items)
   local frontmatter = render_frontmatter(module_desc)
   local section_fields = has_section_field(items)
-  local function_heading_level = section_fields and "####" or "###"
+  local function_heading_level
+  if section_fields then
+    function_heading_level = "####"
+  elseif has_functions_header then
+    function_heading_level = "###"
+  else
+    function_heading_level = "##"
+  end
   local quick_ref = {}
   local quick_ref_sections = {}
   local section_order = {}
@@ -306,15 +371,20 @@ local function build_markdown(items)
     insert(doc, module_desc)
   end
 
-  if module_name == "template" then
-    return concat(doc, "\n")
-  end
-
   if not has_functions and #fields == 0 then
+    for _, path in ipairs(include_paths) do
+      local content = read_text_file(path)
+      if content and content ~= "" then
+        insert(doc, content)
+      end
+    end
+    for _, block in ipairs(include_blocks) do
+      insert(doc, block)
+    end
     return concat(doc, "\n")
   end
 
-  if has_functions then
+  if has_functions_header then
     insert(doc, "## Functions")
   end
 
@@ -388,6 +458,17 @@ local function build_markdown(items)
         insert(doc, field.desc)
       end
     end
+  end
+
+  for _, path in ipairs(include_paths) do
+    local content = read_text_file(path)
+    if content and content ~= "" then
+      insert(doc, content)
+    end
+  end
+
+  for _, block in ipairs(include_blocks) do
+    insert(doc, block)
   end
 
   return concat(doc, "\n")
