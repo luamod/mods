@@ -81,7 +81,7 @@ Thanks to these Lua ecosystem projects:
 [`List`]: https://luamod.github.io/mods/modules/list
 [`operator`]: https://luamod.github.io/mods/modules/operator
 [`repr`]: https://luamod.github.io/mods/modules/repr
-[`runtime`]: https://github.com/luamod/mods/blob/main/src/mods/runtime.lua
+[`runtime`]: https://luamod.github.io/mods/modules/runtime
 [`Set`]: https://luamod.github.io/mods/modules/set
 [`str`]: https://luamod.github.io/mods/modules/str
 [`stringcase`]: https://luamod.github.io/mods/modules/stringcase
