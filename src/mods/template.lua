@@ -14,6 +14,7 @@ local TAG_LEN = 2
 
 local function lookup(view, name)
   if name == "." then
+    return view
   elseif name == "" or find(name, "..", 1, true) or sub(name, 1, 1) == "." or sub(name, -1) == "." then
     return
   elseif find(name, ".", 1, true) then
@@ -41,6 +42,14 @@ local function lookup(view, name)
 end
 
 local function render(tmpl, view)
+  if type(tmpl) ~= "string" then
+    error("bad argument #1 to 'template' (expected string, got " .. type(tmpl) .. ")", 2)
+  end
+
+  if type(view) ~= "table" then
+    error("bad argument #2 to 'template' (expected table, got " .. type(view) .. ")", 2)
+  end
+
   local out = {}
   local i = 1
 
