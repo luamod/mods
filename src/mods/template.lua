@@ -1,3 +1,5 @@
+local repr = require("mods.repr")
+
 local concat = table.concat
 local find = string.find
 local gmatch = string.gmatch
@@ -6,14 +8,15 @@ local sub = string.sub
 local tostring = tostring
 local type = type
 
+local OPEN_TAG = "{{"
+local CLOSE_TAG = "}}"
+local TAG_LEN = 2
+
 local function lookup(view, name)
-  local dot = find(name, ".", 1, true)
-  if not dot then
-    if type(view) ~= "table" then
-      return
-    end
-    view = view[name]
-  else
+  if name == "." then
+  elseif name == "" or find(name, "..", 1, true) or sub(name, 1, 1) == "." or sub(name, -1) == "." then
+    return
+  elseif find(name, ".", 1, true) then
     for part in gmatch(name, "[^%.]+") do
       if type(view) ~= "table" then
         return
@@ -23,37 +26,51 @@ local function lookup(view, name)
         return
       end
     end
+  else
+    if type(view) ~= "table" then
+      return
+    end
+    view = view[name]
   end
-  return type(view) == "function" and view() or view
+
+  if type(view) == "function" then
+    return view()
+  end
+
+  return view
 end
 
-local function render(template, view)
+local function render(tmpl, view)
   local out = {}
   local i = 1
-  view = view or {}
 
   while true do
-    local open = find(template, "{{", i, true)
+    local open = find(tmpl, OPEN_TAG, i, true)
     if not open then
-      out[#out + 1] = sub(template, i)
+      out[#out + 1] = sub(tmpl, i)
       break
     end
 
-    out[#out + 1] = sub(template, i, open - 1)
+    out[#out + 1] = sub(tmpl, i, open - 1)
 
-    local open_len = 2
-    local close = find(template, "}}", open + open_len, true)
+    local close = find(tmpl, CLOSE_TAG, open + TAG_LEN, true)
     if not close then
-      out[#out + 1] = sub(template, open)
+      out[#out + 1] = sub(tmpl, open)
       break
     end
 
-    local content = sub(template, open + open_len, close - 1)
+    local content = sub(tmpl, open + TAG_LEN, close - 1)
     local name = match(content, "^%s*(.-)%s*$")
     local v = lookup(view, name)
 
-    out[#out + 1] = v == nil and "" or tostring(v)
-    i = close + open_len
+    if v == nil then
+      out[#out + 1] = ""
+    elseif type(v) == "table" then
+      out[#out + 1] = repr(v)
+    else
+      out[#out + 1] = tostring(v)
+    end
+    i = close + TAG_LEN
   end
 
   return concat(out)
