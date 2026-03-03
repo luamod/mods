@@ -47,21 +47,21 @@ luarocks install mods
 
 ## Modules
 
-| Module         | Description                                                     |
-| -------------- | --------------------------------------------------------------- |
-| [`is`]         | Type predicates for Lua values and filesystem path kinds.       |
-| [`keyword`]    | Lua keyword helpers for reserved-word checks.                   |
-| [`List`]       | Python-style list helpers for mapping, filtering, and slicing.  |
-| [`operator`]   | Operator helpers as functions.                                  |
-| [`repr`]       | Readable Lua value rendering with deterministic table ordering. |
-| [`runtime`]    | Lua runtime/version capability flags.                           |
-| [`Set`]        | Set operations and helpers for unique values.                   |
-| [`str`]        | String utility helpers modeled after Python's `str`.            |
-| [`stringcase`] | String case conversion helpers.                                 |
-| [`tbl`]        | Utility functions for plain Lua tables.                         |
-| [`template`]   | Simple template rendering with value replacement.               |
-| [`utils`]      | Common utility helpers.                                         |
-| [`validate`]   | Validation helpers for Lua values.                              |
+| Module         | Description                                                    |
+| -------------- | -------------------------------------------------------------- |
+| [`is`]         | Type predicates for Lua values and filesystem path types.      |
+| [`keyword`]    | Lua keyword helpers.                                           |
+| [`List`]       | Python-style list helpers for mapping, filtering, and slicing. |
+| [`operator`]   | Operator helpers as functions.                                 |
+| [`repr`]       | Render any Lua value as a readable string.                     |
+| [`runtime`]    | Exposes Lua runtime metadata and version compatibility flags.  |
+| [`Set`]        | Set operations and helpers for unique values.                  |
+| [`str`]        | String utility helpers modeled after Python's `str`.           |
+| [`stringcase`] | String case conversion helpers.                                |
+| [`tbl`]        | Utility functions for working with Lua tables.                 |
+| [`template`]   | Interpolate string placeholders of the form `{{...}}`.         |
+| [`utils`]      | Small shared utility helpers used by modules in this library.  |
+| [`validate`]   | Validation checks for values and filesystem path types.        |
 
 > [!NOTE]
 >
