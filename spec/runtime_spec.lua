@@ -11,6 +11,7 @@ describe("mods.runtime", function()
     assert.is_boolean(runtime.is_lua53)
     assert.is_boolean(runtime.is_lua54)
     assert.is_boolean(runtime.is_luajit)
+    assert.is_boolean(runtime.is_windows)
   end)
 
   it("flags Lua versions consistently", function()
@@ -49,5 +50,9 @@ describe("mods.runtime", function()
     elseif _VERSION == "Lua 5.4" then
       assert.are_equal(504, runtime.version_num)
     end
+  end)
+
+  it("detects host windows flag from package.config", function()
+    assert.are_equal(package.config:sub(1, 1) == "\\", runtime.is_windows)
   end)
 end)

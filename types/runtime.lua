@@ -55,6 +55,15 @@
 ---
 ---@field is_luajit boolean
 ---
+---
+---True when running on a Windows host.
+---
+---```lua
+---print(runtime.is_windows) --> true | false
+---```
+---
+---@field is_windows boolean
+---
 ---True only on Lua 5.1 runtimes.
 ---
 ---```lua
