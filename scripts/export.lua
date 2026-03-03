@@ -191,10 +191,26 @@ local function trim(s)
   return ((s or ""):gsub("^%s+", ""):gsub("%s+$", ""))
 end
 
+---Turn inline code refs like `mods.path` into markdown links.
+local function linkify_mods_refs(s)
+  if not s or s == "" then
+    return s or ""
+  end
+  return (
+    s:gsub("`(mods%.[%a_][%w_]*)`", function(ref)
+      local module_name = ref:match("^mods%.([%a_][%w_]*)$")
+      if not module_name then
+        return "`" .. ref .. "`"
+      end
+      return fmt("[`%s`](/modules/%s)", ref, module_name:lower())
+    end)
+  )
+end
+
 local function normalize_api_desc(desc)
   local d = trim(desc or "")
   d = d:gsub("^#%s*", "")
-  return d
+  return linkify_mods_refs(d)
 end
 
 local function append_function_api_contract(doc, item)
@@ -259,12 +275,12 @@ local function append_function_signature_details(doc, item)
   if code then
     local pre = trim(before or "")
     if pre ~= "" then
-      insert(doc, pre)
+      insert(doc, linkify_mods_refs(pre))
       insert(doc, "")
     end
   else
     if desc ~= "" then
-      insert(doc, desc)
+      insert(doc, linkify_mods_refs(desc))
     end
   end
 
@@ -278,7 +294,7 @@ local function append_function_signature_details(doc, item)
     local post = trim(after or "")
     if post ~= "" then
       insert(doc, "")
-      insert(doc, post)
+      insert(doc, linkify_mods_refs(post))
     end
     insert(doc, "")
   end
@@ -309,7 +325,7 @@ local function append_fields_table(doc, fields)
     local name = field.name or ""
     local anchor = heading_anchor(name)
     local link = fmt("[`%s`](#%s)", esc_table_cell(name), anchor)
-    local desc = esc_table_cell(first_paragraph(field.desc))
+    local desc = esc_table_cell(first_paragraph(linkify_mods_refs(field.desc)))
     insert(doc, fmt("%s | %s", link, desc))
   end
 end
@@ -368,7 +384,7 @@ local function build_markdown(items)
   end
   insert(doc, fmt("# `%s`", module_name))
   if module_desc then
-    insert(doc, module_desc)
+    insert(doc, linkify_mods_refs(module_desc))
   end
 
   if not has_functions and #fields == 0 then
@@ -397,7 +413,7 @@ local function build_markdown(items)
       end
       insert(details, fmt("### %s", current_section))
       if item.desc then
-        insert(details, item.desc)
+        insert(details, linkify_mods_refs(item.desc))
       end
     elseif has_functions and item.kind == "function" then
       function_count = function_count + 1
@@ -406,7 +422,7 @@ local function build_markdown(items)
       local row = {
         signature = signature,
         anchor = ref_id,
-        desc = first_paragraph(item.desc),
+        desc = first_paragraph(linkify_mods_refs(item.desc)),
       }
       if section_fields then
         local section_name = current_section or "Ungrouped"
@@ -455,7 +471,7 @@ local function build_markdown(items)
     for _, field in ipairs(fields) do
       insert(doc, fmt("### `%s`", field.name or ""))
       if field.desc then
-        insert(doc, field.desc)
+        insert(doc, linkify_mods_refs(field.desc))
       end
     end
   end
