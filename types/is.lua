@@ -2,45 +2,23 @@
 
 ---@alias modsIsType
 ---|type
----|'Boolean'
----|'Function'
----|'Nil'
----|'Number'
----|'String'
----|'Table'
----|'Thread'
----|'Userdata'
+---|string
 ---
 ---|'callable'
----|'Callable'
 ---|'false'
----|'False'
 ---|'falsy'
----|'Falsy'
 ---|'integer'
----|'Integer'
 ---|'true'
----|'True'
 ---|'truthy'
----|'Truthy'
 ---
 ---|'block'
----|'Block'
 ---|'char'
----|'Char'
 ---|'device'
----|'Device'
 ---|'dir'
----|'Dir'
 ---|'fifo'
----|'Fifo'
 ---|'file'
----|'File'
----|'socket'
----|'Socket'
----
 ---|'link'
----|'Link'
+---|'socket'
 
 ---
 ---Type predicates for Lua values and filesystem path types.
