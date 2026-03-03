@@ -105,7 +105,7 @@
 ---
 ---@field messages modsValidateMessages
 ---
----@overload fun(v:any, tp?:modsIsType|string):(boolean, string?)
+---@overload fun(v:any, tp?:modsIsType):(boolean, string?)
 local M = {}
 
 --------------------------------------------------------------------------------
