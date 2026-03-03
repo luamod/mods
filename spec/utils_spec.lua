@@ -57,4 +57,43 @@ describe("mods.utils", function()
       assert.are_equal(expected, utils.keypath(unpack(params)))
     end)
   end
+
+  --------------------
+  --- assert_arg() ---
+  --------------------
+
+  it("returns same value when validation passes", function()
+    assert.are_equal("abc", utils.assert_arg(1, "abc", "string"))
+    assert.are_equal(123, utils.assert_arg(2, 123, "number"))
+  end)
+
+  it("defaults to truthy check when type is omitted", function()
+    assert.are_equal("ok", utils.assert_arg(1, "ok"))
+    assert.has_error(function()
+      utils.assert_arg(2, false)
+    end, "bad argument #2 (expected truthy value, got false)")
+  end)
+
+  it("throws with bad argument prefix on validation failure", function()
+    assert.has_error(function()
+      utils.assert_arg(3, 123, "string")
+    end, "bad argument #3 (expected string, got number)")
+  end)
+
+  it("includes caller function name when available", function()
+    local function needs_string(v)
+      local out = utils.assert_arg(1, v, "string")
+      return out
+    end
+
+    assert.has_error(function()
+      needs_string(123)
+    end, 'bad argument #1 to "needs_string" (expected string, got number)')
+  end)
+
+  it("passes custom message template to validate when provided", function()
+    assert.has_error(function()
+      utils.assert_arg(1, 123, "string", 2, "need {{expected}}, got {{got}}")
+    end, "bad argument #1 (need string, got number)")
+  end)
 end)
