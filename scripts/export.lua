@@ -7,6 +7,7 @@ local concat = table.concat
 local fmt = string.format
 local insert = table.insert
 local FIELD_OVERVIEW_MIN = 4
+local is_function_doc_item
 
 local function first_match(items, pred)
   for _, item in ipairs(items or {}) do
@@ -41,7 +42,7 @@ end
 
 local function has_function_items(items)
   return first_match(items, function(it)
-    return it.kind == "function" or (it.kind == "alias" and type(it.name) == "string" and it.name:match("^M%.[%a_][%w_]*$"))
+    return it.kind == "function" or is_function_doc_item(it)
   end) ~= nil
 end
 
@@ -92,9 +93,7 @@ end
 local function count_function_items(items)
   local n = 0
   for _, item in ipairs(items or {}) do
-    if item
-      and (item.kind == "function" or (item.kind == "alias" and type(item.name) == "string" and item.name:match("^M%.[%a_][%w_]*$")))
-    then
+    if item and (item.kind == "function" or is_function_doc_item(item)) then
       n = n + 1
     end
   end
@@ -407,9 +406,20 @@ local function append_fields_table(doc, fields)
   end
 end
 
-local function is_function_doc_item(item)
-  return item
-    and (item.kind == "function" or (item.kind == "alias" and type(item.name) == "string" and item.name:match("^M%.[%a_][%w_]*$")))
+is_function_doc_item = function(item)
+  if not item or item.kind ~= "alias" then
+    return false
+  end
+  if type(item.name) ~= "string" or not item.name:match("^M%.[%a_][%w_]*$") then
+    return false
+  end
+  if type(item.alias_of) == "string" and item.alias_of:match("^M%.[%a_][%w_]*$") then
+    -- Ignore case-only aliases like M.Boolean = M.boolean in docs function list.
+    if item.name:lower() == item.alias_of:lower() then
+      return false
+    end
+  end
+  return true
 end
 
 ---Check whether any item has a `section` field in tags.
@@ -498,7 +508,7 @@ local function build_markdown(items)
       if item.desc then
         insert(details, linkify_mods_refs(item.desc))
       end
-    elseif has_functions and is_function_doc_item(item) then
+    elseif has_functions and (item.kind == "function" or is_function_doc_item(item)) then
       function_count = function_count + 1
       local signature = function_signature(item)
       local ref_id = function_ref_id(item)
