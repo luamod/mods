@@ -266,15 +266,17 @@ local function linkify_mods_refs(s)
   if not s or s == "" then
     return s or ""
   end
-  return (
-    s:gsub("`(mods%.[%a_][%w_]*)`", function(ref)
-      local module_name = ref:match("^mods%.([%a_][%w_]*)$")
-      if not module_name then
-        return "`" .. ref .. "`"
-      end
-      return fmt("[`%s`](/modules/%s)", ref, module_name:lower())
-    end)
-  )
+  s = s:gsub("`(mods%.([%a_][%w_]*)%.([%a_][%w_]*))`", function(ref, module_name, member_name)
+    local anchor = heading_anchor(member_name)
+    return fmt("[`%s`](/modules/%s#fn-%s)", ref, module_name:lower(), anchor)
+  end)
+  return (s:gsub("`(mods%.[%a_][%w_]*)`", function(ref)
+    local module_name = ref:match("^mods%.([%a_][%w_]*)$")
+    if not module_name then
+      return "`" .. ref .. "`"
+    end
+    return fmt("[`%s`](/modules/%s)", ref, module_name:lower())
+  end))
 end
 
 local function normalize_api_desc(desc)
