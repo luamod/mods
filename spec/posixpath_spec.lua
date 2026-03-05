@@ -51,11 +51,11 @@ describe("mods.posixpath", function()
       {{{ ""          , "foo/bar"        }}, { ""         }},
     },
     dirname = {
-    {{ "/"          }, { "/"     }},
-    {{ "a"          }, { ""      }},
-    {{ "/foo/bar"   }, { "/foo"  }},
-    {{ "////foo"    }, { "////"  }},
-    {{ "//foo//bar" }, { "//foo" }},
+      {{ "/"          }, { "/"     }},
+      {{ "a"          }, { ""      }},
+      {{ "/foo/bar"   }, { "/foo"  }},
+      {{ "////foo"    }, { "////"  }},
+      {{ "//foo//bar" }, { "//foo" }},
     },
     isabs = {
       {{ ""         }, { false }},
@@ -212,4 +212,26 @@ describe("mods.posixpath", function()
       end)
     end
   end
+
+  it("expanduser()", function()
+    assert.are_equal("foo", posixpath.expanduser("foo"))
+    local home = os.getenv("HOME")
+    if home and home ~= "" then
+      assert.are_equal(home, posixpath.expanduser("~"))
+      assert.are_equal(home .. "/tmp", posixpath.expanduser("~/tmp"))
+    end
+  end)
+
+  it("relpath()", function()
+    assert.has_error(function()
+      _ = posixpath.relpath("")
+    end, "no path specified")
+  end)
+
+  it("commonpath()", function()
+    assert.are_equal("", posixpath.commonpath({}))
+    assert.has_error(function()
+      _ = posixpath.commonpath({ "/a", "b" })
+    end, "can't mix absolute and relative paths")
+  end)
 end)
