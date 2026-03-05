@@ -180,7 +180,7 @@ end
 
 function M.commonpath(paths)
   if #paths == 0 then
-    error("expected a non-empty paths list", 2)
+    return ""
   end
 
   local normed = {}
