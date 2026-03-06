@@ -1,4 +1,9 @@
-local mods = require "mods"
+local List = require "mods.List"
+local keyword = require "mods.keyword"
+local runtime = require "mods.runtime"
+local stringcase = require "mods.stringcase"
+
+local is_luajit = runtime.is_luajit
 
 local byte = string.byte
 local char = string.char
@@ -337,17 +342,6 @@ local function isupper_pattern(s)
   return match(s, "%a") ~= nil and match(s, "%l") == nil
 end
 
-local is_jit = rawget(_G, "jit") ~= nil
-
-M.isalnum = is_jit and isalnum_bytes or isalnum_pattern
-M.isalpha = is_jit and isalpha_bytes or isalpha_pattern
-M.isdecimal = is_jit and isdecimal_bytes or isdecimal_pattern
-M.islower = is_jit and islower_bytes or islower_pattern
-M.isspace = is_jit and isspace_bytes or isspace_pattern
-M.isupper = is_jit and isupper_bytes or isupper_pattern
-
-M.isdigit = M.isdecimal
-M.isnumeric = M.isdecimal
 function M.isprintable(s)
   local len = #s
   for i = 1, len do
@@ -371,8 +365,6 @@ function M.ljust(s, width, fillchar)
   local fc = first_char_or_space(fillchar)
   return s .. rep(fc, width - len)
 end
-
-M.lower = lower
 
 function M.lstrip(s, chars)
   if chars == nil then
@@ -542,10 +534,10 @@ function M.rsplit(s, sep, maxsplit)
   if sep == nil then
     local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
-      return mods.List(parts)
+      return List(parts)
     end
     local keep = maxsplit + 1
-    local out = mods.List()
+    local out = List()
     local start = #parts - keep + 1
     out[1] = concat(parts, " ", 1, start - 1)
     for i = start, #parts do
@@ -560,7 +552,7 @@ function M.rsplit(s, sep, maxsplit)
 
   local splits = maxsplit or -1
   if splits == 0 then
-    return mods.List({ s })
+    return List({ s })
   end
 
   local parts = {}
@@ -581,7 +573,7 @@ function M.rsplit(s, sep, maxsplit)
 
   part_n = part_n + 1
   parts[part_n] = sub(s, 1, pos)
-  local out = mods.List()
+  local out = List()
   for idx = part_n, 1, -1 do
     out[#out + 1] = parts[idx]
   end
@@ -592,9 +584,9 @@ function M.split(s, sep, maxsplit)
   if sep == nil then
     local parts = split_whitespace_words(s)
     if maxsplit == nil or maxsplit < 0 or #parts <= maxsplit + 1 then
-      return mods.List(parts)
+      return List(parts)
     end
-    local out = mods.List()
+    local out = List()
     local keep = maxsplit + 1
     for i = 1, keep - 1 do
       out[#out + 1] = parts[i]
@@ -609,10 +601,10 @@ function M.split(s, sep, maxsplit)
 
   local splits = maxsplit or -1
   if splits == 0 then
-    return mods.List({ s })
+    return List({ s })
   end
 
-  local parts = mods.List()
+  local parts = List()
   local pos = 1
   while true do
     local i, j = find(s, sep, pos, true)
@@ -628,7 +620,7 @@ end
 
 function M.splitlines(s, keepends)
   local len = #s
-  local out = mods.List()
+  local out = List()
   local i = 1
   while i <= len do
     local j = i
@@ -717,8 +709,6 @@ function M.translate(s, table_map)
   return concat(out)
 end
 
-M.upper = upper
-
 function M.zfill(s, width)
   local len = #s
   if width <= len then
@@ -731,20 +721,18 @@ function M.zfill(s, width)
   return rep("0", width - len) .. s
 end
 
-return setmetatable(M, {
-  __index = function(t, k)
-    local fn
-    if k == "capitalize" then
-      fn = mods.stringcase.capital
-    elseif k == "swapcase" then
-      fn = mods.stringcase.swap
-    elseif k == "isidentifier" then
-      fn = mods.keyword.isidentifier
-    end
+M.capitalize = stringcase.capital
+M.isalnum = is_luajit and isalnum_bytes or isalnum_pattern
+M.isalpha = is_luajit and isalpha_bytes or isalpha_pattern
+M.isdecimal = is_luajit and isdecimal_bytes or isdecimal_pattern
+M.isdigit = M.isdecimal
+M.isidentifier = keyword.isidentifier
+M.islower = is_luajit and islower_bytes or islower_pattern
+M.isnumeric = M.isdecimal
+M.isspace = is_luajit and isspace_bytes or isspace_pattern
+M.isupper = is_luajit and isupper_bytes or isupper_pattern
+M.lower = lower
+M.swapcase = stringcase.swap
+M.upper = upper
 
-    if fn then
-      rawset(t, k, fn)
-      return fn
-    end
-  end,
-})
+return M
