@@ -39,6 +39,7 @@ describe("mods.posixpath", function()
     commonpath = {
       {{{ "/a/b/c"    , "/a/b/d"         }}, { "/a/b"     }},
       {{{ "a/b"       , "a/c"            }}, { "a"        }},
+      {{{ "//a/x"     , "/a/y"           }}, { "/a"       }},
       {{{ "/foo/bar"                     }}, { "/foo/bar" }},
       {{{ "/foo/bar/" , "/foo/bar"       }}, { "/foo/bar" }},
       {{{ "/foo/bar/" , "/foo/bar/"      }}, { "/foo/bar" }},
@@ -57,6 +58,7 @@ describe("mods.posixpath", function()
       {{{ "foo/bar"   , "foo/baz", "foo" }}, { "foo"      }},
       {{{ ""                             }}, { ""         }},
       {{{ ""          , "foo/bar"        }}, { ""         }},
+      {{{                                }}, { ""         }},
     },
     dirname = {
       {{ "/"          }, { "/"     }},
@@ -237,7 +239,7 @@ describe("mods.posixpath", function()
   end)
 
   it("commonpath()", function()
-    assert.are_equal("", posixpath.commonpath({}))
+    assert.has_error(posixpath.commonpath, "bad argument #1 (expected table, got no value)")
     assert.has_error(function()
       _ = posixpath.commonpath({ "/a", "b" })
     end, "can't mix absolute and relative paths")
