@@ -132,7 +132,7 @@ const themeConfig: DefaultTheme.Config & { moduleTableRows: ModuleTableRow[] } =
           { text: "Getting Started", link: "/getting-started" },
         ],
       },
-      { text: "Modules", items: moduleItems },
+      { text: "Modules", link: "/modules", items: moduleItems },
     ],
     editLink: {
       pattern: (page) => {
