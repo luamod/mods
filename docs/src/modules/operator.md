@@ -1,5 +1,5 @@
 ---
-desc: "Operator helpers as functions."
+description: "Operator helpers as functions."
 ---
 
 # `operator`

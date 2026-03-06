@@ -1,5 +1,5 @@
 ---
-desc: "Validation checks for values and filesystem path types."
+description: "Validation checks for values and filesystem path types."
 ---
 
 # `validate`
@@ -667,8 +667,8 @@ ok, err = validate.number("x") --> false, "need number, got string"
 > validate.messages.truthy = "expected {{expected}} value, got {{value}}"
 > validate.truthy(nil) --> false, "expected truthy value, got no value"
 > ```
->
-> **Default Messages**:
+
+**Default Messages**:
 
 - Type checks: <code v-pre>expected {{expected}}, got {{got}}</code>
 - Value checks: <code v-pre>expected {{expected}} value, got {{value}}</code>

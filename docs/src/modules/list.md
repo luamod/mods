@@ -1,5 +1,5 @@
 ---
-desc:
+description:
   "A list class providing common operations to create, modify, and query
   sequences of values."
 ---

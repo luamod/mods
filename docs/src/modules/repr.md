@@ -1,5 +1,5 @@
 ---
-desc: "Render any Lua value as a readable string."
+description: "Render any Lua value as a readable string."
 ---
 
 # `repr`

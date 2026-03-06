@@ -1,5 +1,5 @@
 ---
-desc: "String case conversion helpers."
+description: "String case conversion helpers."
 ---
 
 # `stringcase`

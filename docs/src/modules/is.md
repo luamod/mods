@@ -1,10 +1,10 @@
 ---
-desc: "Type predicates for Lua values and filesystem path kinds."
+description: "Type predicates for Lua values and filesystem path types."
 ---
 
 # `is`
 
-Type predicates for Lua values and filesystem path kinds.
+Type predicates for Lua values and filesystem path types.
 
 ## Usage
 
@@ -65,16 +65,16 @@ is("hello", "STRING") --> true
 
 **Path Checks**:
 
-| Function                  | Description                                             |
-| ------------------------- | ------------------------------------------------------- |
-| [`block(v)`](#fn-block)   | Returns `true` when `v` is a block device path.         |
-| [`char(v)`](#fn-char)     | Returns `true` when `v` is a char device path.          |
-| [`device(v)`](#fn-device) | Returns `true` when `v` is a block or char device path. |
-| [`dir(v)`](#fn-dir)       | Returns `true` when `v` is a directory path.            |
-| [`fifo(v)`](#fn-fifo)     | Returns `true` when `v` is a FIFO path.                 |
-| [`file(v)`](#fn-file)     | Returns `true` when `v` is a file path.                 |
-| [`link(v)`](#fn-link)     | Returns `true` when `v` is a symlink path.              |
-| [`socket(v)`](#fn-socket) | Returns `true` when `v` is a socket path.               |
+| Function                  | Description                                                  |
+| ------------------------- | ------------------------------------------------------------ |
+| [`block(v)`](#fn-block)   | Returns `true` when `v` is a block device path.              |
+| [`char(v)`](#fn-char)     | Returns `true` when `v` is a character device path.          |
+| [`device(v)`](#fn-device) | Returns `true` when `v` is a block or character device path. |
+| [`dir(v)`](#fn-dir)       | Returns `true` when `v` is a directory path.                 |
+| [`fifo(v)`](#fn-fifo)     | Returns `true` when `v` is a FIFO path.                      |
+| [`file(v)`](#fn-file)     | Returns `true` when `v` is a file path.                      |
+| [`link(v)`](#fn-link)     | Returns `true` when `v` is a symlink path.                   |
+| [`socket(v)`](#fn-socket) | Returns `true` when `v` is a socket path.                    |
 
 ### Type Checks
 
@@ -362,13 +362,13 @@ is.truthy("non-empty")
 
 ### Path Checks
 
-Filesystem path kind checks.
+Filesystem path type checks.
 
 > [!IMPORTANT]
 >
 > Path checks require **LuaFileSystem**
-> ([`lfs`](https://github.com/lunarmodules/luafilesystem)) and raise an error it
-> is not installed. <a id="fn-block"></a>
+> ([`lfs`](https://github.com/lunarmodules/luafilesystem)) and raise an error if
+> it is not installed. <a id="fn-block"></a>
 
 #### `block(v)`
 
@@ -392,7 +392,7 @@ is.block("/dev/sda")
 
 #### `char(v)`
 
-Returns `true` when `v` is a char device path.
+Returns `true` when `v` is a character device path.
 
 **Parameters**:
 
@@ -412,7 +412,7 @@ is.char("/dev/null")
 
 #### `device(v)`
 
-Returns `true` when `v` is a block or char device path.
+Returns `true` when `v` is a block or character device path.
 
 **Parameters**:
 

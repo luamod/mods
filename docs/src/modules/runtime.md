@@ -1,5 +1,5 @@
 ---
-desc: "Exposes Lua runtime metadata and version compatibility flags."
+description: "Exposes Lua runtime metadata and version compatibility flags."
 ---
 
 # `runtime`
@@ -25,6 +25,7 @@ print(runtime.is_lua54)    --> true | false
 | [`minor`](#minor)             | Minor version number parsed from `version`.       |
 | [`version_num`](#version-num) | Numeric version encoded as `major * 100 + minor`. |
 | [`is_luajit`](#is-luajit)     | True when running under LuaJIT.                   |
+| [`is_windows`](#is-windows)   | True when running on a Windows host.              |
 | [`is_lua51`](#is-lua51)       | True only on Lua 5.1 runtimes.                    |
 | [`is_lua52`](#is-lua52)       | True only on Lua 5.2 runtimes.                    |
 | [`is_lua53`](#is-lua53)       | True only on Lua 5.3 runtimes.                    |
@@ -68,6 +69,14 @@ True when running under LuaJIT.
 
 ```lua
 print(runtime.is_luajit) --> true | false
+```
+
+### `is_windows`
+
+True when running on a Windows host.
+
+```lua
+print(runtime.is_windows) --> true | false
 ```
 
 ### `is_lua51`
