@@ -100,13 +100,13 @@ describe("mods.template", function()
 
   -- stylua: ignore
   tests = {
-    ---------params--------|-----------------------------errmsg------------------------------
-    { { "{{name}}", nil   }, "bad argument #2 to 'template' (expected table, got nil)"      },
-    { { "{{name}}", 123   }, "bad argument #2 to 'template' (expected table, got number)"   },
-    { { "{{name}}", false }, "bad argument #2 to 'template' (expected table, got boolean)"  },
-    { { nil       , {}    }, "bad argument #1 to 'template' (expected string, got nil)"     },
-    { { 123       , {}    }, "bad argument #1 to 'template' (expected string, got number)"  },
-    { { false     , {}    }, "bad argument #1 to 'template' (expected string, got boolean)" },
+    ---------params-------|------------------------------errmsg------------------------------
+    {{ "{{name}}", nil   }, 'bad argument #2 to "template" (expected table, got no value)'  },
+    {{ "{{name}}", 123   }, 'bad argument #2 to "template" (expected table, got number)'    },
+    {{ "{{name}}", false }, 'bad argument #2 to "template" (expected table, got boolean)'   },
+    {{ nil       , {}    }, 'bad argument #1 to "template" (expected string, got no value)' },
+    {{ 123       , {}    }, 'bad argument #1 to "template" (expected string, got number)'   },
+    {{ false     , {}    }, 'bad argument #1 to "template" (expected string, got boolean)'  },
   }
 
   for i = 1, #tests do

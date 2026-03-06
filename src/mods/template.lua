@@ -1,4 +1,7 @@
 local repr = require "mods.repr"
+local utils = require "mods.utils"
+
+local assert_arg = utils.assert_arg
 
 local concat = table.concat
 local find = string.find
@@ -42,13 +45,8 @@ local function lookup(view, name)
 end
 
 local function render(tmpl, view)
-  if type(tmpl) ~= "string" then
-    error("bad argument #1 to 'template' (expected string, got " .. type(tmpl) .. ")", 2)
-  end
-
-  if type(view) ~= "table" then
-    error("bad argument #2 to 'template' (expected table, got " .. type(view) .. ")", 2)
-  end
+  assert_arg(1, tmpl, "string")
+  assert_arg(2, view, "table")
 
   local out = {}
   local i = 1
