@@ -1,5 +1,5 @@
 ---
-desc: "Utility functions for working with Lua tables."
+description: "Utility functions for working with Lua tables."
 ---
 
 # `tbl`
@@ -39,7 +39,6 @@ print(tbl.count({ a = 1, b = 2 })) --> 2
 | [`same(a, b)`](#fn-same)          | Return `true` if two tables have the same keys and equal values. |
 | [`find_if(t, pred)`](#fn-find-if) | Find first value and key matching predicate.                     |
 | [`get(t, ...)`](#fn-get)          | Safely get nested value by keys.                                 |
-| [`keypath(...)`](#fn-keypath)     | Format a key chain as a Lua-like table access path.              |
 
 **Transforms**:
 
@@ -262,29 +261,6 @@ v2 = get(t)                --> { a = { b = { c = 1 } } }
 > [!NOTE]
 >
 > If no keys are provided, returns the input table.
-
-<a id="fn-keypath"></a>
-
-#### `keypath(...)`
-
-Format a key chain as a Lua-like table access path.
-
-**Parameters**:
-
-- `...` (`any`): Additional arguments.
-
-**Return**:
-
-- `path` (`string`): Rendered key path.
-
-**Example**:
-
-```lua
-p1 = keypath("t", "a", "b", "c")        --> "t.a.b.c"
-p2 = keypath("ctx", "users", 1, "name") --> "ctx.users[1].name"
-p3 = keypath("ctx", "invalid-key")      --> 'ctx["invalid-key"]'
-p4 = keypath()                          --> ""
-```
 
 ### Transforms
 

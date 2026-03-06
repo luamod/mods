@@ -1,5 +1,5 @@
 ---
-desc:
+description:
   "A set class providing common operations to create, modify, and query
   collections of unique values."
 ---

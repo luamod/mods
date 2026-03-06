@@ -1,5 +1,5 @@
 ---
-desc: "String utility helpers modeled after Python's `str`."
+description: "String utility helpers modeled after Python's `str`."
 ---
 
 # `str`
@@ -247,8 +247,7 @@ s = format_map("hi {name}", { name = "bob" }) --> "hi bob"
 > [!NOTE]
 >
 > `format_map` is a lightweight `{key}` replacement helper. For richer
-> templating, use
-> [`mods.template`](https://luamod.github.io/mods/modules/template).
+> templating, use [`mods.template`](/modules/template).
 
 ### Predicates
 

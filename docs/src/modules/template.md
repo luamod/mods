@@ -1,5 +1,5 @@
 ---
-desc: "Interpolate string placeholders of the form <code v-pre>{{."
+description: "Interpolate string placeholders of the form <code v-pre>{{."
 ---
 
 # `template`
@@ -85,8 +85,7 @@ template("Hi {{name_func}}", view) --> "Hi Ada"
 
 ## Table Values
 
-Table placeholders are rendered using
-[`mods.repr`](https://luamod.github.io/mods/modules/repr).
+Table placeholders are rendered using `mods.repr`.
 
 ```lua
 view = { data = { a = 1, b = true } }
