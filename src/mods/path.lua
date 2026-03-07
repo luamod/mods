@@ -65,4 +65,8 @@ setmetatable(M, {
   end,
 })
 
+if _TEST then
+  M._lfs_map = lfs_map ---@diagnostic disable-line: inject-field
+end
+
 return M
