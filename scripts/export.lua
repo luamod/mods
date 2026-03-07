@@ -7,6 +7,7 @@ local concat = table.concat
 local fmt = string.format
 local insert = table.insert
 local FIELD_OVERVIEW_MIN = 4
+local heading_anchor
 local is_function_doc_item
 
 local function first_match(items, pred)
@@ -90,6 +91,72 @@ local function read_text_file(path)
   return content
 end
 
+local function parse_include_target(path)
+  local file_path, fragment = path:match("^(.-)#(.+)$")
+  if not file_path then
+    return path, nil
+  end
+  return file_path, heading_anchor(fragment)
+end
+
+local function extract_markdown_section(content, fragment)
+  if not content or not fragment or fragment == "" then
+    return content
+  end
+
+  local lines = {}
+  for line in (content .. "\n"):gmatch("(.-)\n") do
+    insert(lines, line)
+  end
+
+  local start_idx
+  local start_level
+  local anchor_idx
+  for i, line in ipairs(lines) do
+    local heading_marks, heading_text = line:match("^(#+)%s+(.+)$")
+    if heading_marks and heading_text then
+      if heading_anchor(heading_text) == fragment then
+        start_idx = i
+        start_level = #heading_marks
+        if anchor_idx then
+          start_idx = anchor_idx
+        end
+        break
+      end
+      anchor_idx = nil
+    else
+      local anchor = line:match('^<a id="([^"]+)"></a>$')
+      if anchor and heading_anchor(anchor) == fragment then
+        anchor_idx = i
+      end
+    end
+  end
+
+  if not start_idx then
+    return nil
+  end
+
+  local out = {}
+  for i = start_idx, #lines do
+    local line = lines[i]
+    local heading_marks = line:match("^(#+)%s+.+$")
+    if i > start_idx and heading_marks and #heading_marks <= start_level then
+      break
+    end
+    insert(out, line)
+  end
+  return concat(out, "\n")
+end
+
+local function read_include_content(path)
+  local file_path, fragment = parse_include_target(path)
+  local content = read_text_file(file_path)
+  if not content or not fragment then
+    return content
+  end
+  return extract_markdown_section(content, fragment)
+end
+
 local function count_function_items(items)
   local n = 0
   for _, item in ipairs(items or {}) do
@@ -162,7 +229,7 @@ local function esc_table_cell(s)
 end
 
 ---Build hash links that match markdown heading anchors.
-local function heading_anchor(s)
+heading_anchor = function(s)
   return (s or ""):lower():gsub("_+", "-"):gsub("[^%w-]+", ""):gsub("^%-+", ""):gsub("%-+$", "")
 end
 
@@ -492,7 +559,7 @@ local function build_markdown(items)
 
   if not has_functions and #fields == 0 then
     for _, path in ipairs(include_paths) do
-      local content = read_text_file(path)
+      local content = read_include_content(path)
       if content and content ~= "" then
         insert(doc, content)
       end
@@ -587,7 +654,7 @@ local function build_markdown(items)
   end
 
   for _, path in ipairs(include_paths) do
-    local content = read_text_file(path)
+    local content = read_include_content(path)
     if content and content ~= "" then
       insert(doc, content)
     end
