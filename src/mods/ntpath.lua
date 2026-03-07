@@ -8,11 +8,12 @@
   Copyright (c) 2001 Python Software Foundation; All Rights Reserved.
 ]]
 
-local mods = require "mods"
+local Set = require "mods.Set"
+local tbl = require "mods.tbl"
+local utils = require "mods.utils"
 
-local assert_arg = mods.utils.assert_arg
-local splitext = mods.path._splitext
-local tbl_count = mods.tbl.count
+local assert_arg = utils.assert_arg
+local tbl_count = tbl.count
 
 local byte = string.byte
 local concat = table.concat
@@ -25,6 +26,14 @@ local min = math.min
 local sub = string.sub
 local upper = string.upper
 
+local path = {}
+path = setmetatable(path, {
+  __index = function(_, k)
+    path = require "mods.path"
+    return path[k]
+  end,
+})
+
 ---@type mods.ntpath
 local M = {}
 
@@ -32,20 +41,26 @@ local ALT_SEP = "/"
 local CURDIR = "."
 local DRIVE_SEP = ":"
 local EXT_SEP = "."
-local MAIN_SEP = "\\"
-local PATH_SEPS = "\\/"
+local SEP = "\\"
+local SEPS = "\\/"
 local UNC_PREFIX = "\\\\?\\UNC\\"
+local reserved_char = Set({ '"', "*", ":", "<", ">", "?", "|", "/", "\\" })
+local reserved_names = Set({ "AUX", "CON", "CONIN$", "CONOUT$", "NUL", "PRN" })
+
+for i = 1, 9 do
+  reserved_names:add("COM" .. i):add("LPT" .. i)
+end
 
 local function starts_with(s, prefix)
   return sub(s, 1, #prefix) == prefix
 end
 
 local function is_sep(c)
-  return c == MAIN_SEP or c == ALT_SEP
+  return c == SEP or c == ALT_SEP
 end
 
-local function norm_seps(path)
-  return gsub(path, ALT_SEP, MAIN_SEP)
+local function norm_seps(p)
+  return gsub(p, ALT_SEP, SEP)
 end
 
 local function rstrip_seps(s)
@@ -56,48 +71,14 @@ local function rstrip_seps(s)
   return sub(s, 1, i)
 end
 
-local function split_components(path, skip_curdir)
+local function split_components(p, skip_curdir)
   local out = {}
-  for part in gmatch(path, "[^\\]+") do
+  for part in gmatch(p, "[^\\]+") do
     if not skip_curdir or (part ~= "" and part ~= CURDIR) then
       out[#out + 1] = part
     end
   end
   return out
-end
-
-local function getcwd()
-  local ok, lfs = pcall(require, "lfs")
-  if ok and lfs and lfs.currentdir then
-    return lfs.currentdir()
-  end
-  return "."
-end
-
-local reserved_char_map = {
-  ['"'] = true,
-  ["*"] = true,
-  [":"] = true,
-  ["<"] = true,
-  [">"] = true,
-  ["?"] = true,
-  ["|"] = true,
-  ["/"] = true,
-  ["\\"] = true,
-}
-
-local reserved_names = {
-  AUX = true,
-  CON = true,
-  ["CONIN$"] = true,
-  ["CONOUT$"] = true,
-  NUL = true,
-  PRN = true,
-}
-
-for i = 1, 9 do
-  reserved_names["COM" .. i] = true
-  reserved_names["LPT" .. i] = true
 end
 
 local function is_reserved_name(name)
@@ -113,7 +94,7 @@ local function is_reserved_name(name)
   for i = 1, #name do
     local c = sub(name, i, i)
     local b = byte(c)
-    if (b and b < 32) or reserved_char_map[c] then
+    if (b and b < 32) or reserved_char[c] then
       return true
     end
   end
@@ -127,51 +108,51 @@ function M.normcase(s)
   return lower(norm_seps(s))
 end
 
-function M.isabs(path)
-  local s = norm_seps(sub(path, 1, 3))
-  return sub(s, 2, 3) == DRIVE_SEP .. MAIN_SEP or sub(s, 1, 2) == MAIN_SEP .. MAIN_SEP
+function M.isabs(p)
+  local s = norm_seps(sub(p, 1, 3))
+  return sub(s, 2, 3) == DRIVE_SEP .. SEP or sub(s, 1, 2) == SEP .. SEP
 end
 
-function M.splitroot(path)
-  local normp = norm_seps(path)
+function M.splitroot(p)
+  local normp = norm_seps(p)
 
-  if sub(normp, 1, 1) == MAIN_SEP then
-    if sub(normp, 2, 2) == MAIN_SEP then
+  if sub(normp, 1, 1) == SEP then
+    if sub(normp, 2, 2) == SEP then
       local start = upper(sub(normp, 1, 8)) == UNC_PREFIX and 9 or 3
-      local index = find(normp, MAIN_SEP, start, true)
+      local index = find(normp, SEP, start, true)
       if not index then
-        return path, "", ""
+        return p, "", ""
       end
-      local index2 = find(normp, MAIN_SEP, index + 1, true)
+      local index2 = find(normp, SEP, index + 1, true)
       if not index2 then
-        return path, "", ""
+        return p, "", ""
       end
-      return sub(path, 1, index2 - 1), sub(path, index2, index2), sub(path, index2 + 1)
+      return sub(p, 1, index2 - 1), sub(p, index2, index2), sub(p, index2 + 1)
     end
-    return "", sub(path, 1, 1), sub(path, 2)
+    return "", sub(p, 1, 1), sub(p, 2)
   end
 
   if sub(normp, 2, 2) == DRIVE_SEP then
-    if sub(normp, 3, 3) == MAIN_SEP then
-      return sub(path, 1, 2), sub(path, 3, 3), sub(path, 4)
+    if sub(normp, 3, 3) == SEP then
+      return sub(p, 1, 2), sub(p, 3, 3), sub(p, 4)
     end
-    return sub(path, 1, 2), "", sub(path, 3)
+    return sub(p, 1, 2), "", sub(p, 3)
   end
 
-  return "", "", path
+  return "", "", p
 end
 
-function M.splitdrive(path)
-  local drive, root, tail = M.splitroot(path)
+function M.splitdrive(p)
+  local drive, root, tail = M.splitroot(p)
   return drive, root .. tail
 end
 
-function M.join(path, ...)
-  local result_drive, result_root, result_path = M.splitroot(path)
+function M.join(p, ...)
+  local result_drive, result_root, result_path = M.splitroot(p)
 
   for i = 1, select("#", ...) do
-    local p = select(i, ...)
-    local p_drive, p_root, p_path = M.splitroot(p)
+    local p_ = select(i, ...)
+    local p_drive, p_root, p_path = M.splitroot(p_)
 
     if p_root ~= "" then
       if p_drive ~= "" or result_drive == "" then
@@ -195,7 +176,7 @@ function M.join(path, ...)
       if not skip_append then
         local last = sub(result_path, -1)
         if result_path ~= "" and not is_sep(last) then
-          result_path = result_path .. MAIN_SEP
+          result_path = result_path .. SEP
         end
         result_path = result_path .. p_path
       end
@@ -204,19 +185,19 @@ function M.join(path, ...)
 
   if result_path ~= "" and result_root == "" and result_drive ~= "" then
     local last = sub(result_drive, -1)
-    if not find(DRIVE_SEP .. PATH_SEPS, last, 1, true) then
-      return result_drive .. MAIN_SEP .. result_path
+    if not find(DRIVE_SEP .. SEPS, last, 1, true) then
+      return result_drive .. SEP .. result_path
     end
   end
 
   return result_drive .. result_root .. result_path
 end
 
-function M.split(path)
-  local drive, root, tail = M.splitroot(path)
+function M.split(p)
+  local drive, root, tail = M.splitroot(p)
 
   local i = #tail
-  while i > 0 and not find(PATH_SEPS, sub(tail, i, i), 1, true) do
+  while i > 0 and not find(SEPS, sub(tail, i, i), 1, true) do
     i = i - 1
   end
 
@@ -225,30 +206,30 @@ function M.split(path)
   return drive .. root .. head, last
 end
 
-function M.splitext(path)
-  return splitext(path, MAIN_SEP, ALT_SEP, EXT_SEP)
+function M.splitext(p)
+  return path._splitext(p, SEP, ALT_SEP, EXT_SEP)
 end
 
-function M.basename(path)
-  local _, tail = M.split(path)
+function M.basename(p)
+  local _, tail = M.split(p)
   return tail
 end
 
-function M.dirname(path)
-  return (M.split(path))
+function M.dirname(p)
+  return (M.split(p))
 end
 
-function M.ismount(path)
-  path = M.abspath(path)
-  local drive, root, rest = M.splitroot(path)
+function M.ismount(p)
+  p = M.abspath(p)
+  local drive, root, rest = M.splitroot(p)
   if drive ~= "" and is_sep(sub(drive, 1, 1)) then
     return rest == ""
   end
   return root ~= "" and rest == ""
 end
 
-function M.isreserved(path)
-  local _, _, tail = M.splitroot(path)
+function M.isreserved(p)
+  local _, _, tail = M.splitroot(p)
   tail = norm_seps(tail)
 
   local parts = split_components(tail)
@@ -261,14 +242,14 @@ function M.isreserved(path)
   return false
 end
 
-function M.expanduser(path)
-  if not starts_with(path, "~") then
-    return path
+function M.expanduser(p)
+  if not starts_with(p, "~") then
+    return p
   end
 
   local i = 2
-  local n = #path
-  while i <= n and not is_sep(sub(path, i, i)) do
+  local n = #p
+  while i <= n and not is_sep(sub(p, i, i)) do
     i = i + 1
   end
 
@@ -276,33 +257,33 @@ function M.expanduser(path)
   if not userhome or userhome == "" then
     local homepath = os.getenv("HOMEPATH")
     if not homepath or homepath == "" then
-      return path
+      return p
     end
     userhome = M.join(os.getenv("HOMEDRIVE") or "", homepath)
   end
 
   if i ~= 2 then
-    local target_user = sub(path, 2, i - 1)
+    local target_user = sub(p, 2, i - 1)
     local current_user = os.getenv("USERNAME")
 
     if target_user ~= current_user then
       if current_user ~= M.basename(userhome) then
-        return path
+        return p
       end
       userhome = M.join(M.dirname(userhome), target_user)
     end
   end
 
-  return userhome .. sub(path, i)
+  return userhome .. sub(p, i)
 end
 
-function M.normpath(path)
-  if path == "" then
+function M.normpath(p)
+  if p == "" then
     return CURDIR
   end
 
-  path = norm_seps(path)
-  local drive, root, tail = M.splitroot(path)
+  p = norm_seps(p)
+  local drive, root, tail = M.splitroot(p)
   local prefix = drive .. root
   local comps = split_components(tail)
   local out = {}
@@ -324,31 +305,30 @@ function M.normpath(path)
     out[1] = CURDIR
   end
 
-  return prefix .. concat(out, MAIN_SEP)
+  return prefix .. concat(out, SEP)
 end
 
-function M.abspath(path)
-  if not M.isabs(path) then
-    path = M.join(getcwd(), path)
+function M.abspath(p)
+  if not M.isabs(p) then
+    p = M.join(path.getcwd(), p)
   end
-  return M.normpath(path)
+  return M.normpath(p)
 end
 
-function M.relpath(path, start)
-  if path == "" then
-    error("no path specified")
+function M.relpath(p, start)
+  if p == "" then
+    error("no path specified", 2)
   end
 
   start = start or CURDIR
 
   local start_abs = M.abspath(start)
-  local path_abs = M.abspath(path)
+  local path_abs = M.abspath(p)
   local start_drive, _, start_rest = M.splitroot(start_abs)
   local path_drive, _, path_rest = M.splitroot(path_abs)
 
   if M.normcase(start_drive) ~= M.normcase(path_drive) then
-    local msg = "path is on mount '" .. path_drive .. "', start on mount '" .. start_drive .. "'"
-    error(msg)
+    error("path is on mount '" .. path_drive .. "', start on mount '" .. start_drive .. "'", 2)
   end
 
   local start_list = split_components(start_rest)
@@ -373,7 +353,7 @@ function M.relpath(path, start)
   if #rel == 0 then
     return CURDIR
   end
-  return concat(rel, MAIN_SEP)
+  return concat(rel, SEP)
 end
 
 function M.commonpath(paths)
@@ -413,15 +393,15 @@ function M.commonpath(paths)
 
   local drive_count = tbl_count(drives)
   if drive_count ~= 1 then
-    error("Paths don't have the same drive")
+    error("Paths don't have the same drive", 2)
   end
 
   local root_count = tbl_count(roots)
   if root_count ~= 1 then
     if first_drive ~= "" then
-      error("Can't mix absolute and relative paths")
+      error("Can't mix absolute and relative paths", 2)
     end
-    error("Can't mix rooted and not-rooted paths")
+    error("Can't mix rooted and not-rooted paths", 2)
   end
 
   local common = {}
@@ -429,7 +409,13 @@ function M.commonpath(paths)
     common[#common + 1] = first_parts[i]
   end
 
-  return first_drive .. first_root .. concat(common, MAIN_SEP)
+  return first_drive .. first_root .. concat(common, SEP)
 end
 
-return M
+return setmetatable(M, {
+  __index = function(t, k)
+    local v = path[k]
+    t[k] = v
+    return v
+  end,
+})

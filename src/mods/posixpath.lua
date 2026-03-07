@@ -8,10 +8,10 @@
   Copyright (c) 2001 Python Software Foundation; All Rights Reserved.
 ]]
 
-local mods = require "mods"
+-- local str = require "mods.str"
+local utils = require "mods.utils"
 
-local assert_arg = mods.utils.assert_arg
-local splitext = mods.path._splitext
+local assert_arg = utils.assert_arg
 
 local concat = table.concat
 local getenv = os.getenv
@@ -21,11 +21,18 @@ local match = string.match
 local min = math.min
 local sub = string.sub
 
+local path = {}
+path = setmetatable(path, {
+  __index = function(_, k)
+    path = require "mods.path"
+    return path[k]
+  end,
+})
+
 ---@type mods.posixpath
 local M = {}
 
 local CURDIR = "."
-local EXTSEP = "."
 local SEP = "/"
 local PARDIR = ".."
 
@@ -41,14 +48,36 @@ local function split_components(tail)
   return out
 end
 
-local function splitpath(path)
-  local i = match(path, "^.*()/")
+function M.normcase(s)
+  return s
+end
+
+function M.isabs(p)
+  return has_prefix(p, "/")
+end
+
+function M.join(p, ...)
+  for i = 1, select("#", ...) do
+    local b = select(i, ...)
+    if has_prefix(b, "/") or p == "" then
+      p = b
+    elseif sub(p, -1) == "/" then
+      p = p .. b
+    else
+      p = p .. "/" .. b
+    end
+  end
+  return p
+end
+
+function M.split(p)
+  local i = match(p, "^.*()/")
   if i == nil then
     i = 0
   end
 
-  local head = sub(path, 1, i)
-  local tail = sub(path, i + 1)
+  local head = sub(p, 1, i)
+  local tail = sub(p, i + 1)
   if head ~= "" and not match(head, "^/+$") then
     head = gsub(head, "/+$", "")
   end
@@ -56,91 +85,56 @@ local function splitpath(path)
   return head, tail
 end
 
-local function splitroot(path)
-  if sub(path, 1, 1) ~= "/" then
-    return "", "", path
+function M.splitext(p)
+  return path._splitext(p, SEP, nil, ".")
+end
+
+function M.splitdrive(p)
+  return "", p
+end
+
+function M.splitroot(p)
+  if sub(p, 1, 1) ~= "/" then
+    return "", "", p
   end
-  if sub(path, 2, 2) ~= "/" or sub(path, 3, 3) == "/" then
-    return "", "/", sub(path, 2)
+  if sub(p, 2, 2) ~= "/" or sub(p, 3, 3) == "/" then
+    return "", "/", sub(p, 2)
   end
-  return "", "//", sub(path, 3)
+  return "", "//", sub(p, 3)
 end
 
-local function getcwd()
-  local ok, lfs = pcall(require, "lfs")
-  if ok and lfs and lfs.currentdir then
-    return lfs.currentdir()
-  end
-  return CURDIR
-end
-
-function M.normcase(s)
-  return s
-end
-
-function M.isabs(path)
-  return has_prefix(path, "/")
-end
-
-function M.join(a, ...)
-  local path = a
-  for i = 1, select("#", ...) do
-    local b = select(i, ...)
-    if has_prefix(b, "/") or path == "" then
-      path = b
-    elseif sub(path, -1) == "/" then
-      path = path .. b
-    else
-      path = path .. "/" .. b
-    end
-  end
-  return path
-end
-
-M.split = splitpath
-
-function M.splitext(path)
-  return splitext(path, "/", nil, EXTSEP)
-end
-
-function M.splitdrive(path)
-  return "", path
-end
-
-M.splitroot = splitroot
-
-function M.basename(path)
-  local _, tail = splitpath(path)
+function M.basename(p)
+  local _, tail = M.split(p)
   return tail
 end
 
-function M.dirname(path)
-  return (splitpath(path))
+function M.dirname(p)
+  return (M.split(p))
 end
 
-function M.expanduser(path)
-  if not has_prefix(path, "~") then
-    return path
+function M.expanduser(p)
+  if not has_prefix(p, "~") then
+    return p
   end
   local home = getenv("HOME")
   if not home or home == "" then
-    return path
+    return p
   end
-  if path == "~" then
+  if p == "~" then
     return home
   end
-  if has_prefix(path, "~/") then
-    return gsub(home, "/+$", "") .. sub(path, 2)
+  if has_prefix(p, "~/") then
+    return gsub(home, "/+$", "") .. sub(p, 2)
   end
-  return path
+  return p
 end
 
-function M.normpath(path)
-  if path == "" then
+function M.normpath(p)
+  if p == "" then
     return CURDIR
   end
 
-  local _, initial_slashes, tail = splitroot(path)
+  local _, initial_slashes, tail = M.splitroot(p)
   local comps = split_components(tail)
   local out = {}
   for i = 1, #comps do
@@ -158,24 +152,21 @@ function M.normpath(path)
   return res ~= "" and res or CURDIR
 end
 
-function M.abspath(path)
-  if not M.isabs(path) then
-    path = M.join(getcwd(), path)
-  end
-  return M.normpath(path)
+function M.abspath(p)
+  return M.normpath(M.join(path.getcwd(), p))
 end
 
-function M.relpath(path, start)
-  if path == "" then
+function M.relpath(p, start)
+  if p == "" then
     error("no path specified", 2)
   end
   start = start or CURDIR
 
-  local apath = M.abspath(path)
+  local apath = M.abspath(p)
   local astart = M.abspath(start)
 
-  local _, _, tail_path = splitroot(apath)
-  local _, _, tail_start = splitroot(astart)
+  local _, _, tail_path = M.splitroot(apath)
+  local _, _, tail_start = M.splitroot(astart)
 
   local pparts = split_components(tail_path)
   local sparts = split_components(tail_start)
@@ -219,10 +210,10 @@ function M.commonpath(paths)
     end
   end
 
-  local _, root, tail = splitroot(normed[1])
+  local _, root, tail = M.splitroot(normed[1])
   local prefix = split_components(tail)
   for i = 2, #normed do
-    local _, ri, ti = splitroot(normed[i])
+    local _, ri, ti = M.splitroot(normed[i])
     if ri ~= root then
       root = "/"
     end
@@ -247,4 +238,10 @@ function M.commonpath(paths)
   return root .. body
 end
 
-return M
+return setmetatable(M, {
+  __index = function(t, k)
+    local v = path[k]
+    t[k] = v
+    return v
+  end,
+})
