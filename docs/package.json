@@ -4,17 +4,14 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^24.0.0",
-    "knip": "^5.83.1",
     "vitepress-plugin-group-icons": "^1.6.3",
     "vitepress": "^1.6.4",
     "vitepress-plugin-llms": "^1.11.0",
-    "vitepress-plugin-tabs": "^0.7.3",
     "vue": "^3.5.28"
   },
   "scripts": {
     "docs:dev": "vitepress dev .",
     "docs:build": "vitepress build .",
-    "docs:preview": "vitepress preview .",
-    "deps:check": "knip --reporter symbols"
+    "docs:preview": "vitepress preview ."
   }
 }
