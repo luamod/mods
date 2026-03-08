@@ -1,5 +1,6 @@
 ---@diagnostic disable: invisible
 
+local is = require "mods.is"
 local runtime = require "mods.runtime"
 local str = require "mods.str"
 
@@ -10,9 +11,11 @@ local sub = string.sub
 
 ---@type mods.path
 local M = {}
-for k, v in pairs(path) do
-  M[k] = v
-end
+
+-- stylua: ignore start
+for k, v in pairs(path) do M[k] = v end
+for _, fname in ipairs(is._path_checks) do M["is" .. fname] = is[fname] end
+-- stylua: ignore end
 
 local lfs = {}
 setmetatable(lfs, {
