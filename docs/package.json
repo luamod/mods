@@ -2,6 +2,9 @@
   "name": "mods",
   "private": true,
   "type": "module",
+  "overrides": {
+    "esbuild": "^0.25.0"
+  },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "vitepress-plugin-group-icons": "^1.6.3",
