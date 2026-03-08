@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0](https://github.com/luamod/mods/compare/v0.4.0...v0.5.0) (2026-03-08)
+
+
+### Features
+
+* **fs:** add filesystem module and helpers ([99f9d46](https://github.com/luamod/mods/commit/99f9d4611d5be4f9c74123f1ddc6a0c5115f84ce))
+* **mods:** expose fs module ([ed61252](https://github.com/luamod/mods/commit/ed612522924affa6f339c0e204571f804ae09cf8))
+* **ntpath:** add ntpath module ([d58b6eb](https://github.com/luamod/mods/commit/d58b6ebe4f8e8ec793cf57e256f48e0a75a471e7))
+* **path:** add home and improve expanduser errors ([5c1c5eb](https://github.com/luamod/mods/commit/5c1c5eb4f33f2416f268e0f2e0901cc1fce4a84f))
+* **path:** add shared _splitext helper module ([d89f172](https://github.com/luamod/mods/commit/d89f172207c39c0843c23b88896e0f9195103b26))
+* **path:** expose path modules ([05f176f](https://github.com/luamod/mods/commit/05f176f2e290de382b1d1bfc84bf6d6556635ad0))
+* **posixpath:** add lexical posix path module ([909b137](https://github.com/luamod/mods/commit/909b137c73e709bb1e6051c09776535aa9c27bdb))
+* **runtime:** add is_windows host flag ([bbdc895](https://github.com/luamod/mods/commit/bbdc89509feb07fa1cc3cd5d48ad5866a0ae7788))
+* **utils:** add assert_arg helper ([9633b25](https://github.com/luamod/mods/commit/9633b258b63a22351b2313653b7068dcf99c632d))
+
+
+### Bug Fixes
+
+* **docs:** support include fragments in export ([6c2160e](https://github.com/luamod/mods/commit/6c2160ecb52c0fdbac504ea046635c65a7ad1618))
+* **posixpath:** return empty string for empty commonpath input ([e841e73](https://github.com/luamod/mods/commit/e841e7377d891504c22a700afda9cb9832c17d96))
+* **utils:** derive assert_arg caller from error level ([57f6977](https://github.com/luamod/mods/commit/57f6977069e1f89595eb4b9fcb06778bbe837902))
+
 ## [0.4.0](https://github.com/luamod/mods/compare/v0.3.0...v0.4.0) (2026-03-02)
 
 
