@@ -37,36 +37,36 @@ function M._splitext(path, sep, altsep, extsep) end
 --------------------------------------------------------------------------------
 
 ---
----Normalize case for POSIX paths.
----
----> [!NOTE]
---->
----> This is a (no-op for POSIX semantics).
+---Normalize path case using the active path semantics.
 ---
 ---```lua
 ---path.normcase("/A/B") --> "/A/B"
 ---```
 ---
+---> [!NOTE]
+--->
+---> On POSIX semantics this returns the input unchanged.
+---
 ---@param s string Input path value.
----@return string value Path after POSIX case normalization.
+---@return string value Path after case normalization.
 ---@nodiscard
 function M.normcase(s) end
 
 ---
 ---Join path components.
 ---
----> [!NOTE]
---->
----> Single input is returned as-is.
----
 ---```lua
 ---path.join("/usr", "bin")   --> "/usr/bin"
 ---path.join([[C:\a]], [[b]]) --> [[C:\a\b]]
 ---```
 ---
+---> [!NOTE]
+--->
+---> Single input is returned as-is.
+---
 ---@param path string Base path component.
 ---@param ... string Additional path components.
----@return string value Joined POSIX path.
+---@return string value Joined path.
 ---@nodiscard
 function M.join(path, ...) end
 
@@ -158,10 +158,10 @@ function M.splitext(path) end
 ---
 ---> [!NOTE]
 --->
----> Split drive prefix (always empty on POSIX) from remainder.
+---> On POSIX semantics the drive portion is always empty.
 ---
 ---@param path string Input path.
----@return string drive Drive prefix (always empty on POSIX).
+---@return string drive Drive or share prefix when present.
 ---@return string rest Path remainder.
 ---@nodiscard
 function M.splitdrive(path) end
@@ -175,7 +175,7 @@ function M.splitdrive(path) end
 ---```
 ---
 ---@param path string Path to split.
----@return string drive Drive prefix (always empty on POSIX).
+---@return string drive Drive or share prefix (empty on POSIX).
 ---@return string root Root separator segment.
 ---@return string tail Remaining path without leading root separator.
 ---@nodiscard
@@ -263,7 +263,12 @@ function M.relpath(path, start) end
 ---path.commonpath({ [[C:\a\b\c]], [[c:/a/b/d]] }) --> [[C:\a\b]]
 ---```
 ---
----@param paths string[] List of POSIX paths.
+---> [!NOTE]
+--->
+---> All inputs must use compatible drive/root semantics.
+---> Mixing absolute and relative paths may raise an error.
+---
+---@param paths string[] List of paths.
 ---@return string value Longest common sub-path.
 ---@nodiscard
 function M.commonpath(paths) end
