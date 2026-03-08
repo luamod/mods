@@ -1,8 +1,5 @@
 ---@meta mods.path
 
-local lfs ---@module "lfs"
-local is ---@module "mods.is"
-
 ---
 ---Generic cross-platform path API.
 ---
@@ -94,30 +91,6 @@ function M.normpath(path) end
 ---@return boolean value True when `path` is absolute.
 ---@nodiscard
 function M.isabs(path) end
-
----Alias of `mods.is.block`
-M.isblock = is.block
-
----Alias of `mods.is.char`
-M.ischar = is.char
-
----Alias of `mods.is.device`
-M.isdevice = is.device
-
----Alias of `mods.is.dir`
-M.isdir = is.dir
-
----Alias of `mods.is.fifo`
-M.isfifo = is.fifo
-
----Alias of `mods.is.file`
-M.isfile = is.file
-
----Alias of `mods.is.link`
-M.islink = is.link
-
----Alias of `mods.is.socket`
-M.issocket = is.socket
 
 --------------------------------------------------------------------------------
 ------------------------------ Path Decomposition ------------------------------
