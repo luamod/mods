@@ -167,7 +167,7 @@ Remove and return an arbitrary element.
 
 **Return**:
 
-- `value` (`any`): Removed value, or `nil` when the set is empty.
+- `removedValue` (`any`): Removed value, or `nil` when the set is empty.
 
 **Example**:
 
@@ -367,7 +367,7 @@ Return true if sets have no elements in common.
 
 **Return**:
 
-- `ok` (`boolean`): True when sets have no elements in common.
+- `isDisjoint` (`boolean`): True when sets have no elements in common.
 
 **Example**:
 
@@ -387,7 +387,7 @@ Return true when both sets contain exactly the same members.
 
 **Return**:
 
-- `ok` (`boolean`): True when both sets contain the same members.
+- `isEqual` (`boolean`): True when both sets contain the same members.
 
 **Example**:
 
@@ -410,7 +410,7 @@ Return true if the set has no elements.
 
 **Return**:
 
-- `ok` (`boolean`): True when the set has no elements.
+- `isEmpty` (`boolean`): True when the set has no elements.
 
 **Example**:
 
@@ -430,7 +430,7 @@ Return true if all elements of this set are also in another set.
 
 **Return**:
 
-- `ok` (`boolean`): True when every element of `self` exists in `set`.
+- `isSubset` (`boolean`): True when every element of `self` exists in `set`.
 
 **Example**:
 
@@ -455,7 +455,7 @@ Return true if this set contains all elements of another set.
 
 **Return**:
 
-- `ok` (`boolean`): True when `self` contains every element of `set`.
+- `isSuperset` (`boolean`): True when `self` contains every element of `set`.
 
 **Example**:
 
@@ -477,7 +477,7 @@ Return true if the set contains `v`.
 
 **Return**:
 
-- `ok` (`boolean`): True when `v` is present in the set.
+- `isPresent` (`boolean`): True when `v` is present in the set.
 
 **Example**:
 
@@ -658,7 +658,7 @@ Return true if both sets contain exactly the same members using `==`.
 
 **Return**:
 
-- `ok` (`boolean`): True when both sets contain the same members.
+- `isEqual` (`boolean`): True when both sets contain the same members.
 
 **Example**:
 
@@ -682,7 +682,7 @@ Return true if the left set is a subset of the right set using `<=`.
 
 **Return**:
 
-- `ok` (`boolean`): True when `self` is a subset of `set`.
+- `isSubset` (`boolean`): True when `self` is a subset of `set`.
 
 **Example**:
 
@@ -708,7 +708,7 @@ Return true if the left set is a proper subset of the right set using `<`.
 
 **Return**:
 
-- `ok` (`boolean`): True when `self` is a proper subset of `set`.
+- `isProperSubset` (`boolean`): True when `self` is a proper subset of `set`.
 
 **Example**:
 

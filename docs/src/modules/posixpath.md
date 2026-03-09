@@ -1,10 +1,10 @@
 ---
-description: "Lexical path operations for POSIX-style paths."
+description: "Path operations for POSIX-style paths."
 ---
 
 # `posixpath`
 
-Lexical path operations for POSIX-style paths.
+Path operations for POSIX-style paths.
 
 > 💡 Python `posixpath`-style behavior, ported to Lua.
 

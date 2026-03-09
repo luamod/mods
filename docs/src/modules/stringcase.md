@@ -61,7 +61,7 @@ Convert string to all lowercase.
 
 **Return**:
 
-- `s` (`string`): Lowercased string.
+- `lowercased` (`string`): Lowercased string.
 
 **Example**:
 
@@ -82,7 +82,7 @@ Convert string to all uppercase.
 
 **Return**:
 
-- `s` (`string`): Uppercased string.
+- `uppercased` (`string`): Uppercased string.
 
 **Example**:
 
@@ -105,7 +105,7 @@ Convert string to snake_case.
 
 **Return**:
 
-- `s` (`string`): Snake-cased string.
+- `snakeCased` (`string`): Snake-cased string.
 
 **Example**:
 
@@ -126,7 +126,7 @@ Convert string to camelCase.
 
 **Return**:
 
-- `s` (`string`): Camel-cased string.
+- `camelCased` (`string`): Camel-cased string.
 
 **Example**:
 
@@ -148,7 +148,7 @@ Normalize to snake_case, then replace underscores with a separator.
 
 **Return**:
 
-- `s` (`string`): String with underscores replaced by `sep`.
+- `replaced` (`string`): String with underscores replaced by `sep`.
 
 **Example**:
 
@@ -169,7 +169,7 @@ Get acronym of words in string (first letters only).
 
 **Return**:
 
-- `s` (`string`): Acronym string.
+- `acronym` (`string`): Acronym string.
 
 **Example**:
 
@@ -190,7 +190,7 @@ Convert string to Title Case (first letter of each word capitalized).
 
 **Return**:
 
-- `s` (`string`): Title-cased string.
+- `titleCased` (`string`): Title-cased string.
 
 **Example**:
 
@@ -211,7 +211,7 @@ Convert string to CONSTANT_CASE (uppercase snake_case).
 
 **Return**:
 
-- `s` (`string`): Constant-cased string.
+- `constantCased` (`string`): Constant-cased string.
 
 **Example**:
 
@@ -232,7 +232,7 @@ Convert string to PascalCase.
 
 **Return**:
 
-- `s` (`string`): Pascal-cased string.
+- `pascalCased` (`string`): Pascal-cased string.
 
 **Example**:
 
@@ -253,7 +253,7 @@ Convert string to kebab-case.
 
 **Return**:
 
-- `s` (`string`): Kebab-cased string.
+- `kebabCased` (`string`): Kebab-cased string.
 
 **Example**:
 
@@ -274,7 +274,7 @@ Convert string to dot.case.
 
 **Return**:
 
-- `s` (`string`): Dot-cased string.
+- `dotCased` (`string`): Dot-cased string.
 
 **Example**:
 
@@ -295,7 +295,7 @@ Convert string to space case (spaces between words).
 
 **Return**:
 
-- `s` (`string`): Space-cased string.
+- `spaceCased` (`string`): Space-cased string.
 
 **Example**:
 
@@ -316,7 +316,7 @@ Convert string to path/case (slashes between words).
 
 **Return**:
 
-- `s` (`string`): Path-cased string.
+- `pathCased` (`string`): Path-cased string.
 
 **Example**:
 
@@ -339,7 +339,7 @@ Swap case of each letter.
 
 **Return**:
 
-- `s` (`string`): Swap-cased string.
+- `swapCased` (`string`): Swap-cased string.
 
 **Example**:
 
@@ -360,7 +360,7 @@ Capitalize the first letter and lowercase the rest.
 
 **Return**:
 
-- `s` (`string`): Capitalized string.
+- `capitalized` (`string`): Capitalized string.
 
 **Example**:
 
@@ -381,7 +381,7 @@ Convert string to sentence case (first letter uppercase, rest unchanged).
 
 **Return**:
 
-- `s` (`string`): Sentence-cased string.
+- `sentenceCased` (`string`): Sentence-cased string.
 
 **Example**:
 

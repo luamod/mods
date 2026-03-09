@@ -1,10 +1,10 @@
 ---
-description: "Lexical path operations for Windows/NT-style paths."
+description: "Path operations for Windows/NT-style paths."
 ---
 
 # `ntpath`
 
-Lexical path operations for Windows/NT-style paths.
+Path operations for Windows/NT-style paths.
 
 > 💡Python `ntpath`-style behavior, ported to Lua.
 
@@ -36,7 +36,7 @@ Return `true` when `path` points to a mount root.
 
 **Return**:
 
-- `value` (`boolean`): `true` if the path resolves to a mount root.
+- `isMount` (`boolean`): `true` if the path resolves to a mount root.
 
 **Example**:
 
@@ -56,7 +56,7 @@ Return `true` when `path` contains a reserved NT filename.
 
 **Return**:
 
-- `value` (`boolean`): `true` if any component is NT-reserved.
+- `isReserved` (`boolean`): `true` if any component is NT-reserved.
 
 **Example**:
 

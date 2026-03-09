@@ -90,7 +90,7 @@ Returns `true` when `v` is a boolean.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isBoolean` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -110,7 +110,7 @@ Returns `true` when `v` is a function.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isFunction` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -130,7 +130,7 @@ Returns `true` when `v` is `nil`.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isNil` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -150,7 +150,7 @@ Returns `true` when `v` is a number.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isNumber` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -170,7 +170,7 @@ Returns `true` when `v` is a string.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isString` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -190,7 +190,7 @@ Returns `true` when `v` is a table.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isTable` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -210,7 +210,7 @@ Returns `true` when `v` is a thread.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isThread` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -230,7 +230,7 @@ Returns `true` when `v` is userdata.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isUserdata` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -252,7 +252,7 @@ Returns `true` when `v` is exactly `false`.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isFalse` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -272,7 +272,7 @@ Returns `true` when `v` is exactly `true`.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isTrue` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -292,7 +292,7 @@ Returns `true` when `v` is falsy.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isFalsy` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -312,7 +312,7 @@ Returns `true` when `v` is callable.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isCallable` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -332,7 +332,7 @@ Returns `true` when `v` is an integer.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isInteger` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -352,7 +352,7 @@ Returns `true` when `v` is truthy.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isTruthy` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -380,7 +380,7 @@ Returns `true` when `v` is a block device path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isBlock` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -400,7 +400,7 @@ Returns `true` when `v` is a character device path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isChar` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -420,7 +420,7 @@ Returns `true` when `v` is a block or character device path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isDevice` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -440,7 +440,7 @@ Returns `true` when `v` is a directory path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isDir` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -460,7 +460,7 @@ Returns `true` when `v` is a FIFO path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isFifo` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -480,7 +480,7 @@ Returns `true` when `v` is a file path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isFile` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -500,7 +500,7 @@ Returns `true` when `v` is a symlink path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isLink` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -520,7 +520,7 @@ Returns `true` when `v` is a socket path.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isSocket` (`boolean`): Whether the check succeeds.
 
 **Example**:
 

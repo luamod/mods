@@ -482,7 +482,7 @@ Return the value at key/index `k` in table `t`.
 
 **Return**:
 
-- `value` (`T`): Value stored at `t[k]`.
+- `indexedValue` (`T`): Value stored at `t[k]`.
 
 **Example**:
 
@@ -504,7 +504,7 @@ Set `t[k] = v` and return the assigned value.
 
 **Return**:
 
-- `value` (`T`): Assigned value `v`.
+- `assignedValue` (`T`): Assigned value `v`.
 
 **Example**:
 
@@ -525,7 +525,7 @@ Call a function with variadic arguments and return its result.
 
 **Return**:
 
-- `result` (`T2`): Return value(s) from `f(...)`.
+- `callResult` (`T2`): Return value(s) from `f(...)`.
 
 **Example**:
 

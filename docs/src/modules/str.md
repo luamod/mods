@@ -97,7 +97,7 @@ Return copy with first character capitalized and the rest lowercased.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `capitalized` (`string`): Capitalized string.
 
 **Example**:
 
@@ -119,7 +119,7 @@ Center string within width, padded with fill characters.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `centered` (`string`): Centered string.
 
 **Example**:
 
@@ -142,7 +142,7 @@ Count non-overlapping occurrences of a substring.
 
 **Return**:
 
-- `n` (`integer`): Computed numeric value.
+- `count` (`integer`): Number of non-overlapping matches.
 
 **Example**:
 
@@ -167,7 +167,7 @@ Return true if string ends with suffix.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` ends with `suffix`.
+- `hasSuffix` (`boolean`): True when `s` ends with `suffix`.
 
 **Example**:
 
@@ -192,7 +192,7 @@ Expand tabs to spaces using given tabsize.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `expanded` (`string`): String with tabs expanded.
 
 **Example**:
 
@@ -236,7 +236,7 @@ Format string with mapping (key-based) replacement.
 
 **Return**:
 
-- `s` (`string`): Formatted string with placeholders replaced.
+- `formatted` (`string`): Formatted string with placeholders replaced.
 
 **Example**:
 
@@ -263,7 +263,7 @@ Return true if all characters are alphanumeric and string is non-empty.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is non-empty and all characters are
+- `isAlnum` (`boolean`): True when `s` is non-empty and all characters are
   alphanumeric.
 
 **Example**:
@@ -292,7 +292,7 @@ Return true if all characters are alphabetic and string is non-empty.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is non-empty and all characters are
+- `isAlpha` (`boolean`): True when `s` is non-empty and all characters are
   alphabetic.
 
 **Example**:
@@ -321,7 +321,7 @@ Return true if all characters are ASCII.
 
 **Return**:
 
-- `ok` (`boolean`): True when all bytes in `s` are ASCII.
+- `isAscii` (`boolean`): True when all bytes in `s` are ASCII.
 
 **Example**:
 
@@ -345,8 +345,8 @@ Return true if all characters are decimal characters and string is non-empty.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is non-empty and all characters are decimal
-  digits.
+- `isDecimal` (`boolean`): True when `s` is non-empty and all characters are
+  decimal digits.
 
 **Example**:
 
@@ -366,7 +366,8 @@ Return true if all characters are digits and string is non-empty.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is non-empty and all characters are digits.
+- `isDigit` (`boolean`): True when `s` is non-empty and all characters are
+  digits.
 
 **Example**:
 
@@ -386,7 +387,8 @@ Return true if string is a valid identifier and not a reserved keyword.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is a valid identifier and not a keyword.
+- `isIdentifier` (`boolean`): True when `s` is a valid identifier and not a
+  keyword.
 
 **Example**:
 
@@ -409,8 +411,8 @@ cased character.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` has at least one cased character and all are
-  lowercase.
+- `isLower` (`boolean`): True when `s` has at least one cased character and all
+  are lowercase.
 
 **Example**:
 
@@ -430,7 +432,8 @@ Return true if all characters are numeric and string is non-empty.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is non-empty and all characters are numeric.
+- `isNumeric` (`boolean`): True when `s` is non-empty and all characters are
+  numeric.
 
 **Example**:
 
@@ -450,7 +453,7 @@ Return true if all characters are printable.
 
 **Return**:
 
-- `ok` (`boolean`): True when all bytes in `s` are printable ASCII.
+- `isPrintable` (`boolean`): True when all bytes in `s` are printable ASCII.
 
 **Example**:
 
@@ -474,7 +477,7 @@ Return true if all characters are whitespace and string is non-empty.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is non-empty and all characters are
+- `isSpace` (`boolean`): True when `s` is non-empty and all characters are
   whitespace.
 
 **Example**:
@@ -495,7 +498,7 @@ Return true if string is titlecased.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` is titlecased.
+- `isTitle` (`boolean`): True when `s` is titlecased.
 
 **Example**:
 
@@ -516,8 +519,8 @@ cased character.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` has at least one cased character and all are
-  uppercase.
+- `isUpper` (`boolean`): True when `s` has at least one cased character and all
+  are uppercase.
 
 **Example**:
 
@@ -540,7 +543,7 @@ Join an array-like table of strings using this string as separator.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `joined` (`string`): Joined string.
 
 **Example**:
 
@@ -562,7 +565,7 @@ Left-justify string in a field of given width.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `leftJustified` (`string`): Left-justified string.
 
 **Example**:
 
@@ -582,7 +585,7 @@ Return lowercased copy.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `lowercased` (`string`): Lowercased string.
 
 **Example**:
 
@@ -603,7 +606,7 @@ Remove leading characters (default: whitespace).
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `leadingStripped` (`string`): String with leading characters removed.
 
 **Example**:
 
@@ -624,7 +627,7 @@ Remove trailing characters (default: whitespace).
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `trailingStripped` (`string`): String with trailing characters removed.
 
 **Example**:
 
@@ -645,7 +648,7 @@ Remove leading and trailing characters (default: whitespace).
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `stripped` (`string`): String with leading and trailing characters removed.
 
 **Example**:
 
@@ -669,7 +672,7 @@ Partition string into head, sep, tail from left.
 **Return**:
 
 - `head` (`string`): Part before the separator.
-- `sep_found` (`string`): Matched separator, or empty string when not found.
+- `separator` (`string`): Matched separator, or empty string when not found.
 - `tail` (`string`): Part after the separator.
 
 **Example**:
@@ -691,7 +694,7 @@ Remove prefix if present.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `prefixRemoved` (`string`): String with prefix removed when present.
 
 **Example**:
 
@@ -712,7 +715,7 @@ Remove suffix if present.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `suffixRemoved` (`string`): String with suffix removed when present.
 
 **Example**:
 
@@ -735,7 +738,7 @@ Return a copy of the string with all occurrences of a substring replaced.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `replaced` (`string`): String with replacements applied.
 
 **Example**:
 
@@ -781,7 +784,7 @@ Like `rfind` but raises an error when the substring is not found.
 
 **Return**:
 
-- `index` (`integer`): Computed numeric value.
+- `index` (`integer`): Last match index.
 
 **Example**:
 
@@ -803,7 +806,7 @@ Right-justify string in a field of given width.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `rightJustified` (`string`): Right-justified string.
 
 **Example**:
 
@@ -825,7 +828,7 @@ Partition string into head, sep, tail from right.
 **Return**:
 
 - `head` (`string`): Part before the separator.
-- `sep_found` (`string`): Matched separator, or empty string when not found.
+- `separator` (`string`): Matched separator, or empty string when not found.
 - `tail` (`string`): Part after the separator.
 
 **Example**:
@@ -913,7 +916,7 @@ Return a copy with case of alphabetic characters swapped.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `swappedCase` (`string`): String with alphabetic case swapped.
 
 **Example**:
 
@@ -936,7 +939,7 @@ Return true if string starts with prefix.
 
 **Return**:
 
-- `ok` (`boolean`): True when `s` starts with `prefix`.
+- `hasPrefix` (`boolean`): True when `s` starts with `prefix`.
 
 **Example**:
 
@@ -960,7 +963,7 @@ Return titlecased copy.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `titlecased` (`string`): Titlecased string.
 
 **Example**:
 
@@ -981,7 +984,7 @@ Translate characters using a mapping table.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `translated` (`string`): Translated string.
 
 **Example**:
 
@@ -1002,7 +1005,7 @@ Return uppercased copy.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `uppercased` (`string`): Uppercased string.
 
 **Example**:
 
@@ -1023,7 +1026,7 @@ Pad numeric string on the left with zeros.
 
 **Return**:
 
-- `s` (`string`): Computed string value.
+- `zeroFilled` (`string`): Zero-padded string.
 
 **Example**:
 
