@@ -1,6 +1,6 @@
 ---@meta mods.ntpath
 
----Lexical path operations for Windows/NT-style paths.
+---Path operations for Windows/NT-style paths.
 ---
 --->💡Python `ntpath`-style behavior, ported to Lua.
 ---
@@ -29,7 +29,7 @@ local M = {}
 ---```
 ---
 ---@param path string Path to inspect.
----@return boolean value `true` if the path resolves to a mount root.
+---@return boolean isMount `true` if the path resolves to a mount root.
 ---@nodiscard
 function M.ismount(path) end
 
@@ -41,7 +41,7 @@ function M.ismount(path) end
 ---```
 ---
 ---@param path string Path to inspect.
----@return boolean value `true` if any component is NT-reserved.
+---@return boolean isReserved `true` if any component is NT-reserved.
 ---@nodiscard
 function M.isreserved(path) end
 
