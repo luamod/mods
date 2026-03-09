@@ -128,7 +128,7 @@ Return true if all values match the predicate.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `allMatch` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -153,7 +153,7 @@ Return true if any value matches the predicate.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `anyMatch` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -174,7 +174,7 @@ Compare two lists using shallow element equality.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `isEqual` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -225,7 +225,7 @@ Compare two lists lexicographically.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `isLess` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -250,7 +250,7 @@ Compare two lists lexicographically.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `isLessOrEqual` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -392,7 +392,7 @@ Remove and return the last element.
 
 **Return**:
 
-- `value` (`any`): Removed value.
+- `removedValue` (`any`): Removed value.
 
 **Example**:
 
@@ -413,7 +413,7 @@ Remove and return the element at the given position.
 
 **Return**:
 
-- `value` (`any`): Removed value.
+- `removedValue` (`any`): Removed value.
 
 **Example**:
 
@@ -518,7 +518,7 @@ Return true if the list contains the value.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `isPresent` (`boolean`): True when `v` is present in the list.
 
 **Example**:
 
@@ -617,7 +617,7 @@ Return the first element or `nil` if empty.
 
 **Return**:
 
-- `value` (`any`): First value, or `nil` if empty.
+- `firstValue` (`any`): First value, or `nil` if empty.
 
 **Example**:
 
@@ -633,7 +633,7 @@ Return the last element or `nil` if empty.
 
 **Return**:
 
-- `value` (`any`): Last value, or `nil` if empty.
+- `lastValue` (`any`): Last value, or `nil` if empty.
 
 **Example**:
 
@@ -823,7 +823,7 @@ Concatenate list values using Lua's native `table.concat` behavior.
 
 **Return**:
 
-- `s` (`string`): Concatenated string.
+- `concatenated` (`string`): Concatenated string.
 
 **Example**:
 
@@ -849,7 +849,7 @@ Join list values into a string.
 
 **Return**:
 
-- `s` (`string`): Joined string.
+- `joined` (`string`): Joined string.
 
 **Example**:
 
@@ -871,7 +871,7 @@ Render the list to a string via the regular method form.
 
 **Return**:
 
-- `s` (`string`): Rendered list string.
+- `renderedList` (`string`): Rendered list string.
 
 **Example**:
 
@@ -891,7 +891,7 @@ Render list items as a table-access key path.
 
 **Return**:
 
-- `s` (`string`): Key-path string.
+- `keyPath` (`string`): Key-path string.
 
 **Example**:
 
@@ -958,7 +958,7 @@ Reduce the list to a single value using an accumulator.
 
 **Return**:
 
-- `res` (`any`): Reduced value.
+- `reducedValue` (`any`): Reduced value.
 
 **Example**:
 
@@ -1107,7 +1107,7 @@ Compare two lists using shallow element equality (`==`).
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `isEqual` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -1156,7 +1156,7 @@ Compare two lists lexicographically (`<`).
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `isLess` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -1180,7 +1180,7 @@ Compare two lists lexicographically (`<=`).
 
 **Return**:
 
-- `ok` (`boolean`): Whether the condition is met.
+- `isLessOrEqual` (`boolean`): Whether the condition is met.
 
 **Example**:
 
@@ -1278,7 +1278,7 @@ Render the list to a string like `{ "a", "b", 1 }`.
 
 **Return**:
 
-- `s` (`string`): Rendered list string.
+- `renderedList` (`string`): Rendered list string.
 
 **Example**:
 

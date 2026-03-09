@@ -78,7 +78,7 @@ error on failure.
 
 **Return**:
 
-- `v` (`T`): Same input value on success.
+- `validatedValue` (`T`): Same input value on success.
 
 **Example**:
 

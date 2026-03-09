@@ -129,7 +129,7 @@ Create a deep copy of a value.
 
 **Return**:
 
-- `copy` (`T`): Deep-copied value.
+- `copiedValue` (`T`): Deep-copied value.
 
 **Example**:
 
@@ -202,7 +202,7 @@ Return `true` if two tables have the same keys and equal values.
 
 **Return**:
 
-- `ok` (`boolean`): True when both tables have the same keys and values.
+- `isSame` (`boolean`): True when both tables have the same keys and values.
 
 **Example**:
 
@@ -224,7 +224,7 @@ Find first value and key matching predicate.
 
 **Return**:
 
-- `v` (`T1?`): First matching value, or `nil` when not found.
+- `matchedValue` (`T1?`): First matching value, or `nil` when not found.
 - `k` (`T2?`): Key for the first matching value, or `nil` when not found.
 
 **Example**:
@@ -248,7 +248,7 @@ Safely get nested value by keys.
 
 **Return**:
 
-- `value` (`any`): Nested value, or `nil` when any key is missing.
+- `nestedValue` (`any`): Nested value, or `nil` when any key is missing.
 
 **Example**:
 
@@ -296,7 +296,7 @@ Return true if table has no entries.
 
 **Return**:
 
-- `ok` (`boolean`): True when `t` has no entries.
+- `isEmpty` (`boolean`): True when `t` has no entries.
 
 **Example**:
 

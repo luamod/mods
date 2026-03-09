@@ -102,7 +102,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -125,7 +125,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -149,7 +149,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -172,7 +172,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -195,7 +195,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -218,7 +218,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -241,7 +241,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -265,7 +265,7 @@ error message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -291,7 +291,7 @@ error message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -314,7 +314,7 @@ error message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -337,7 +337,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -360,7 +360,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -383,7 +383,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -406,7 +406,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -437,7 +437,7 @@ error message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -459,7 +459,7 @@ error message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -481,7 +481,7 @@ Returns `true` when `v` is a block or char device path. Otherwise returns
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -503,7 +503,7 @@ error message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -525,7 +525,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -547,7 +547,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -569,7 +569,7 @@ error message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:
@@ -591,7 +591,7 @@ message.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isValid` (`boolean`): Whether the check succeeds.
 - `err` (`string?`): Error message when the check fails.
 
 **Example**:

@@ -37,7 +37,7 @@ Return `true` when `v` is a reserved Lua keyword.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isKeyword` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -58,7 +58,7 @@ Return `true` when `v` is a valid non-keyword Lua identifier.
 
 **Return**:
 
-- `ok` (`boolean`): Whether the check succeeds.
+- `isIdentifier` (`boolean`): Whether the check succeeds.
 
 **Example**:
 
@@ -111,7 +111,7 @@ Normalize an input into a safe Lua identifier.
 
 **Return**:
 
-- `ident` (`string`): Normalized Lua identifier.
+- `identifier` (`string`): Normalized Lua identifier.
 
 **Example**:
 
