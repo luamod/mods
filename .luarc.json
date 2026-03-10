@@ -1,7 +1,7 @@
 {
   "diagnostics": {
     "globals": ["_TEST", "inspect", "args_repr"],
-    "disable": ["deprecated"]
+    "disable": ["deprecated", "invisible"]
   },
   "workspace": {
     "library": [
