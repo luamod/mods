@@ -1,27 +1,18 @@
-local utils = require "mods.utils"
+local mods = require "mods"
 
-local keypath = utils.keypath
-local quote = utils.quote
+local keypath = mods.utils.keypath
+local quote = mods.utils.quote
 
 local concat = table.concat
-local getmetatable = getmetatable
 local insert = table.insert
 local move = table.move
-local pairs = pairs
 local remove = table.remove
 local sort = table.sort
-local tostring = tostring
-local type = type
 local unpack = table.unpack or unpack
 
 ---@type mods.List
 local List = {}
 List.__index = List
-
-local function Set(t)
-  Set = require "mods.Set" ---@diagnostic disable-line: cast-local-type
-  return Set(t)
-end
 
 local function collect_by_membership(ls, set, keep_if_present)
   local res = List()
@@ -120,7 +111,7 @@ function List:count(v)
 end
 
 function List:difference(t)
-  local set = getmetatable(t) == Set and t or Set(t)
+  local set = getmetatable(t) == mods.Set and t or mods.Set(t)
   return collect_by_membership(self, set, false)
 end
 
@@ -150,7 +141,7 @@ function List:equals(ls)
 end
 
 function List:extend(t)
-  if getmetatable(t) == Set then
+  if getmetatable(t) == mods.Set then
     for k in pairs(t) do
       self[#self + 1] = k
     end
@@ -260,7 +251,7 @@ function List:insert(pos, v)
 end
 
 function List:intersection(t)
-  local set = getmetatable(t) == Set and t or Set(t)
+  local set = getmetatable(t) == mods.Set and t or mods.Set(t)
   return collect_by_membership(self, set, true)
 end
 
@@ -436,7 +427,7 @@ end
 function List:zip(t)
   local res = List()
 
-  if getmetatable(t) == Set then
+  if getmetatable(t) == mods.Set then
     local limit = #self
     for k in pairs(t) do
       local i = #res + 1
@@ -460,7 +451,6 @@ end
 
 List.concat = concat
 List.pop = remove
-List.toset = Set
 
 List.__add = List.extend
 List.__eq = List.equals
@@ -474,6 +464,13 @@ List.__sub = List.difference
 List.__tostring = List.tostring
 
 return setmetatable(List, {
+  __index = function(t, k)
+    if k == "toset" then
+      local fn = mods.Set
+      rawset(t, k, fn)
+      return fn
+    end
+  end,
   __call = function(_, ls)
     return setmetatable(ls or {}, List)
   end,
