@@ -1,9 +1,10 @@
 ---@diagnostic disable: invisible
 
 local tbl = require "mods.tbl"
+local utils = require "mods.utils"
 
-local next = next
-local pairs = pairs
+local quote = utils.quote
+local concat = table.concat
 
 ---@type mods.Set
 local Set = {}
@@ -84,6 +85,25 @@ function Set:contains(v)
   return self[v] ~= nil
 end
 
+function Set:join(sep, quoted)
+  local out = {}
+  for v in pairs(self) do
+    local i = #out + 1
+    if v == self then
+      out[i] = "<self>"
+    elseif quoted and type(v) == "string" then
+      out[i] = quote(v)
+    else
+      out[i] = tostring(v)
+    end
+  end
+  return concat(out, sep)
+end
+
+function Set:tostring()
+  return "{ " .. self:join(", ", true) .. " }"
+end
+
 function Set:map(fn)
   local set = setmetatable({}, Set)
   for k in pairs(self) do
@@ -137,6 +157,7 @@ Set.__lt = function(a, b)
   return a:issubset(b) and not a:issuperset(b)
 end
 Set.__sub = Set.difference
+Set.__tostring = Set.tostring
 
 return setmetatable(Set, {
   __call = function(_, t)

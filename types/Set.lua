@@ -372,6 +372,33 @@ function Set:map(fn) end
 ---@nodiscard
 function Set:values() end
 
+---
+---Render the set as a string (method form).
+---
+---```lua
+---s = Set({ "b", "a", 1 }):tostring() --> '{ 1, "a", "b" }' (order not guaranteed)
+---```
+---
+---@param self mods.Set|table<any,true> Current set instance.
+---@return string renderedSet Rendered set string.
+---@nodiscard
+function Set:tostring() end
+
+---
+---Join set values into a string.
+---
+---```lua
+---s = Set({ "b", "a" }):join(", ")       --> "a, b"     (order not guaranteed)
+---s = Set({ "b", "a" }):join(", ", true) --> '"a", "b"' (order not guaranteed)
+---```
+---
+---@param self mods.Set|table<any,true> Current set instance.
+---@param sep? string Optional separator value (defaults to `""`).
+---@param quoted? boolean Optional boolean flag (defaults to `false`).
+---@return string joined Joined string.
+---@nodiscard
+function Set:join(sep, quoted) end
+
 --------------------------------------------------------------------------------
 ---------------------------------- Metamethods ---------------------------------
 --------------------------------------------------------------------------------
@@ -521,5 +548,17 @@ function Set.__lt(self, set) end
 ---@return mods.Set set New set.
 ---@private
 function Set.__sub(self, set) end
+
+---
+---Render the set via `tostring(set)`.
+---
+---```lua
+---s = tostring(Set({ "b", "a", 1 })) --> '{ 1, "a", "b" }'
+---```
+---
+---@param self mods.Set Current set instance.
+---@return string renderedSet Rendered set string.
+---@private
+function Set.__tostring(self) end
 
 return Set
