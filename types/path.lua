@@ -1,7 +1,7 @@
 ---@meta mods.path
 
 ---
----Generic cross-platform path API.
+---Generic cross-platform path API with host-platform semantics.
 ---
 ---## Usage
 ---
@@ -30,22 +30,24 @@ local M = {}
 function M._splitext(path, sep, altsep, extsep) end
 
 --------------------------------------------------------------------------------
-------------------------- Normalization & Predicates ---------------------------
+-------------------------------- Normalization ---------------------------------
 --------------------------------------------------------------------------------
 
 ---
 ---Normalize path case using the active path semantics.
 ---
 ---```lua
----path.normcase("/A/B") --> "/A/B"
+---path.normcase("ABC")  --> "abc"
+---path.normcase("/A/B") --> "\\a\\b"
 ---```
 ---
 ---> [!NOTE]
 --->
----> On POSIX semantics this returns the input unchanged.
+---> On POSIX semantics this returns the input unchanged. Use `mods.ntpath` to
+---> force Windows-style case folding and separator normalization.
 ---
 ---@param s string Input path value.
----@return string value Path after case normalization.
+---@return string normalizedPath Path after case normalization.
 ---@nodiscard
 function M.normcase(s) end
 
@@ -54,7 +56,7 @@ function M.normcase(s) end
 ---
 ---```lua
 ---path.join("/usr", "bin")   --> "/usr/bin"
----path.join([[C:\a]], [[b]]) --> [[C:\a\b]]
+---path.join([[C:/a]], [[b]]) --> [[C:/a\b]]
 ---```
 ---
 ---> [!NOTE]
@@ -63,7 +65,7 @@ function M.normcase(s) end
 ---
 ---@param path string Base path component.
 ---@param ... string Additional path components.
----@return string value Joined path.
+---@return string joinedPath Joined path.
 ---@nodiscard
 function M.join(path, ...) end
 
@@ -76,11 +78,10 @@ function M.join(path, ...) end
 ---```
 ---
 ---@param path string Path to normalize.
----@return string value Normalized path.
+---@return string normalizedPath Normalized path.
 ---@nodiscard
 function M.normpath(path) end
 
----
 ---Return `true` when `path` is absolute.
 ---
 ---```lua
@@ -88,12 +89,12 @@ function M.normpath(path) end
 ---```
 ---
 ---@param path string Input path.
----@return boolean value True when `path` is absolute.
+---@return boolean isAbsolute True when `path` is absolute.
 ---@nodiscard
 function M.isabs(path) end
 
 --------------------------------------------------------------------------------
------------------------------- Path Decomposition ------------------------------
+-------------------------------- Decomposition ---------------------------------
 --------------------------------------------------------------------------------
 
 ---
@@ -163,7 +164,7 @@ function M.splitroot(path) end
 ---```
 ---
 ---@param path string Path to inspect.
----@return string value Final path component.
+---@return string basename Final path component.
 ---@nodiscard
 function M.basename(path) end
 
@@ -176,12 +177,12 @@ function M.basename(path) end
 ---```
 ---
 ---@param path string Path to inspect.
----@return string value Parent directory path.
+---@return string dirname Parent directory path.
 ---@nodiscard
 function M.dirname(path) end
 
 --------------------------------------------------------------------------------
------------------------------- Environment Expand ------------------------------
+--------------------------------- Environment ---------------------------------
 --------------------------------------------------------------------------------
 
 ---
@@ -193,7 +194,7 @@ function M.dirname(path) end
 ---```
 ---
 ---@param path string Path that may begin with `~`.
----@return string? value Path with the home segment expanded when available.
+---@return string? expandedPath Path with the home segment expanded when available.
 ---@return string? err Error message when `~` expansion cannot be resolved.
 ---@nodiscard
 function M.expanduser(path) end
@@ -205,13 +206,13 @@ function M.expanduser(path) end
 ---path.home()
 ---```
 ---
----@return string? value Home directory path when available.
+---@return string? homePath Home directory path when available.
 ---@return string? err Error message when the home directory cannot be resolved.
 ---@nodiscard
 function M.home() end
 
 --------------------------------------------------------------------------------
-------------------------------- Derived Paths ----------------------------------
+----------------------------------- Derived ------------------------------------
 --------------------------------------------------------------------------------
 
 ---
@@ -223,7 +224,7 @@ function M.home() end
 ---```
 ---
 ---@param path string Path to absolutize.
----@return string value Absolute normalized path.
+---@return string absolutePath Absolute normalized path.
 ---@nodiscard
 function M.abspath(path) end
 
@@ -237,7 +238,7 @@ function M.abspath(path) end
 ---
 ---@param path string Input path.
 ---@param start? string Optional base path.
----@return string value Relative path from `start` to `path`.
+---@return string relativePath Relative path from `start` to `path`.
 ---@nodiscard
 function M.relpath(path, start) end
 
@@ -255,8 +256,242 @@ function M.relpath(path, start) end
 ---> Mixing absolute and relative paths may raise an error.
 ---
 ---@param paths string[] List of paths.
----@return string value Longest common sub-path.
+---@return string commonPath Longest common sub-path.
 ---@nodiscard
 function M.commonpath(paths) end
+
+--------------------------------------------------------------------------------
+----------------------------------- Anchors ------------------------------------
+--------------------------------------------------------------------------------
+
+---
+---Return drive prefix when present.
+---
+---```lua
+---path.drive("c:a/b") --> "c:"
+---path.drive("a/b")   --> ""
+---```
+---
+---@param path string Input path.
+---@return string drivePrefix Drive prefix.
+---@nodiscard
+function M.drive(path) end
+
+---
+---Return root separator segment when present.
+---
+---```lua
+---path.root("/tmp/a.txt") --> "/"
+---path.root("c:/")        --> "\\"
+---path.root("a/b")        --> ""
+---```
+---
+---@param path string Input path.
+---@return string rootSeparator Root separator segment.
+---@nodiscard
+function M.root(path) end
+
+---
+---Return drive and root combined.
+---
+---```lua
+---path.anchor("c:\\") --> "c:\\"
+---```
+---
+---@param path string Input path.
+---@return string anchor Drive and root anchor.
+---@nodiscard
+function M.anchor(path) end
+
+--------------------------------------------------------------------------------
+---------------------------------- Components ----------------------------------
+--------------------------------------------------------------------------------
+
+---
+---Split path into logical parts, including anchor when present.
+---
+---```lua
+---path.parts("a/b.txt") --> {"a", "b.txt"}
+---path.parts("/a/b")    --> {"/", "a", "b"}
+---path.parts("c:a\\b")  --> {"c:", "a", "b"}
+---```
+---
+---@param path string Input path.
+---@return mods.List<string> paths Path parts including anchor when present.
+---@nodiscard
+function M.parts(path) end
+
+---
+---Return filename without its final suffix.
+---
+---```lua
+---path.stem("archive.tar.gz") --> "archive.tar"
+---path.stem("c:a/b")          --> "b"
+---```
+---
+---@param path string Input path.
+---@return string stem Filename stem.
+---@nodiscard
+function M.stem(path) end
+
+---
+---Return all filename suffixes in order.
+---
+---```lua
+---path.suffixes("archive.tar.gz") --> {".tar", ".gz"}
+---path.suffixes("a/b")            --> {}
+---```
+---
+---@param path string Input path.
+---@return mods.List<string> suffixes Filename suffixes.
+---@nodiscard
+function M.suffixes(path) end
+
+---
+---Return logical parent paths from nearest to farthest.
+---
+---```lua
+---path.dirnames("a/b/c") --> {"a/b", "a", "."}
+---path.dirnames("c:a/b") --> {"c:a", "c:"}
+---```
+---
+---@param path string Input path.
+---@return mods.List<string> parents Ancestor paths from nearest to farthest.
+---@nodiscard
+function M.dirnames(path) end
+
+--------------------------------------------------------------------------------
+----------------------------------- Relations ----------------------------------
+--------------------------------------------------------------------------------
+
+---
+---Return `path` relative to `other`, or `nil` with an error when it is not under `other`.
+---
+---When `walk_up` is `true`, allow `..` segments to walk up to a shared prefix.
+---
+---```lua
+---path.relative_to("/a/b/c.txt", "/a")   --> "b/c.txt"
+---path.relative_to("/a/b", "/a/c", true) --> "../b"
+---path.relative_to("/a/b", "/a/x")       --> nil, "'/a/b' is not in the subpath of '/a/x'"
+---```
+---
+---@param path string Input path.
+---@param other string Reference path.
+---@param walk_up? boolean Allow walking up to a shared prefix.
+---@return string? relativePath Path relative to `other`, or `nil` on error.
+---@return string? err Error message when the path cannot be made relative.
+---@nodiscard
+function M.relative_to(path, other, walk_up) end
+
+---
+---Return `true` when `path` is under `other`.
+---
+---```lua
+---path.is_relative_to("a/b/c", "a/b") --> true
+---path.is_relative_to("C:A/B", "c:a") --> true
+---path.is_relative_to("a/b", "a/b/c") --> false
+---```
+---
+---@param path string Input path.
+---@param other string Reference path.
+---@return boolean isRelative True when `path` is under `other`.
+---@nodiscard
+function M.is_relative_to(path, other) end
+
+---
+---Return a path with the final filename replaced.
+---
+---```lua
+---path.with_name("a/b", "c.txt")     --> "a/c.txt"
+---path.with_name("a/b.txt", "c.lua") --> "a/c.lua"
+---path.with_name("a/b", "c/d")       --> nil, "invalid name 'c/d'"
+---path.with_name("/", "d.xml")       --> nil, "'/' has an empty name"
+---```
+---
+---@param path string Input path.
+---@param name string Replacement filename.
+---@return string? updatedPath Path with replaced filename, or `nil` on error.
+---@return string? err Error message when replacement fails.
+---@nodiscard
+function M.with_name(path, name) end
+
+---
+---Return a path with the final filename stem replaced.
+---
+---```lua
+---path.with_stem("a/b", "d")     --> "/a/d"
+---path.with_stem("a/b.lua", "d") --> "/a/d.lua"
+---path.with_stem("/", "d")       --> "'/' has an empty name"
+---path.with_stem("a/b", "d")     --> "invalid name ''."
+---```
+---
+---@param path string Input path.
+---@param stem string Replacement filename stem.
+---@return string? updatedPath Path with replaced filename stem, or `nil` on error.
+---@return string? err Error message when replacement fails.
+---@nodiscard
+function M.with_stem(path, stem) end
+
+---
+---Return a path with the final filename suffix replaced.
+---
+---```lua
+---path.with_suffix("a/b", ".gz")     --> "a/b/.gz"
+---path.with_suffix("a/b.gz", ".lua") --> "a/b/.lua"
+---path.with_suffix("a/b", "gz")      --> nil, "invalid suffix 'gz'"
+---path.with_suffix("//a/b", "gz")    --> nil, "'//a/b' has an empty name"
+---```
+---
+---@param path string Input path.
+---@param suffix string Replacement suffix.
+---@return string? updatedPath Path with replaced suffix, or `nil` on error.
+---@return string? err Error message when replacement fails.
+---@nodiscard
+function M.with_suffix(path, suffix) end
+
+--------------------------------------------------------------------------------
+--------------------------------- Conversions ----------------------------------
+--------------------------------------------------------------------------------
+
+---
+---Convert backslashes (`\`) to forward slashes (`/`).
+---
+---```lua
+---path.as_posix("a\\b\\c") --> "a/b/c"
+---```
+---
+---@param path string Input path.
+---@return string posixPath POSIX-style path.
+---@nodiscard
+function M.as_posix(path) end
+
+---
+---Match a path against a glob-style pattern using only `*` and `?` wildcards.
+---
+---```lua
+---path.match("a/b.lua", "*.lua")       --> true
+---path.match("A.lua", "a.LUA", false)  --> true
+---path.match("notes.txt", "n?tes.*")   --> true
+---path.match("a/b/c.lua", "a/*/c.lua") --> true
+---```
+---
+---@param path string Input path.
+---@param pattern string Pattern to match.
+---@param case_sensitive? boolean Override platform-default case matching.
+---@return boolean matchesPattern True when the path matches.
+---@nodiscard
+function M.match(path, pattern, case_sensitive) end
+
+---
+---Convert a `file://` URI to a local absolute path.
+---
+---```lua
+---path.from_uri("file://localhost/tmp/a.txt") --> "/tmp/a.txt", nil
+---```
+---
+---@param uri string URI value.
+---@return string? path Resolved absolute path.
+---@return string? err Error message when conversion fails.
+function M.from_uri(uri) end
 
 return M
