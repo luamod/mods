@@ -1,5 +1,5 @@
 --[[
-  Some test cases were ported from CPython's ntpath tests.
+  Most test cases were ported from CPython's ntpath tests.
   Adapted and ported to Lua/Busted for this project's API and conventions.
   Source: https://github.com/python/cpython/blob/main/Lib/test/test_ntpath.py
   License: Python Software Foundation License Version 2 (PSF-2.0).
@@ -113,6 +113,7 @@ describe("mods.ntpath", function()
       {{{ ""            , [[spam\alot]]        }}, { ""         }},
     },
     dirname = {
+      {{ [[c:\foo]]                     }, { [[c:\]]                    }},
       {{ [[c:\foo\bar]]                 }, { [[c:\foo]]                 }},
       {{ [[\\conky\mountpoint\foo\bar]] }, { [[\\conky\mountpoint\foo]] }},
       {{ [[c:\]]                        }, { [[c:\]]                    }},
@@ -124,8 +125,8 @@ describe("mods.ntpath", function()
       {{ ""                             }, { ""                         }},
     },
     expanduser = {
-      {{ "test"            }, { "test"            }},
-      {{ [[C:\Users\eric]] }, { [[C:\Users\eric]] }},
+      {{ "test"            }, { "test"                           }},
+      {{ [[C:\Users\eric]] }, { [[C:\Users\eric]]                }},
       {{ "~"               }, { nil, "home directory is not set" }},
       {{ [[~\foo\bar]]     }, { nil, "home directory is not set" }},
       {{ "~test"           }, { nil, "home directory is not set" }},
@@ -434,29 +435,29 @@ describe("mods.ntpath", function()
   end)
 
   it("validates relpath input", function()
-    assert.has_error(function()
-      _ = ntpath.relpath("")
-    end, "no path specified")
+    local value, err = ntpath.relpath("")
+    assert.is_nil(value)
+    assert.are_equal("no path specified", err)
 
-    assert.has_error(function()
-      _ = ntpath.relpath([[C:\a]], [[D:\a]])
-    end, "path is on mount 'C:', start on mount 'D:'")
+    value, err = ntpath.relpath([[C:\a]], [[D:\a]])
+    assert.is_nil(value)
+    assert.are_equal("path is on mount 'C:', start on mount 'D:'", err)
   end)
 
   it("validates commonpath input", function()
     assert.has_error(ntpath.commonpath, "bad argument #1 (expected table, got no value)")
 
-    assert.has_error(function()
-      _ = ntpath.commonpath({})
-    end, "commonpath() arg is an empty sequence")
+    local value, err = ntpath.commonpath({})
+    assert.is_nil(value)
+    assert.are_equal("paths list is empty", err)
 
-    assert.has_error(function()
-      _ = ntpath.commonpath({ [[C:\a]], [[D:\b]] })
-    end, "Paths don't have the same drive")
+    value, err = ntpath.commonpath({ [[C:\a]], [[D:\b]] })
+    assert.is_nil(value)
+    assert.are_equal("paths don't have the same drive", err)
 
-    assert.has_error(function()
-      _ = ntpath.commonpath({ [[C:\a]], [[C:b]] })
-    end, "Can't mix absolute and relative paths")
+    value, err = ntpath.commonpath({ [[C:\a]], [[C:b]] })
+    assert.is_nil(value)
+    assert.are_equal("can't mix absolute and relative paths", err)
 
     local drive_mismatch_cases = {
       { [[C:\Foo]], [[\Foo]] },
@@ -471,13 +472,13 @@ describe("mods.ntpath", function()
     for i = 1, #drive_mismatch_cases do
       local paths = drive_mismatch_cases[i]
 
-      assert.has_error(function()
-        _ = ntpath.commonpath(paths)
-      end, "Paths don't have the same drive")
+      value, err = ntpath.commonpath(paths)
+      assert.is_nil(value)
+      assert.are_equal("paths don't have the same drive", err)
 
-      assert.has_error(function()
-        _ = ntpath.commonpath({ paths[2], paths[1] })
-      end, "Paths don't have the same drive")
+      value, err = ntpath.commonpath({ paths[2], paths[1] })
+      assert.is_nil(value)
+      assert.are_equal("paths don't have the same drive", err)
     end
 
     local rooted_mismatch_cases = {
@@ -488,13 +489,13 @@ describe("mods.ntpath", function()
     for i = 1, #rooted_mismatch_cases do
       local paths = rooted_mismatch_cases[i]
 
-      assert.has_error(function()
-        _ = ntpath.commonpath(paths)
-      end, "Can't mix rooted and not-rooted paths")
+      value, err = ntpath.commonpath(paths)
+      assert.is_nil(value)
+      assert.are_equal("can't mix rooted and not-rooted paths", err)
 
-      assert.has_error(function()
-        _ = ntpath.commonpath({ paths[2], paths[1] })
-      end, "Can't mix rooted and not-rooted paths")
+      value, err = ntpath.commonpath({ paths[2], paths[1] })
+      assert.is_nil(value)
+      assert.are_equal("can't mix rooted and not-rooted paths", err)
     end
   end)
 

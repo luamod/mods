@@ -238,7 +238,8 @@ function M.abspath(path) end
 ---
 ---@param path string Input path.
 ---@param start? string Optional base path.
----@return string relativePath Relative path from `start` to `path`.
+---@return string? relativePath Relative path from `start` to `path`.
+---@return string? err Error message when the path cannot be made relative.
 ---@nodiscard
 function M.relpath(path, start) end
 
@@ -250,13 +251,9 @@ function M.relpath(path, start) end
 ---path.commonpath({ [[C:\a\b\c]], [[c:/a/b/d]] }) --> [[C:\a\b]]
 ---```
 ---
----> [!NOTE]
---->
----> All inputs must use compatible drive/root semantics.
----> Mixing absolute and relative paths may raise an error.
----
 ---@param paths string[] List of paths.
----@return string commonPath Longest common sub-path.
+---@return string? commonPath Longest common sub-path.
+---@return string? err Error message when inputs are incompatible.
 ---@nodiscard
 function M.commonpath(paths) end
 

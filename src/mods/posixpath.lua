@@ -1,5 +1,3 @@
----@diagnostic disable: invisible
-
 --[[
   Portions of this module are derived from CPython's posixpath.py.
   Adapted and ported to Lua for this project's API and conventions.
@@ -8,9 +6,9 @@
   Copyright (c) 2001 Python Software Foundation; All Rights Reserved.
 ]]
 
-local utils = require "mods.utils"
+local mods = require "mods"
 
-local assert_arg = utils.assert_arg
+local assert_arg = mods.utils.assert_arg
 
 local concat = table.concat
 local getenv = os.getenv
@@ -32,11 +30,11 @@ path = setmetatable(path, {
 local M = {}
 
 local CURDIR = "."
-local SEP = "/"
 local PARDIR = ".."
+local SEP = "/"
 
 local function getcwd()
-  getcwd = require("mods.fs").getcwd
+  getcwd = mods.fs.getcwd
   return getcwd()
 end
 
@@ -170,7 +168,7 @@ end
 
 function M.relpath(p, start)
   if p == "" then
-    error("no path specified", 2)
+    return nil, "no path specified"
   end
   start = start or CURDIR
 
@@ -201,9 +199,8 @@ end
 
 function M.commonpath(paths)
   assert_arg(1, paths, "table")
-
   if #paths == 0 then
-    return ""
+    return nil, "paths list is empty"
   end
 
   local normed = {}
@@ -218,7 +215,7 @@ function M.commonpath(paths)
     if first_abs == nil then
       first_abs = abs
     elseif first_abs ~= abs then
-      error("can't mix absolute and relative paths", 2)
+      return nil, "can't mix absolute and relative paths"
     end
   end
 

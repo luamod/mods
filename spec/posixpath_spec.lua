@@ -1,5 +1,5 @@
 --[[
-  Some test cases were ported from CPython's posixpath tests.
+  Most test cases were ported from CPython's posixpath tests.
   Adapted and ported to Lua/Busted for this project's API and conventions.
   Source: https://github.com/python/cpython/blob/main/Lib/test/test_posixpath.py
   License: Python Software Foundation License Version 2 (PSF-2.0).
@@ -50,28 +50,28 @@ describe("mods.posixpath", function()
       {{ "foo/"       }, { ""    }},
     },
     commonpath = {
-      {{{ "/a/b/c"    , "/a/b/d"         }}, { "/a/b"     }},
-      {{{ "a/b"       , "a/c"            }}, { "a"        }},
-      {{{ "//a/x"     , "/a/y"           }}, { "/a"       }},
-      {{{ "/foo/bar"                     }}, { "/foo/bar" }},
-      {{{ "/foo/bar/" , "/foo/bar"       }}, { "/foo/bar" }},
-      {{{ "/foo/bar/" , "/foo/bar/"      }}, { "/foo/bar" }},
-      {{{ "/foo/./bar", "/./foo/bar"     }}, { "/foo/bar" }},
-      {{{ "/"         , "/foo"           }}, { "/"        }},
-      {{{ "/foo"      , "/bar"           }}, { "/"        }},
-      {{{ "/foo/bar/" , "/foo/bar/baz"   }}, { "/foo/bar" }},
-      {{{ "/foo/bar/" , "/foo/baz/"      }}, { "/foo"     }},
-      {{{ "/foo/bar"  , "/foo/baz"       }}, { "/foo"     }},
-      {{{ "/foo/bar/" , "/foo/baz"       }}, { "/foo"     }},
-      {{{ "foo"                          }}, { "foo"      }},
-      {{{ "foo"       , "foo"            }}, { "foo"      }},
-      {{{ "foo/bar"   , "foo/baz"        }}, { "foo"      }},
-      {{{ "foo//bar"  , "foo/baz//"      }}, { "foo"      }},
-      {{{ "foo/./bar" , "./foo/baz"      }}, { "foo"      }},
-      {{{ "foo/bar"   , "foo/baz", "foo" }}, { "foo"      }},
-      {{{ ""                             }}, { ""         }},
-      {{{ ""          , "foo/bar"        }}, { ""         }},
-      {{{                                }}, { ""         }},
+      {{{ "/a/b/c"    , "/a/b/d"         }}, { "/a/b"                     }},
+      {{{ "a/b"       , "a/c"            }}, { "a"                        }},
+      {{{ "//a/x"     , "/a/y"           }}, { "/a"                       }},
+      {{{ "/foo/bar"                     }}, { "/foo/bar"                 }},
+      {{{ "/foo/bar/" , "/foo/bar"       }}, { "/foo/bar"                 }},
+      {{{ "/foo/bar/" , "/foo/bar/"      }}, { "/foo/bar"                 }},
+      {{{ "/foo/./bar", "/./foo/bar"     }}, { "/foo/bar"                 }},
+      {{{ "/"         , "/foo"           }}, { "/"                        }},
+      {{{ "/foo"      , "/bar"           }}, { "/"                        }},
+      {{{ "/foo/bar/" , "/foo/bar/baz"   }}, { "/foo/bar"                 }},
+      {{{ "/foo/bar/" , "/foo/baz/"      }}, { "/foo"                     }},
+      {{{ "/foo/bar"  , "/foo/baz"       }}, { "/foo"                     }},
+      {{{ "/foo/bar/" , "/foo/baz"       }}, { "/foo"                     }},
+      {{{ "foo"                          }}, { "foo"                      }},
+      {{{ "foo"       , "foo"            }}, { "foo"                      }},
+      {{{ "foo/bar"   , "foo/baz"        }}, { "foo"                      }},
+      {{{ "foo//bar"  , "foo/baz//"      }}, { "foo"                      }},
+      {{{ "foo/./bar" , "./foo/baz"      }}, { "foo"                      }},
+      {{{ "foo/bar"   , "foo/baz", "foo" }}, { "foo"                      }},
+      {{{ ""                             }}, { ""                         }},
+      {{{ ""          , "foo/bar"        }}, { ""                         }},
+      {{{                                }}, { nil, "paths list is empty" }},
     },
     dirname = {
       {{ "/"          }, { "/"     }},
@@ -263,15 +263,18 @@ describe("mods.posixpath", function()
   end)
 
   it("relpath()", function()
-    assert.has_error(function()
-      _ = posixpath.relpath("")
-    end, "no path specified")
+    local value, err = posixpath.relpath("")
+    assert.is_nil(value)
+    assert.are_equal("no path specified", err)
   end)
 
   it("commonpath()", function()
     assert.has_error(posixpath.commonpath, "bad argument #1 (expected table, got no value)")
-    assert.has_error(function()
-      _ = posixpath.commonpath({ "/a", "b" })
-    end, "can't mix absolute and relative paths")
+    local value, err = posixpath.commonpath({})
+    assert.is_nil(value)
+    assert.are_equal("paths list is empty", err)
+    local value, err = posixpath.commonpath({ "/a", "b" })
+    assert.is_nil(value)
+    assert.are_equal("can't mix absolute and relative paths", err)
   end)
 end)

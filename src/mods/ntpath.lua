@@ -1,5 +1,3 @@
----@diagnostic disable: invisible
-
 --[[
   Portions of this module are derived from CPython's ntpath.py.
   Adapted and ported to Lua for this project's API and conventions.
@@ -8,16 +6,17 @@
   Copyright (c) 2001 Python Software Foundation; All Rights Reserved.
 ]]
 
-local Set = require "mods.Set"
-local tbl = require "mods.tbl"
-local utils = require "mods.utils"
+local mods = require "mods"
+local Set = mods.Set
+local utils = mods.utils
 
 local assert_arg = utils.assert_arg
-local tbl_count = tbl.count
+local tbl_count = mods.tbl.count
 
 local byte = string.byte
 local concat = table.concat
 local find = string.find
+local fmt = string.format
 local gmatch = string.gmatch
 local gsub = string.gsub
 local lower = string.lower
@@ -52,7 +51,7 @@ for i = 1, 9 do
 end
 
 local function getcwd()
-  getcwd = require("mods.fs").getcwd
+  getcwd = mods.fs.getcwd
   return getcwd()
 end
 
@@ -332,7 +331,7 @@ end
 
 function M.relpath(p, start)
   if p == "" then
-    error("no path specified", 2)
+    return nil, "no path specified"
   end
 
   start = start or CURDIR
@@ -343,7 +342,7 @@ function M.relpath(p, start)
   local path_drive, _, path_rest = M.splitroot(path_abs)
 
   if M.normcase(start_drive) ~= M.normcase(path_drive) then
-    error("path is on mount '" .. path_drive .. "', start on mount '" .. start_drive .. "'", 2)
+    return nil, fmt("path is on mount '%s', start on mount '%s'", path_drive, start_drive)
   end
 
   local start_list = split_components(start_rest)
@@ -372,10 +371,9 @@ function M.relpath(p, start)
 end
 
 function M.commonpath(paths)
-  assert_arg(1, paths, "table", 2)
-
+  assert_arg(1, paths, "table")
   if #paths == 0 then
-    error("commonpath() arg is an empty sequence", 2)
+    return nil, "paths list is empty"
   end
 
   local normed = {}
@@ -408,15 +406,15 @@ function M.commonpath(paths)
 
   local drive_count = tbl_count(drives)
   if drive_count ~= 1 then
-    error("Paths don't have the same drive", 2)
+    return nil, "paths don't have the same drive"
   end
 
   local root_count = tbl_count(roots)
   if root_count ~= 1 then
     if first_drive ~= "" then
-      error("Can't mix absolute and relative paths", 2)
+      return nil, "can't mix absolute and relative paths"
     end
-    error("Can't mix rooted and not-rooted paths", 2)
+    return nil, "can't mix rooted and not-rooted paths"
   end
 
   local common = {}
