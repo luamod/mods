@@ -52,8 +52,7 @@ local function split_components(tail)
 end
 
 function M.normcase(s)
-  assert_arg(1, s, "string")
-  return s
+  return assert_arg(1, s, "string")
 end
 
 function M.isabs(p)
