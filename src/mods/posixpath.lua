@@ -57,7 +57,7 @@ end
 
 function M.isabs(p)
   assert_arg(1, p, "string")
-  return has_prefix(p, "/")
+  return has_prefix(p, SEP)
 end
 
 function M.join(p, ...)
@@ -65,12 +65,12 @@ function M.join(p, ...)
   for i = 1, select("#", ...) do
     local b = select(i, ...)
     assert_arg(i + 1, b, "string")
-    if has_prefix(b, "/") or p == "" then
+    if has_prefix(b, SEP) or p == "" then
       p = b
-    elseif sub(p, -1) == "/" then
+    elseif sub(p, -1) == SEP then
       p = p .. b
     else
-      p = p .. "/" .. b
+      p = p .. SEP .. b
     end
   end
   return p
@@ -104,11 +104,11 @@ end
 
 function M.splitroot(p)
   assert_arg(1, p, "string")
-  if sub(p, 1, 1) ~= "/" then
+  if sub(p, 1, 1) ~= SEP then
     return "", "", p
   end
-  if sub(p, 2, 2) ~= "/" or sub(p, 3, 3) == "/" then
-    return "", "/", sub(p, 2)
+  if sub(p, 2, 2) ~= SEP or sub(p, 3, 3) == SEP then
+    return "", SEP, sub(p, 2)
   end
   return "", "//", sub(p, 3)
 end
@@ -269,7 +269,7 @@ function M.commonpath(paths)
   for i = 2, #normed do
     local _, ri, ti = M.splitroot(normed[i])
     if ri ~= root then
-      root = "/"
+      root = SEP
     end
     local parts = split_components(ti)
     local maxn = min(#prefix, #parts)
@@ -282,7 +282,7 @@ function M.commonpath(paths)
     end
   end
 
-  local body = concat(prefix, "/")
+  local body = concat(prefix, SEP)
   if body == "" then
     return root ~= "" and root or ""
   end
