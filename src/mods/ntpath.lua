@@ -28,7 +28,7 @@ local upper = string.upper
 local path = {}
 path = setmetatable(path, {
   __index = function(_, k)
-    path = require "mods.path"
+    path = mods.path
     return path[k]
   end,
 })
@@ -109,15 +109,18 @@ local function is_reserved_name(name)
 end
 
 function M.normcase(s)
+  assert_arg(1, s, "string")
   return lower(norm_seps(s))
 end
 
 function M.isabs(p)
+  assert_arg(1, p, "string")
   local s = norm_seps(sub(p, 1, 3))
   return sub(s, 2, 3) == DRIVE_SEP .. SEP or sub(s, 1, 2) == SEP .. SEP
 end
 
 function M.splitroot(p)
+  assert_arg(1, p, "string")
   local normp = norm_seps(p)
 
   if sub(normp, 1, 1) == SEP then
@@ -147,15 +150,18 @@ function M.splitroot(p)
 end
 
 function M.splitdrive(p)
+  assert_arg(1, p, "string")
   local drive, root, tail = M.splitroot(p)
   return drive, root .. tail
 end
 
 function M.join(p, ...)
+  assert_arg(1, p, "string")
   local result_drive, result_root, result_path = M.splitroot(p)
 
   for i = 1, select("#", ...) do
     local p_ = select(i, ...)
+    assert_arg(i + 1, p_, "string")
     local p_drive, p_root, p_path = M.splitroot(p_)
 
     if p_root ~= "" then
@@ -198,6 +204,7 @@ function M.join(p, ...)
 end
 
 function M.split(p)
+  assert_arg(1, p, "string")
   local drive, root, tail = M.splitroot(p)
 
   local i = #tail
@@ -211,19 +218,23 @@ function M.split(p)
 end
 
 function M.splitext(p)
+  assert_arg(1, p, "string")
   return path._splitext(p, SEP, ALT_SEP, EXT_SEP)
 end
 
 function M.basename(p)
+  assert_arg(1, p, "string")
   local _, tail = M.split(p)
   return tail
 end
 
 function M.dirname(p)
+  assert_arg(1, p, "string")
   return (M.split(p))
 end
 
 function M.ismount(p)
+  assert_arg(1, p, "string")
   p = M.abspath(p)
   local drive, root, rest = M.splitroot(p)
   if drive ~= "" and is_sep(sub(drive, 1, 1)) then
@@ -233,6 +244,7 @@ function M.ismount(p)
 end
 
 function M.isreserved(p)
+  assert_arg(1, p, "string")
   local _, _, tail = M.splitroot(p)
   tail = norm_seps(tail)
 
@@ -261,6 +273,7 @@ function M.home()
 end
 
 function M.expanduser(p)
+  assert_arg(1, p, "string")
   if not starts_with(p, "~") then
     return p
   end
@@ -292,6 +305,7 @@ function M.expanduser(p)
 end
 
 function M.normpath(p)
+  assert_arg(1, p, "string")
   if p == "" then
     return CURDIR
   end
@@ -323,6 +337,7 @@ function M.normpath(p)
 end
 
 function M.abspath(p)
+  assert_arg(1, p, "string")
   if not M.isabs(p) then
     p = M.join(getcwd(), p)
   end
@@ -330,6 +345,10 @@ function M.abspath(p)
 end
 
 function M.relpath(p, start)
+  assert_arg(1, p, "string")
+  if start ~= nil then
+    assert_arg(2, start, "string")
+  end
   if p == "" then
     return nil, "no path specified"
   end
@@ -378,6 +397,7 @@ function M.commonpath(paths)
 
   local normed = {}
   for i = 1, #paths do
+    assert_arg(i, paths[i], "string")
     normed[i] = norm_seps(paths[i])
   end
 

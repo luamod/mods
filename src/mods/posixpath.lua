@@ -21,7 +21,7 @@ local sub = string.sub
 local path = {}
 path = setmetatable(path, {
   __index = function(_, k)
-    path = require "mods.path"
+    path = mods.path
     return path[k]
   end,
 })
@@ -51,16 +51,20 @@ local function split_components(tail)
 end
 
 function M.normcase(s)
+  assert_arg(1, s, "string")
   return s
 end
 
 function M.isabs(p)
+  assert_arg(1, p, "string")
   return has_prefix(p, "/")
 end
 
 function M.join(p, ...)
+  assert_arg(1, p, "string")
   for i = 1, select("#", ...) do
     local b = select(i, ...)
+    assert_arg(i + 1, b, "string")
     if has_prefix(b, "/") or p == "" then
       p = b
     elseif sub(p, -1) == "/" then
@@ -73,6 +77,7 @@ function M.join(p, ...)
 end
 
 function M.split(p)
+  assert_arg(1, p, "string")
   local i = match(p, "^.*()/")
   if i == nil then
     i = 0
@@ -88,14 +93,17 @@ function M.split(p)
 end
 
 function M.splitext(p)
+  assert_arg(1, p, "string")
   return path._splitext(p, SEP, nil, ".")
 end
 
 function M.splitdrive(p)
+  assert_arg(1, p, "string")
   return "", p
 end
 
 function M.splitroot(p)
+  assert_arg(1, p, "string")
   if sub(p, 1, 1) ~= "/" then
     return "", "", p
   end
@@ -106,11 +114,13 @@ function M.splitroot(p)
 end
 
 function M.basename(p)
+  assert_arg(1, p, "string")
   local _, tail = M.split(p)
   return tail
 end
 
 function M.dirname(p)
+  assert_arg(1, p, "string")
   return (M.split(p))
 end
 
@@ -123,6 +133,7 @@ function M.home()
 end
 
 function M.expanduser(p)
+  assert_arg(1, p, "string")
   if not has_prefix(p, "~") then
     return p
   end
@@ -140,6 +151,7 @@ function M.expanduser(p)
 end
 
 function M.normpath(p)
+  assert_arg(1, p, "string")
   if p == "" then
     return CURDIR
   end
@@ -163,10 +175,15 @@ function M.normpath(p)
 end
 
 function M.abspath(p)
+  assert_arg(1, p, "string")
   return M.normpath(M.join(getcwd(), p))
 end
 
 function M.relpath(p, start)
+  assert_arg(1, p, "string")
+  if start ~= nil then
+    assert_arg(2, start, "string")
+  end
   if p == "" then
     return nil, "no path specified"
   end
@@ -206,6 +223,7 @@ function M.commonpath(paths)
   local normed = {}
   local first_abs = nil
   for i = 1, #paths do
+    assert_arg(i, paths[i], "string")
     local p = paths[i]
     if p ~= "" then
       p = M.normpath(p)
