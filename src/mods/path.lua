@@ -110,8 +110,8 @@ local function match_part(name, pattern, case_sensitive)
   return match(name, "^" .. s .. "$") ~= nil
 end
 
-local function expandvars(getenv_fn, str, pattern, prefix, suffix)
-  return gsub(str, pattern, function(name)
+local function expandvars(getenv_fn, s, pattern, prefix, suffix)
+  return gsub(s, pattern, function(name)
     local v = getenv_fn(name)
     return v and v or (prefix .. name .. suffix)
   end)
