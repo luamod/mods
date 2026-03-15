@@ -133,6 +133,9 @@ function M.spairs(t)
   return function()
     i = i + 1
     local k = keys[i]
+    if k == nil then
+      return nil
+    end
     return k, t[k]
   end
 end
