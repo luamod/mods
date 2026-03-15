@@ -15,7 +15,6 @@ local ntpath = mods.ntpath
 local path = mods.path
 local tbl = mods.tbl
 
-local tbl_keys = tbl.keys
 local fmt = string.format
 
 describe("mods.ntpath", function()
@@ -29,10 +28,10 @@ describe("mods.ntpath", function()
     lfs.rmdir(root)
   end)
 
-  for _, fname in ipairs(tbl_keys(path)) do
+  for fname, v in tbl.spairs(path) do
     it(fmt("ntpath.%s is a function and equals path.%s", fname, fname), function()
       assert.is_function(ntpath[fname])
-      assert.are_equal(ntpath[fname], path[fname])
+      assert.are_equal(ntpath[fname], v)
     end)
   end
 
@@ -445,8 +444,7 @@ describe("mods.ntpath", function()
     },
   }
 
-  for _, fname in ipairs(tbl_keys(tests)) do
-    local cases = tests[fname]
+  for fname, cases in tbl.spairs(tests) do
     for i = 1, #cases do
       local params, expected = unpack(cases[i], 1, 2)
       it(fmt("%s(%s)", fname, args_repr(params)), function()
@@ -536,7 +534,7 @@ describe("mods.ntpath", function()
     }
   }
 
-  for fname, entry in pairs(tests) do
+  for fname, entry in tbl.spairs(tests) do
     for _, e in ipairs(entry) do
       local env = e.env
       for _, v in ipairs(e) do

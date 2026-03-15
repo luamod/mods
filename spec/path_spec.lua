@@ -612,14 +612,13 @@ describe("mods.path", function()
   local p = is_win and ntpath or posixpath
   local modes = Set({ "common", "posix", "windows" })
 
-  for _, fname in ipairs(tbl.keys(p)) do
+  for fname, v in tbl.spairs(p) do
     it(fmt("path.%s equals %s.%s", fname, (is_win and "ntpath" or "posixpath"), fname), function()
-      assert.are_equal(p[fname], path[fname])
+      assert.are_equal(p[fname], v)
     end)
   end
 
-  for _, fname in ipairs(tbl.keys(tests):sort()) do
-    local cases = tests[fname]
+  for fname, cases in tbl.spairs(tests) do
     local mode = "common"
     for i = 1, #cases do
       local entry = cases[i]

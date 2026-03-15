@@ -15,16 +15,15 @@ local posixpath = mods.posixpath
 local path = mods.path
 local tbl = mods.tbl
 
-local tbl_keys = tbl.keys
 local fmt = string.format
 
 describe("mods.posixpath", function()
   local cwd = lfs.currentdir()
 
-  for _, fname in ipairs(tbl_keys(path)) do
-    it(fmt("posixpath.%s is a function and equals path.%s", fname, fname), function()
-      assert.is_function(posixpath[fname])
-      assert.are_equal(posixpath[fname], path[fname])
+  for k, v in tbl.spairs(path) do
+    it(fmt("posixpath.%s is a function and equals path.%s", k, k), function()
+      assert.is_function(posixpath[k])
+      assert.are_equal(posixpath[k], v)
     end)
   end
 
@@ -242,8 +241,7 @@ describe("mods.posixpath", function()
     },
   }
 
-  for _, fname in ipairs(tbl_keys(tests)) do
-    local cases = tests[fname]
+  for fname, cases in tbl.spairs(tests) do
     for i = 1, #cases do
       local params, expected = unpack(cases[i], 1, 3)
 
@@ -277,7 +275,7 @@ describe("mods.posixpath", function()
     }
   }
 
-  for fname, entry in pairs(tests) do
+  for fname, entry in tbl.spairs(tests) do
     for _, e in ipairs(entry) do
       local env = e.env
       for _, v in ipairs(e) do
