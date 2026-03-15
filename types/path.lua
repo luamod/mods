@@ -200,6 +200,21 @@ function M.dirname(path) end
 function M.expanduser(path) end
 
 ---
+---Expand vars in a path (`$VAR`/`${VAR}` everywhere, `%VAR%` on Windows).
+---
+---```lua
+---path.expandvars("$HOME/bin")               --> "/home/me/bin"
+---path.expandvars("${XDG_CONFIG_HOME}/nvim") --> "/home/me/.config/nvim"
+---path.expandvars("%USERPROFILE%\\bin")      --> "C:\\Users\\me\\bin"
+---path.expandvars("$UNKNOWN/bin")            --> "$UNKNOWN/bin"
+---```
+---
+---@param path string Path containing variable placeholders.
+---@return string expandedPath Path with variable values substituted.
+---@nodiscard
+function M.expandvars(path) end
+
+---
 ---Return the current user's home directory path.
 ---
 ---```lua
@@ -483,7 +498,7 @@ function M.match(path, pattern, case_sensitive) end
 ---Convert a `file://` URI to a local absolute path.
 ---
 ---```lua
----path.from_uri("file://localhost/tmp/a.txt") --> "/tmp/a.txt", nil
+---path.from_uri("file://localhost/tmp/a.txt") --> "/tmp/a.txt"
 ---```
 ---
 ---@param uri string URI value.

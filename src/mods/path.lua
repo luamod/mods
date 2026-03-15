@@ -19,6 +19,7 @@ local rfind = str.rfind
 local concat = table.concat
 local find = string.find
 local fmt = string.format
+local getenv = os.getenv
 local gmatch = string.gmatch
 local gsub = string.gsub
 local lower = string.lower
@@ -109,6 +110,13 @@ local function match_part(name, pattern, case_sensitive)
   return match(name, "^" .. s .. "$") ~= nil
 end
 
+local function expandvars(getenv_fn, str, pattern, prefix, suffix)
+  return gsub(str, pattern, function(name)
+    local v = getenv_fn(name)
+    return v and v or (prefix .. name .. suffix)
+  end)
+end
+
 function M._splitext(p, sep, altsep, extsep)
   local sep_index = rfind(p, sep) or 0
   if altsep then
@@ -159,6 +167,13 @@ end
 function M.drive(p)
   assert_arg(1, p, "string")
   return (splitroot(p))
+end
+
+function M.expandvars(p)
+  assert_arg(1, p, "string")
+  local res = expandvars(getenv, p, "%${([^}]*)}", "${", "}")
+  res = expandvars(getenv, res, "%$([%w_]+)", "$", "")
+  return is_win and mods.ntpath._expand_percent_vars(res) or res
 end
 
 function M.is_relative_to(p, other)
@@ -330,6 +345,7 @@ if _TEST then
   -- stylua: ignore start
   function M._set_windows_semantics() set_semantics(true) end
   function M._set_posix_semantics() set_semantics(false) end
+  getenv = function(name) return os.getenv(name) end
 end
 
 return M

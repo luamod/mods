@@ -18,14 +18,6 @@ local tbl = mods.tbl
 local tbl_keys = tbl.keys
 local fmt = string.format
 
-local function with_env(env, fn)
-  stub(os, "getenv", function(name)
-    return env[name]
-  end)
-  fn()
-  os.getenv:revert() ---@diagnostic disable-line: undefined-field
-end
-
 describe("mods.ntpath", function()
   local cwd = lfs.currentdir()
 
@@ -517,6 +509,30 @@ describe("mods.ntpath", function()
         { "~"    , { [[C:\Users\eric]]                         }},
         { "~test", { nil, "home directory for user is not set" }},
       }
+    },
+    expandvars = {
+      {
+        env = { foo = "bar", ["{foo"] = "baz1", ["{foo}"] = "baz2" },
+        { "foo"            , { "foo"         }},
+        { "$foo bar"       , { "bar bar"     }},
+        { "${foo}bar"      , { "barbar"      }},
+        { "$[foo]bar"      , { "$[foo]bar"   }},
+        { "$bar bar"       , { "$bar bar"    }},
+        { "$?bar"          , { "$?bar"       }},
+        { "$foo}bar"       , { "bar}bar"     }},
+        { "${foo"          , { "${foo"       }},
+        { "${{foo}}"       , { "baz1}"       }},
+        { "$foo$foo"       , { "barbar"      }},
+        { "$bar$bar"       , { "$bar$bar"    }},
+        { "%foo% bar"      , { "bar bar"     }},
+        { "%foo%bar"       , { "barbar"      }},
+        { "%foo%%foo%"     , { "barbar"      }},
+        { "%%foo%%foo%foo%", { "%foo%foobar" }},
+        { "%?bar%"         , { "%?bar%"      }},
+        { "%foo%%bar"      , { "bar%bar"     }},
+        { "'%foo%'%bar"    , { "'%foo%'%bar" }},
+        { "bar'%foo%"      , { "bar'%foo%"   }},
+      },
     }
   }
 

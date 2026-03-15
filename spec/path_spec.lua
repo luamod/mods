@@ -617,4 +617,20 @@ describe("mods.path", function()
       end
     end
   end
+
+  it("expandvars()", function()
+    with_env({ foo = "bar", ["{foo"] = "baz1", ["{foo}"] = "baz2" }, function()
+      assert.are_same({ "foo" }, { posixpath.expandvars("foo") })
+      assert.are_same({ "bar bar" }, { posixpath.expandvars("$foo bar") })
+      assert.are_same({ "barbar" }, { posixpath.expandvars("${foo}bar") })
+      assert.are_same({ "$[foo]bar" }, { posixpath.expandvars("$[foo]bar") })
+      assert.are_same({ "$bar bar" }, { posixpath.expandvars("$bar bar") })
+      assert.are_same({ "$?bar" }, { posixpath.expandvars("$?bar") })
+      assert.are_same({ "bar}bar" }, { posixpath.expandvars("$foo}bar") })
+      assert.are_same({ "${foo" }, { posixpath.expandvars("${foo") })
+      assert.are_same({ "baz1}" }, { posixpath.expandvars("${{foo}}") })
+      assert.are_same({ "barbar" }, { posixpath.expandvars("$foo$foo") })
+      assert.are_same({ "$bar$bar" }, { posixpath.expandvars("$bar$bar") })
+    end)
+  end)
 end)

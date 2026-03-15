@@ -485,6 +485,47 @@ function M.commonpath(paths)
   return first_drive .. first_root .. concat(common, SEP)
 end
 
+function M._expand_percent_vars(p)
+  local out = {}
+  local i = 1
+  local n = #p
+
+  while i <= n do
+    local ch = sub(p, i, i)
+    if ch ~= "%" then
+      out[#out + 1] = ch
+      i = i + 1
+    else
+      if i > 1 and sub(p, i - 1, i - 1) == "'" then
+        local close = find(p, "%", i + 1, true)
+        if close then
+          out[#out + 1] = sub(p, i, close)
+          i = close + 1
+        else
+          out[#out + 1] = "%"
+          i = i + 1
+        end
+      elseif i < n and sub(p, i + 1, i + 1) == "%" then
+        out[#out + 1] = "%"
+        i = i + 2
+      else
+        local close = find(p, "%", i + 1, true)
+        if not close then
+          out[#out + 1] = "%"
+          i = i + 1
+        else
+          local name = sub(p, i + 1, close - 1)
+          local v = getenv(name)
+          out[#out + 1] = v and v or ("%" .. name .. "%")
+          i = close + 1
+        end
+      end
+    end
+  end
+
+  return concat(out)
+end
+
 setmetatable(M, {
   __index = function(t, k)
     local v = path[k]

@@ -21,6 +21,14 @@
 ---@class mods.ntpath:mods.path
 local M = {}
 
+---@ignore
+---
+---Expand percent-style variables in a string.
+---
+---@param p string
+---@return string expanded
+---@private
+function M._expand_percent_vars(p) end
 ---
 ---Return `true` when `path` points to a mount root.
 ---
