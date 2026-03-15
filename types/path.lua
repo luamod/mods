@@ -272,6 +272,20 @@ function M.relpath(path, start) end
 ---@nodiscard
 function M.commonpath(paths) end
 
+---
+---Return longest common leading string prefix.
+---
+---```lua
+---path.commonprefix({"abc", "abd"})                         --> "ab"
+---path.commonprefix({"/home/swen/spam", "/home/swen/eggs"}) --> "/home/swen/"
+---path.commonprefix({"abc", "xyz"})                         --> ""
+---```
+---
+---@param paths string[] List of paths.
+---@return string commonPrefix Longest common string prefix.
+---@nodiscard
+function M.commonprefix(paths) end
+
 --------------------------------------------------------------------------------
 ----------------------------------- Anchors ------------------------------------
 --------------------------------------------------------------------------------

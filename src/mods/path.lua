@@ -169,6 +169,32 @@ function M.drive(p)
   return (splitroot(p))
 end
 
+function M.commonprefix(paths)
+  assert_arg(1, paths, "table")
+  if #paths == 0 then
+    return ""
+  end
+
+  local min_path = paths[1]
+  local max_path = paths[1]
+  for i = 1, #paths do
+    local path_ = paths[i]
+    assert_arg(i, path_, "string")
+    if path_ < min_path then
+      min_path = path_
+    elseif path_ > max_path then
+      max_path = path_
+    end
+  end
+
+  local i = 1
+  local n = #min_path
+  while i <= n and sub(min_path, i, i) == sub(max_path, i, i) do
+    i = i + 1
+  end
+  return sub(min_path, 1, i - 1)
+end
+
 function M.expandvars(p)
   assert_arg(1, p, "string")
   local res = expandvars(getenv, p, "%${([^}]*)}", "${", "}")
