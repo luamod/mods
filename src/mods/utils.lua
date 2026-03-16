@@ -25,7 +25,7 @@ local function caller_name(level)
   for i = base, base + 3 do
     local info = debug.getinfo(i, "n")
     local name = info and info.name
-    if name and name ~= "" and not ignored_caller_names[name] then
+    if name and name ~= "" and name ~= "?" and not ignored_caller_names[name] then
       return name
     end
   end
