@@ -492,6 +492,21 @@ function M.with_suffix(path, suffix) end
 function M.as_posix(path) end
 
 ---
+---Convert a local path to a `file://` URI.
+---
+---```lua
+---path.as_uri("/home/user/report.txt") --> "file:///home/user/report.txt"
+---path.as_uri("c:/a/b.c")              --> "file:///c:/a/b.c"
+---path.as_uri("/a/b%#c")               --> "file:///a/b%25%23c"
+---```
+---
+---@param path string Input path.
+---@return string? fileUri File URI.
+---@return string? err Error message when conversion fails.
+---@nodiscard
+function M.as_uri(path) end
+
+---
 ---Match a path against a glob-style pattern using only `*` and `?` wildcards.
 ---
 ---```lua

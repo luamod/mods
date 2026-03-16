@@ -16,9 +16,11 @@ local is_win = runtime.is_windows
 local assert_arg = utils.assert_arg
 local rfind = str.rfind
 
+local byte = string.byte
 local concat = table.concat
 local find = string.find
 local fmt = string.format
+local format = string.format
 local getenv = os.getenv
 local gmatch = string.gmatch
 local gsub = string.gsub
@@ -37,6 +39,10 @@ local SEP = is_win and "\\" or "/"
 
 for k, v in pairs(is_win and mods.ntpath or mods.posixpath) do
   M[k] = v
+end
+
+local function is_absolute(drive, root)
+  return is_win and drive ~= "" and root ~= "" or (not is_win and root ~= "")
 end
 
 ---@return string drive, string root, string tail
@@ -147,6 +153,34 @@ end
 function M.as_posix(p)
   assert_arg(1, p, "string")
   return (gsub(p, "\\", "/"))
+end
+
+function M.as_uri(p)
+  assert_arg(1, p, "string")
+  local drive, root = M.splitroot(p)
+  if not is_absolute(drive, root) then
+    return nil, "path is not absolute"
+  end
+  local posix = M.as_posix(p)
+  local prefix
+  local path
+
+  if match(drive, "^%a:$") then
+    prefix = "file:///" .. drive:lower()
+    path = sub(posix, 3)
+  elseif drive ~= "" then
+    prefix = "file:"
+    path = posix
+  else
+    prefix = "file://"
+    path = posix
+  end
+
+  local encoded = gsub(path, "[^%w%-%._~/]", function(c)
+    return format("%%%02X", byte(c))
+  end)
+
+  return prefix .. encoded
 end
 
 function M.dirnames(p)
