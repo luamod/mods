@@ -42,6 +42,8 @@ describe("mods.is", function()
     { "file"     , "README.md" , "MISSING.md" },
     { "file"     , "README.md" , "src"        },
     { "file"     , "README.md" , false        },
+    { "path"     , "README.md" , "MISSING.md" },
+    { "path"     , "README.md" , false        },
   }
 
   for i = 1, #tests do
@@ -56,11 +58,11 @@ describe("mods.is", function()
     end)
 
     it(fmt("is(%q, %s) returns true", tp, inspect(valid)), function()
-      assert.is_true(is(valid, tp))
+      assert.is_true(is(valid, tp --[[@as string]]))
     end)
 
     it(fmt("is(%q, %s) returns false", tp, inspect(invalid)), function()
-      assert.is_false(is(invalid, tp))
+      assert.is_false(is(invalid, tp --[[@as string]]))
     end)
   end
 

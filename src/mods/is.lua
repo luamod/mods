@@ -80,7 +80,11 @@ end
 --- Path checks ---
 -------------------
 
-M._path_checks = { "block", "char", "dir", "fifo", "file", "link", "socket", "device" }
+M._path_checks = { "path", "block", "char", "dir", "fifo", "file", "link", "socket", "device" }
+
+local function islink(p)
+  return symlinkattrs(p, "mode") == "link"
+end
 
 function M.device(v)
   if type(v) ~= "string" then
@@ -91,13 +95,14 @@ function M.device(v)
 end
 
 -- stylua: ignore start
-function M.block(v)  return type(v) == "string" and attrs(v, "mode")        == "block device" end
-function M.char(v)   return type(v) == "string" and attrs(v, "mode")        == "char device"  end
-function M.dir(v)    return type(v) == "string" and attrs(v, "mode")        == "directory"    end
-function M.fifo(v)   return type(v) == "string" and attrs(v, "mode")        == "named pipe"   end
-function M.file(v)   return type(v) == "string" and attrs(v, "mode")        == "file"         end
-function M.socket(v) return type(v) == "string" and attrs(v, "mode")        == "socket"       end
-function M.link(v)   return type(v) == "string" and symlinkattrs(v, "mode") == "link"         end
+function M.block(v)  return type(v) == "string" and attrs(v, "mode") == "block device"     end
+function M.char(v)   return type(v) == "string" and attrs(v, "mode") == "char device"      end
+function M.dir(v)    return type(v) == "string" and attrs(v, "mode") == "directory"        end
+function M.fifo(v)   return type(v) == "string" and attrs(v, "mode") == "named pipe"       end
+function M.file(v)   return type(v) == "string" and attrs(v, "mode") == "file"             end
+function M.socket(v) return type(v) == "string" and attrs(v, "mode") == "socket"           end
+function M.link(v)   return type(v) == "string" and islink(v)                              end
+function M.path(v)   return type(v) == "string" and (attrs(v, "mode") ~= nil or islink(v)) end
 -- stylua: ignore end
 
 --------------------------------

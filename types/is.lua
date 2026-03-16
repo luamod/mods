@@ -18,6 +18,7 @@
 ---|'fifo'
 ---|'file'
 ---|'link'
+---|'path'
 ---|'socket'
 
 ---
@@ -62,7 +63,7 @@ local M = {}
 ---
 ---Names of filesystem path-check predicates shared by related modules/tests.
 ---
-M._path_checks = { "block", "char", "dir", "fifo", "file", "link", "socket", "device" }
+M._path_checks = { "path", "block", "char", "dir", "fifo", "file", "link", "socket", "device" }
 
 --------------------------------------------------------------------------------
 ---------------------------------- Type Checks ---------------------------------
@@ -271,6 +272,19 @@ M.Truthy = M.truthy
 ---> Path checks require **LuaFileSystem**
 ---> ([`lfs`](https://github.com/lunarmodules/luafilesystem))
 ---> and raise an error if it is not installed.
+
+---
+---Returns `true` when `v` is a valid filesystem path.
+---
+---```lua
+---is.path("README.md")
+---```
+---
+---@param v any Value to validate.
+---@return boolean isPath Whether the check succeeds.
+---@nodiscard
+M.path = function(v) end
+M.Path = M.path
 
 ---
 ---Returns `true` when `v` is a block device path.
