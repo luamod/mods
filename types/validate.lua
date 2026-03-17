@@ -42,8 +42,8 @@
 ---```
 ---
 ---## `validate()`
----`validate(v, tp)` dispatches to the registered validator `tp`.
----If `tp` is omitted, it defaults to `"truthy"`.
+---`validate(v, validator)` dispatches to the registered validator.
+---If `validator` is omitted, it defaults to `"truthy"`.
 ---
 ---```lua
 ---validate()         --> false, "expected truthy value, got no value"
@@ -60,12 +60,25 @@
 ---validate.NumBer(1) --> true, nil
 ---```
 ---
----`tp` in `validate(v, tp)` is matched as-is (case-sensitive):
+---`validator` in `validate(v, validator)` is matched as-is (case-sensitive):
 ---
 ---```lua
 ---validate(1, "number") --> true, nil
 ---validate(1, "NuMbEr") --> false, "expected NuMbEr, got number"
 --- ```
+---
+---## Custom Messages
+---
+---Validator functions accept an optional template override as the second
+---argument: <code v-pre>validate.number(v, "need {{expected}}, got {{got}}")`</code>.
+---
+---You can also set `validate.messages.<name>` to define
+---default templates per validator.
+---
+---```lua
+---validate.string(123, "want {{expected}}, got {{got}}")
+-----> false, "want string, got number"
+---```
 ---
 ---@class mods.validate
 ---@field [string] fun(...):(isValid:boolean,errmsg:string?)
@@ -135,9 +148,10 @@ local M = {}
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.boolean = function(v) end
+M.boolean = function(v, msg) end
 M.Boolean = M.boolean
 
 ---
@@ -151,9 +165,10 @@ M.Boolean = M.boolean
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M["function"] = function(v) end
+M["function"] = function(v, msg) end
 M.Function = M["function"]
 
 ---
@@ -166,9 +181,10 @@ M.Function = M["function"]
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M["nil"] = function(v) end
+M["nil"] = function(v, msg) end
 M.Nil = M["nil"]
 
 ---
@@ -181,9 +197,10 @@ M.Nil = M["nil"]
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.number = function(v) end
+M.number = function(v, msg) end
 M.Number = M.number
 
 ---
@@ -196,9 +213,10 @@ M.Number = M.number
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.string = function(v) end
+M.string = function(v, msg) end
 M.String = M.string
 
 ---
@@ -211,9 +229,10 @@ M.String = M.string
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.table = function(v) end
+M.table = function(v, msg) end
 M.Table = M.table
 
 ---
@@ -227,9 +246,10 @@ M.Table = M.table
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.thread = function(v) end
+M.thread = function(v, msg) end
 M.Thread = M.thread
 
 ---
@@ -242,9 +262,10 @@ M.Thread = M.thread
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.userdata = function(v) end
+M.userdata = function(v, msg) end
 M.Userdata = M.userdata
 
 --------------------------------------------------------------------------------
@@ -264,9 +285,10 @@ M.Userdata = M.userdata
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M["false"] = function(v) end
+M["false"] = function(v, msg) end
 M.False = M["false"]
 
 ---
@@ -279,9 +301,10 @@ M.False = M["false"]
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M["true"] = function(v) end
+M["true"] = function(v, msg) end
 M.True = M["true"]
 
 ---
@@ -294,9 +317,10 @@ M.True = M["true"]
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.falsy = function(v) end
+M.falsy = function(v, msg) end
 M.Falsy = M.falsy
 
 ---
@@ -309,9 +333,10 @@ M.Falsy = M.falsy
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.callable = function(v) end
+M.callable = function(v, msg) end
 M.Callable = M.callable
 
 ---
@@ -324,9 +349,10 @@ M.Callable = M.callable
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.integer = function(v) end
+M.integer = function(v, msg) end
 M.Integer = M.integer
 
 ---
@@ -339,9 +365,10 @@ M.Integer = M.integer
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.truthy = function(v) end
+M.truthy = function(v, msg) end
 M.Truthy = M.truthy
 
 --------------------------------------------------------------------------------
@@ -365,9 +392,10 @@ M.Truthy = M.truthy
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.path = function(v) end
+M.path = function(v, msg) end
 M.Path = M.path
 
 ---
@@ -379,9 +407,10 @@ M.Path = M.path
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.block = function(v) end
+M.block = function(v, msg) end
 M.Block = M.block
 
 ---
@@ -393,9 +422,10 @@ M.Block = M.block
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.char = function(v) end
+M.char = function(v, msg) end
 M.Char = M.char
 
 ---
@@ -407,9 +437,10 @@ M.Char = M.char
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.device = function(v) end
+M.device = function(v, msg) end
 M.Device = M.device
 
 ---
@@ -421,9 +452,10 @@ M.Device = M.device
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.dir = function(v) end
+M.dir = function(v, msg) end
 M.Dir = M.dir
 
 ---
@@ -435,9 +467,10 @@ M.Dir = M.dir
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.fifo = function(v) end
+M.fifo = function(v, msg) end
 M.Fifo = M.fifo
 
 ---
@@ -449,9 +482,10 @@ M.Fifo = M.fifo
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.file = function(v) end
+M.file = function(v, msg) end
 M.File = M.file
 
 ---
@@ -463,9 +497,10 @@ M.File = M.file
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.link = function(v) end
+M.link = function(v, msg) end
 M.Link = M.link
 
 ---
@@ -477,9 +512,10 @@ M.Link = M.link
 ---```
 ---
 ---@param v any Value to validate.
+---@param msg? string Optional override template.
 ---@return boolean isValid Whether the check succeeds.
 ---@return string? err Error message when the check fails.
-M.socket = function(v) end
+M.socket = function(v, msg) end
 M.Socket = M.socket
 
 --------------------------------------------------------------------------------
