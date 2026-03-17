@@ -1,36 +1,7 @@
-local List = require("mods.List")
+local mods = require "mods"
 
--- luacheck: push ignore 631
----@alias mods.lfs.attributes fun(filepath:string, request_name?:LuaFileSystem.AttributeName):(string|integer|LuaFileSystem.AttributeMode)
----@alias mods.lfs.symlinkattributes fun(filepath:string, request_name?:LuaFileSystem.AttributeName):LuaFileSystem.Attributes
--- luacheck: pop
-
-local lfs
-local function get_lfs()
-  if lfs then
-    return lfs
-  end
-
-  local ok, mod = pcall(require, "lfs")
-  if not ok then
-    error("lfs is required for filesystem operations")
-  end
-
-  lfs = mod
-  return mod
-end
-
----@type mods.lfs.attributes
-local function attrs(filepath, request_name)
-  attrs = get_lfs().attributes
-  return attrs(filepath, request_name)
-end
-
----@type mods.lfs.symlinkattributes
-local function symlinkattrs(filepath, request_name)
-  symlinkattrs = get_lfs().symlinkattributes
-  return symlinkattrs(filepath, request_name)
-end
+local List = mods.List
+local lfs = mods.utils.lfs
 
 ---@type mods.is
 local M = {}
@@ -81,26 +52,26 @@ end
 M._path_checks = List({ "path", "block", "char", "dir", "fifo", "file", "link", "socket", "device" })
 
 local function islink(p)
-  return symlinkattrs(p, "mode") == "link"
+  return lfs.symlinkattributes(p, "mode") == "link"
 end
 
 function M.device(v)
   if type(v) ~= "string" then
     return false
   end
-  local file_mode = attrs(v, "mode")
+  local file_mode = lfs.attributes(v, "mode")
   return file_mode == "char device" or file_mode == "block device"
 end
 
 -- stylua: ignore start
-function M.block(v)  return type(v) == "string" and attrs(v, "mode") == "block device"     end
-function M.char(v)   return type(v) == "string" and attrs(v, "mode") == "char device"      end
-function M.dir(v)    return type(v) == "string" and attrs(v, "mode") == "directory"        end
-function M.fifo(v)   return type(v) == "string" and attrs(v, "mode") == "named pipe"       end
-function M.file(v)   return type(v) == "string" and attrs(v, "mode") == "file"             end
-function M.socket(v) return type(v) == "string" and attrs(v, "mode") == "socket"           end
-function M.link(v)   return type(v) == "string" and islink(v)                              end
-function M.path(v)   return type(v) == "string" and (attrs(v, "mode") ~= nil or islink(v)) end
+function M.block(v)  return type(v) == "string" and lfs.attributes(v, "mode") == "block device"     end
+function M.char(v)   return type(v) == "string" and lfs.attributes(v, "mode") == "char device"      end
+function M.dir(v)    return type(v) == "string" and lfs.attributes(v, "mode") == "directory"        end
+function M.fifo(v)   return type(v) == "string" and lfs.attributes(v, "mode") == "named pipe"       end
+function M.file(v)   return type(v) == "string" and lfs.attributes(v, "mode") == "file"             end
+function M.socket(v) return type(v) == "string" and lfs.attributes(v, "mode") == "socket"           end
+function M.link(v)   return type(v) == "string" and islink(v)                                       end
+function M.path(v)   return type(v) == "string" and (lfs.attributes(v, "mode") ~= nil or islink(v)) end
 -- stylua: ignore end
 
 --------------------------------
