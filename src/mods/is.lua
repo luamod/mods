@@ -1,12 +1,11 @@
-local type = type
-local getmt = getmetatable
-local lfs
+local List = require("mods.List")
 
 -- luacheck: push ignore 631
 ---@alias mods.lfs.attributes fun(filepath:string, request_name?:LuaFileSystem.AttributeName):(string|integer|LuaFileSystem.AttributeMode)
 ---@alias mods.lfs.symlinkattributes fun(filepath:string, request_name?:LuaFileSystem.AttributeName):LuaFileSystem.Attributes
 -- luacheck: pop
 
+local lfs
 local function get_lfs()
   if lfs then
     return lfs
@@ -69,7 +68,7 @@ function M.callable(v)
   if type(v) == "function" then
     return true
   end
-  local mt = getmt(v)
+  local mt = getmetatable(v)
   if mt and type(mt.__call) == "function" then
     return true
   end
@@ -79,8 +78,7 @@ end
 -------------------
 --- Path checks ---
 -------------------
-
-M._path_checks = { "path", "block", "char", "dir", "fifo", "file", "link", "socket", "device" }
+M._path_checks = List({ "path", "block", "char", "dir", "fifo", "file", "link", "socket", "device" })
 
 local function islink(p)
   return symlinkattrs(p, "mode") == "link"

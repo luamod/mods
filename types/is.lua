@@ -1,5 +1,8 @@
 ---@meta mods.is
 
+---@module 'mods.List'
+local List
+
 ---@alias modsIsType
 ---|type
 ---|string
@@ -63,7 +66,7 @@ local M = {}
 ---
 ---Names of filesystem path-check predicates shared by related modules/tests.
 ---
-M._path_checks = { "path", "block", "char", "dir", "fifo", "file", "link", "socket", "device" }
+M._path_checks = List({ "path", "block", "char", "dir", "fifo", "file", "link", "socket", "device" })
 
 --------------------------------------------------------------------------------
 ---------------------------------- Type Checks ---------------------------------
