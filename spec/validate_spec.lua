@@ -62,13 +62,17 @@ describe("mods.validate", function()
     { "truthy"   , true        , false        , "expected truthy value, got false"                      },
 
     { "file"     , "README.md" , "src"        , '"src" is not a valid file path'                        },
-    { "file"     , "README.md" , false        , "false is not a valid file path"                        },
+    { "file"     , "README.md" , false        , "expected string, got boolean"                          },
     { "file"     , "README.md" , "MISSING.md" , '"MISSING.md" is not a valid file path'                 },
+    { "file"     , "README.md" , nil          , "expected string, got no value"                         },
     { "path"     , "README.md" , "MISSING.md" , '"MISSING.md" is not a valid path'                      },
-    { "path"     , "README.md" , false        , "false is not a valid path"                             },
-    { "dir"      , "src"       , "README.md"  , '"README.md" is not a valid dir path'                   },
-    { "dir"      , "src"       , 123          , '123 is not a valid dir path'                           },
+    { "path"     , "README.md" , false        , "expected string, got boolean"                          },
+    { "path"     , "src"       , nil          , "expected string, got no value"                         },
+    { "dir"      , "src"       , "README.md"  , '"README.md" is not a valid directory path'             },
+    { "dir"      , "src"       , 123          , "expected string, got number"                           },
+    { "dir"      , "src"       , nil          , "expected string, got no value"                         },
   }
+
   for i = 1, #tests do
     local tp, valid, invalid, msg = unpack(tests[i], 1, 4)
     local fname = capitalize(tp--[[@as string]])
@@ -98,7 +102,7 @@ describe("mods.validate", function()
   end)
 
   it("uses default path-check message template", function()
-    assert.are_same({ false, '"README.md" is not a valid dir path' }, { validate.dir("README.md") })
+    assert.are_same({ false, '"README.md" is not a valid directory path' }, { validate.dir("README.md") })
   end)
 
   it("supports custom messages", function()

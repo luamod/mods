@@ -3,28 +3,38 @@ local mods = require "mods"
 local is = mods.is
 local quote = mods.utils.quote
 local template = mods.template
-
+local path_checks = is._path_checks:toset()
 local lower = string.lower
-local tostring = tostring
-local type = type
+local fmt = string.format
 
 ---@type mods.validate
 ---@diagnostic disable-next-line: missing-fields
 local M = {}
 
+---@type modsValidateMessages
 local messages = {}
 local validators = {}
 
 M.messages = messages
 
-local function render_msg(expected, got_kind, value, template_msg)
-  template_msg = template_msg or messages[expected] or "expected {{expected}}, got {{got}}"
-  value = type(value) == "string" and quote(value) or tostring(value)
+local function render_msg(expected, got_kind, v, tmpl)
+  local vt = type(v)
+  v = vt == "string" and quote(v) or tostring(v)
 
-  return template(template_msg, {
-    expected = tostring(expected),
+  if not tmpl then
+    if vt ~= "string" and path_checks[expected] then
+      tmpl = messages.string
+      expected = "string"
+    else
+      expected = tostring(expected)
+      tmpl = messages[expected] or "expected {{expected}}, got {{got}}"
+    end
+  end
+
+  return template(tmpl, {
+    expected = expected,
     got = got_kind == "nil" and "no value" or got_kind,
-    value = value == "nil" and "no value" or value,
+    value = v == "nil" and "no value" or v,
   })
 end
 
@@ -46,16 +56,17 @@ function M.register(name, check, template_msg)
   M[key] = wrapped
 end
 
-for fname in ("boolean function nil number string table thread userdata"):gmatch("%S+") do
-  M.register(fname, is[fname], "expected {{expected}}, got {{got}}")
+for tp in ("boolean function nil number string table thread userdata"):gmatch("%S+") do
+  M.register(tp, is[tp], fmt("expected %s, got {{got}}", tp))
 end
 
-for fname in ("false true falsy truthy integer callable"):gmatch("%S+") do
-  M.register(fname, is[fname], "expected {{expected}} value, got {{value}}")
+for tp in ("false true falsy truthy integer callable"):gmatch("%S+") do
+  M.register(tp, is[tp], fmt("expected %s value, got {{value}}", tp))
 end
 
-for _, fname in ipairs(is._path_checks) do
-  M.register(fname, is[fname], "{{value}} is not a valid {{expected}} path")
+for tp in pairs(path_checks) do
+  local expected = tp == "dir" and "directory" or tp
+  M.register(tp, is[tp], fmt("{{value}} is not a valid %s path", expected))
 end
 
 messages.path = "{{value}} is not a valid path"

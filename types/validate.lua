@@ -71,9 +71,11 @@
 ---@field [string] fun(...):(isValid:boolean,errmsg:string?)
 ---
 ---Custom error-message templates for validator failures.
+---
 ---Set `validate.messages.<name>`, where `<name>` is a validator name
 ---(for example: `number`, `truthy`, `file`).
----The template is used only when validation fails and an error message is returned.
+---
+---The error-message template is used only when validation fails and an error message is returned.
 ---
 ---```lua
 ---validate.messages.number = "need {{expected}}, got {{got}}"
@@ -102,7 +104,14 @@
 ---
 ---* Type checks: <code v-pre>expected {{expected}}, got {{got}}</code>
 ---* Value checks: <code v-pre>expected {{expected}} value, got {{value}}</code>
----* Path checks: <code v-pre>{{value}} is not a valid {{expected}} path</code>
+---* Path checks:
+---  <code v-pre>{{value}} is not a valid {{expected}} path</code>
+---  (for `path`: <code v-pre>{{value}} is not a valid path</code>)
+---
+---> [!NOTE]
+--->
+---> For path checks, if the value is not a `string`, the message falls back to
+---> `messages.string` (as if `validate.string` was called).
 ---
 ---@field messages modsValidateMessages
 ---
