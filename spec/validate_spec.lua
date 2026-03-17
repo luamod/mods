@@ -92,17 +92,51 @@ describe("mods.validate", function()
     end)
   end
 
-  it("uses default type-check message template", function()
+  it("uses default validator message template", function()
     assert.are_same({ false, "expected number, got string" }, { validate.number("x") })
-  end)
-
-  it("uses default value-check message template", function()
-    local t = {}
-    assert.are_same({ false, fmt("expected callable value, got %s", render_value(t)) }, { validate.callable(t) })
-  end)
-
-  it("uses default path-check message template", function()
     assert.are_same({ false, '"README.md" is not a valid directory path' }, { validate.dir("README.md") })
+    assert.are_same(
+      { false, fmt("expected callable value, got %s", render_value(empty)) },
+      { validate.callable(empty) }
+    )
+  end)
+
+  -------------------------
+  --- Template Messages ---
+  -------------------------
+
+  describe("validate.messages", function()
+    it("errors on non-string keys", function()
+      assert.has_error(function()
+        validate.messages[1] = "nope"
+      end, "validate.messages[1]: expected string, got number")
+    end)
+
+    it("errors on non-string template", function()
+      assert.has_error(function()
+        validate.messages.number = 123 ---@diagnostic disable-line: assign-type-mismatch
+      end, "validate.messages.number: expected string, got number")
+
+      assert.has_error(function()
+        validate.messages.number = nil
+      end, "validate.messages.number: expected string, got no value")
+    end)
+  end)
+
+  it("errors when passing non-string template argument", function()
+    assert.has_error(function()
+      ---@diagnostic disable-next-line: param-type-mismatch, missing-return
+      validate.register("bad", function() end, 123)
+    end, "bad argument #3 to 'register' (expected string got number)")
+
+    assert.has_error(function()
+      validate(13.4, "integer", function() end)
+    end, "bad argument #3 to 'integer' (expected string got function)")
+
+    assert.has_error(function()
+      ---@diagnostic disable-next-line: param-type-mismatch
+      validate.callable("not a callable", 123)
+    end, "bad argument #2 to 'callable' (expected string got number)")
   end)
 
   it("supports custom messages", function()
@@ -114,6 +148,16 @@ describe("mods.validate", function()
 
     validate.messages.number = prev
   end)
+
+  it("accepts template overrides on validator functions", function()
+    assert.are_same({ false, "need string, got number" }, {
+      validate.string(123, "need {{expected}}, got {{got}}"),
+    })
+  end)
+
+  ------------------
+  --- Register() ---
+  ------------------
 
   describe("register", function()
     it("registers custom validator and supports callable dispatch", function()
@@ -131,7 +175,6 @@ describe("mods.validate", function()
       validate.register("even", function(v)
         return type(v) == "number" and v % 2 == 0
       end, "expected {{expected}} check, got {{value}}")
-
       assert.are_same({ false, "expected even check, got 3" }, { validate.even(3) })
     end)
 
