@@ -121,10 +121,16 @@ describe("mods.utils", function()
   --- validate() ---
   ------------------
 
-  it("errors with name prefix on validation failure", function()
+  it("errors with label prefix on validation failure", function()
     assert.has_error(function()
       utils.validate("count", "x", "number")
     end, "count: expected number, got string")
+  end)
+
+  it("uses keypath when label is a table", function()
+    assert.has_error(function()
+      utils.validate({ "ctx", "users", 1, "name" }, 123, "string")
+    end, "ctx.users[1].name: expected string, got number")
   end)
 
   it("does not error when optional and value is nil", function()

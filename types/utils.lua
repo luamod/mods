@@ -85,13 +85,13 @@ function M.list_args(v) end
 function M.assert_arg(argn, v, validator, level, msg) end
 
 ---
----Validate a named value using `mods.validate` and raise a Lua error on failure.
+---Validate a value using `mods.validate` and raise a Lua error on failure.
 ---
 ---```lua
 ---utils.validate("path", "ok", "string")
+---utils.validate("name", nil, "string", true)
 ---utils.validate("count", "x", "number")
 -----> raises: count: expected number, got string
----utils.validate("name", nil, "string", true)
 ---```
 ---
 ---@param name string Name for the error prefix.
@@ -101,5 +101,26 @@ function M.assert_arg(argn, v, validator, level, msg) end
 ---@param msg? string Optional override template passed to `mods.validate`.
 ---@return nil none
 function M.validate(name, v, validator, optional, msg) end
+
+---
+---Validate a value using `mods.validate` and raise a Lua error on failure.
+---
+---```lua
+---utils.validate({ "ctx", "users", 1, "name" }, nil, "string", true)
+---utils.validate({ "ctx", "users", 1, "name" }, 123, "string")
+-----> raises: ctx.users[1].name: expected string, got number
+---```
+---
+---> [!NOTE]
+--->
+---> On failure, `path` is rendered with `mods.utils.keypath`.
+---
+---@param path table Path parts for the error name.
+---@param v any Value to validate.
+---@param validator? modsValidatorName Validator name (defaults to `"truthy"`).
+---@param optional? boolean Skip errors when `v` is `nil` (defaults to `false`).
+---@param msg? string Optional override template passed to `mods.validate`.
+---@return nil none
+function M.validate(path, v, validator, optional, msg) end
 
 return M

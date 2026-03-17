@@ -5,6 +5,7 @@ local find = string.find
 local fmt = string.format
 local getinfo = debug.getinfo
 local gsub = string.gsub
+local unpack = table.unpack or unpack
 
 ---@type mods.utils
 local M = { lfs = {} }
@@ -100,12 +101,13 @@ function M.assert_arg(argn, v, validator, lvl, msg)
   return v
 end
 
-function M.validate(name, v, validator, optional, msg)
+function M.validate(label, v, validator, optional, msg)
   local ok, err = validate(v, validator, msg)
   if ok or optional and v == nil then
     return
   end
-  local message = fmt("%s: %s", name, err)
+  local label = type(label) == "table" and M.keypath(unpack(label)) or label
+  local message = fmt("%s: %s", label, err)
   error(message, 2)
 end
 
