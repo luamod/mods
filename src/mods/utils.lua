@@ -106,7 +106,7 @@ function M.validate(label, v, validator, optional, msg)
   if ok or optional and v == nil then
     return
   end
-  local label = type(label) == "table" and M.keypath(unpack(label)) or label
+  label = type(label) == "table" and M.keypath(unpack(label)) or label
   local message = fmt("%s: %s", label, err)
   error(message, 2)
 end

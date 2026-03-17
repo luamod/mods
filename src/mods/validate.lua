@@ -69,14 +69,14 @@ function M.register(name, validator, tmpl)
     messages[key] = tmpl
   end
 
-  local wrapped = function(v, tmpl)
+  local wrapped = function(v, tmpl_)
     if validator(v) then
       return true
     end
-    if tmpl ~= nil then
-      validate_template(2, name, tmpl)
+    if tmpl_ ~= nil then
+      validate_template(2, name, tmpl_)
     end
-    return false, render_msg(key, type(v), v, tmpl)
+    return false, render_msg(key, type(v), v, tmpl_)
   end
 
   validators[key] = wrapped
@@ -110,9 +110,9 @@ return setmetatable(M, {
     validator = validator or "truthy"
     validate_template(3, validator, tmpl)
 
-    local validate = validators[validator]
-    if validate then
-      return validate(v, tmpl)
+    local validate_ = validators[validator]
+    if validate_ then
+      return validate_(v, tmpl)
     end
 
     local tp = type(v)
