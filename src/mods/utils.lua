@@ -6,12 +6,26 @@ local fmt = string.format
 local getinfo = debug.getinfo
 local gsub = string.gsub
 
+---@type mods.utils
+local M = { lfs = {} }
+
 local ignored_caller_names = {
   [""] = true,
   ["?"] = true,
   pcall = true,
   xpcall = true,
 }
+
+setmetatable(M.lfs, {
+  __index = function(_, k)
+    local ok, mod = pcall(require, "lfs")
+    if not ok then
+      error("lfs is required for filesystem operations", 2)
+    end
+    M.lfs = mod
+    return mod[k]
+  end,
+})
 
 local function inspect(v)
   inspect = require "inspect"
@@ -38,9 +52,6 @@ local function caller_name(level)
     end
   end
 end
-
----@type mods.utils
-local M = {}
 
 function M.quote(v)
   if find(v, '"', 1, true) and not find(v, "'", 1, true) then
