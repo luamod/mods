@@ -84,4 +84,22 @@ function M.list_args(v) end
 ---@return T validatedValue Same input value on success.
 function M.assert_arg(argn, v, tp, level, msg) end
 
+---
+---Validate a named value using `mods.validate` and raise a Lua error on failure.
+---
+---```lua
+---utils.validate("path", "ok", "string")
+---utils.validate("count", "x", "number")
+-----> raises: count: expected number, got string
+---utils.validate("name", nil, "string", true)
+---```
+---
+---@param name string Name for the error prefix.
+---@param v any Value to validate.
+---@param validator? modsIsType Validator name (defaults to `"truthy"`).
+---@param optional? boolean Skip errors when `v` is `nil` (defaults to `false`).
+---@param msg? string Optional override template passed to `mods.validate`.
+---@return nil none
+function M.validate(name, v, validator, optional, msg) end
+
 return M

@@ -116,4 +116,26 @@ describe("mods.utils", function()
       utils.assert_arg(1, 123, "string", 2, "need {{expected}}, got {{got}}")
     end, "bad argument #1 (need string, got number)")
   end)
+
+  ------------------
+  --- validate() ---
+  ------------------
+
+  it("errors with name prefix on validation failure", function()
+    assert.has_error(function()
+      utils.validate("count", "x", "number")
+    end, "count: expected number, got string")
+  end)
+
+  it("does not error when optional and value is nil", function()
+    assert.no_error(function()
+      utils.validate("name", nil, "string", true)
+    end)
+  end)
+
+  it("passes custom message template to validate when provided", function()
+    assert.has_error(function()
+      utils.validate("count", "x", "number", false, "need {{expected}}, got {{got}}")
+    end, "count: need number, got string")
+  end)
 end)

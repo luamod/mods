@@ -100,6 +100,15 @@ function M.assert_arg(argn, v, tp, lvl, msg)
   return v
 end
 
+function M.validate(name, v, validator, optional, msg)
+  local ok, err = validate(v, validator, msg)
+  if ok or optional and v == nil then
+    return
+  end
+  local message = fmt("%s: %s", name, err)
+  error(message, 2)
+end
+
 if _TEST then
   ignored_caller_names.callback = true
   ignored_caller_names.has_error = true
