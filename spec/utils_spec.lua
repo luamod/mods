@@ -87,6 +87,10 @@ describe("mods.utils", function()
     assert.are_equal(123, utils.assert_arg(2, 123, "number"))
   end)
 
+  it("returns nil when optional and value is nil", function()
+    assert.is_nil(utils.assert_arg(1, nil, "string", true))
+  end)
+
   it("defaults to truthy check when type is omitted", function()
     assert.are_equal("ok", utils.assert_arg(1, "ok"))
     assert.has_error(function()
@@ -113,7 +117,7 @@ describe("mods.utils", function()
 
   it("passes custom message template to validate when provided", function()
     assert.has_error(function()
-      utils.assert_arg(1, 123, "string", 2, "need {{expected}}, got {{got}}")
+      utils.assert_arg(1, 123, "string", false, "need {{expected}}, got {{got}}")
     end, "bad argument #1 (need string, got number)")
   end)
 

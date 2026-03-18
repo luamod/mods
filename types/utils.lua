@@ -64,9 +64,10 @@ function M.list_args(v) end
 ---
 ---```lua
 ---utils.assert_arg(1, "ok", "string") --> "ok"
+---utils.assert_arg(2, nil, "string", true) --> nil
 ---utils.assert_arg(2, 123, "string")
 -----> raises: bad argument #2 (expected string, got number)
----utils.assert_arg(3, "x", "number", 2, "need {{expected}}, got {{got}}")
+---utils.assert_arg(3, "x", "number", false, "need {{expected}}, got {{got}}")
 -----> raises: bad argument #3 (need number, got string)
 ---```
 ---
@@ -79,10 +80,10 @@ function M.list_args(v) end
 ---@param argn integer Argument index for error context.
 ---@param v T Value to check.
 ---@param validator? modsValidatorName Validator name (defaults to `"truthy"`).
----@param level? integer Optional error level for `error(...)` (defaults to `2`).
+---@param optional? boolean Skip errors when `v` is `nil` (defaults to `false`).
 ---@param msg? string Optional override template passed to `mods.validate`.
----@return T validatedValue Same input value on success.
-function M.assert_arg(argn, v, validator, level, msg) end
+---@return T validatedValue Same input value on success, or `nil` when optional.
+function M.assert_arg(argn, v, validator, optional, msg) end
 
 ---
 ---Validate a value using `mods.validate` and raise a Lua error on failure.

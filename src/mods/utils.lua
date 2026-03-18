@@ -85,25 +85,27 @@ function M.list_args(v)
   return inspect(v):gsub("^%s*{%s*(.-)%s*}%s*$", "%1")
 end
 
-function M.assert_arg(argn, v, validator, lvl, msg)
+function M.assert_arg(argn, v, validator, optional, msg)
   local ok, err = validate(v, validator, msg)
-  if not ok then
-    lvl = lvl or 2
-    local message
-    local fname = caller_name(lvl)
-    if fname then
-      message = fmt("bad argument #%d to '%s' (%s)", argn, fname, err)
-    else
-      message = fmt("bad argument #%d (%s)", argn, err)
-    end
-    error(message, lvl)
+  if ok or (optional and v == nil) then
+    return v
   end
+
+  local message
+  local fname = caller_name(2)
+  if fname then
+    message = fmt("bad argument #%d to '%s' (%s)", argn, fname, err)
+  else
+    message = fmt("bad argument #%d (%s)", argn, err)
+  end
+  error(message, 2)
+
   return v
 end
 
 function M.validate(label, v, validator, optional, msg)
   local ok, err = validate(v, validator, msg)
-  if ok or optional and v == nil then
+  if ok or (optional and v == nil) then
     return
   end
   label = type(label) == "table" and M.keypath(unpack(label)) or label
