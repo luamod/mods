@@ -144,4 +144,69 @@ describe("mods.utils", function()
       end, "count: need number, got string")
     end)
   end)
+
+  describe("lazy_module()", function()
+    local function is_module_loaded(name)
+      return package.loaded[name] ~= nil
+    end
+
+    it("does not load the module until a field is accessed", function()
+      local modname = "mods.stringcase"
+      package.loaded[modname] = nil
+
+      local proxy = utils.lazy_module(modname)
+
+      assert.is_false(is_module_loaded(modname))
+      _ = proxy.missing
+      assert.is_true(is_module_loaded(modname))
+    end)
+
+    it("proxies reads and writes to the loaded module", function()
+      local modname = "mods.is"
+      local proxy = utils.lazy_module(modname)
+      local loaded = require(modname) --[[@as mods.is]]
+      local k, v = "_lazy_module_proxy_value", 3
+
+      assert.is_nil(proxy[k])
+      assert.are_same(loaded.boolean, proxy.boolean)
+      assert.is_nil(rawget(proxy, "boolean"))
+
+      proxy[k] = v
+      assert.are_equal(v, proxy[k])
+      assert.are_equal(v, loaded[k])
+      assert.is_nil(rawget(proxy, k))
+
+      proxy[k] = nil
+      assert.is_nil(proxy[k])
+      assert.is_nil(loaded[k])
+
+      loaded[k] = v
+      assert.are_equal(v, loaded[k])
+      assert.are_equal(v, proxy[k])
+      assert.is_nil(rawget(proxy, k))
+
+      loaded[k] = nil
+      assert.is_nil(loaded[k])
+      assert.is_nil(proxy[k])
+    end)
+
+    it("supports writes before any read access", function()
+      local proxy = utils.lazy_module "mods.is"
+      local loaded = require "mods.is" --[[@as mods.is]]
+      local k, v = "_lazy_module_first_write", 11
+
+      proxy[k] = v
+      assert.are_equal(v, loaded[k])
+      assert.are_equal(v, proxy[k])
+      assert.is_nil(rawget(proxy, k))
+    end)
+
+    it("rewrites its metamethods to the loaded module", function()
+      local proxy = utils.lazy_module("mods.validate")
+      _ = proxy.boolean
+
+      assert.are_equal(require("mods.validate"), getmetatable(proxy).__index)
+      assert.are_equal(require("mods.validate"), getmetatable(proxy).__newindex)
+    end)
+  end)
 end)

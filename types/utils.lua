@@ -124,4 +124,16 @@ function M.validate(name, v, validator, optional, msg) end
 ---@return nil none
 function M.validate(path, v, validator, optional, msg) end
 
+---
+---Return a lazy proxy for a table-returning module.
+---
+---The proxy rewrites its metamethods after first access while keeping the proxy
+---table itself free of cached fields.
+---
+---@param name string Module name passed to `require`.
+---@param err? string Optional error message raised when loading fails.
+---@return {} module Lazy proxy for the loaded module.
+---@nodiscard
+function M.lazy_module(name, err) end
+
 return M

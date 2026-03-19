@@ -113,6 +113,35 @@ function M.validate(label, v, validator, optional, msg)
   error(message, 2)
 end
 
+function M.lazy_module(name, err)
+  M.assert_arg(1, name, "string")
+  M.assert_arg(2, err, "string", true)
+
+  local load_err = err or fmt("failed to load module '%s'", name)
+  local mt = {}
+
+  mt.__index = function(_, k)
+    local ok, mod = pcall(require, name)
+    if not ok then
+      error(load_err, 2)
+    end
+    mt.__index = mod
+    mt.__newindex = mod
+    return mod[k]
+  end
+
+  mt.__newindex = function(_, k, v)
+    local ok, mod = pcall(require, name)
+    if not ok then
+      error(load_err, 2)
+    end
+    mt.__newindex = mod
+    mod[k] = v
+  end
+
+  return setmetatable({}, mt)
+end
+
 if _TEST then
   ignored_caller_names.callback = true
   ignored_caller_names.has_error = true
