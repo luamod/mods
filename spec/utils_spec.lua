@@ -78,74 +78,70 @@ describe("mods.utils", function()
     end)
   end
 
-  --------------------
-  --- assert_arg() ---
-  --------------------
+  describe("assert_arg()", function()
+    it("returns same value when validation passes", function()
+      assert.are_equal("abc", utils.assert_arg(1, "abc", "string"))
+      assert.are_equal(123, utils.assert_arg(2, 123, "number"))
+    end)
 
-  it("returns same value when validation passes", function()
-    assert.are_equal("abc", utils.assert_arg(1, "abc", "string"))
-    assert.are_equal(123, utils.assert_arg(2, 123, "number"))
-  end)
+    it("returns nil when optional and value is nil", function()
+      assert.is_nil(utils.assert_arg(1, nil, "string", true))
+    end)
 
-  it("returns nil when optional and value is nil", function()
-    assert.is_nil(utils.assert_arg(1, nil, "string", true))
-  end)
+    it("defaults to truthy check when type is omitted", function()
+      assert.are_equal("ok", utils.assert_arg(1, "ok"))
+      assert.has_error(function()
+        utils.assert_arg(2, false)
+      end, "bad argument #2 (expected truthy value, got false)")
+    end)
 
-  it("defaults to truthy check when type is omitted", function()
-    assert.are_equal("ok", utils.assert_arg(1, "ok"))
-    assert.has_error(function()
-      utils.assert_arg(2, false)
-    end, "bad argument #2 (expected truthy value, got false)")
-  end)
+    it("throws with bad argument prefix on validation failure", function()
+      assert.has_error(function()
+        utils.assert_arg(3, 123, "string")
+      end, "bad argument #3 (expected string, got number)")
+    end)
 
-  it("throws with bad argument prefix on validation failure", function()
-    assert.has_error(function()
-      utils.assert_arg(3, 123, "string")
-    end, "bad argument #3 (expected string, got number)")
-  end)
+    it("includes caller function name when available", function()
+      local function needs_string(v)
+        local out = utils.assert_arg(1, v, "string")
+        return out
+      end
 
-  it("includes caller function name when available", function()
-    local function needs_string(v)
-      local out = utils.assert_arg(1, v, "string")
-      return out
-    end
+      assert.has_error(function()
+        needs_string(123)
+      end, "bad argument #1 to 'needs_string' (expected string, got number)")
+    end)
 
-    assert.has_error(function()
-      needs_string(123)
-    end, "bad argument #1 to 'needs_string' (expected string, got number)")
-  end)
-
-  it("passes custom message template to validate when provided", function()
-    assert.has_error(function()
-      utils.assert_arg(1, 123, "string", false, "need {{expected}}, got {{got}}")
-    end, "bad argument #1 (need string, got number)")
-  end)
-
-  ------------------
-  --- validate() ---
-  ------------------
-
-  it("errors with label prefix on validation failure", function()
-    assert.has_error(function()
-      utils.validate("count", "x", "number")
-    end, "count: expected number, got string")
-  end)
-
-  it("uses keypath when label is a table", function()
-    assert.has_error(function()
-      utils.validate({ "ctx", "users", 1, "name" }, 123, "string")
-    end, "ctx.users[1].name: expected string, got number")
-  end)
-
-  it("does not error when optional and value is nil", function()
-    assert.no_error(function()
-      utils.validate("name", nil, "string", true)
+    it("passes custom message template to validate when provided", function()
+      assert.has_error(function()
+        utils.assert_arg(1, 123, "string", false, "need {{expected}}, got {{got}}")
+      end, "bad argument #1 (need string, got number)")
     end)
   end)
 
-  it("passes custom message template to validate when provided", function()
-    assert.has_error(function()
-      utils.validate("count", "x", "number", false, "need {{expected}}, got {{got}}")
-    end, "count: need number, got string")
+  describe("validate()", function()
+    it("errors with label prefix on validation failure", function()
+      assert.has_error(function()
+        utils.validate("count", "x", "number")
+      end, "count: expected number, got string")
+    end)
+
+    it("uses keypath when label is a table", function()
+      assert.has_error(function()
+        utils.validate({ "ctx", "users", 1, "name" }, 123, "string")
+      end, "ctx.users[1].name: expected string, got number")
+    end)
+
+    it("does not error when optional and value is nil", function()
+      assert.no_error(function()
+        utils.validate("name", nil, "string", true)
+      end)
+    end)
+
+    it("passes custom message template to validate when provided", function()
+      assert.has_error(function()
+        utils.validate("count", "x", "number", false, "need {{expected}}, got {{got}}")
+      end, "count: need number, got string")
+    end)
   end)
 end)
