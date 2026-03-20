@@ -4,7 +4,7 @@ local mods = require "mods"
 
 local List = mods.List
 local Set = mods.Set
-local deepcopy = mods.tbl.deepcopy
+local copy = mods.tbl.copy
 local runtime = mods.runtime
 
 local upper = string.upper
@@ -12,9 +12,10 @@ local fmt = string.format
 local load = loadstring or load
 
 describe("mods.Set", function()
-  local patterns = [[ _____ ___de _b_d_ _bcd_ a_c__ __c__
-    a_c_e a___e abc__ abcd_ abcde
-    ab_de ABC__ ]]
+  local patterns = [[
+    _____ a____ ___de _b_d_ _bcd_ a_c__ __c__
+    a_c_e a___e abc__ abcd_ abcde ab_de ABC__
+  ]]
 
   patterns:gsub("%S+", function(p)
     local set = Set()
@@ -26,64 +27,73 @@ describe("mods.Set", function()
 
   -- stylua: ignore
   local tests = {
-    --------------fname-------------|--set--|------param-----|-expected-|-same_ref?
-    { "add"                         , _b_d_ , "c"            , _bcd_    , true  },
-    { "clear"                       , abcde , nil            , {}       , true  },
-    { "contains"                    , abcde , "a"            , true     ,       },
-    { "contains"                    , abcde , "z"            , false    ,       },
-    { "copy"                        , abcde , nil            , abcde    , false },
-    { "difference_update"           , a_c_e , _bcd_          , a___e    , true  },
-    { "difference_update"           , a_c_e , _bcd_:values() , a___e    , true  },
-    { "difference"                  , a_c_e , _bcd_          , a___e    , false },
-    { "difference"                  , a_c_e , _bcd_:values() , a___e    , false },
-    { "equals"                      , abcde , abcd_          , false    ,       },
-    { "equals"                      , abcde , abcd_:values() , false    ,       },
-    { "equals"                      , abcde , abcde          , true     ,       },
-    { "intersection_update"         , a_c_e , _bcd_          , __c__    , true  },
-    { "intersection_update"         , a_c_e , _bcd_:values() , __c__    , true  },
-    { "intersection"                , a_c_e , _bcd_          , __c__    , false },
-    { "intersection"                , a_c_e , _bcd_:values() , __c__    , false },
-    { "isdisjoint"                  , _b_d_ , ___de          , false    ,       },
-    { "isdisjoint"                  , _b_d_ , ___de:values() , false    ,       },
-    { "isdisjoint"                  , _b_d_ , a___e          , true     ,       },
-    { "isempty"                     , _____ , nil            , true     ,       },
-    { "isempty"                     , abcde , nil            , false    ,       },
-    { "issubset"                    , abcd_ , abcde          , true     ,       },
-    { "issubset"                    , abcde , abcd_          , false    ,       },
-    { "issubset"                    , abcde , abcd_:values() , false    ,       },
-    { "issuperset"                  , abcd_ , abcde          , false    ,       },
-    { "issuperset"                  , abcde , abcd_          , true     ,       },
-    { "issuperset"                  , abcde , abcd_:values() , true     ,       },
-    { "len"                         , _____ , nil            , 0        ,       },
-    { "len"                         , a_c__ , nil            , 2        ,       },
-    { "map"                         , abc__ , upper          , ABC__    , false },
-    { "pop"                         , _____ , nil            , nil      ,       },
-    { "remove"                      , _bcd_ , "c"            , _b_d_    , true  },
-    { "symmetric_difference_update" , a_c_e , _bcd_          , ab_de    , true  },
-    { "symmetric_difference_update" , a_c_e , _bcd_:values() , ab_de    , true  },
-    { "symmetric_difference"        , a_c_e , _bcd_          , ab_de    , false },
-    { "symmetric_difference"        , a_c_e , _bcd_:values() , ab_de    , false },
-    { "union"                       , abc__ , ___de          , abcde    , false },
-    { "union"                       , abc__ , ___de:values() , abcde    , false },
-    { "update"                      , abc__ , ___de          , abcde    , true  },
-    { "update"                      , abc__ , ___de:values() , abcde    , true  },
-    { "values"                      , _____ , nil            , {}       ,       },
+    --------------fname-------------|--set--|-input-|--expected-|-same_ref?
+    { "add"                         , _b_d_ , "c"   , _bcd_     , true  },
+    { "clear"                       , abcde , nil   , {}        , true  },
+    { "contains"                    , abcde , "a"   , true      ,       },
+    { "contains"                    , abcde , "z"   , false     ,       },
+    { "copy"                        , abcde , nil   , abcde     , false },
+    { "difference_update"           , a_c_e , _bcd_ , a___e     , true  },
+    { "difference"                  , a_c_e , _bcd_ , a___e     , false },
+    { "equals"                      , abcde , abcd_ , false     ,       },
+    { "equals"                      , abcde , abcde , true      ,       },
+    { "intersection_update"         , a_c_e , _bcd_ , __c__     , true  },
+    { "intersection"                , a_c_e , _bcd_ , __c__     , false },
+    { "isdisjoint"                  , _b_d_ , ___de , false     ,       },
+    { "isdisjoint"                  , _b_d_ , a___e , true      ,       },
+    { "isempty"                     , _____ , nil   , true      ,       },
+    { "isempty"                     , abcde , nil   , false     ,       },
+    { "issubset"                    , abcd_ , abcde , true      ,       },
+    { "issubset"                    , abcde , abcd_ , false     ,       },
+    { "issuperset"                  , abcd_ , abcde , false     ,       },
+    { "issuperset"                  , abcde , abcd_ , true      ,       },
+    { "join"                        , a____ , nil   , 'a'       ,       },
+    { "len"                         , _____ , nil   , 0         ,       },
+    { "len"                         , a_c__ , nil   , 2         ,       },
+    { "map"                         , abc__ , upper , ABC__     , false },
+    { "pop"                         , _____ , nil   , nil       ,       },
+    { "remove"                      , _bcd_ , "c"   , _b_d_     , true  },
+    { "symmetric_difference_update" , a_c_e , _bcd_ , ab_de     , true  },
+    { "symmetric_difference"        , a_c_e , _bcd_ , ab_de     , false },
+    { "tostring"                    , a____ , nil   , '{ "a" }' ,       },
+    { "union"                       , abc__ , ___de , abcde     , false },
+    { "update"                      , abc__ , ___de , abcde     , true  },
+    { "values"                      , _____ , nil   , {}        ,       },
   }
 
   for i = 1, #tests do
-    local fname, set, param, expected, same_ref = unpack(tests[i], 1, 5)
-    it(fmt("(%s):%s(%s) returns correct result", inspect(set:values()), fname, inspect(param)), function()
-      set = deepcopy(set)
-      local res = set[fname](set, param)
+    local fname, set, input, expected, same_ref =
+      unpack(tests[i] --[[@as {[1]:string,[2]:mods.Set,[3]:any,[4]:any,[5]:boolean?}]], 1, 5)
+
+    -- Second argument is a Set.
+    it(fmt("Set(...):%s(Set(...))", fname), function()
+      local set_ = set:copy()
+      local res = set_[fname](set_, input)
 
       assert.are_same(expected, res)
 
       if same_ref then
-        assert.are_equal(true, rawequal(set, res), "Expected same set instance")
+        assert.are_equal(true, rawequal(set_, res), "Expected same set instance")
       else
-        assert.are_equal(false, rawequal(set, res), "Expected different set instances")
+        assert.are_equal(false, rawequal(set_, res), "Expected different set instances")
       end
     end)
+
+    -- Second argument is a plain table.
+    it(fmt("Set(...):%s({...})", fname), function()
+      local set_ = copy(set)
+      local res = set[fname](set_, input)
+      assert.are_same(expected, res)
+    end)
+
+    if type(input) == "table" then
+      -- Second argument is a List.
+      it(fmt("Set.%s({...}, ...)", fname), function()
+        local set_ = copy(set)
+        local res = set[fname](set_, input:values())
+        assert.are_same(expected, res)
+      end)
+    end
   end
 
   describe("join()", function()
@@ -117,11 +127,6 @@ describe("mods.Set", function()
       local res = s:join(" | ")
       assert.is_true(res == "a | <self>" or res == "<self> | a")
     end)
-  end)
-
-  it("Set(...):tostring() renders set output", function()
-    local res = Set({ 1, "b" }):tostring()
-    assert.is_true(res == '{ 1, "b" }' or res == '{ "b", 1 }')
   end)
 
   it("pop() removes and returns an arbitrary element", function()
