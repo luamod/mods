@@ -100,8 +100,9 @@ function M.deepcopy(v) end
 ---end) --> { b = 2 }
 ---```
 ---
----@param t table Input table.
----@param pred fun(v:any):boolean Value predicate.
+---@generic K,V
+---@param t table<K,V> Input table.
+---@param pred fun(value:V):boolean Value predicate.
 ---@return table filtered Table containing entries where `pred(v)` is true.
 ---@nodiscard
 function M.filter(t, pred) end
@@ -113,10 +114,10 @@ function M.filter(t, pred) end
 ---key = find({ a = 1, b = 2, c = 2 }, 2) --> "b" or "c"
 ---```
 ---
----@generic T1,T2
----@param t {[T1]:T2} Input table.
----@param v T2 Value to find.
----@return T1? key First matching key, or `nil` when not found.
+---@generic K,V
+---@param t table<K,V> Input table.
+---@param v V Value to find.
+---@return K? key First matching key, or `nil` when not found.
 ---@nodiscard
 function M.find(t, v) end
 
@@ -143,11 +144,11 @@ function M.same(a, b) end
 ---end) --> 2, "b"
 ---```
 ---
----@generic T1,T2
+---@generic K,V
 ---@param t table Input table.
----@param pred fun(v:T1,k:T2):boolean Predicate function.
----@return T1? matchedValue First matching value, or `nil` when not found.
----@return T2? k Key for the first matching value, or `nil` when not found.
+---@param pred fun(key:K,value:V):boolean Predicate function.
+---@return V? value First matching value, or `nil` when not found.
+---@return K? key Key for the first matching value, or `nil` when not found.
 ---@nodiscard
 function M.find_if(t, pred) end
 
@@ -184,9 +185,9 @@ function M.get(t, ...) end
 ---t = invert({ a = 1, b = 2 }) --> { [1] = "a", [2] = "b" }
 ---```
 ---
----@generic T1,T2
----@param t {[T1]:T2} Input table.
----@return {[T2]:T1} inverted Inverted table (`value -> key`).
+---@generic K,V
+---@param t table<K,V> Input table.
+---@return table<V,K> inverted Inverted table (`value -> key`).
 ---@nodiscard
 function M.invert(t) end
 
@@ -209,9 +210,9 @@ function M.isempty(t) end
 ---keys = keys({ a = 1, b = 2 }) --> { "a", "b" }
 ---```
 ---
----@generic T
----@param t {[T]:any} Input table.
----@return mods.List<T> keys List of keys in `t`.
+---@generic K,V
+---@param t table<K,V> Input table.
+---@return mods.List<V> keys List of keys in `t`.
 ---@nodiscard
 function M.keys(t) end
 
@@ -224,10 +225,10 @@ function M.keys(t) end
 ---end) --> { a = 10, b = 20 }
 ---```
 ---
----@generic T1,T2,T3
----@param t {[T1]:T2} Input table.
----@param fn fun(v:T2):T3 Mapping function.
----@return {[T1]:T3} mapped New table with mapped values.
+---@generic T,K,V
+---@param t table<K,V> Input table.
+---@param fn fun(value:V):T Mapping function.
+---@return table<K,T> mapped New table with mapped values.
 ---@nodiscard
 function M.map(t, fn) end
 
@@ -244,10 +245,10 @@ function M.map(t, fn) end
 --->
 ---> Output keeps original keys; only values are transformed by `fn`.
 ---
----@generic T1,T2,T3
----@param t {[T1]:T2} Input table.
----@param fn fun(k:T1, v:T2):T3 Key-value mapping function.
----@return {[T1]:T3} mapped New table with mapped values.
+---@generic T,K,V
+---@param t table<K,V> Input table.
+---@param fn fun(key:K, value:V):T Key-value mapping function.
+---@return table<K,T> mapped New table with mapped values.
 ---@nodiscard
 function M.pairmap(t, fn) end
 
@@ -262,7 +263,7 @@ function M.pairmap(t, fn) end
 ---@generic T:table
 ---@param t1 T Target table.
 ---@param t2 table Source table.
----@return T t1 Updated `t1` table.
+---@return T table Updated `t1` table.
 function M.update(t1, t2) end
 
 ---
@@ -272,9 +273,9 @@ function M.update(t1, t2) end
 ---vals = values({ a = 1, b = 2 }) --> { 1, 2 }
 ---```
 ---
----@generic T
----@param t {[any]:T} Input table.
----@return mods.List<T> values List of values in `t`.
+---@generic K,V
+---@param t table<K,V> Input table.
+---@return mods.List<V> values List of values in `t`.
 ---@nodiscard
 function M.values(t) end
 
@@ -293,8 +294,8 @@ function M.values(t) end
 ---end)
 ---```
 ---
----@generic T: table, K, V
----@param t table<K, V> Input table.
+---@generic K,V
+---@param t table<K,V> Input table.
 ---@param fn fun(value:V, key:K) Function invoked for each entry.
 ---@return nil none
 function M.foreach(t, fn) end
@@ -308,7 +309,7 @@ function M.foreach(t, fn) end
 ---end
 ---```
 ---
----@generic T: table, K, V
+---@generic T:table, K, V
 ---@param t T Input table.
 ---@return fun(table: table<K, V>, index?: K):(K, V) iterator Sorted pairs iterator.
 ---@return T
