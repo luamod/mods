@@ -1,31 +1,105 @@
 ---@meta mods.fs
 
-local lfs ---@module "lfs"
-
 ---
----Filesystem I/O and metadata operations.
----
----## Usage
----
----```lua
----fs = require "mods.fs"
----
----fs.mkdir("tmp/cache/app", true)
----```
+---Filesystem, environment, and cwd-dependent path operations.
 ---
 ---@class mods.fs
 local M = {}
 
----Alias of `lfs.currentdir`
-M.getcwd = lfs.currentdir
+--------------------------------------------------------------------------------
+--------------------------------- Metadata -------------------------------------
+--------------------------------------------------------------------------------
 
----Alias of `lfs.symlinkattributes`
-M.lstat = lfs.symlinkattributes
+---
+---Return file size in bytes.
+---
+---```lua
+---fs.getsize("README.md") --> 1234
+---```
+---
+---@param path string Input path.
+---@return integer? size File size in bytes.
+---@return string? err Error message when the check fails.
+---@nodiscard
+function M.getsize(path) end
 
----Alias of `lfs.rmdir`
-M.rmdir = lfs.rmdir
+---
+---Return last access time.
+---
+---```lua
+---fs.getatime("README.md") --> 1712345678
+---```
+---
+---@param path string Input path.
+---@return number? timestamp Access time (seconds since epoch).
+---@return string? err Error message when the check fails.
+---@nodiscard
+function M.getatime(path) end
 
----Alias of `lfs.attributes`
-M.stat = lfs.attributes
+---
+---Return last modification time.
+---
+---```lua
+---fs.getmtime("README.md") --> 1712345678
+---```
+---
+---@param path string Input path.
+---@return number? timestamp Modification time (seconds since epoch).
+---@return string? err Error message when the check fails.
+---@nodiscard
+function M.getmtime(path) end
+
+---
+---Return metadata change time.
+---
+---```lua
+---fs.getctime("README.md") --> 1712345678
+---```
+---
+---@param path string Input path.
+---@return number? timestamp Change time (seconds since epoch).
+---@return string? err Error message when the check fails.
+---@nodiscard
+function M.getctime(path) end
+
+---
+---Return symlink-aware file attributes.
+---
+---```lua
+---fs.lstat("README.md")
+---```
+---
+---@param path string Input path.
+---@return LuaFileSystem.Attributes? attrs Symlink-aware attributes, or `nil` on failure.
+---@return string? err Error message when the check fails.
+---@nodiscard
+function M.lstat(path) end
+
+---
+---Return file attributes.
+---
+---```lua
+---fs.stat("README.md")
+---```
+---
+---@param path string Input path.
+---@return string|integer|LuaFileSystem.AttributeMode|LuaFileSystem.Attributes? attrs File attributes, or `nil` on failure.
+---@return string? err Error message when the check fails.
+---@nodiscard
+function M.stat(path) end
+
+---
+---Return whether two paths refer to the same file, or `nil` and an error on failure.
+---
+---```lua
+---fs.samefile("README.md", "README.md") --> true
+---```
+---
+---@param path_a string Input path.
+---@param path_b string Input path.
+---@return boolean? isSameFile True when both paths refer to the same file.
+---@return string? err Error message when the check fails.
+---@nodiscard
+function M.samefile(path_a, path_b) end
 
 return M

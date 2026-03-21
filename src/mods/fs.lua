@@ -1,36 +1,69 @@
+local mods = require "mods"
+
+local utils = mods.utils
+local lfs = mods.utils.lazy_module("lfs") ---@module 'lfs'
+
+local assert_arg = utils.assert_arg
+
 ---@type mods.fs
 local M = {}
 
----@type LuaFileSystem
-local lfs = {}
+---@param name LuaFileSystem.AttributeName
+local function get_attr(p, name)
+  local value, err = lfs.attributes(p, name)
+  if value == nil then
+    return nil, err
+  end
+  return value
+end
 
-setmetatable(lfs, {
-  __index = function(_, k)
-    local ok, mod = pcall(require, "lfs")
-    if not ok then
-      error("lfs is required for filesystem operations", 2)
-    end
-    lfs = mod
-    return mod[k]
-  end,
-})
+function M.getsize(p)
+  assert_arg(1, p, "string")
+  return get_attr(p, "size")
+end
 
-local lfs_map = {
-  stat = "attributes",
-  lstat = "symlinkattributes",
-  rmdir = "rmdir",
-  getcwd = "currentdir",
-}
+function M.getatime(p)
+  assert_arg(1, p, "string")
+  return get_attr(p, "access")
+end
 
-setmetatable(M, {
-  __index = function(t, k)
-    local lfs_name = lfs_map[k]
-    if lfs_name then
-      local v = lfs[lfs_name]
-      t[k] = v
-      return v
-    end
-  end,
-})
+function M.getmtime(p)
+  assert_arg(1, p, "string")
+  return get_attr(p, "modification")
+end
+
+function M.getctime(p)
+  assert_arg(1, p, "string")
+  return get_attr(p, "change")
+end
+
+function M.samefile(path_a, path_b)
+  assert_arg(1, path_a, "string")
+  assert_arg(2, path_b, "string")
+
+  local a, b, err
+
+  a, err = M.stat(path_a)
+  if not a then
+    return nil, err
+  end
+
+  b, err = M.stat(path_b)
+  if not b then
+    return nil, err
+  end
+
+  return a.dev == b.dev and a.ino == b.ino
+end
+
+function M.stat(p)
+  M.stat = lfs.attributes
+  return M.stat(p)
+end
+
+function M.lstat(p)
+  M.lstat = lfs.symlinkattributes
+  return M.lstat(p)
+end
 
 return M
