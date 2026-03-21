@@ -219,5 +219,15 @@ describe("mods.utils", function()
       -- `__call` is cached after the first proxy call.
       assert.are_equal(getmetatable(loaded).__call, getmetatable(proxy).__call)
     end)
+
+    it("supports __call when the loaded module is a function", function()
+      local proxy = utils.lazy_module("mods.repr")
+      local loaded = require("mods.repr")
+
+      assert.are_equal(loaded({ a = 1 }), proxy({ a = 1 }))
+      assert.are_equal(loaded({ b = 2 }), proxy({ b = 2 }))
+      assert.is_nil(getmetatable(proxy).__index)
+      assert.is_nil(getmetatable(proxy).__newindex)
+    end)
   end)
 end)

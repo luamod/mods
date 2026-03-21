@@ -111,9 +111,18 @@ function M.lazy_module(name, err)
     if not ok then
       error(load_err, 3)
     end
-    mt.__index = mod
-    mt.__newindex = mod
-    mt.__call = getmetatable(mod) and getmetatable(mod).__call or nil
+
+    if type(mod) == "table" then
+      mt.__index = mod
+      mt.__newindex = mod
+      mt.__call = getmetatable(mod) and getmetatable(mod).__call or nil
+    elseif type(mod) == "function" then
+      mt.__index = nil
+      mt.__newindex = nil
+      mt.__call = function(_, ...)
+        return mod(...)
+      end
+    end
 
     return mod
   end

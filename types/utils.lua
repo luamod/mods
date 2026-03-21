@@ -124,10 +124,22 @@ function M.validate(name, v, validator, optional, msg) end
 function M.validate(path, v, validator, optional, msg) end
 
 ---
----Return a lazy proxy for a table-returning module.
+---Return a lazy proxy for a module.
 ---
 ---The proxy rewrites its metamethods after first access while keeping the proxy
 ---table itself free of cached fields.
+---
+---```lua
+---local fs = utils.lazy_module("mods.fs")
+---print(fs.exists("README.md"))
+---
+---local repr = utils.lazy_module("mods.repr")
+---print(repr({ a = 1 }))
+---```
+---
+---> [!NOTE]
+--->
+---> Supports both table-returning modules and function-returning modules.
 ---
 ---@param name string Module name passed to `require`.
 ---@param err? string Optional error message raised when loading fails.
