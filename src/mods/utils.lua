@@ -1,5 +1,8 @@
 local mods = require "mods"
 
+local inspect ---@module "inspect"
+local validate ---@module "mods.validate"
+
 local concat = table.concat
 local find = string.find
 local fmt = string.format
@@ -10,7 +13,6 @@ local unpack = table.unpack or unpack
 ---@type mods.utils
 local M = {}
 
-local inspect
 local ignored_caller_names = {
   [""] = true,
   ["?"] = true,
@@ -21,11 +23,6 @@ local ignored_caller_names = {
 local function isidentifier(v)
   isidentifier = mods.keyword.isidentifier
   return isidentifier(v)
-end
-
-local function validate(...)
-  validate = mods.validate ---@diagnostic disable-line: cast-local-type
-  return validate(...)
 end
 
 local function remove_mt(item, path)
@@ -146,6 +143,7 @@ function M.lazy_module(name, err)
 end
 
 inspect = M.lazy_module("inspect")
+validate = M.lazy_module("mods.validate")
 
 if _TEST then
   ignored_caller_names.callback = true
