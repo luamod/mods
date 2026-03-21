@@ -7,6 +7,52 @@
 local M = {}
 
 --------------------------------------------------------------------------------
+----------------------------------- Writing ------------------------------------
+--------------------------------------------------------------------------------
+
+---
+---Write full file in binary mode.
+---
+---```lua
+---fs.write_bytes("tmp.bin", "abc") --> true, nil
+---```
+---
+---@param path string Input path.
+---@param data string Input data.
+---@return boolean written `true` when writing succeeds, `false` on failure.
+---@return string? err Error message when the check fails.
+function M.write_bytes(path, data) end
+
+---
+---Write full file in text mode.
+---
+---```lua
+---fs.write_text("tmp.txt", "abc") --> true, nil
+---```
+---
+---@param path string Input path.
+---@param data string Input data.
+---@return boolean written `true` when writing succeeds, `false` on failure.
+---@return string? err Error message when the check fails.
+function M.write_text(path, data) end
+
+---
+---Rename or move a filesystem entry.
+---
+---```lua
+---fs.rename("old.txt", "new.txt")
+---```
+---
+---> [!NOTE]
+---> This is an alias for `os.rename`.
+---
+---@param oldname string Existing path.
+---@param newname string Replacement path.
+---@return boolean renamed `true` when the rename succeeds, `false` on failure.
+---@return string? err Error message when the check fails.
+function M.rename(oldname, newname) end
+
+--------------------------------------------------------------------------------
 --------------------------------- Metadata -------------------------------------
 --------------------------------------------------------------------------------
 

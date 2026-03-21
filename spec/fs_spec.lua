@@ -33,6 +33,32 @@ describe("mods.fs", function()
     assert.are_equal(lfs.attributes, fs.stat)
   end)
 
+  it("exposes rename() as an os.rename alias", function()
+    assert.are_equal(os.rename, fs.rename)
+  end)
+
+  it("write_bytes()", function()
+    local target = tmpname()
+    local f
+
+    assert.is_true(fs.write_bytes(target, "abc"))
+    f = assert(io.open(target, "rb"))
+    assert.are_equal("abc", f:read("*a"))
+    f:close()
+    assert.is_true(os.remove(target))
+  end)
+
+  it("write_text()", function()
+    local target = tmpname()
+    local f
+
+    assert.is_true(fs.write_text(target, "abc"))
+    f = assert(io.open(target, "r"))
+    assert.are_equal("abc", f:read("*a"))
+    f:close()
+    assert.is_true(os.remove(target))
+  end)
+
   describe("exists()", function()
     assert.is_true(fs.exists(readme_file))
     assert.is_false(fs.exists("__mods_missing_path__"))
@@ -124,8 +150,12 @@ describe("mods.fs", function()
     assert.has_error(function() fs.getmtime()      end, "bad argument #1 to 'getmtime' (string expected, got no value)")
     assert.has_error(function() fs.getsize()       end, "bad argument #1 to 'getsize' (string expected, got no value)")
     assert.has_error(function() fs.lexists({})     end, "bad argument #1 to 'lexists' (string expected, got table)")
+    assert.has_error(function() fs.write_bytes({}) end, "bad argument #1 to 'write_bytes' (string expected, got table)")
+    assert.has_error(function() fs.write_text({})  end, "bad argument #1 to 'write_text' (string expected, got table)")
 
     -- Argument #2 validation.
-    assert.has_error(function() fs.samefile("README.md",123) end, "bad argument #2 to 'samefile' (string expected, got number)")
+    assert.has_error(function() fs.samefile(readme_file, 123)   end, "bad argument #2 to 'samefile' (string expected, got number)")
+    assert.has_error(function() fs.write_bytes(readme_file, {}) end, "bad argument #2 to 'write_bytes' (string expected, got table)")
+    assert.has_error(function() fs.write_text(readme_file)      end, "bad argument #2 to 'write_text' (string expected, got no value)")
   end)
 end)

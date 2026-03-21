@@ -5,6 +5,9 @@ local lfs = mods.utils.lazy_module("lfs") ---@module 'lfs'
 
 local assert_arg = utils.assert_arg
 
+local open = io.open
+local rename = os.rename
+
 ---@type mods.fs
 local M = {}
 
@@ -15,6 +18,21 @@ local function get_attr(p, name)
     return nil, err
   end
   return value
+end
+
+local function write(p, data, mode)
+  local f, err = open(p, mode)
+  if not f then
+    return false, err
+  end
+
+  local ok, write_err = f:write(data)
+  f:close()
+  if not ok then
+    return false, write_err
+  end
+
+  return true
 end
 
 function M.getsize(p)
@@ -75,5 +93,19 @@ function M.lexists(p)
   assert_arg(1, p, "string")
   return lfs.symlinkattributes(p, "mode") ~= nil
 end
+
+function M.write_bytes(p, data)
+  assert_arg(1, p, "string")
+  assert_arg(2, data, "string")
+  return write(p, data, "wb")
+end
+
+function M.write_text(p, data)
+  assert_arg(1, p, "string")
+  assert_arg(2, data, "string")
+  return write(p, data, "w")
+end
+
+M.rename = rename
 
 return M
