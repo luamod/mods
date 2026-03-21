@@ -106,23 +106,28 @@ function M.lazy_module(name, err)
   local load_err = err or fmt("failed to load module '%s'", name)
   local mt = {}
 
-  mt.__index = function(_, k)
+  local function load()
     local ok, mod = pcall(require, name)
     if not ok then
-      error(load_err, 2)
+      error(load_err, 3)
     end
     mt.__index = mod
     mt.__newindex = mod
-    return mod[k]
+    mt.__call = getmetatable(mod) and getmetatable(mod).__call or nil
+
+    return mod
+  end
+
+  mt.__index = function(_, k)
+    return load()[k]
   end
 
   mt.__newindex = function(_, k, v)
-    local ok, mod = pcall(require, name)
-    if not ok then
-      error(load_err, 2)
-    end
-    mt.__newindex = mod
-    mod[k] = v
+    load()[k] = v
+  end
+
+  mt.__call = function(_, ...)
+    return load()(...)
   end
 
   return setmetatable({}, mt)

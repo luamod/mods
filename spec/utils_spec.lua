@@ -208,5 +208,16 @@ describe("mods.utils", function()
       assert.are_equal(require("mods.validate"), getmetatable(proxy).__index)
       assert.are_equal(require("mods.validate"), getmetatable(proxy).__newindex)
     end)
+
+    it("supports __call when the loaded module is callable", function()
+      local proxy = utils.lazy_module("mods.validate")
+      local loaded = require("mods.validate")
+
+      assert.is_true(proxy(true, "truthy"))
+      assert.is_false(proxy(false, "truthy"))
+
+      -- `__call` is cached after the first proxy call.
+      assert.are_equal(getmetatable(loaded).__call, getmetatable(proxy).__call)
+    end)
   end)
 end)
