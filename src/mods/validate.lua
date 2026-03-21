@@ -33,7 +33,7 @@ local function validate_template(argn, name, v)
 
   local vt = type(v)
   if vt ~= "string" then
-    error(fmt("bad argument #%d to '%s' (expected string got %s)", argn, name, vt), 3)
+    error(fmt("bad argument #%d to '%s' (string expected, got %s)", argn, name, vt), 3)
   end
 end
 
@@ -48,7 +48,7 @@ local function render_msg(expected, tp, v, tmpl)
       tmpl = messages.string
       expected = "string"
     else
-      tmpl = messages[expected] or "expected {{expected}}, got {{got}}"
+      tmpl = messages[expected] or "{{expected}} expected, got {{got}}"
     end
   end
 
@@ -63,7 +63,7 @@ function M.register(name, validator, tmpl)
   local key = lower(name)
 
   if tmpl == nil then
-    messages[key] = fmt("expected %s, got {{got}}", name)
+    messages[key] = fmt("%s expected, got {{got}}", name)
   else
     validate_template(3, "register", tmpl)
     messages[key] = tmpl
@@ -88,7 +88,7 @@ for k in ("boolean function nil number string table thread userdata"):gmatch("%S
 end
 
 for k in ("false true falsy truthy integer callable"):gmatch("%S+") do
-  M.register(k, is[k], fmt("expected %s value, got {{value}}", k))
+  M.register(k, is[k], fmt("%s value expected, got {{value}}", k))
 end
 
 for k in pairs(validator_names) do

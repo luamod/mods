@@ -37,7 +37,7 @@
 ---```lua
 ---local validate = require "mods.validate"
 ---
----ok, err = validate.number("nope") --> false, "expected number, got string"
+---ok, err = validate.number("nope") --> false, "number expected, got string"
 ---ok, err = validate(123, "number") --> true, nil
 ---```
 ---
@@ -46,9 +46,9 @@
 ---If `validator` is omitted, it defaults to `"truthy"`.
 ---
 ---```lua
----validate()         --> false, "expected truthy value, got no value"
+---validate()         --> false, "truthy value expected, got no value"
 ---validate(1)        --> true, nil
----validate(1, "nil") --> false, "expected nil, got number"
+---validate(1, "nil") --> false, "nil expected, got number"
 ---```
 ---
 ---## Validator Names
@@ -64,7 +64,7 @@
 ---
 ---```lua
 ---validate(1, "number") --> true, nil
----validate(1, "NuMbEr") --> false, "expected NuMbEr, got number"
+---validate(1, "NuMbEr") --> false, "NuMbEr expected, got number"
 --- ```
 ---
 ---## Custom Messages
@@ -109,14 +109,14 @@
 ---> When the passed value is `nil`, rendered value text uses `no value`.
 --->
 ---> ```lua
----> validate.messages.truthy = "expected {{expected}} value, got {{value}}"
----> validate.truthy(nil) --> false, "expected truthy value, got no value"
+---> validate.messages.truthy = "{{expected}} value expected, got {{value}}"
+---> validate.truthy(nil) --> false, "truthy value expected, got no value"
 ---> ```
 ---
 ---**Default Messages**:
 ---
----* Type checks: <code v-pre>expected {{expected}}, got {{got}}</code>
----* Value checks: <code v-pre>expected {{expected}} value, got {{value}}</code>
+---* Type checks: <code v-pre>{{expected}} expected, got {{got}}</code>
+---* Value checks: <code v-pre>{{expected}} value expected, got {{value}}</code>
 ---* Path checks:
 ---  <code v-pre>{{value}} is not a valid {{expected}} path</code>
 ---  (for `path`: <code v-pre>{{value}} is not a valid path</code>)
@@ -144,7 +144,7 @@ local M = {}
 ---
 ---```lua
 ---ok, err = validate.boolean(true) --> true, nil
----ok, err = validate.boolean(1)    --> false, "expected boolean, got number"
+---ok, err = validate.boolean(1)    --> false, "boolean expected, got number"
 ---```
 ---
 ---@param v any Value to validate.
@@ -161,7 +161,7 @@ M.Boolean = M.boolean
 ---```lua
 ---ok, err = validate.Function(function() end) --> true, nil
 ---ok, err = validate.Function(1)
------> false, "expected function, got number"
+-----> false, "function expected, got number"
 ---```
 ---
 ---@param v any Value to validate.
@@ -177,7 +177,7 @@ M.Function = M["function"]
 ---
 ---```lua
 ---ok, err = validate.Nil(nil) --> true, nil
----ok, err = validate.Nil(0)   --> false, "expected nil, got number"
+---ok, err = validate.Nil(0)   --> false, "nil expected, got number"
 ---```
 ---
 ---@param v any Value to validate.
@@ -193,7 +193,7 @@ M.Nil = M["nil"]
 ---
 ---```lua
 ---ok, err = validate.number(42)  --> true, nil
----ok, err = validate.number("x") --> false, "expected number, got string"
+---ok, err = validate.number("x") --> false, "number expected, got string"
 ---```
 ---
 ---@param v any Value to validate.
@@ -209,7 +209,7 @@ M.Number = M.number
 ---
 ---```lua
 ---ok, err = validate.string("hello") --> true, nil
----ok, err = validate.string(1)       --> false, "expected string, got number"
+---ok, err = validate.string(1)       --> false, "string expected, got number"
 ---```
 ---
 ---@param v any Value to validate.
@@ -225,7 +225,7 @@ M.String = M.string
 ---
 ---```lua
 ---ok, err = validate.table({}) --> true, nil
----ok, err = validate.table(1)  --> false, "expected table, got number"
+---ok, err = validate.table(1)  --> false, "table expected, got number"
 ---```
 ---
 ---@param v any Value to validate.
@@ -242,7 +242,7 @@ M.Table = M.table
 ---```lua
 ---co = coroutine.create(function() end)
 ---ok, err = validate.thread(co) --> true, nil
----ok, err = validate.thread(1)  --> false, "expected thread, got number"
+---ok, err = validate.thread(1)  --> false, "thread expected, got number"
 ---```
 ---
 ---@param v any Value to validate.
@@ -258,7 +258,7 @@ M.Thread = M.thread
 ---
 ---```lua
 ---ok, err = validate.userdata(io.stdout) --> true, nil
----ok, err = validate.userdata(1)         --> false, "expected userdata, got number"
+---ok, err = validate.userdata(1)         --> false, "userdata expected, got number"
 ---```
 ---
 ---@param v any Value to validate.
@@ -281,7 +281,7 @@ M.Userdata = M.userdata
 ---
 ---```lua
 ---ok, err = validate.False(false) --> true, nil
----ok, err = validate.False(true)  --> false, "expected false, got true"
+---ok, err = validate.False(true)  --> false, "false value expected, got true"
 ---```
 ---
 ---@param v any Value to validate.
@@ -297,7 +297,7 @@ M.False = M["false"]
 ---
 ---```lua
 ---ok, err = validate.True(true)  --> true, nil
----ok, err = validate.True(false) --> false, "expected true, got false"
+---ok, err = validate.True(false) --> false, "true value expected, got false"
 ---```
 ---
 ---@param v any Value to validate.
@@ -313,7 +313,7 @@ M.True = M["true"]
 ---
 ---```lua
 ---ok, err = validate.falsy(false) --> true, nil
----ok, err = validate.falsy(1)     --> false, "expected falsy, got number"
+---ok, err = validate.falsy(1)     --> false, "falsy value expected, got 1"
 ---```
 ---
 ---@param v any Value to validate.
@@ -329,7 +329,7 @@ M.Falsy = M.falsy
 ---
 ---```lua
 ---ok, err = validate.callable(type) --> true, nil
----ok, err = validate.callable(1)    --> false, "expected callable, got number"
+---ok, err = validate.callable(1)    --> false, "callable value expected, got 1"
 ---```
 ---
 ---@param v any Value to validate.
@@ -345,7 +345,7 @@ M.Callable = M.callable
 ---
 ---```lua
 ---ok, err = validate.integer(1)   --> true, nil
----ok, err = validate.integer(1.5) --> false, "expected integer, got 1.5"
+---ok, err = validate.integer(1.5) --> false, "integer value expected, got 1.5"
 ---```
 ---
 ---@param v any Value to validate.
@@ -361,7 +361,7 @@ M.Integer = M.integer
 ---
 ---```lua
 ---ok, err = validate.truthy(1)     --> true, nil
----ok, err = validate.truthy(false) --> false, "expected truthy, got boolean"
+---ok, err = validate.truthy(false) --> false, "truthy value expected, got false"
 ---```
 ---
 ---@param v any Value to validate.
@@ -538,7 +538,7 @@ M.Socket = M.socket
 ---> [!NOTE]
 --->
 ---> * If `template` is provided, it becomes the default message template for that validator.
----> * If `template` is omitted, failures use: `expected {{expected}}, got {{got}}`.
+---> * If `template` is omitted, failures use: `{{expected}} expected, got {{got}}`.
 ---
 ---@param name string Validator name.
 ---@param validator fun(v:any):(ok:boolean) Validator function.
