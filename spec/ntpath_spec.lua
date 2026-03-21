@@ -450,7 +450,7 @@ describe("mods.ntpath", function()
 
   for fname, cases in tbl.spairs(tests) do
     for i = 1, #cases do
-      local params, expected = unpack(cases[i], 1, 2)
+      local params, expected = unpack(cases[i] --[[@as {[1]:string[], [2]:any[]}]], 1, 2)
       it(fmt("%s(%s)", fname, args_repr(params)), function()
         assert.are_same(expected, { ntpath[fname](unpack(params)) })
       end)

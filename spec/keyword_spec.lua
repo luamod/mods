@@ -73,7 +73,7 @@ describe("mods.keyword", function()
   }
 
   for i = 1, #tests do
-    local input, expected = unpack(tests[i], 1, 2)
+    local input, expected = unpack(tests[i] --[[@as {[1]:any, [2]:boolean}]], 1, 2)
     it(fmt("isidentifier(%s)", inspect(input)), function()
       assert.are_equal(expected, kw.isidentifier(input))
     end)
@@ -93,7 +93,7 @@ describe("mods.keyword", function()
   }
 
   for i = 1, #tests do
-    local input, expected = unpack(tests[i], 1, 2)
+    local input, expected = unpack(tests[i] --[[@as {[1]:string, [2]:string}]], 1, 2)
     it(fmt("normalize_identifier(%s)", inspect(input)), function()
       assert.are_equal(expected, kw.normalize_identifier(input))
     end)

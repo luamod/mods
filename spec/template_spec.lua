@@ -58,7 +58,7 @@ describe("mods.template", function()
   -- stylua: ignore end
 
   for i = 1, #tests do
-    local tmpl, expected = unpack(tests[i])
+    local tmpl, expected = unpack(tests[i] --[[@as {[1]:string, [2]:string}]], 1, 2)
     it(fmt("template(%q, {...}) returns correct result", tmpl), function()
       local res = template(tmpl, view)
       assert.are_equal(expected, res)

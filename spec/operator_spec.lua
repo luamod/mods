@@ -46,9 +46,8 @@ describe("mods.operator", function()
   }
 
   for i = 1, #tests do
-    local fname, params, expected = unpack(tests[i], 1, 3)
+    local fname, params, expected = unpack(tests[i] --[[@as {[1]:string, [2]:any[], [3]:any}]], 1, 3)
     it(fmt("%s(%s) returns correct result", fname, args_repr(params)), function()
-      ---@diagnostic disable-next-line: param-type-mismatch
       assert.are_equal(expected, operator[fname](unpack(params)))
     end)
   end

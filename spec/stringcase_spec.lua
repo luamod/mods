@@ -24,7 +24,7 @@ describe("mods.stringcase", function()
   }
 
   for i = 1, #tests do
-    local fname, expected = unpack(tests[i])
+    local fname, expected = unpack(tests[i] --[[@as {[1]:string, [2]:string}]], 1, 2)
     for j, s in ipairs({ "foo_bar-baz", "FooBar baz" }) do
       it(fmt("%s(%q) returns correct result", fname, s), function()
         -- Wrap in a table to make sure the function returns only one value.

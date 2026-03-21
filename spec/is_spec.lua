@@ -21,27 +21,27 @@ describe("mods.is", function()
 
   -- stylua: ignore
   local tests = {
-    -----type----|---valid---|-----invalid-----
-    { "Boolean"  , false     , 123            },
-    { "boolean"  , true      , nil            },
-    { "Function" , fn        , "abc"          },
-    { "Nil"      , nil       , 123            },
-    { "Number"   , 123       , "123"          },
-    { "String"   , "abc"     , true           },
-    { "Table"    , {}        , false          },
-    { "Thread"   , co        , fn             },
+    -----type----|----valid----|-----invalid----
+    { "Boolean"  , false       , 123          },
+    { "boolean"  , true        , nil          },
+    { "Function" , fn          , "abc"        },
+    { "Nil"      , nil         , 123          },
+    { "Number"   , 123         , "123"        },
+    { "String"   , "abc"       , true         },
+    { "Table"    , {}          , false        },
+    { "Thread"   , co          , fn           },
 
-    { "Callable" , ct        , nct            },
-    { "callable" , fn        , {}             },
-    { "False"    , false     , true           },
-    { "falsy"    , false     , true           },
-    { "Falsy"    , nil       , 123            },
-    { "Integer"  , 123       , 13.4           },
-    { "integer"  , 123       , nil            },
-    { "true"     , true      , false          },
-    { "truthy"   , 123       , nil            },
-    { "Truthy"   , true      , false          },
-    { "userdata" , io.stdout , {}             },
+    { "Callable" , ct          , nct          },
+    { "callable" , fn          , {}           },
+    { "False"    , false       , true         },
+    { "falsy"    , false       , true         },
+    { "Falsy"    , nil         , 123          },
+    { "Integer"  , 123         , 13.4         },
+    { "integer"  , 123         , nil          },
+    { "true"     , true        , false        },
+    { "truthy"   , 123         , nil          },
+    { "Truthy"   , true        , false        },
+    { "userdata" , io.stdout   , {}           },
 
     { "dir"      , "src"       , "README.md"  },
     { "dir"      , "src"       , 123          },
@@ -53,7 +53,7 @@ describe("mods.is", function()
   }
 
   for i = 1, #tests do
-    local tp, valid, invalid = unpack(tests[i], 1, 3)
+    local tp, valid, invalid = unpack(tests[i] --[[@as {[1]:string, [2]:any, [3]:any}]], 1, 3)
 
     it(fmt("is.%s(%s) returns true", tp, inspect(valid)), function()
       assert.is_true(is[tp](valid))
@@ -64,11 +64,11 @@ describe("mods.is", function()
     end)
 
     it(fmt("is(%q, %s) returns true", tp, inspect(valid)), function()
-      assert.is_true(is(valid, tp --[[@as string]]))
+      assert.is_true(is(valid, tp))
     end)
 
     it(fmt("is(%q, %s) returns false", tp, inspect(invalid)), function()
-      assert.is_false(is(invalid, tp --[[@as string]]))
+      assert.is_false(is(invalid, tp))
     end)
   end
 

@@ -30,7 +30,7 @@ describe("mods.utils", function()
   }
 
   for i = 1, #tests do
-    local input, expected = unpack(tests[i])
+    local input, expected = unpack(tests[i] --[[@as {[1]:string, [2]:string}]], 1, 2)
     it(fmt("quote(%q) returns correct result", input), function()
       assert.are_equal(expected, utils.quote(input))
     end)
@@ -53,9 +53,8 @@ describe("mods.utils", function()
   }
 
   for i = 1, #tests do
-    local params, expected = unpack(tests[i], 1, 2)
+    local params, expected = unpack(tests[i] --[[@as {[1]:any[], [2]:string}]], 1, 2)
     it(fmt("keypath(%s) returns correct result", args_repr(params)), function()
-      ---@diagnostic disable-next-line: param-type-mismatch
       assert.are_equal(expected, utils.keypath(unpack(params)))
     end)
   end
@@ -73,7 +72,7 @@ describe("mods.utils", function()
   }
 
   for i = 1, #tests do
-    local input, expected = unpack(tests[i], 1, 2)
+    local input, expected = unpack(tests[i] --[[@as {[1]:any[], [2]:string}]], 1, 2)
     it(fmt("args_repr(%s) returns correct result", args_repr(input)), function()
       assert.are_equal(expected, utils.args_repr(input))
     end)

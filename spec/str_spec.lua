@@ -264,9 +264,9 @@ describe("mods.str", function()
   }
 
   for i = 1, #tests do
-    local fname, s, params, expected = unpack(tests[i], 1, 5)
+    local fname, s, params, expected = unpack(tests[i] --[[@as {[1]:string,[2]:string,[3]:any[],[4]:any?}]], 1, 4)
+
     it(("%s(%q) returns correct result"):format(fname, s), function()
-      ---@diagnostic disable-next-line: param-type-mismatch
       local res = { str[fname](s, unpack(params)) }
       assert.are_same(expected, res)
     end)

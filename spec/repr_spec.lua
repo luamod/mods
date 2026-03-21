@@ -27,7 +27,7 @@ describe("mods.repr", function()
   }
 
   for i = 1, #tests do
-    local input, expected = unpack(tests[i], 1, 2)
+    local input, expected = unpack(tests[i] --[[@as {[1]:any, [2]:string}]], 1, 2)
     it(fmt("repr(%s)", inspect(input)), function()
       local res = repr(input)
       assert.are_equal(expected, res)
