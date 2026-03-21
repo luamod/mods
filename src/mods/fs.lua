@@ -1,12 +1,5 @@
-local is = require "mods.is"
-
 ---@type mods.fs
 local M = {}
-
----@diagnostic disable-next-line: invisible
-for _, fname in ipairs(is._path_checks) do
-  M["is" .. fname] = is[fname]
-end
 
 ---@type LuaFileSystem
 local lfs = {}
