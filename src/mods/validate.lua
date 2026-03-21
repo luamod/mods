@@ -8,7 +8,6 @@ local lower = string.lower
 local fmt = string.format
 
 ---@type mods.validate
----@diagnostic disable-next-line: missing-fields
 local M = { messages = {} }
 
 ---@type modsValidatorMessages
