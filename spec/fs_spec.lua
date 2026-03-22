@@ -2,10 +2,13 @@ local helpers = require "spec.helpers"
 local lfs = require "lfs"
 local mods = require "mods"
 
+local Tree = helpers.Tree
 local fs = mods.fs
 local path = mods.path
 
+local make_tmp_dir = helpers.make_tmp_dir
 local tmpname = helpers.tmpname
+local join = mods.path.join
 local fmt = string.format
 
 describe("mods.fs", function()
@@ -194,6 +197,121 @@ describe("mods.fs", function()
     end
   end)
 
+  describe("rm()", function()
+    it("removes a file without recursive mode", function()
+      local target = tmpname()
+      assert.is_true(fs.write_text(target, "abc"))
+      assert.is_true(fs.rm(target))
+      assert.is_false(fs.exists(target))
+    end)
+
+    it("removes an empty directory without recursive mode", function()
+      local root = make_tmp_dir()
+      assert.is_true(fs.rm(root))
+      assert.is_false(fs.exists(root))
+    end)
+
+    it("fails with an error for a non-empty directory without recursive mode", function()
+      local root = make_tmp_dir()
+      local target = path.join(root, "data.txt")
+
+      assert.is_true(fs.write_text(target, "abc"))
+
+      local ok, err = fs.rm(root)
+      assert.is_nil(ok)
+      assert.is_string(err)
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails with an error for a non-path", function()
+      local ok, err = fs.rm("__mods_missing_path__")
+      assert.is_nil(ok)
+      assert.is_string(err)
+
+      local ok, err = fs.rm("a/b/c", true)
+      assert.is_nil(ok)
+      assert.is_string(err)
+    end)
+
+    it("fails with an error when recursive mode is used with a file path", function()
+      local target = tmpname()
+      assert.is_true(fs.write_text(target, "abc"))
+
+      local ok, err = fs.rm(target, true)
+      assert.is_nil(ok)
+      assert.is_string(err)
+      assert.is_true(fs.rm(target))
+    end)
+
+    it("removes an empty directory tree recursively", function()
+      local root = make_tmp_dir()
+      assert.is_true(fs.rm(root, true))
+      assert.is_false(fs.exists(root))
+    end)
+
+    it("removes a directory tree recursively", function()
+      local tree = Tree():dir("sub"):dir(join("sub", "deep")):file("data.txt"):file(join("sub", "deep", "nested.txt"))
+      local root = tree.root
+      local target = tree:path("data.txt")
+      local nested = tree:path(path.join("sub", "deep", "nested.txt"))
+
+      assert.is_true(fs.exists(root))
+      assert.is_true(fs.exists(target))
+      assert.is_true(fs.exists(nested))
+
+      assert.is_true(fs.rm(root, true))
+
+      assert.is_false(fs.exists(root))
+      assert.is_false(fs.exists(target))
+      assert.is_false(fs.exists(nested))
+    end)
+
+    if is_unix then
+      it("removes a symlink root without deleting the target directory", function()
+        local external = make_tmp_dir()
+        local external_file = path.join(external, "nested.txt")
+
+        assert.is_true(fs.write_text(external_file, "abc"))
+
+        local tree = Tree():link("linked", external, true)
+        local root = tree.root
+        local link_dir = tree:path("linked")
+
+        assert.is_true(fs.lexists(link_dir))
+        assert.is_true(fs.rm(link_dir, true))
+        assert.is_false(fs.lexists(link_dir))
+
+        assert.is_true(fs.exists(external))
+        assert.are_equal("abc", fs.read_text(external_file))
+
+        assert.is_true(fs.rm(root, true))
+        assert.is_true(fs.rm(external, true))
+      end)
+
+      it("does not follow symlinked directories during recursive removal", function()
+        local root = make_tmp_dir()
+        local external = make_tmp_dir()
+        local external_file = path.join(external, "nested.txt")
+        local link_dir = path.join(root, "linked")
+
+        assert.is_true(fs.write_text(external_file, "abc"))
+
+        local ok = lfs.link(external, link_dir, true)
+        if not ok then
+          assert.is_true(fs.rm(root, true))
+          assert.is_true(fs.rm(external, true))
+          return
+        end
+
+        assert.is_true(fs.rm(root, true))
+        assert.is_true(fs.exists(external))
+        assert.are_equal("abc", fs.read_text(external_file))
+        assert.is_true(fs.rm(external, true))
+      end)
+    end
+  end)
+
   describe("exists()", function()
     assert.is_true(fs.exists(readme_file))
     assert.is_false(fs.exists("__mods_missing_path__"))
@@ -285,11 +403,13 @@ describe("mods.fs", function()
     assert.has_error(function() fs.lexists({})     end, "bad argument #1 to 'lexists' (string expected, got table)")
     assert.has_error(function() fs.read_bytes({})  end, "bad argument #1 to 'read_bytes' (string expected, got table)")
     assert.has_error(function() fs.read_text({})   end, "bad argument #1 to 'read_text' (string expected, got table)")
+    assert.has_error(function() fs.rm({})          end, "bad argument #1 to 'rm' (string expected, got table)")
     assert.has_error(function() fs.touch(false)    end, "bad argument #1 to 'touch' (string expected, got boolean)")
     assert.has_error(function() fs.write_bytes({}) end, "bad argument #1 to 'write_bytes' (string expected, got table)")
     assert.has_error(function() fs.write_text({})  end, "bad argument #1 to 'write_text' (string expected, got table)")
 
     -- Argument #2 validation.
+    assert.has_error(function() fs.rm("tmp", 1)                 end, "bad argument #2 to 'rm' (boolean expected, got number)")
     assert.has_error(function() fs.samefile(readme_file, 123)   end, "bad argument #2 to 'samefile' (string expected, got number)")
     assert.has_error(function() fs.write_bytes(readme_file, {}) end, "bad argument #2 to 'write_bytes' (string expected, got table)")
     assert.has_error(function() fs.write_text(readme_file)      end, "bad argument #2 to 'write_text' (string expected, got no value)")

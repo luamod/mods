@@ -94,6 +94,21 @@ function M.touch(path) end
 ---@return string? err Error message when the check fails.
 function M.rename(oldname, newname) end
 
+---
+---Remove a filesystem entry, or a directory tree when `recursive` is `true`.
+---
+---```lua
+---fs.rm("tmp.txt") --> true, nil
+---fs.rm("tmp/cache", true) --> true, nil
+---```
+---
+---@param path string Input path.
+---@param recursive? boolean Remove a directory tree recursively when `true`.
+---@return true? removed `true` when removal succeeds, or `nil` on failure.
+---@return string? err Error message when the check fails.
+---@return integer? errcode OS error code when available.
+function M.rm(path, recursive) end
+
 --------------------------------------------------------------------------------
 --------------------------------- Metadata -------------------------------------
 --------------------------------------------------------------------------------
