@@ -642,7 +642,7 @@ describe("mods.path", function()
       if modes[entry] then
         mode = entry --[[@as string]]
       else
-        local params, expected = unpack(entry --[[@as {}]])
+        local params, expected = unpack(entry --[[@as {[1]:any[], [2]:any[]}]])
         local case_modes = mode == "common" and { "posix", "windows" } or { mode }
         for _, case_mode in ipairs(case_modes) do
           it(fmt("%s(%s) [%s]", fname, args_repr(params), case_mode), function()

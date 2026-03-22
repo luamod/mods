@@ -75,7 +75,7 @@ describe("mods.validate", function()
 
   for i = 1, #tests do
     local tp, valid, invalid, msg = unpack(tests[i] --[[@as {[1]:string, [2]:any, [3]:any, [4]:string}]], 1, 4)
-    local fname = capitalize(tp--[[@as string]])
+    local fname = capitalize(tp)
 
     it(fmt("validate.%s is function", fname), function()
       assert.Function(validate[fname])

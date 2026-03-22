@@ -287,9 +287,8 @@ describe("mods.str", function()
   }
 
   for i = 1, #tests do
-    local fname, params = unpack(tests[i])
+    local fname, params = unpack(tests[i] --[[@as {[1]:string, [2]:any[]}]])
     it(fmt("%s(%s) returns mods.List", fname, args_repr(params)), function()
-      ---@diagnostic disable-next-line: param-type-mismatch
       local res = str[fname](unpack(params))
       assert.are_equal(List, getmetatable(res))
     end)
