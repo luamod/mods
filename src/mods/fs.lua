@@ -5,12 +5,14 @@ local path = mods.path
 local utils = mods.utils
 local lfs = mods.utils.lazy_module("lfs") ---@module "lfs"
 
+local islink = is.link
+local parents = path.parents
+local normpath = path.normpath
+local is_relative_to = path.is_relative_to
+local basename = path.basename
+local join = path.join
 local assert_arg = utils.assert_arg
 local isdir = is.dir
-local islink = is.link
-local join = path.join
-local path_parents = path.parents
-local normpath = path.normpath
 
 local open = io.open
 local remove = os.remove
@@ -21,9 +23,18 @@ local M = {}
 
 local CURDIR = "."
 local PARDIR = ".."
+local entry_types = {
+  ["block device"] = "block",
+  ["char device"] = "char",
+  ["named pipe"] = "fifo",
+}
 
 local function is_dir_marker(entry)
   return entry == CURDIR or entry == PARDIR
+end
+
+local function is_hidden(entry)
+  return entry:sub(1, 1) == "."
 end
 
 -- `lfs.dir` throws on failure, so use `pcall` to preserve its error text as `false, err`.
@@ -93,6 +104,85 @@ local function scan_dir(root, ls, follow_symlinks)
         if not ok then
           return false, err
         end
+      end
+    end
+  end
+
+  return true
+end
+
+local function collect_dir_items(root, opts, items, fullpath)
+  local iter, dir_obj = open_dir(root)
+  if not iter then
+    return false, dir_obj
+  end
+
+  local stat = lfs.attributes
+  local lstat = lfs.symlinkattributes
+  local follow = opts.follow_links
+  local hidden = opts.hidden
+  local recursive = opts.recursive
+  local type_filter = opts.type
+
+  for entry in iter, dir_obj do
+    if not is_dir_marker(entry) and (hidden or not is_hidden(entry)) then
+      local child = join(root, entry)
+      local link_mode = lstat(child, "mode")
+      local type = entry_types[link_mode] or link_mode or "unknown"
+      local child_is_dir = type == "directory"
+      if follow and type == "link" then
+        child_is_dir = stat(child, "mode") == "directory"
+      end
+      if not type_filter or type_filter == type then
+        items[#items + 1] = { fullpath and child or entry, type }
+      end
+      if recursive and child_is_dir and (follow or type ~= "link") then
+        local ok, err = collect_dir_items(child, opts, items, fullpath)
+        if not ok then
+          return false, err
+        end
+      end
+    end
+  end
+  return true
+end
+
+local function copy_tree(src, dst)
+  local normed_src = normpath(src)
+  local normed_dst = normpath(dst)
+  if is_relative_to(normed_dst, normed_src) then
+    return nil, "cannot copy a directory into itself or its descendant"
+  end
+
+  local ok, errmsg, errcode = M.mkdir(dst, true)
+  if not ok then
+    return nil, errmsg, errcode
+  end
+
+  local items = {}
+  local collected, collect_err = collect_dir_items(src, { recursive = false }, items, true)
+  if not collected then
+    return nil, collect_err
+  end
+
+  for i = 1, #items do
+    local child, type_ = items[i][1], items[i][2]
+    local target = join(dst, basename(child))
+    if type_ == "directory" then
+      local copied, errmsg, errcode = copy_tree(child, target)
+      if not copied then
+        return nil, errmsg, errcode
+      end
+    else
+      local body
+      body, errmsg, errcode = M.read_bytes(child)
+      if not body then
+        return nil, errmsg, errcode
+      end
+
+      ok, errmsg, errcode = M.write_bytes(target, body)
+      if not ok then
+        return nil, errmsg, errcode
       end
     end
   end
@@ -231,17 +321,17 @@ function M.rm(p, recursive)
   return remove(p)
 end
 
-function M.mkdir(p, parents)
+function M.mkdir(p, parents_)
   assert_arg(1, p, "string")
-  assert_arg(2, parents, "boolean", true)
+  assert_arg(2, parents_, "boolean", true)
 
   local mkdir = lfs.mkdir
-  if not parents then
+  if not parents_ then
     return mkdir(p)
   end
 
   local normed = normpath(p)
-  local parents_dirs = path_parents(normed)
+  local parents_dirs = parents(normed)
   for i = #parents_dirs, 1, -1 do
     local dir = parents_dirs[i]
     if dir ~= CURDIR and not isdir(dir) then
@@ -254,6 +344,28 @@ function M.mkdir(p, parents)
 
   if normed ~= CURDIR and not isdir(normed) then
     return mkdir(normed)
+  end
+
+  return true
+end
+
+function M.cp(src, dst)
+  assert_arg(1, src, "string")
+  assert_arg(2, dst, "string")
+
+  if isdir(src) then
+    return copy_tree(src, dst)
+  end
+
+  local body, errmsg, errcode = M.read_bytes(src)
+  if not body then
+    return nil, errmsg, errcode
+  end
+
+  local ok
+  ok, errmsg, errcode = M.write_bytes(dst, body)
+  if not ok then
+    return nil, errmsg, errcode
   end
 
   return true

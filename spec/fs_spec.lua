@@ -9,14 +9,16 @@ local path = mods.path
 local isdir = mods.is.dir
 local make_tmp_dir = helpers.make_tmp_dir
 local tmpname = helpers.tmpname
-local join = mods.path.join
+local join = path.join
+local dirname = path.dirname
+
 local fmt = string.format
 
 describe("mods.fs", function()
   local is_unix = not mods.runtime.is_windows
   local cwd = path.cwd() --[[@as string]]
-  local readme_file = path.join(cwd, "README.md")
-  local spec_file = path.join(cwd, "spec", "fs_spec.lua")
+  local readme_file = join(cwd, "README.md")
+  local spec_file = join(cwd, "spec", "fs_spec.lua")
 
   for _, fname in ipairs({ "getsize", "getatime", "getmtime", "getctime" }) do
     it(fmt("%s() returns a number for an existing path", fname), function()
@@ -285,6 +287,181 @@ describe("mods.fs", function()
     end)
   end)
 
+  describe("cp()", function()
+    it("copies binary files", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src.bin")
+      local dst = join(root, "dst.bin")
+      local body = "a\0b\1c\255z"
+
+      assert.is_true(fs.write_bytes(src, body))
+      assert.is_true(fs.cp(src, dst))
+      assert.are_equal(body, fs.read_bytes(dst))
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("copies files", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src.txt")
+      local dst = join(root, "dst.txt")
+
+      assert.is_true(fs.write_text(src, "abc"))
+      assert.is_true(fs.cp(src, dst))
+      assert.are_equal("abc", fs.read_text(dst))
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("overwrites an existing destination file", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src.txt")
+      local dst = join(root, "dst.txt")
+
+      assert.is_true(fs.write_text(src, "new"))
+      assert.is_true(fs.write_text(dst, "old"))
+
+      assert.is_true(fs.cp(src, dst))
+      assert.are_equal("new", fs.read_text(dst))
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("copies empty directories", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src")
+      local empty = join(src, "empty")
+      local dst = join(root, "copy")
+
+      assert.is_true(fs.mkdir(empty, true))
+
+      assert.is_true(fs.cp(src, dst))
+      assert.is_true(isdir(join(dst, "empty")))
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("copies directories recursively", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src")
+      local top_level = join(src, "top.txt")
+      local nested_dir = join(src, "deep")
+      local nested = join(nested_dir, "nested.txt")
+      local dst = join(root, "copy")
+
+      assert.is_true(fs.mkdir(nested_dir, true))
+      assert.is_true(fs.write_text(top_level, "abc"))
+      assert.is_true(fs.write_text(nested, "xyz"))
+
+      assert.is_true(fs.cp(src, dst))
+      assert.are_equal("abc", fs.read_text(join(dst, "top.txt")))
+      assert.is_true(fs.exists(join(dst, "deep")))
+      assert.are_equal("xyz", fs.read_text(join(dst, "deep", "nested.txt")))
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("merges into an existing destination directory", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src")
+      local nested_dir = join(src, "deep")
+      local src_file = join(src, "top.txt")
+      local nested = join(nested_dir, "nested.txt")
+      local dst = join(root, "copy")
+      local keep = join(dst, "keep.txt")
+
+      assert.is_true(fs.mkdir(nested_dir, true))
+      assert.is_true(fs.mkdir(dst, true))
+      assert.is_true(fs.write_text(src_file, "abc"))
+      assert.is_true(fs.write_text(nested, "xyz"))
+      assert.is_true(fs.write_text(keep, "keep"))
+
+      assert.is_true(fs.cp(src, dst))
+      assert.are_equal("keep", fs.read_text(keep))
+      assert.are_equal("abc", fs.read_text(join(dst, "top.txt")))
+      assert.are_equal("xyz", fs.read_text(join(dst, "deep", "nested.txt")))
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails when the source is missing", function()
+      local root = make_tmp_dir()
+      local missing = join(root, "missing.txt")
+      local dst = join(root, "dst.txt")
+
+      local ok, errmsg, errcode = fs.cp(missing, dst)
+      assert.are_same({ "nil", "string", "number" }, { type(ok), type(errmsg), type(errcode) })
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails when the destination parent is missing", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src.txt")
+      local dst = join(root, "missing", "dst.txt")
+
+      assert.is_true(fs.write_text(src, "abc"))
+
+      local ok, errmsg, errcode = fs.cp(src, dst)
+      assert.are_same({ "nil", "string", "number" }, { type(ok), type(errmsg), type(errcode) })
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails when a nested destination path conflicts with a file", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src")
+      local nested_dir = join(src, "deep")
+      local nested = join(nested_dir, "nested.txt")
+      local dst = join(root, "copy")
+      local conflicting = join(dst, "deep")
+
+      assert.is_true(fs.mkdir(nested_dir, true))
+      assert.is_true(fs.mkdir(dst, true))
+      assert.is_true(fs.write_text(nested, "xyz"))
+      assert.is_true(fs.write_text(conflicting, "not a dir"))
+
+      local ok, errmsg, errcode = fs.cp(src, dst)
+      assert.are_same({ "nil", "string", "number" }, { type(ok), type(errmsg), type(errcode) })
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails when copying a directory onto itself", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src")
+      local nested = join(src, "nested.txt")
+
+      assert.is_true(fs.mkdir(src, true))
+      assert.is_true(fs.write_text(nested, "xyz"))
+
+      local ok, errmsg, errcode = fs.cp(src, src)
+      local msg = "cannot copy a directory into itself or its descendant"
+      assert.are_same({ "nil", msg, "nil" }, { type(ok), errmsg, type(errcode) })
+
+      assert.are_equal("xyz", fs.read_text(nested))
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails when copying a directory into its descendant", function()
+      local root = make_tmp_dir()
+      local src = join(root, "src")
+      local nested = join(src, "nested.txt")
+      local dst = join(src, "child", "copy")
+
+      assert.is_true(fs.mkdir(src, true))
+      assert.is_true(fs.write_text(nested, "xyz"))
+
+      local ok, errmsg, errcode = fs.cp(src, dst)
+      local msg = "cannot copy a directory into itself or its descendant"
+      assert.are_same({ "nil", msg, "nil" }, { type(ok), errmsg, type(errcode) })
+
+      assert.is_false(fs.exists(dst))
+      assert.are_equal("xyz", fs.read_text(nested))
+      assert.is_true(fs.rm(root, true))
+    end)
+  end)
+
   describe("rm()", function()
     it("removes a file without recursive mode", function()
       local target = tmpname()
@@ -485,6 +662,7 @@ describe("mods.fs", function()
   ---@diagnostic disable: param-type-mismatch, discard-returns, missing-parameter, assign-type-mismatch
   it("errors on invalid argument types", function()
     -- Argument #1 validation.
+    assert.has_error(function() fs.cp(false)       end, "bad argument #1 to 'cp' (string expected, got boolean)")
     assert.has_error(function() fs.exists(true)    end, "bad argument #1 to 'exists' (string expected, got boolean)")
     assert.has_error(function() fs.getatime(false) end, "bad argument #1 to 'getatime' (string expected, got boolean)")
     assert.has_error(function() fs.getctime(0)     end, "bad argument #1 to 'getctime' (string expected, got number)")
@@ -500,6 +678,7 @@ describe("mods.fs", function()
     assert.has_error(function() fs.write_text({})  end, "bad argument #1 to 'write_text' (string expected, got table)")
 
     -- Argument #2 validation.
+    assert.has_error(function() fs.cp("a")                      end, "bad argument #2 to 'cp' (string expected, got no value)")
     assert.has_error(function() fs.mkdir("tmp", 1)              end, "bad argument #2 to 'mkdir' (boolean expected, got number)")
     assert.has_error(function() fs.rm("tmp", 1)                 end, "bad argument #2 to 'rm' (boolean expected, got number)")
     assert.has_error(function() fs.samefile(readme_file, 123)   end, "bad argument #2 to 'samefile' (string expected, got number)")

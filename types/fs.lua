@@ -129,6 +129,21 @@ function M.rm(path, recursive) end
 ---@return integer? errcode OS error code when available.
 function M.mkdir(path, parents) end
 
+---
+---Copy a file or directory tree.
+---
+---```lua
+---fs.cp("a.txt", "b.txt")
+---fs.cp("src", "backup/src")
+---```
+---
+---@param src string Source path.
+---@param dst string Destination path.
+---@return true? copied `true` when copying succeeds, or `nil` on failure.
+---@return string? errmsg Error message when the check fails.
+---@return integer? errcode OS error code when available.
+function M.cp(src, dst) end
+
 --------------------------------------------------------------------------------
 --------------------------------- Metadata -------------------------------------
 --------------------------------------------------------------------------------
