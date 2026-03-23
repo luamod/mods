@@ -113,14 +113,15 @@ Iterator over items in `path`.
 **Parameters**:
 
 - `path` (`string`): Input path.
-- `opts?` (`{hidden?:boolean,`): recursive?:boolean, follow_links?:boolean,
-  type?:string} Optional traversal options.
+- `opts?`
+  (`{hidden?:boolean, recursive?:boolean, follow_links?:boolean, type?:string}`):
+  Optional traversal options.
 
 **Return**:
 
-- `prev?:string):basename:string?,` (`(fun(state:table,`):
-  type:"file"|"directory"|"link"|"fifo"|"socket"|"char"|"block"|"unknown"?)?
-  iterator Iterator, or `nil` on failure.
+- `iterator`
+  (`(fun(state:table, prev?:string):basename:string?, type:"file"|"directory"|"link"|"fifo"|"socket"|"char"|"block"|"unknown"?)?`):
+  Iterator, or `nil` on failure.
 - `state` (`table|string`): Iterator state on success, or error message on
   failure.
 
@@ -141,8 +142,9 @@ Return direct children of a directory.
 **Parameters**:
 
 - `path` (`string`): Input path.
-- `opts?` (`{hidden?:boolean,`): recursive?:boolean, follow_links?:boolean,
-  type?:string} Optional traversal options.
+- `opts?`
+  (`{hidden?:boolean, recursive?:boolean, follow_links?:boolean, type?:string}`):
+  Optional traversal options.
 
 **Return**:
 

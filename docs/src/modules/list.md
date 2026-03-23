@@ -472,7 +472,7 @@ Sort the list in place.
 
 **Parameters**:
 
-- `comp?` (`fun(a:any,`): b:any):boolean Optional comparison function (defaults
+- `comp?` (`fun(a:any, b:any):boolean`): Optional comparison function (defaults
   to `nil`).
 
 **Return**:
@@ -969,7 +969,7 @@ Reduce the list to a single value using an accumulator.
 
 **Parameters**:
 
-- `fn` (`fun(acc:any,`): v:any):any Reducer function.
+- `fn` (`fun(acc:any, v:any):any`): Reducer function.
 - `init?` (`any`): Optional initial accumulator; for non-empty lists, `nil` or
   omitted uses the first item.
 
