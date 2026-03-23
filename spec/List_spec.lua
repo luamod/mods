@@ -90,6 +90,8 @@ describe("mods.List", function()
     { "insert"       , abc__     , { "d"        } , abcd_          , true  },
     { "intersection" , a_c_e     , { _bcd_      } , __c__          , false },
     { "invert"       , a___e     , {            } , a1_e2          , false },
+    { "isempty"      , _____     , {            } , true           ,       },
+    { "isempty"      , abc__     , {            } , false          ,       },
     { "join"         , abc__     , { ","        } , "a,b,c"        ,       },
     { "join"         , abcde     , {            } , "abcde"        ,       },
     { "keypath"      , abc__     , {            } , "a.b.c"        ,       },
@@ -126,7 +128,6 @@ describe("mods.List", function()
     { "tostring"     , a___e     , {            } , '{ "a", "e" }' ,       },
     { "uniq"         , AZAZA     , {            } , AZ___          , false },
     { "zip"          , abc__     , { _12__      } , { a1, b2 }     , false },
-    { "join"         , ____e     , {            } , 'e'            ,       },
 
     -- Cases where the second argument is provided as a Set.
     { "difference"   , a_c_e     , { Set(_bcd_) } , a___e          , false },

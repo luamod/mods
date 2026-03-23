@@ -294,6 +294,10 @@ function List:len()
   return #self
 end
 
+function List:isempty()
+  return #self == 0
+end
+
 function List:lt(ls)
   return lex_cmp(self, ls) == -1
 end

@@ -406,6 +406,18 @@ function List:index_if(pred) end
 ---@nodiscard
 function List:len() end
 
+---
+---Return whether the list has no elements.
+---
+---```lua
+---ok = List():isempty() --> true
+---```
+---
+---@param self mods.List|any[] Current list.
+---@return boolean empty `true` when the list has no elements.
+---@nodiscard
+function List:isempty() end
+
 --------------------------------------------------------------------------------
 ------------------------------------ Access ------------------------------------
 --------------------------------------------------------------------------------
