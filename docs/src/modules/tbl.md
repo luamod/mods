@@ -1,10 +1,11 @@
 ---
-description: "Utility functions for working with Lua tables."
+description:
+  "Table operations for querying, copying, merging, and transforming tables."
 ---
 
 # `tbl`
 
-Utility functions for working with Lua tables.
+Table operations for querying, copying, merging, and transforming tables.
 
 ## Usage
 
@@ -51,6 +52,13 @@ print(tbl.count({ a = 1, b = 2 })) --> 2
 | [`pairmap(t, fn)`](#fn-pairmap) | Return a new table by mapping each key-value pair.         |
 | [`update(t1, t2)`](#fn-update)  | Merge entries from `t2` into `t1` and return `t1`.         |
 | [`values(t)`](#fn-values)       | Return a list of all values in the table.                  |
+
+**Iteration**:
+
+| Function                        | Description                                  |
+| ------------------------------- | -------------------------------------------- |
+| [`foreach(t, fn)`](#fn-foreach) | Call a function for each value in the table. |
+| [`spairs(t)`](#fn-spairs)       | Iterate key-value pairs in sorted key order. |
 
 ### Basics
 
@@ -153,8 +161,8 @@ Filter entries by a value predicate.
 
 **Parameters**:
 
-- `t` (`table`): Input table.
-- `pred` (`fun(v:any):boolean`): Value predicate.
+- `t` (`table<K,V>`): Input table.
+- `pred` (`fun(value:V):boolean`): Value predicate.
 
 **Return**:
 
@@ -176,12 +184,12 @@ Find the first key whose value equals the given value.
 
 **Parameters**:
 
-- `t` (`{[T1]:T2}`): Input table.
-- `v` (`T2`): Value to find.
+- `t` (`table<K,V>`): Input table.
+- `v` (`V`): Value to find.
 
 **Return**:
 
-- `key` (`T1?`): First matching key, or `nil` when not found.
+- `key` (`K?`): First matching key, or `nil` when not found.
 
 **Example**:
 
@@ -220,12 +228,12 @@ Find first value and key matching predicate.
 **Parameters**:
 
 - `t` (`table`): Input table.
-- `pred` (`fun(v:T1,k:T2):boolean`): Predicate function.
+- `pred` (`fun(key:K,value:V):boolean`): Predicate function.
 
 **Return**:
 
-- `matchedValue` (`T1?`): First matching value, or `nil` when not found.
-- `k` (`T2?`): Key for the first matching value, or `nil` when not found.
+- `value` (`V?`): First matching value, or `nil` when not found.
+- `key` (`K?`): Key for the first matching value, or `nil` when not found.
 
 **Example**:
 
@@ -272,11 +280,11 @@ Invert keys/values into new table.
 
 **Parameters**:
 
-- `t` (`{[T1]:T2}`): Input table.
+- `t` (`table<K,V>`): Input table.
 
 **Return**:
 
-- `inverted` (`{[T2]:T1}`): Inverted table (`value -> key`).
+- `inverted` (`table<V,K>`): Inverted table (`value -> key`).
 
 **Example**:
 
@@ -312,11 +320,11 @@ Return a list of all keys in the table.
 
 **Parameters**:
 
-- `t` (`{[T]:any}`): Input table.
+- `t` (`table<K,V>`): Input table.
 
 **Return**:
 
-- `keys` (`mods.List<T>`): List of keys in `t`.
+- `keys` (`mods.List<V>`): List of keys in `t`.
 
 **Example**:
 
@@ -332,12 +340,12 @@ Return a new table by mapping each value (keys preserved).
 
 **Parameters**:
 
-- `t` (`{[T1]:T2}`): Input table.
-- `fn` (`fun(v:T2):T3`): Mapping function.
+- `t` (`table<K,V>`): Input table.
+- `fn` (`fun(value:V):T`): Mapping function.
 
 **Return**:
 
-- `mapped` (`{[T1]:T3}`): New table with mapped values.
+- `mapped` (`table<K,T>`): New table with mapped values.
 
 **Example**:
 
@@ -355,12 +363,12 @@ Return a new table by mapping each key-value pair.
 
 **Parameters**:
 
-- `t` (`{[T1]:T2}`): Input table.
-- `fn` (`fun(k:T1,`): v:T2):T3 Key-value mapping function.
+- `t` (`table<K,V>`): Input table.
+- `fn` (`fun(key:K,`): value:V):T Key-value mapping function.
 
 **Return**:
 
-- `mapped` (`{[T1]:T3}`): New table with mapped values.
+- `mapped` (`table<K,T>`): New table with mapped values.
 
 **Example**:
 
@@ -387,7 +395,7 @@ Merge entries from `t2` into `t1` and return `t1`.
 
 **Return**:
 
-- `t1` (`T`): Updated `t1` table.
+- `table` (`T`): Updated `t1` table.
 
 **Example**:
 
@@ -404,14 +412,63 @@ Return a list of all values in the table.
 
 **Parameters**:
 
-- `t` (`{[any]:T}`): Input table.
+- `t` (`table<K,V>`): Input table.
 
 **Return**:
 
-- `values` (`mods.List<T>`): List of values in `t`.
+- `values` (`mods.List<V>`): List of values in `t`.
 
 **Example**:
 
 ```lua
 vals = values({ a = 1, b = 2 }) --> { 1, 2 }
+```
+
+### Iteration
+
+Iterators and ordered traversal helpers. <a id="fn-foreach"></a>
+
+#### `foreach(t, fn)`
+
+Call a function for each value in the table.
+
+**Parameters**:
+
+- `t` (`table<K,V>`): Input table.
+- `fn` (`fun(value:V,`): key:K) Function invoked for each entry.
+
+**Return**:
+
+- `none` (`nil`)
+
+**Example**:
+
+```lua
+foreach({ a = 1, b = 2 }, function(v, k)
+  print(k, v)
+end)
+```
+
+<a id="fn-spairs"></a>
+
+#### `spairs(t)`
+
+Iterate key-value pairs in sorted key order.
+
+**Parameters**:
+
+- `t` (`T`): Input table.
+
+**Return**:
+
+- `table<K,` (`fun(table:`): V>, index?: K):(K, V) iterator Sorted pairs
+  iterator.
+- **value** (`T`)
+
+**Example**:
+
+```lua
+for k, v in spairs({ b = 2, a = 1 }) do
+  print(k, v)
+end
 ```

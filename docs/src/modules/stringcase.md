@@ -1,10 +1,10 @@
 ---
-description: "String case conversion helpers."
+description: "String case conversion and word splitting."
 ---
 
 # `stringcase`
 
-String case conversion helpers.
+String case conversion and word splitting.
 
 ## Usage
 

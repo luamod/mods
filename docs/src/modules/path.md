@@ -1,10 +1,10 @@
 ---
-description: "Generic cross-platform path API."
+description: "Cross-platform path operations with host-platform semantics."
 ---
 
 # `path`
 
-Generic cross-platform path API.
+Cross-platform path operations with host-platform semantics.
 
 ## Usage
 
@@ -18,7 +18,7 @@ print(path.splitext("archive.tar.gz"))      --> "archive.tar", ".gz"
 
 ## Functions
 
-**Normalization & Predicates**:
+**Normalization**:
 
 | Function                         | Description                                          |
 | -------------------------------- | ---------------------------------------------------- |
@@ -27,7 +27,7 @@ print(path.splitext("archive.tar.gz"))      --> "archive.tar", ".gz"
 | [`normpath(path)`](#fn-normpath) | Normalize separators and dot segments.               |
 | [`isabs(path)`](#fn-isabs)       | Return `true` when `path` is absolute.               |
 
-**Path Decomposition**:
+**Decomposition**:
 
 | Function                             | Description                                        |
 | ------------------------------------ | -------------------------------------------------- |
@@ -38,22 +38,61 @@ print(path.splitext("archive.tar.gz"))      --> "archive.tar", ".gz"
 | [`basename(path)`](#fn-basename)     | Return final path component.                       |
 | [`dirname(path)`](#fn-dirname)       | Return directory portion of a path.                |
 
-**Environment Expand**:
+**Environment**:
 
-| Function                             | Description                                    |
-| ------------------------------------ | ---------------------------------------------- |
-| [`expanduser(path)`](#fn-expanduser) | Expand `~` home segment when available.        |
-| [`home()`](#fn-home)                 | Return the current user's home directory path. |
+| Function                             | Description                                                             |
+| ------------------------------------ | ----------------------------------------------------------------------- |
+| [`expanduser(path)`](#fn-expanduser) | Expand `~` home segment when available.                                 |
+| [`expandvars(path)`](#fn-expandvars) | Expand vars in a path (`$VAR`/`${VAR}` everywhere, `%VAR%` on Windows). |
+| [`home()`](#fn-home)                 | Return the current user's home directory path.                          |
+| [`cwd()`](#fn-cwd)                   | Return the current working directory path.                              |
 
-**Derived Paths**:
+**Derived**:
 
-| Function                               | Description                                      |
-| -------------------------------------- | ------------------------------------------------ |
-| [`abspath(path)`](#fn-abspath)         | Return normalized absolute path.                 |
-| [`relpath(path, start?)`](#fn-relpath) | Return `path` relative to optional `start` path. |
-| [`commonpath(paths)`](#fn-commonpath)  | Return longest common sub-path from a path list. |
+| Function                                  | Description                                      |
+| ----------------------------------------- | ------------------------------------------------ |
+| [`abspath(path)`](#fn-abspath)            | Return normalized absolute path.                 |
+| [`relpath(path, start?)`](#fn-relpath)    | Return `path` relative to optional `start` path. |
+| [`commonpath(paths)`](#fn-commonpath)     | Return longest common sub-path from a path list. |
+| [`commonprefix(paths)`](#fn-commonprefix) | Return longest common leading string prefix.     |
 
-### Normalization & Predicates
+**Anchors**:
+
+| Function                     | Description                                 |
+| ---------------------------- | ------------------------------------------- |
+| [`drive(path)`](#fn-drive)   | Return drive prefix when present.           |
+| [`root(path)`](#fn-root)     | Return root separator segment when present. |
+| [`anchor(path)`](#fn-anchor) | Return drive and root combined.             |
+
+**Components**:
+
+| Function                         | Description                                                   |
+| -------------------------------- | ------------------------------------------------------------- |
+| [`parts(path)`](#fn-parts)       | Split path into logical parts, including anchor when present. |
+| [`stem(path)`](#fn-stem)         | Return filename without its final suffix.                     |
+| [`suffixes(path)`](#fn-suffixes) | Return all filename suffixes in order.                        |
+| [`parents(path)`](#fn-parents)   | Return logical parent paths from nearest to farthest.         |
+
+**Relations**:
+
+| Function                                                | Description                                                                             |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [`relative_to(path, other, walk_up?)`](#fn-relative-to) | Return `path` relative to `other`, or `nil` with an error when it is not under `other`. |
+| [`is_relative_to(path, other)`](#fn-is-relative-to)     | Return `true` when `path` is under `other`.                                             |
+| [`with_name(path, name)`](#fn-with-name)                | Return a path with the final filename replaced.                                         |
+| [`with_stem(path, stem)`](#fn-with-stem)                | Return a path with the final filename stem replaced.                                    |
+| [`with_suffix(path, suffix)`](#fn-with-suffix)          | Return a path with the final filename suffix replaced.                                  |
+
+**Conversions**:
+
+| Function                                             | Description                                                                 |
+| ---------------------------------------------------- | --------------------------------------------------------------------------- |
+| [`as_posix(path)`](#fn-as-posix)                     | Convert backslashes (`\`) to forward slashes (`/`).                         |
+| [`as_uri(path)`](#fn-as-uri)                         | Convert a local path to a `file://` URI.                                    |
+| [`match(path, pattern, case_sensitive?)`](#fn-match) | Match a path against a glob-style pattern using only `*` and `?` wildcards. |
+| [`from_uri(uri)`](#fn-from-uri)                      | Convert a `file://` URI to a local absolute path.                           |
+
+### Normalization
 
 <a id="fn-normcase"></a>
 
@@ -67,17 +106,20 @@ Normalize path case using the active path semantics.
 
 **Return**:
 
-- `value` (`string`): Path after case normalization.
+- `normalizedPath` (`string`): Path after case normalization.
 
 **Example**:
 
 ```lua
-path.normcase("/A/B") --> "/A/B"
+path.normcase("ABC")  --> "abc"
+path.normcase("/A/B") --> "\\a\\b"
 ```
 
 > [!NOTE]
 >
-> On POSIX semantics this returns the input unchanged.
+> On POSIX semantics this returns the input unchanged. Use
+> [`mods.ntpath`](/modules/ntpath) to force Windows-style case folding and
+> separator normalization.
 
 <a id="fn-join"></a>
 
@@ -92,13 +134,13 @@ Join path components.
 
 **Return**:
 
-- `value` (`string`): Joined path.
+- `joinedPath` (`string`): Joined path.
 
 **Example**:
 
 ```lua
 path.join("/usr", "bin")   --> "/usr/bin"
-path.join([[C:\a]], [[b]]) --> [[C:\a\b]]
+path.join([[C:/a]], [[b]]) --> [[C:/a\b]]
 ```
 
 > [!NOTE]
@@ -117,7 +159,7 @@ Normalize separators and dot segments.
 
 **Return**:
 
-- `value` (`string`): Normalized path.
+- `normalizedPath` (`string`): Normalized path.
 
 **Example**:
 
@@ -138,7 +180,7 @@ Return `true` when `path` is absolute.
 
 **Return**:
 
-- `value` (`boolean`): True when `path` is absolute.
+- `isAbsolute` (`boolean`): True when `path` is absolute.
 
 **Example**:
 
@@ -146,7 +188,7 @@ Return `true` when `path` is absolute.
 path.isabs("/a/b") --> true
 ```
 
-### Path Decomposition
+### Decomposition
 
 <a id="fn-split"></a>
 
@@ -250,7 +292,7 @@ Return final path component.
 
 **Return**:
 
-- `value` (`string`): Final path component.
+- `basename` (`string`): Final path component.
 
 **Example**:
 
@@ -271,7 +313,7 @@ Return directory portion of a path.
 
 **Return**:
 
-- `value` (`string`): Parent directory path.
+- `dirname` (`string`): Parent directory path.
 
 **Example**:
 
@@ -280,7 +322,7 @@ path.dirname("/a/b.txt")     --> "/a"
 path.dirname([[C:\a\b.txt]]) --> [[C:\a]]
 ```
 
-### Environment Expand
+### Environment
 
 <a id="fn-expanduser"></a>
 
@@ -294,7 +336,8 @@ Expand `~` home segment when available.
 
 **Return**:
 
-- `value` (`string?`): Path with the home segment expanded when available.
+- `expandedPath` (`string?`): Path with the home segment expanded when
+  available.
 - `err` (`string?`): Error message when `~` expansion cannot be resolved.
 
 **Example**:
@@ -302,6 +345,29 @@ Expand `~` home segment when available.
 ```lua
 path.expanduser("~/tmp") --> "<HOME>/tmp" (when HOME is set)
 path.expanduser([[x\y]]) --> [[x\y]]
+```
+
+<a id="fn-expandvars"></a>
+
+#### `expandvars(path)`
+
+Expand vars in a path (`$VAR`/`${VAR}` everywhere, `%VAR%` on Windows).
+
+**Parameters**:
+
+- `path` (`string`): Path containing variable placeholders.
+
+**Return**:
+
+- `expandedPath` (`string`): Path with variable values substituted.
+
+**Example**:
+
+```lua
+path.expandvars("$HOME/bin")               --> "/home/me/bin"
+path.expandvars("${XDG_CONFIG_HOME}/nvim") --> "/home/me/.config/nvim"
+path.expandvars("%USERPROFILE%\\bin")      --> "C:\\Users\\me\\bin"
+path.expandvars("$UNKNOWN/bin")            --> "$UNKNOWN/bin"
 ```
 
 <a id="fn-home"></a>
@@ -312,7 +378,7 @@ Return the current user's home directory path.
 
 **Return**:
 
-- `value` (`string?`): Home directory path when available.
+- `homePath` (`string?`): Home directory path when available.
 - `err` (`string?`): Error message when the home directory cannot be resolved.
 
 **Example**:
@@ -321,7 +387,24 @@ Return the current user's home directory path.
 path.home()
 ```
 
-### Derived Paths
+<a id="fn-cwd"></a>
+
+#### `cwd()`
+
+Return the current working directory path.
+
+**Return**:
+
+- `cwd` (`string?`): Current working directory path.
+- `err` (`string?`): Error message when the cwd cannot be resolved.
+
+**Example**:
+
+```lua
+path.cwd()
+```
+
+### Derived
 
 <a id="fn-abspath"></a>
 
@@ -335,7 +418,7 @@ Return normalized absolute path.
 
 **Return**:
 
-- `value` (`string`): Absolute normalized path.
+- `absolutePath` (`string`): Absolute normalized path.
 
 **Example**:
 
@@ -357,7 +440,8 @@ Return `path` relative to optional `start` path.
 
 **Return**:
 
-- `value` (`string`): Relative path from `start` to `path`.
+- `relativePath` (`string?`): Relative path from `start` to `path`.
+- `err` (`string?`): Error message when the path cannot be made relative.
 
 **Example**:
 
@@ -378,7 +462,8 @@ Return longest common sub-path from a path list.
 
 **Return**:
 
-- `value` (`string`): Longest common sub-path.
+- `commonPath` (`string?`): Longest common sub-path.
+- `err` (`string?`): Error message when inputs are incompatible.
 
 **Example**:
 
@@ -387,7 +472,396 @@ path.commonpath({ "/a/b/c", "/a/b/d" })         --> "/a/b"
 path.commonpath({ [[C:\a\b\c]], [[c:/a/b/d]] }) --> [[C:\a\b]]
 ```
 
-> [!NOTE]
->
-> All inputs must use compatible drive/root semantics. Mixing absolute and
-> relative paths may raise an error.
+<a id="fn-commonprefix"></a>
+
+#### `commonprefix(paths)`
+
+Return longest common leading string prefix.
+
+**Parameters**:
+
+- `paths` (`string[]`): List of paths.
+
+**Return**:
+
+- `commonPrefix` (`string`): Longest common string prefix.
+
+**Example**:
+
+```lua
+path.commonprefix({"abc", "abd"})                         --> "ab"
+path.commonprefix({"/home/swen/spam", "/home/swen/eggs"}) --> "/home/swen/"
+path.commonprefix({"abc", "xyz"})                         --> ""
+```
+
+### Anchors
+
+<a id="fn-drive"></a>
+
+#### `drive(path)`
+
+Return drive prefix when present.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `drivePrefix` (`string`): Drive prefix.
+
+**Example**:
+
+```lua
+path.drive("c:a/b") --> "c:"
+path.drive("a/b")   --> ""
+```
+
+<a id="fn-root"></a>
+
+#### `root(path)`
+
+Return root separator segment when present.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `rootSeparator` (`string`): Root separator segment.
+
+**Example**:
+
+```lua
+path.root("/tmp/a.txt") --> "/"
+path.root("c:/")        --> "\\"
+path.root("a/b")        --> ""
+```
+
+<a id="fn-anchor"></a>
+
+#### `anchor(path)`
+
+Return drive and root combined.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `anchor` (`string`): Drive and root anchor.
+
+**Example**:
+
+```lua
+path.anchor("c:\\") --> "c:\\"
+```
+
+### Components
+
+<a id="fn-parts"></a>
+
+#### `parts(path)`
+
+Split path into logical parts, including anchor when present.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `paths` (`mods.List<string>`): Path parts including anchor when present.
+
+**Example**:
+
+```lua
+path.parts("a/b.txt") --> {"a", "b.txt"}
+path.parts("/a/b")    --> {"/", "a", "b"}
+path.parts("c:a\\b")  --> {"c:", "a", "b"}
+```
+
+<a id="fn-stem"></a>
+
+#### `stem(path)`
+
+Return filename without its final suffix.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `stem` (`string`): Filename stem.
+
+**Example**:
+
+```lua
+path.stem("archive.tar.gz") --> "archive.tar"
+path.stem("c:a/b")          --> "b"
+```
+
+<a id="fn-suffixes"></a>
+
+#### `suffixes(path)`
+
+Return all filename suffixes in order.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `suffixes` (`mods.List<string>`): Filename suffixes.
+
+**Example**:
+
+```lua
+path.suffixes("archive.tar.gz") --> {".tar", ".gz"}
+path.suffixes("a/b")            --> {}
+```
+
+<a id="fn-parents"></a>
+
+#### `parents(path)`
+
+Return logical parent paths from nearest to farthest.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `parents` (`mods.List<string>`): Ancestor paths from nearest to farthest.
+
+**Example**:
+
+```lua
+path.parents("a/b/c") --> {"a/b", "a", "."}
+path.parents("c:a/b") --> {"c:a", "c:"}
+```
+
+### Relations
+
+<a id="fn-relative-to"></a>
+
+#### `relative_to(path, other, walk_up?)`
+
+Return `path` relative to `other`, or `nil` with an error when it is not under
+`other`.
+
+When `walk_up` is `true`, allow `..` segments to walk up to a shared prefix.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+- `other` (`string`): Reference path.
+- `walk_up?` (`boolean`): Allow walking up to a shared prefix.
+
+**Return**:
+
+- `relativePath` (`string?`): Path relative to `other`, or `nil` on error.
+- `err` (`string?`): Error message when the path cannot be made relative.
+
+**Example**:
+
+```lua
+path.relative_to("/a/b/c.txt", "/a")   --> "b/c.txt"
+path.relative_to("/a/b", "/a/c", true) --> "../b"
+path.relative_to("/a/b", "/a/x")       --> nil, "'/a/b' is not in the subpath of '/a/x'"
+```
+
+<a id="fn-is-relative-to"></a>
+
+#### `is_relative_to(path, other)`
+
+Return `true` when `path` is under `other`.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+- `other` (`string`): Reference path.
+
+**Return**:
+
+- `isRelative` (`boolean`): True when `path` is under `other`.
+
+**Example**:
+
+```lua
+path.is_relative_to("a/b/c", "a/b") --> true
+path.is_relative_to("C:A/B", "c:a") --> true
+path.is_relative_to("a/b", "a/b/c") --> false
+```
+
+<a id="fn-with-name"></a>
+
+#### `with_name(path, name)`
+
+Return a path with the final filename replaced.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+- `name` (`string`): Replacement filename.
+
+**Return**:
+
+- `updatedPath` (`string?`): Path with replaced filename, or `nil` on error.
+- `err` (`string?`): Error message when replacement fails.
+
+**Example**:
+
+```lua
+path.with_name("a/b", "c.txt")     --> "a/c.txt"
+path.with_name("a/b.txt", "c.lua") --> "a/c.lua"
+path.with_name("a/b", "c/d")       --> nil, "invalid name 'c/d'"
+path.with_name("/", "d.xml")       --> nil, "'/' has an empty name"
+```
+
+<a id="fn-with-stem"></a>
+
+#### `with_stem(path, stem)`
+
+Return a path with the final filename stem replaced.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+- `stem` (`string`): Replacement filename stem.
+
+**Return**:
+
+- `updatedPath` (`string?`): Path with replaced filename stem, or `nil` on
+  error.
+- `err` (`string?`): Error message when replacement fails.
+
+**Example**:
+
+```lua
+path.with_stem("a/b", "d")     --> "/a/d"
+path.with_stem("a/b.lua", "d") --> "/a/d.lua"
+path.with_stem("/", "d")       --> "'/' has an empty name"
+path.with_stem("a/b", "d")     --> "invalid name ''."
+```
+
+<a id="fn-with-suffix"></a>
+
+#### `with_suffix(path, suffix)`
+
+Return a path with the final filename suffix replaced.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+- `suffix` (`string`): Replacement suffix.
+
+**Return**:
+
+- `updatedPath` (`string?`): Path with replaced suffix, or `nil` on error.
+- `err` (`string?`): Error message when replacement fails.
+
+**Example**:
+
+```lua
+path.with_suffix("a/b", ".gz")     --> "a/b/.gz"
+path.with_suffix("a/b.gz", ".lua") --> "a/b/.lua"
+path.with_suffix("a/b", "gz")      --> nil, "invalid suffix 'gz'"
+path.with_suffix("//a/b", "gz")    --> nil, "'//a/b' has an empty name"
+```
+
+### Conversions
+
+<a id="fn-as-posix"></a>
+
+#### `as_posix(path)`
+
+Convert backslashes (`\`) to forward slashes (`/`).
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `posixPath` (`string`): POSIX-style path.
+
+**Example**:
+
+```lua
+path.as_posix("a\\b\\c") --> "a/b/c"
+```
+
+<a id="fn-as-uri"></a>
+
+#### `as_uri(path)`
+
+Convert a local path to a `file://` URI.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+
+**Return**:
+
+- `fileUri` (`string?`): File URI.
+- `err` (`string?`): Error message when conversion fails.
+
+**Example**:
+
+```lua
+path.as_uri("/home/user/report.txt") --> "file:///home/user/report.txt"
+path.as_uri("c:/a/b.c")              --> "file:///c:/a/b.c"
+path.as_uri("/a/b%#c")               --> "file:///a/b%25%23c"
+```
+
+<a id="fn-match"></a>
+
+#### `match(path, pattern, case_sensitive?)`
+
+Match a path against a glob-style pattern using only `*` and `?` wildcards.
+
+**Parameters**:
+
+- `path` (`string`): Input path.
+- `pattern` (`string`): Pattern to match.
+- `case_sensitive?` (`boolean`): Override platform-default case matching.
+
+**Return**:
+
+- `matchesPattern` (`boolean`): True when the path matches.
+
+**Example**:
+
+```lua
+path.match("a/b.lua", "*.lua")       --> true
+path.match("A.lua", "a.LUA", false)  --> true
+path.match("notes.txt", "n?tes.*")   --> true
+path.match("a/b/c.lua", "a/*/c.lua") --> true
+```
+
+<a id="fn-from-uri"></a>
+
+#### `from_uri(uri)`
+
+Convert a `file://` URI to a local absolute path.
+
+**Parameters**:
+
+- `uri` (`string`): URI value.
+
+**Return**:
+
+- `path` (`string?`): Resolved absolute path.
+- `err` (`string?`): Error message when conversion fails.
+
+**Example**:
+
+```lua
+path.from_uri("file://localhost/tmp/a.txt") --> "/tmp/a.txt"
+```

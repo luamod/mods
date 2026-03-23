@@ -1,13 +1,10 @@
 ---
-description:
-  "A set class providing common operations to create, modify, and query
-  collections of unique values."
+description: "A set class for creating, combining, and querying unique values."
 ---
 
 # `Set`
 
-A set class providing common operations to create, modify, and query collections
-of unique values.
+A set class for creating, combining, and querying unique values.
 
 ## Usage
 
@@ -34,24 +31,24 @@ print(s:contains("a")) --> true
 
 **Copying**:
 
-| Function                                                | Description                                         |
-| ------------------------------------------------------- | --------------------------------------------------- |
-| [`copy()`](#fn-copy)                                    | Return a shallow copy of the set.                   |
-| [`difference(set)`](#fn-difference)                     | Return elements in this set but not in another.     |
-| [`intersection(set)`](#fn-intersection)                 | Return elements common to both sets.                |
-| [`remove(v)`](#fn-remove)                               | Remove an element if present, do nothing otherwise. |
-| [`symmetric_difference(set)`](#fn-symmetric-difference) | Return elements not shared by both sets.            |
-| [`union(set)`](#fn-union)                               | Return a new set with all elements from both.       |
+| Function                                              | Description                                         |
+| ----------------------------------------------------- | --------------------------------------------------- |
+| [`copy()`](#fn-copy)                                  | Return a shallow copy of the set.                   |
+| [`difference(t)`](#fn-difference)                     | Return elements in this set but not in another.     |
+| [`intersection(t)`](#fn-intersection)                 | Return elements common to both sets.                |
+| [`remove(v)`](#fn-remove)                             | Remove an element if present, do nothing otherwise. |
+| [`symmetric_difference(t)`](#fn-symmetric-difference) | Return elements not shared by both sets.            |
+| [`union(t)`](#fn-union)                               | Return a new set with all elements from both.       |
 
 **Predicates**:
 
 | Function                            | Description                                                      |
 | ----------------------------------- | ---------------------------------------------------------------- |
 | [`isdisjoint(set)`](#fn-isdisjoint) | Return true if sets have no elements in common.                  |
-| [`equals(set)`](#fn-equals)         | Return true when both sets contain exactly the same members.     |
+| [`equals(t)`](#fn-equals)           | Return true when both sets contain exactly the same members.     |
 | [`isempty()`](#fn-isempty)          | Return true if the set has no elements.                          |
-| [`issubset(set)`](#fn-issubset)     | Return true if all elements of this set are also in another set. |
-| [`issuperset(set)`](#fn-issuperset) | Return true if this set contains all elements of another set.    |
+| [`issubset(t)`](#fn-issubset)       | Return true if all elements of this set are also in another set. |
+| [`issuperset(t)`](#fn-issuperset)   | Return true if this set contains all elements of another set.    |
 
 **Query**:
 
@@ -62,23 +59,26 @@ print(s:contains("a")) --> true
 
 **Transform**:
 
-| Function                 | Description                             |
-| ------------------------ | --------------------------------------- |
-| [`map(fn)`](#fn-map)     | Return a new set by mapping each value. |
-| [`values()`](#fn-values) | Return a list of all values in the set. |
+| Function                          | Description                             |
+| --------------------------------- | --------------------------------------- |
+| [`map(fn)`](#fn-map)              | Return a new set by mapping each value. |
+| [`values()`](#fn-values)          | Return a list of all values in the set. |
+| [`tostring()`](#fn-tostring)      | Render the set as a string.             |
+| [`join(sep?, quoted?)`](#fn-join) | Join set values into a string.          |
 
 **Metamethods**:
 
-| Function                  | Description                                                                |
-| ------------------------- | -------------------------------------------------------------------------- |
-| [`__add(set)`](#fn-add)   | Return the union of two sets using `+`.                                    |
-| [`__bor(set)`](#fn-bor)   | Return the union of two sets using `\|`.                                   |
-| [`__band(set)`](#fn-band) | Return the intersection of two sets using `&`.                             |
-| [`__bxor(set)`](#fn-bxor) | Return elements present in exactly one set using `^`.                      |
-| [`__eq(set)`](#fn-eq)     | Return true if both sets contain exactly the same members using `==`.      |
-| [`__le(set)`](#fn-le)     | Return true if the left set is a subset of the right set using `<=`.       |
-| [`__lt(set)`](#fn-lt)     | Return true if the left set is a proper subset of the right set using `<`. |
-| [`__sub(set)`](#fn-sub)   | Return the difference of two sets using `-`.                               |
+| Function                       | Description                                                                |
+| ------------------------------ | -------------------------------------------------------------------------- |
+| [`__add(t)`](#fn-add)          | Return the union of two sets using `+`.                                    |
+| [`__bor(t)`](#fn-bor)          | Return the union of two sets using `\|`.                                   |
+| [`__band(t)`](#fn-band)        | Return the intersection of two sets using `&`.                             |
+| [`__bxor(t)`](#fn-bxor)        | Return elements present in exactly one set using `^`.                      |
+| [`__eq(t)`](#fn-eq)            | Return true if both sets contain exactly the same members using `==`.      |
+| [`__le(t)`](#fn-le)            | Return true if the left set is a subset of the right set using `<=`.       |
+| [`__lt(set)`](#fn-lt)          | Return true if the left set is a proper subset of the right set using `<`. |
+| [`__sub(set)`](#fn-sub)        | Return the difference of two sets using `-`.                               |
+| [`__tostring()`](#fn-tostring) | Render the set via `tostring(set)`.                                        |
 
 ### Mutation
 
@@ -94,7 +94,7 @@ Add an element to the set.
 
 **Return**:
 
-- `self` (`T`): Current set instance.
+- `self` (`T`): Current set.
 
 **Example**:
 
@@ -110,7 +110,7 @@ Remove all elements from the set.
 
 **Return**:
 
-- `self` (`T`): Current set instance.
+- `self` (`T`): Current set.
 
 **Example**:
 
@@ -126,11 +126,11 @@ Remove elements found in another set (in place).
 
 **Parameters**:
 
-- `set` (`T`): Other set value.
+- `set` (`T|mods.List`): Other set/list.
 
 **Return**:
 
-- `self` (`T`): Current set instance.
+- `self` (`T`): Current set.
 
 **Example**:
 
@@ -146,11 +146,11 @@ Keep only elements common to both sets (in place).
 
 **Parameters**:
 
-- `set` (`T`): Other set value.
+- `set` (`T|mods.List`): Other set/list.
 
 **Return**:
 
-- `self` (`T`): Current set instance.
+- `self` (`T`): Current set.
 
 **Example**:
 
@@ -183,11 +183,11 @@ Update the set with elements not shared by both (in place).
 
 **Parameters**:
 
-- `set` (`T`): Other set value.
+- `set` (`T|mods.List`): Other set/list.
 
 **Return**:
 
-- `self` (`T`): Current set instance.
+- `self` (`T`): Current set.
 
 **Example**:
 
@@ -204,11 +204,11 @@ Add all elements from another set (in place).
 
 **Parameters**:
 
-- `set` (`T`): Other set value.
+- `set` (`T|mods.List`): Other set/list.
 
 **Return**:
 
-- `self` (`T`): Current set instance.
+- `self` (`T`): Current set.
 
 **Example**:
 
@@ -236,13 +236,13 @@ c = Set({ "a" }):copy() --> c is a new set with "a"
 
 <a id="fn-difference"></a>
 
-#### `difference(set)`
+#### `difference(t)`
 
 Return elements in this set but not in another.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -261,13 +261,13 @@ d = Set({ "a", "b" }):difference(Set({ "b" })) --> d contains "a"
 
 <a id="fn-intersection"></a>
 
-#### `intersection(set)`
+#### `intersection(t)`
 
 Return elements common to both sets.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -295,7 +295,7 @@ Remove an element if present, do nothing otherwise.
 
 **Return**:
 
-- `self` (`T`): Current set instance.
+- `self` (`T`): Current set.
 
 **Example**:
 
@@ -305,13 +305,13 @@ s = Set({ "a", "b" }):remove("b") --> s contains "a"
 
 <a id="fn-symmetric-difference"></a>
 
-#### `symmetric_difference(set)`
+#### `symmetric_difference(t)`
 
 Return elements not shared by both sets.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -330,13 +330,13 @@ d = Set({ "a", "b" }):symmetric_difference(Set({ "b", "c" }))
 
 <a id="fn-union"></a>
 
-#### `union(set)`
+#### `union(t)`
 
 Return a new set with all elements from both.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -363,7 +363,7 @@ Return true if sets have no elements in common.
 
 **Parameters**:
 
-- `set` (`T`): Other set value.
+- `set` (`T|mods.List`): Other set/list.
 
 **Return**:
 
@@ -377,13 +377,13 @@ ok = Set({ "a" }):isdisjoint(Set({ "b" })) --> true
 
 <a id="fn-equals"></a>
 
-#### `equals(set)`
+#### `equals(t)`
 
 Return true when both sets contain exactly the same members.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -420,13 +420,13 @@ empty = Set({}):isempty() --> true
 
 <a id="fn-issubset"></a>
 
-#### `issubset(set)`
+#### `issubset(t)`
 
 Return true if all elements of this set are also in another set.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -445,13 +445,13 @@ ok = Set({ "a" }):issubset(Set({ "a", "b" })) --> true
 
 <a id="fn-issuperset"></a>
 
-#### `issuperset(set)`
+#### `issuperset(t)`
 
 Return true if this set contains all elements of another set.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -540,17 +540,59 @@ Return a list of all values in the set.
 values = Set({ "a", "b" }):values() --> { "a", "b" }
 ```
 
+<a id="fn-tostring"></a>
+
+#### `tostring()`
+
+Render the set as a string.
+
+**Return**:
+
+- `renderedSet` (`string`): Rendered set string.
+
+**Example**:
+
+```lua
+s = Set({ "b", "a", 1 }):tostring() --> '{ 1, "a", "b" }'
+```
+
+<a id="fn-join"></a>
+
+#### `join(sep?, quoted?)`
+
+Join set values into a string.
+
+**Parameters**:
+
+- `sep?` (`string`): Optional separator value (defaults to `""`).
+- `quoted?` (`boolean`): Optional boolean flag (defaults to `false`).
+
+**Return**:
+
+- `joined` (`string`): Joined string.
+
+**Example**:
+
+```lua
+s = Set({ "b", "a" }):join(", ")       --> "a, b"
+s = Set({ "b", "a" }):join(", ", true) --> '"a", "b"'
+```
+
+> [!NOTE]
+>
+> Join order is not guaranteed.
+
 ### Metamethods
 
 <a id="fn-add"></a>
 
-#### `__add(set)`
+#### `__add(t)`
 
 Return the union of two sets using `+`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -570,13 +612,13 @@ u = a + b --> { a = true, b = true, c = true }
 
 <a id="fn-bor"></a>
 
-#### `__bor(set)`
+#### `__bor(t)`
 
 Return the union of two sets using `|`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -596,13 +638,13 @@ u = a | b --> { a = true, b = true, c = true }
 
 <a id="fn-band"></a>
 
-#### `__band(set)`
+#### `__band(t)`
 
 Return the intersection of two sets using `&`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -622,13 +664,13 @@ i = a & b --> { b = true }
 
 <a id="fn-bxor"></a>
 
-#### `__bxor(set)`
+#### `__bxor(t)`
 
 Return elements present in exactly one set using `^`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -648,13 +690,13 @@ d = a ^ b --> { a = true, c = true }
 
 <a id="fn-eq"></a>
 
-#### `__eq(set)`
+#### `__eq(t)`
 
 Return true if both sets contain exactly the same members using `==`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -672,13 +714,13 @@ ok = Set({ "a", "b" }) == Set({ "b", "a" }) --> true
 
 <a id="fn-le"></a>
 
-#### `__le(set)`
+#### `__le(t)`
 
 Return true if the left set is a subset of the right set using `<=`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `t` (`mods.Set|mods.List|table<any,true>`): Other set/list.
 
 **Return**:
 
@@ -704,7 +746,7 @@ Return true if the left set is a proper subset of the right set using `<`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `set` (`mods.Set|table<any,true>`): Other set.
 
 **Return**:
 
@@ -726,7 +768,7 @@ Return the difference of two sets using `-`.
 
 **Parameters**:
 
-- `set` (`mods.Set|table<any,true>`): Other set value.
+- `set` (`mods.Set|table<any,true>`): Other set.
 
 **Return**:
 
@@ -743,3 +785,19 @@ d = a - b --> { a = true }
 > [!NOTE]
 >
 > `__sub` is the operator form of `:difference(set)`.
+
+<a id="fn-tostring"></a>
+
+#### `__tostring()`
+
+Render the set via `tostring(set)`.
+
+**Return**:
+
+- `renderedSet` (`string`): Rendered set string.
+
+**Example**:
+
+```lua
+s = tostring(Set({ "b", "a", 1 })) --> '{ 1, "a", "b" }'
+```

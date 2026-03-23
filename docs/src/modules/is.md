@@ -67,6 +67,7 @@ is("hello", "STRING") --> true
 
 | Function                  | Description                                                  |
 | ------------------------- | ------------------------------------------------------------ |
+| [`path(v)`](#fn-path)     | Returns `true` when `v` is a valid filesystem path.          |
 | [`block(v)`](#fn-block)   | Returns `true` when `v` is a block device path.              |
 | [`char(v)`](#fn-char)     | Returns `true` when `v` is a character device path.          |
 | [`device(v)`](#fn-device) | Returns `true` when `v` is a block or character device path. |
@@ -368,7 +369,29 @@ Filesystem path type checks.
 >
 > Path checks require **LuaFileSystem**
 > ([`lfs`](https://github.com/lunarmodules/luafilesystem)) and raise an error if
-> it is not installed. <a id="fn-block"></a>
+> it is not installed. <a id="fn-path"></a>
+
+#### `path(v)`
+
+Returns `true` when `v` is a valid filesystem path.
+
+**Parameters**:
+
+- `v` (`any`): Value to validate.
+
+**Return**:
+
+- `isPath` (`boolean`): Whether the check succeeds.
+
+**Example**:
+
+```lua
+is.path("README.md")
+```
+
+> [!NOTE] Returns `true` for broken symlinks.
+
+<a id="fn-block"></a>
 
 #### `block(v)`
 

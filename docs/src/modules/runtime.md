@@ -1,10 +1,10 @@
 ---
-description: "Exposes Lua runtime metadata and version compatibility flags."
+description: "Lua runtime metadata and version compatibility flags."
 ---
 
 # `runtime`
 
-Exposes Lua runtime metadata and version compatibility flags.
+Lua runtime metadata and version compatibility flags.
 
 ## Usage
 

@@ -1,10 +1,10 @@
 ---
-description: "Lua keyword helpers."
+description: "Helpers for Lua keywords and identifiers."
 ---
 
 # `keyword`
 
-Lua keyword helpers.
+Helpers for Lua keywords and identifiers.
 
 ## Usage
 

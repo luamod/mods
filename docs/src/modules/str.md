@@ -1,10 +1,11 @@
 ---
-description: "String utility helpers modeled after Python's `str`."
+description:
+  "String operations for searching, splitting, trimming, and formatting text."
 ---
 
 # `str`
 
-String utility helpers modeled after Python's `str`.
+String operations for searching, splitting, trimming, and formatting text.
 
 ## Usage
 

@@ -1,10 +1,10 @@
 ---
-description: "Small shared utility helpers used by modules in this library."
+description: "Shared utility helpers used across the Mods library."
 ---
 
 # `utils`
 
-Small shared utility helpers used by modules in this library.
+Shared utility helpers used across the Mods library.
 
 ## Usage
 
@@ -15,6 +15,16 @@ print(utils.quote('hello "world"')) --> 'hello "world"'
 ```
 
 ## Functions
+
+| Function                                                             | Description                                                                                        |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [`quote(v)`](#fn-quote)                                              | Smart-quote a string for readable Lua-like output.                                                 |
+| [`keypath(...)`](#fn-keypath)                                        | Format a key chain as a Lua-like table access path.                                                |
+| [`args_repr(v)`](#fn-args-repr)                                      | Format a list-like table as a comma-separated argument string.                                     |
+| [`assert_arg(argn, v, validator?, optional?, msg?)`](#fn-assert-arg) | Assert argument value using [`mods.validate`](/modules/validate) and raise a Lua error on failure. |
+| [`validate(name, v, validator?, optional?, msg?)`](#fn-validate)     | Validate a value using [`mods.validate`](/modules/validate) and raise a Lua error on failure.      |
+| [`validate(path, v, validator?, optional?, msg?)`](#fn-validate)     | Validate a value using [`mods.validate`](/modules/validate) and raise a Lua error on failure.      |
+| [`lazy_module(name, err?)`](#fn-lazy-module)                         | Return a lazy proxy for a module.                                                                  |
 
 <a id="fn-quote"></a>
 
@@ -60,9 +70,33 @@ p3 = utils.keypath("ctx", "invalid-key")      --> 'ctx["invalid-key"]'
 p4 = utils.keypath()                          --> ""
 ```
 
+<a id="fn-args-repr"></a>
+
+### `args_repr(v)`
+
+Format a list-like table as a comma-separated argument string.
+
+**Parameters**:
+
+- `v` (`table|any`): Value to format.
+
+**Return**:
+
+- `out` (`string`): Argument list string.
+
+**Example**:
+
+```lua
+utils.args_repr({ "a", 1, true }) --> '"a", 1, true'
+```
+
+> [!NOTE]
+>
+> Requires [`inspect`](https://github.com/kikito/inspect.lua)
+
 <a id="fn-assert-arg"></a>
 
-### `assert_arg(argn, v, tp?, level?, msg?)`
+### `assert_arg(argn, v, validator?, optional?, msg?)`
 
 Assert argument value using [`mods.validate`](/modules/validate) and raise a Lua
 error on failure.
@@ -71,22 +105,23 @@ error on failure.
 
 - `argn` (`integer`): Argument index for error context.
 - `v` (`T`): Value to check.
-- `tp?` (`modsIsType`): Validator name (defaults to `"truthy"`).
-- `level?` (`integer`): Optional error level for `error(...)` (defaults to `2`).
+- `validator?` (`modsValidatorName`): Validator name (defaults to `"truthy"`).
+- `optional?` (`boolean`): Skip errors when `v` is `nil` (defaults to `false`).
 - `msg?` (`string`): Optional override template passed to
   [`mods.validate`](/modules/validate).
 
 **Return**:
 
-- `validatedValue` (`T`): Same input value on success.
+- `validatedValue` (`T`): Same input value on success, or `nil` when optional.
 
 **Example**:
 
 ```lua
 utils.assert_arg(1, "ok", "string") --> "ok"
+utils.assert_arg(2, nil, "string", true) --> nil
 utils.assert_arg(2, 123, "string")
 --> raises: bad argument #2 (expected string, got number)
-utils.assert_arg(3, "x", "number", 2, "need {{expected}}, got {{got}}")
+utils.assert_arg(3, "x", "number", false, "need {{expected}}, got {{got}}")
 --> raises: bad argument #3 (need number, got string)
 ```
 
@@ -94,3 +129,97 @@ utils.assert_arg(3, "x", "number", 2, "need {{expected}}, got {{got}}")
 >
 > When the caller function name is available, error text includes
 > `to '<function>'` (Lua-style bad argument context).
+
+<a id="fn-validate"></a>
+
+### `validate(name, v, validator?, optional?, msg?)`
+
+Validate a value using [`mods.validate`](/modules/validate) and raise a Lua
+error on failure.
+
+**Parameters**:
+
+- `name` (`string`): Name for the error prefix.
+- `v` (`any`): Value to validate.
+- `validator?` (`modsValidatorName`): Validator name (defaults to `"truthy"`).
+- `optional?` (`boolean`): Skip errors when `v` is `nil` (defaults to `false`).
+- `msg?` (`string`): Optional override template passed to
+  [`mods.validate`](/modules/validate).
+
+**Return**:
+
+- `none` (`nil`)
+
+**Example**:
+
+```lua
+utils.validate("path", "ok", "string")
+utils.validate("name", nil, "string", true)
+utils.validate("count", "x", "number")
+--> raises: count: expected number, got string
+```
+
+<a id="fn-validate"></a>
+
+### `validate(path, v, validator?, optional?, msg?)`
+
+Validate a value using [`mods.validate`](/modules/validate) and raise a Lua
+error on failure.
+
+**Parameters**:
+
+- `path` (`table`): Path parts for the error name.
+- `v` (`any`): Value to validate.
+- `validator?` (`modsValidatorName`): Validator name (defaults to `"truthy"`).
+- `optional?` (`boolean`): Skip errors when `v` is `nil` (defaults to `false`).
+- `msg?` (`string`): Optional override template passed to
+  [`mods.validate`](/modules/validate).
+
+**Return**:
+
+- `none` (`nil`)
+
+**Example**:
+
+```lua
+utils.validate({ "ctx", "users", 1, "name" }, nil, "string", true)
+utils.validate({ "ctx", "users", 1, "name" }, 123, "string")
+--> raises: ctx.users[1].name: expected string, got number
+```
+
+> [!NOTE]
+>
+> On failure, `path` is rendered with
+> [`mods.utils.keypath`](/modules/utils#fn-keypath).
+
+<a id="fn-lazy-module"></a>
+
+### `lazy_module(name, err?)`
+
+Return a lazy proxy for a module.
+
+The proxy rewrites its metamethods after first access while keeping the proxy
+table itself free of cached fields.
+
+**Parameters**:
+
+- `name` (`string`): Module name passed to `require`.
+- `err?` (`string`): Optional error message raised when loading fails.
+
+**Return**:
+
+- `module` (`{}`): Lazy proxy for the loaded module.
+
+**Example**:
+
+```lua
+local fs = utils.lazy_module("mods.fs")
+print(fs.exists("README.md"))
+
+local repr = utils.lazy_module("mods.repr")
+print(repr({ a = 1 }))
+```
+
+> [!NOTE]
+>
+> Supports both table-returning modules and function-returning modules.
