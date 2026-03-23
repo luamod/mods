@@ -1,13 +1,11 @@
 ---
 description:
-  "A list class providing common operations to create, modify, and query
-  sequences of values."
+  "A list class for creating, transforming, and querying sequences of values."
 ---
 
 # `List`
 
-A list class providing common operations to create, modify, and query sequences
-of values.
+A list class for creating, transforming, and querying sequences of values.
 
 ## Usage
 
@@ -31,8 +29,8 @@ print(ls:index("b"))    --> 2
 
 | Function                   | Description                                       |
 | -------------------------- | ------------------------------------------------- |
-| [`all(pred)`](#fn-all)     | Return true if all values match the predicate.    |
-| [`any(pred)`](#fn-any)     | Return true if any value matches the predicate.   |
+| [`all(pred)`](#fn-all)     | Return `true` if all values match the predicate.  |
+| [`any(pred)`](#fn-any)     | Return `true` if any value matches the predicate. |
 | [`equals(ls)`](#fn-equals) | Compare two lists using shallow element equality. |
 | [`lt(ls)`](#fn-lt)         | Compare two lists lexicographically.              |
 | [`le(ls)`](#fn-le)         | Compare two lists lexicographically.              |
@@ -43,7 +41,7 @@ print(ls:index("b"))    --> 2
 | ------------------------------ | -------------------------------------------------------------------- |
 | [`append()`](#fn-append)       | Append a value to the end of the list.                               |
 | [`clear()`](#fn-clear)         | Remove all elements from the list.                                   |
-| [`extend(ls)`](#fn-extend)     | Extend the list with another list.                                   |
+| [`extend(t)`](#fn-extend)      | Extend the list with another list or set.                            |
 | [`extract(pred)`](#fn-extract) | Extract values matching the predicate and remove them from the list. |
 | [`insert(pos, v)`](#fn-insert) | Insert a value at the given position.                                |
 | [`insert(v)`](#fn-insert)      | Append a value to the end of the list.                               |
@@ -63,11 +61,12 @@ print(ls:index("b"))    --> 2
 
 | Function                         | Description                                                 |
 | -------------------------------- | ----------------------------------------------------------- |
-| [`contains(v)`](#fn-contains)    | Return true if the list contains the value.                 |
+| [`contains(v)`](#fn-contains)    | Return `true` if the list contains the value.               |
 | [`count(v)`](#fn-count)          | Count how many times a value appears.                       |
 | [`index(v)`](#fn-index)          | Return the index of the first matching value.               |
 | [`index_if(pred)`](#fn-index-if) | Return the index of the first value matching the predicate. |
 | [`len()`](#fn-len)               | Return the number of elements in the list.                  |
+| [`isempty()`](#fn-isempty)       | Return whether the list has no elements.                    |
 
 **Access**:
 
@@ -78,29 +77,29 @@ print(ls:index("b"))    --> 2
 
 **Transform**:
 
-| Function                               | Description                                                          |
-| -------------------------------------- | -------------------------------------------------------------------- |
-| [`difference(ls)`](#fn-difference)     | Return a new list with values not in the given list.                 |
-| [`drop(n)`](#fn-drop)                  | Return a new list without the first n elements.                      |
-| [`filter(pred)`](#fn-filter)           | Return a new list with values matching the predicate.                |
-| [`flatten()`](#fn-flatten)             | Flatten one level of nested lists.                                   |
-| [`foreach(fn)`](#fn-foreach)           | Apply a function to each element (for side effects).                 |
-| [`group_by(fn)`](#fn-group-by)         | Group list values by a computed key.                                 |
-| [`intersection(ls)`](#fn-intersection) | Return values that are also present in the given list.               |
-| [`invert()`](#fn-invert)               | Invert values to indices in a new table.                             |
-| [`concat(sep?, i?, j?)`](#fn-concat)   | Concatenate list values using Lua's native `table.concat` behavior.  |
-| [`join(sep?, quoted?)`](#fn-join)      | Join list values into a string.                                      |
-| [`tostring()`](#fn-tostring)           | Render the list to a string via the regular method form.             |
-| [`keypath()`](#fn-keypath)             | Render list items as a table-access key path.                        |
-| [`map(fn)`](#fn-map)                   | Return a new list by mapping each value.                             |
-| [`mul(n)`](#fn-mul)                    | Return a new list repeated `n` times (list multiplication behavior). |
-| [`reduce(fn, init?)`](#fn-reduce)      | Reduce the list to a single value using an accumulator.              |
-| [`reverse()`](#fn-reverse)             | Return a new list with items reversed.                               |
-| [`toset()`](#fn-toset)                 | Convert the list to a set.                                           |
-| [`slice(i?, j?)`](#fn-slice)           | Return a new list containing items from i to j (inclusive).          |
-| [`take(n)`](#fn-take)                  | Return the first n elements as a new list.                           |
-| [`uniq()`](#fn-uniq)                   | Return a new list with duplicates removed (first occurrence kept).   |
-| [`zip(ls)`](#fn-zip)                   | Zip two lists into a list of 2-element tables.                       |
+| Function                              | Description                                                          |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| [`difference(t)`](#fn-difference)     | Return a new list with values not in the given list or set.          |
+| [`drop(n)`](#fn-drop)                 | Return a new list without the first n elements.                      |
+| [`filter(pred)`](#fn-filter)          | Return a new list with values matching the predicate.                |
+| [`flatten()`](#fn-flatten)            | Flatten one level of nested lists.                                   |
+| [`foreach(fn)`](#fn-foreach)          | Apply a function to each element (for side effects).                 |
+| [`group_by(fn)`](#fn-group-by)        | Group list values by a computed key.                                 |
+| [`intersection(t)`](#fn-intersection) | Return values that are also present in the given list or set.        |
+| [`invert()`](#fn-invert)              | Invert values to indices in a new table.                             |
+| [`concat(sep?, i?, j?)`](#fn-concat)  | Concatenate list values using Lua's native `table.concat` behavior.  |
+| [`join(sep?, quoted?)`](#fn-join)     | Join list values into a string.                                      |
+| [`tostring()`](#fn-tostring)          | Render the list to a string via the regular method form.             |
+| [`keypath()`](#fn-keypath)            | Render list items as a table-access key path.                        |
+| [`map(fn)`](#fn-map)                  | Return a new list by mapping each value.                             |
+| [`mul(n)`](#fn-mul)                   | Return a new list repeated `n` times (list multiplication behavior). |
+| [`reduce(fn, init?)`](#fn-reduce)     | Reduce the list to a single value using an accumulator.              |
+| [`reverse()`](#fn-reverse)            | Reverse the list in place.                                           |
+| [`toset()`](#fn-toset)                | Convert the list to a set.                                           |
+| [`slice(i?, j?)`](#fn-slice)          | Return a new list containing items from i to j (inclusive).          |
+| [`take(n)`](#fn-take)                 | Return the first n elements as a new list.                           |
+| [`uniq()`](#fn-uniq)                  | Return a new list with duplicates removed (first occurrence kept).   |
+| [`zip(t)`](#fn-zip)                   | Zip two collections into a list of 2-element tables.                 |
 
 **Metamethods**:
 
@@ -120,7 +119,7 @@ Boolean checks for list-wide conditions. <a id="fn-all"></a>
 
 #### `all(pred)`
 
-Return true if all values match the predicate.
+Return `true` if all values match the predicate.
 
 **Parameters**:
 
@@ -145,7 +144,7 @@ ok = List({ 2, 4 }):all(is_even) --> true
 
 #### `any(pred)`
 
-Return true if any value matches the predicate.
+Return `true` if any value matches the predicate.
 
 **Parameters**:
 
@@ -273,7 +272,7 @@ Append a value to the end of the list.
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
@@ -289,7 +288,7 @@ Remove all elements from the list.
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
@@ -299,22 +298,23 @@ ls = List({ "a", "b" }):clear() --> { }
 
 <a id="fn-extend"></a>
 
-#### `extend(ls)`
+#### `extend(t)`
 
-Extend the list with another list.
+Extend the list with another list or set.
 
 **Parameters**:
 
-- `ls` (`any[]`): List values.
+- `t` (`mods.List|mods.Set|any[]`): Values to append.
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
 ```lua
-ls = List({ "a" }):extend({ "b", "c" }) --> { "a", "b", "c" }
+ls = List({ "a" }):extend({ "b", "c" })      --> { "a", "b", "c" }
+ls = List({ "a" }):extend(Set({ "b", "c" })) --> { "a", "b", "c" }
 ```
 
 > [!NOTE]
@@ -356,7 +356,7 @@ Insert a value at the given position.
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
@@ -376,7 +376,7 @@ Append a value to the end of the list.
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
@@ -434,7 +434,7 @@ Insert a value at the start of the list.
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
@@ -455,7 +455,7 @@ Remove the first matching value.
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
@@ -472,18 +472,23 @@ Sort the list in place.
 
 **Parameters**:
 
-- `comp?` (`fun(a,b):boolean`): Optional comparison function (defaults to
-  `nil`).
+- `comp?` (`fun(a:any,`): b:any):boolean Optional comparison function (defaults
+  to `nil`).
 
 **Return**:
 
-- `self` (`T`): Current list instance.
+- `self` (`T`): Current list.
 
 **Example**:
 
 ```lua
 ls = List({ 3, 1, 2 })
 ls:sort() --> { 1, 2, 3 }
+
+words = List({ "ccc", "a", "bb" })
+words:sort(function(a, b)
+  return #a < #b
+end) --> { "a", "bb", "ccc" }
 ```
 
 ### Copying
@@ -510,7 +515,7 @@ Read-only queries for membership, counts, and indices. <a id="fn-contains"></a>
 
 #### `contains(v)`
 
-Return true if the list contains the value.
+Return `true` if the list contains the value.
 
 **Parameters**:
 
@@ -607,6 +612,22 @@ n = List({ "a", "b", "c" }):len() --> 3
 >
 > Uses Lua's `#` operator.
 
+<a id="fn-isempty"></a>
+
+#### `isempty()`
+
+Return whether the list has no elements.
+
+**Return**:
+
+- `empty` (`boolean`): `true` when the list has no elements.
+
+**Example**:
+
+```lua
+ok = List():isempty() --> true
+```
+
 ### Access
 
 Direct element access helpers. <a id="fn-first"></a>
@@ -646,13 +667,13 @@ v = List({ "a", "b" }):last() --> "b"
 Non-mutating transformations and derived-list operations.
 <a id="fn-difference"></a>
 
-#### `difference(ls)`
+#### `difference(t)`
 
-Return a new list with values not in the given list.
+Return a new list with values not in the given list or set.
 
 **Parameters**:
 
-- `ls` (`mods.List|any[]`): Other list value.
+- `t` (`mods.List|mods.Set|any[]`): Values to remove.
 
 **Return**:
 
@@ -770,13 +791,13 @@ g = List(words):group_by(string.len) --> { {"b"}, { "aa", "dd" }, { "ccc" } }
 
 <a id="fn-intersection"></a>
 
-#### `intersection(ls)`
+#### `intersection(t)`
 
-Return values that are also present in the given list.
+Return values that are also present in the given list or set.
 
 **Parameters**:
 
-- `ls` (`mods.List|any[]`): Other list value.
+- `t` (`mods.List|mods.Set|any[]`): Other list/set.
 
 **Return**:
 
@@ -801,7 +822,7 @@ Invert values to indices in a new table.
 
 **Return**:
 
-- `idxByValue` (`table`): Table mapping each value to its last index.
+- `idxByValue` (`table<V,K>`): Table mapping each value to its last index.
 
 **Example**:
 
@@ -879,10 +900,6 @@ Render the list to a string via the regular method form.
 s = List({ "a", "b", 1 }):tostring() --> '{ "a", "b", 1 }'
 ```
 
-> [!NOTE]
->
-> `tostring(list)` calls `list:tostring()`.
-
 <a id="fn-keypath"></a>
 
 #### `keypath()`
@@ -907,7 +924,7 @@ Return a new list by mapping each value.
 
 **Parameters**:
 
-- `fn` (`fun(v):any`): Callback function.
+- `fn` (`fun(value:T):any`): Callback function.
 
 **Return**:
 
@@ -976,11 +993,11 @@ sum = List({ 1, 2, 3 }):reduce(add, 10) --> 16
 
 #### `reverse()`
 
-Return a new list with items reversed.
+Reverse the list in place.
 
 **Return**:
 
-- `ls` (`mods.List`): New list.
+- `ls` (`mods.List`): Same list, reversed in place.
 
 **Example**:
 
@@ -1071,13 +1088,13 @@ u = List({ "a", "b", "a", "c" }):uniq() --> { "a", "b", "c" }
 
 <a id="fn-zip"></a>
 
-#### `zip(ls)`
+#### `zip(t)`
 
-Zip two lists into a list of 2-element tables.
+Zip two collections into a list of 2-element tables.
 
 **Parameters**:
 
-- `ls` (`mods.List|any[]`): Other list value.
+- `t` (`mods.List|mods.Set|any[]`): Values to pair with.
 
 **Return**:
 
@@ -1086,12 +1103,13 @@ Zip two lists into a list of 2-element tables.
 **Example**:
 
 ```lua
-z = List({ "a", "b" }):zip({ 1, 2 }) --> { {"a",1}, {"b",2} }
+z = List({ "a", "b" }):zip({ 1, 2 })      --> { {"a",1}, {"b",2} }
+z = List({ "a", "b" }):zip(Set({ 1, 2 })) --> { {"a",1}, {"b",2} }
 ```
 
 > [!NOTE]
 >
-> Length is the minimum of both lists.
+> Length is the minimum of both tables' lengths.
 
 ### Metamethods
 
@@ -1230,7 +1248,7 @@ left-hand list reference (`+`).
 
 **Return**:
 
-- `self` (`mods.List|any[]`): Current list instance.
+- `self` (`mods.List|any[]`): Current list.
 
 **Example**:
 
@@ -1285,7 +1303,3 @@ Render the list to a string like `{ "a", "b", 1 }`.
 ```lua
 s = tostring(List({ "a", "b", 1 })) --> '{ "a", "b", 1 }'
 ```
-
-> [!NOTE]
->
-> `tostring(ls)` is equivalent to `:tostring()`.

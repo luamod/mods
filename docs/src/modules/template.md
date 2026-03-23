@@ -1,10 +1,10 @@
 ---
-description: "Interpolate string placeholders of the form <code v-pre>{{."
+description: "String template rendering with <code v-pre>{{."
 ---
 
 # `template`
 
-Interpolate string placeholders of the form <code v-pre>{{...}}</code>.
+String template rendering with <code v-pre>{{...}}</code> placeholders.
 
 ## Usage
 

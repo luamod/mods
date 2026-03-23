@@ -1,10 +1,10 @@
 ---
-description: "Operator helpers as functions."
+description: "Lua operators exposed as functions."
 ---
 
 # `operator`
 
-Operator helpers as functions.
+Lua operators exposed as functions.
 
 ## Usage
 
