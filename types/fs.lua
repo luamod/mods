@@ -38,6 +38,20 @@ function M.read_bytes(path) end
 ---@nodiscard
 function M.read_text(path) end
 
+---
+---Return direct children of a directory.
+---
+---```lua
+---fs.listdir("src")
+---```
+---
+---@param path string Input path.
+---@param opts? {hidden?:boolean, recursive?:boolean, follow_links?:boolean, type?:string} Optional traversal options.
+---@return mods.List<string>? paths Direct child paths.
+---@return string? err Error message when traversal setup fails.
+---@nodiscard
+function M.listdir(path, opts) end
+
 --------------------------------------------------------------------------------
 ----------------------------------- Writing ------------------------------------
 --------------------------------------------------------------------------------

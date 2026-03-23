@@ -1,18 +1,20 @@
 local mods = require "mods"
 
+local List = mods.List
 local is = mods.is
 local path = mods.path
 local utils = mods.utils
 local lfs = mods.utils.lazy_module("lfs") ---@module "lfs"
 
-local islink = is.link
 local parents = path.parents
 local normpath = path.normpath
 local is_relative_to = path.is_relative_to
 local basename = path.basename
 local join = path.join
 local assert_arg = utils.assert_arg
+local validate = utils.validate
 local isdir = is.dir
+local islink = is.link
 
 local open = io.open
 local remove = os.remove
@@ -188,6 +190,21 @@ local function copy_tree(src, dst)
   end
 
   return true
+end
+
+local function normalize_dir_opts(fname, opts)
+  opts = opts or {}
+  validate(fname .. ".opts.hidden", opts.hidden, "boolean", true)
+  validate(fname .. ".opts.recursive", opts.recursive, "boolean", true)
+  validate(fname .. ".opts.follow_links", opts.follow_links, "boolean", true)
+  validate(fname .. ".opts.type", opts.type, "string", true)
+
+  return {
+    follow_links = opts.follow_links == true,
+    hidden = opts.hidden ~= false,
+    recursive = opts.recursive == true,
+    type = opts.type,
+  }
 end
 
 function M.getsize(p)
@@ -369,6 +386,24 @@ function M.cp(src, dst)
   end
 
   return true
+end
+
+function M.listdir(p, opts)
+  assert_arg(1, p, "string")
+  assert_arg(2, opts, "table", true)
+  opts = normalize_dir_opts("listdir", opts)
+
+  local items = {}
+  local ok, err = collect_dir_items(p, opts, items, true)
+  if not ok then
+    return nil, err
+  end
+
+  local out = List()
+  for i = 1, #items do
+    out[#out + 1] = items[i][1]
+  end
+  return out
 end
 
 M.rename = rename

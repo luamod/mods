@@ -209,6 +209,198 @@ describe("mods.fs", function()
     end
   end)
 
+  describe("listdir()", function()
+    it("returns an empty list for an empty directory", function()
+      local root = make_tmp_dir()
+      assert.is_true(fs.listdir(root):isempty())
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("lists direct children by default", function()
+      local root = make_tmp_dir()
+      local subdir = join(root, "sub")
+      local hidden_dir = join(root, ".hidden")
+      local target = join(root, "data.txt")
+      local hidden_target = join(root, ".secret")
+      local nested = join(subdir, "nested.txt")
+      local hidden_nested = join(hidden_dir, "nested.txt")
+
+      assert.is_true(fs.mkdir(subdir))
+      assert.is_true(fs.mkdir(hidden_dir))
+      assert.is_true(fs.write_text(target, "abc"))
+      assert.is_true(fs.write_text(hidden_target, "zzz"))
+      assert.is_true(fs.write_text(nested, "xyz"))
+      assert.is_true(fs.write_text(hidden_nested, "qqq"))
+
+      assert.same({ hidden_dir, hidden_target, target, subdir }, fs.listdir(root):sort())
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("supports recursive listing", function()
+      local root = make_tmp_dir()
+      local subdir = join(root, "sub")
+      local hidden_dir = join(root, ".hidden")
+      local target = join(root, "data.txt")
+      local hidden_target = join(root, ".secret")
+      local nested = join(subdir, "nested.txt")
+      local hidden_nested = join(hidden_dir, "nested.txt")
+
+      assert.is_true(fs.mkdir(subdir))
+      assert.is_true(fs.mkdir(hidden_dir))
+      assert.is_true(fs.write_text(target, "abc"))
+      assert.is_true(fs.write_text(hidden_target, "zzz"))
+      assert.is_true(fs.write_text(nested, "xyz"))
+      assert.is_true(fs.write_text(hidden_nested, "qqq"))
+
+      assert.same(
+        { hidden_dir, hidden_nested, hidden_target, target, subdir, nested },
+        fs.listdir(root, { recursive = true }):sort()
+      )
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("supports hidden filtering", function()
+      local root = make_tmp_dir()
+      local subdir = join(root, "sub")
+      local hidden_dir = join(root, ".hidden")
+      local target = join(root, "data.txt")
+      local hidden_target = join(root, ".secret")
+      local nested = join(subdir, "nested.txt")
+      local hidden_nested = join(hidden_dir, "nested.txt")
+
+      assert.is_true(fs.mkdir(subdir))
+      assert.is_true(fs.mkdir(hidden_dir))
+      assert.is_true(fs.write_text(target, "abc"))
+      assert.is_true(fs.write_text(hidden_target, "zzz"))
+      assert.is_true(fs.write_text(nested, "xyz"))
+      assert.is_true(fs.write_text(hidden_nested, "qqq"))
+
+      assert.same({ target, subdir }, fs.listdir(root, { hidden = false }):sort())
+      assert.same({ target, subdir, nested }, fs.listdir(root, { hidden = false, recursive = true }):sort())
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("supports file type filtering", function()
+      local root = make_tmp_dir()
+      local subdir = join(root, "sub")
+      local hidden_dir = join(root, ".hidden")
+      local target = join(root, "data.txt")
+      local hidden_target = join(root, ".secret")
+      local nested = join(subdir, "nested.txt")
+      local hidden_nested = join(hidden_dir, "nested.txt")
+
+      assert.is_true(fs.mkdir(subdir))
+      assert.is_true(fs.mkdir(hidden_dir))
+      assert.is_true(fs.write_text(target, "abc"))
+      assert.is_true(fs.write_text(hidden_target, "zzz"))
+      assert.is_true(fs.write_text(nested, "xyz"))
+      assert.is_true(fs.write_text(hidden_nested, "qqq"))
+
+      assert.same({ hidden_target, target }, fs.listdir(root, { type = "file" }):sort())
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("supports directory type filtering", function()
+      local root = make_tmp_dir()
+      local subdir = join(root, "sub")
+      local hidden_dir = join(root, ".hidden")
+      local target = join(root, "data.txt")
+      local hidden_target = join(root, ".secret")
+      local nested = join(subdir, "nested.txt")
+      local hidden_nested = join(hidden_dir, "nested.txt")
+
+      assert.is_true(fs.mkdir(subdir))
+      assert.is_true(fs.mkdir(hidden_dir))
+      assert.is_true(fs.write_text(target, "abc"))
+      assert.is_true(fs.write_text(hidden_target, "zzz"))
+      assert.is_true(fs.write_text(nested, "xyz"))
+      assert.is_true(fs.write_text(hidden_nested, "qqq"))
+
+      assert.same({ hidden_dir, subdir }, fs.listdir(root, { type = "directory" }):sort())
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails for a non-directory path", function()
+      local root = make_tmp_dir()
+      local target = join(root, "data.txt")
+
+      assert.is_true(fs.write_text(target, "abc"))
+
+      local items, errmsg = fs.listdir(target)
+      assert.is_nil(items)
+      assert.is_string(errmsg)
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails for a missing path", function()
+      local root = make_tmp_dir()
+      local missing = join(root, "missing")
+
+      local items, errmsg = fs.listdir(missing)
+      assert.is_nil(items)
+      assert.is_string(errmsg)
+
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    if is_unix then
+      it("follows symlinked directories when requested", function()
+        local root = make_tmp_dir()
+        local target_dir = join(root, "target")
+        local nested = join(target_dir, "nested.txt")
+        local link_dir = join(root, "linked")
+
+        assert.is_true(fs.mkdir(target_dir, true))
+        assert.is_true(fs.write_text(nested, "abc"))
+
+        local ok = lfs.link(target_dir, link_dir, true)
+        if not ok then
+          assert.is_true(fs.rm(root, true))
+          return
+        end
+
+        assert.same({ target_dir }, fs.listdir(root, { type = "directory" }):sort())
+        assert.same({ link_dir }, fs.listdir(root, { type = "link" }):sort())
+        assert.same(
+          { link_dir, join(link_dir, "nested.txt"), target_dir, nested },
+          fs.listdir(root, {
+            recursive = true,
+            follow_links = true,
+          }):sort()
+        )
+
+        assert.is_true(fs.rm(root, true))
+      end)
+
+      it("includes broken symlinks and does not traverse them", function()
+        local root = make_tmp_dir()
+        local target = join(root, "missing")
+        local link = join(root, "broken")
+
+        assert.is_true(lfs.link(target, link, true))
+
+        assert.same({ link }, fs.listdir(root))
+        assert.same({ link }, fs.listdir(root, { recursive = true }))
+        assert.same({ link }, fs.listdir(root, { type = "link" }))
+
+        assert.is_true(fs.rm(root, true))
+      end)
+    end
+
+    it("labels option validation errors with the function name", function()
+      assert.has_error(function()
+        ---@diagnostic disable-next-line: assign-type-mismatch
+        _ = fs.listdir(cwd, { recursive = "yes" })
+      end, "listdir.opts.recursive: boolean expected, got string")
+    end)
+  end)
+
   describe("mkdir()", function()
     it("creates a directory without parent mode", function()
       local root = make_tmp_dir()
@@ -669,6 +861,7 @@ describe("mods.fs", function()
     assert.has_error(function() fs.getmtime()      end, "bad argument #1 to 'getmtime' (string expected, got no value)")
     assert.has_error(function() fs.getsize()       end, "bad argument #1 to 'getsize' (string expected, got no value)")
     assert.has_error(function() fs.lexists({})     end, "bad argument #1 to 'lexists' (string expected, got table)")
+    assert.has_error(function() fs.listdir(false)  end, "bad argument #1 to 'listdir' (string expected, got boolean)")
     assert.has_error(function() fs.mkdir()         end, "bad argument #1 to 'mkdir' (string expected, got no value)")
     assert.has_error(function() fs.read_bytes({})  end, "bad argument #1 to 'read_bytes' (string expected, got table)")
     assert.has_error(function() fs.read_text({})   end, "bad argument #1 to 'read_text' (string expected, got table)")
@@ -679,10 +872,23 @@ describe("mods.fs", function()
 
     -- Argument #2 validation.
     assert.has_error(function() fs.cp("a")                      end, "bad argument #2 to 'cp' (string expected, got no value)")
+    assert.has_error(function() fs.listdir("src", false)        end, "bad argument #2 to 'listdir' (table expected, got boolean)")
     assert.has_error(function() fs.mkdir("tmp", 1)              end, "bad argument #2 to 'mkdir' (boolean expected, got number)")
     assert.has_error(function() fs.rm("tmp", 1)                 end, "bad argument #2 to 'rm' (boolean expected, got number)")
     assert.has_error(function() fs.samefile(readme_file, 123)   end, "bad argument #2 to 'samefile' (string expected, got number)")
     assert.has_error(function() fs.write_bytes(readme_file, {}) end, "bad argument #2 to 'write_bytes' (string expected, got table)")
     assert.has_error(function() fs.write_text(readme_file)      end, "bad argument #2 to 'write_text' (string expected, got no value)")
+
+    -- Option validation.
+
+    local hidden   = { hidden = 1 }
+    local rec      = { recursive = 1 }
+    local follow   = { follow_links = 1 }
+    local tp       = { type = 1 }
+
+    assert.has_error(function() fs.listdir("src", follow) end, "listdir.opts.follow_links: boolean expected, got number")
+    assert.has_error(function() fs.listdir("src", hidden) end, "listdir.opts.hidden: boolean expected, got number")
+    assert.has_error(function() fs.listdir("src", rec)    end, "listdir.opts.recursive: boolean expected, got number")
+    assert.has_error(function() fs.listdir("src", tp)     end, "listdir.opts.type: string expected, got number")
   end)
 end)
