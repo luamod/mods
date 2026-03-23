@@ -251,7 +251,9 @@ Rename or move a filesystem entry.
 fs.rename("old.txt", "new.txt")
 ```
 
-> [!NOTE] This is an alias for `os.rename`.
+> [!NOTE]
+>
+> This is an alias for `os.rename`.
 
 <a id="fn-rm"></a>
 
@@ -508,7 +510,9 @@ Return `true` when a path exists.
 fs.exists("README.md") --> true
 ```
 
-> [!NOTE] Broken symlinks return `false`.
+> [!NOTE]
+>
+> Broken symlinks return `false`.
 
 <a id="fn-lexists"></a>
 
@@ -530,4 +534,6 @@ Return `true` when a path exists without following symlinks.
 fs.lexists("README.md") --> true
 ```
 
-> [!NOTE] Broken symlinks return `true`.
+> [!NOTE]
+>
+> Broken symlinks return `true`.
