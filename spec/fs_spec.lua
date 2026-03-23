@@ -431,8 +431,7 @@ describe("mods.fs", function()
         ls:append(name .. ":" .. tp)
       end
 
-      ls:sort()
-      assert.same({ "data.txt:file", "sub:directory" }, ls)
+      assert.same({ "data.txt:file", "sub:directory" }, ls:sort())
       assert.is_true(fs.rm(root, true))
     end)
 
@@ -456,8 +455,7 @@ describe("mods.fs", function()
         ls:append(name .. ":" .. tp)
       end
 
-      ls:sort()
-      assert.same({ "data.txt:file", "nested.txt:file", "sub:directory" }, ls)
+      assert.same({ "data.txt:file", "nested.txt:file", "sub:directory" }, ls:sort())
       assert.is_true(fs.rm(root, true))
     end)
 
@@ -478,8 +476,7 @@ describe("mods.fs", function()
         files:append(name .. ":" .. tp)
       end
 
-      files:sort()
-      assert.same({ "data.txt:file", "nested.txt:file" }, files)
+      assert.same({ "data.txt:file", "nested.txt:file" }, files:sort())
       assert.is_true(fs.rm(root, true))
     end)
 
@@ -500,8 +497,7 @@ describe("mods.fs", function()
         dirs:append(name .. ":" .. tp)
       end
 
-      dirs:sort()
-      assert.same({ "deep:directory", "sub:directory" }, dirs)
+      assert.same({ "deep:directory", "sub:directory" }, dirs:sort())
       assert.is_true(fs.rm(root, true))
     end)
 
@@ -581,7 +577,6 @@ describe("mods.fs", function()
           return false
         end
 
-        ls:sort()
         assert.is_true(#ls >= 3)
         assert.is_true(contains(ls, "linked:link"))
         assert.is_true(contains(ls, "nested.txt:file"))
