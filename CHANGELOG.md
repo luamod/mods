@@ -6,6 +6,62 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0](https://github.com/luamod/mods/compare/v0.5.0...v0.6.0) (2026-03-23)
+
+
+### Features
+
+* **fs:** add cp helper ([048fe8d](https://github.com/luamod/mods/commit/048fe8dabccbfa8e4429ab1e87ccfd5d99542731))
+* **fs:** add dir ([e6e070b](https://github.com/luamod/mods/commit/e6e070b03be2dd1df9d1ba641a832c522fd2d306))
+* **fs:** add exists and lexists ([afd2775](https://github.com/luamod/mods/commit/afd27751e0284041c6884eab4429ada2d9803572))
+* **fs:** add listdir ([2d053bc](https://github.com/luamod/mods/commit/2d053bcc731e2e9955a95057bf04888eba52d027))
+* **fs:** add metadata helpers and samefile ([26bb07f](https://github.com/luamod/mods/commit/26bb07fdb713fe7f6df97d29823757a9255574fc))
+* **fs:** add mkdir support ([a88b827](https://github.com/luamod/mods/commit/a88b827187980bc81a1e196be1200ad78317071f))
+* **fs:** add read_bytes and read_text ([3a661ae](https://github.com/luamod/mods/commit/3a661aef288b2d479b112c7e1a527681e37effae))
+* **fs:** add recursive rm ([2611310](https://github.com/luamod/mods/commit/2611310885e722248cda9e2e0e453c66926ecd92))
+* **fs:** add touch ([0e064f1](https://github.com/luamod/mods/commit/0e064f18ae4e6bad20c339f252bba5ebaab8fe3a))
+* **fs:** add write helpers and rename ([f3b04d5](https://github.com/luamod/mods/commit/f3b04d5fb1e8070f64976fb62677c31fb2a9f706))
+* **is:** add path predicate ([a9412ac](https://github.com/luamod/mods/commit/a9412ac038e8354f66dcd69731ca962535680073))
+* **List:** add isempty method ([efb3509](https://github.com/luamod/mods/commit/efb3509307ae52575044fa4835b1073430f2b555))
+* **list:** support Set inputs ([c23c58d](https://github.com/luamod/mods/commit/c23c58dbfaf736cea93cfae13a491be804c0f65f))
+* **path:** add as_uri ([e088435](https://github.com/luamod/mods/commit/e08843585f7a196c59b909de19e21dafa047e42b))
+* **path:** add commonprefix ([434c787](https://github.com/luamod/mods/commit/434c787c5d7ca8598f346414004b1e92dabdfb4c))
+* **path:** add cwd ([bfbbdc4](https://github.com/luamod/mods/commit/bfbbdc479497059c4f201da543830cb3720090ec))
+* **path:** add expandvars ([c537b77](https://github.com/luamod/mods/commit/c537b77e2a756b78293d1fe78a477367805488de))
+* **path:** add from_uri ([6307699](https://github.com/luamod/mods/commit/6307699b98076a6b01d3d719d46eb128473b1cc6))
+* **path:** add pathlib-style helpers and tests ([1f8c8aa](https://github.com/luamod/mods/commit/1f8c8aae6ba91b60eb8ecd9461ad08bfef748ecc))
+* **Set:** accept List in set operations ([938922d](https://github.com/luamod/mods/commit/938922dff63d1fd39e3dae91abbc20de817a0655))
+* **Set:** add join/tostring methods ([5ba94d4](https://github.com/luamod/mods/commit/5ba94d442801452a197e38d9691e124028912f4e))
+* **tbl:** add foreach ([338885a](https://github.com/luamod/mods/commit/338885a61529fef607331b7a32a5b2c31c64ea29))
+* **tbl:** add spairs ([d71a560](https://github.com/luamod/mods/commit/d71a560ff7e6f49ea47f6f1414253d71144a797c))
+* **utils:** add lazy_module helper ([34fff2e](https://github.com/luamod/mods/commit/34fff2e7c078c50f1cc7ddcbec24507a03646f26))
+* **utils:** add list_args ([237cba0](https://github.com/luamod/mods/commit/237cba0e1f4af532f473381138ef1fcf0fe42982))
+* **utils:** add validate ([d5a4fb9](https://github.com/luamod/mods/commit/d5a4fb9133eb13ff48f9baccd16a003ff73bb1a9))
+* **utils:** allow table labels in validate ([62a9c20](https://github.com/luamod/mods/commit/62a9c20693cce5b93cbfbdda596f2a51241f2501))
+* **utils:** lazy-load lfs on first access ([ee5a52e](https://github.com/luamod/mods/commit/ee5a52eba7c9bd835b30a50b3435049cc5f1d497))
+* **utils:** support callable lazy modules ([2566673](https://github.com/luamod/mods/commit/2566673155d62e784ed629ece8a7c056c129129a))
+* **utils:** support function lazy modules ([e390768](https://github.com/luamod/mods/commit/e3907681fd4d3320d11ad1b3728693408062a828))
+* **validate:** add path validator ([26dc408](https://github.com/luamod/mods/commit/26dc40887ee1ff26637241298035c6669914f6cc))
+* **validate:** validate template message ([16c29ca](https://github.com/luamod/mods/commit/16c29ca8a5a43996d2b826e588c799a253994bcc))
+
+
+### Bug Fixes
+
+* **docs:** override esbuild to patched version ([64fa37f](https://github.com/luamod/mods/commit/64fa37ff815f1af3df4f270988f4f3aeead3277e))
+* **List:** detect mods.Set metatable ([c53d656](https://github.com/luamod/mods/commit/c53d656c1214cffe6aae92fde44ae50593f2994b))
+* **path:** avoid shadowed str ([ca170e9](https://github.com/luamod/mods/commit/ca170e910ba160b0a98d4adb583e3f818bd0dcf1))
+* **path:** handle cwd errors in abspath ([15bcfd1](https://github.com/luamod/mods/commit/15bcfd13d8181d14ddfccb2d6aee8039bc2e4287))
+* **path:** return nil errors for relpath/commonpath ([d6d4307](https://github.com/luamod/mods/commit/d6d4307c9675d8d6b545d4cc847272a2de4f3ee0))
+* **Set:** accept plain tables as set arguments ([b9fe381](https://github.com/luamod/mods/commit/b9fe381ad096fdb7e2b073d130c3b1adaf946d84))
+* **tbl:** stop spairs at end ([016620b](https://github.com/luamod/mods/commit/016620b197a8b5df112632ea3974446ebcb07904))
+* **utils:** ignore unknown caller names ([50a18ff](https://github.com/luamod/mods/commit/50a18ffd9026417ec97a98f05f78a1819eef0c4a))
+* **validate:** align error wording with Lua ([20f5ae6](https://github.com/luamod/mods/commit/20f5ae63037d2b0d94913345106185bd027964f8))
+
+
+### Performance Improvements
+
+* **utils:** cache debug.getinfo ([2d10488](https://github.com/luamod/mods/commit/2d10488666c4732fa6e41ac4d5b8036a82828aad))
+
 ## [0.5.0](https://github.com/luamod/mods/compare/v0.4.0...v0.5.0) (2026-03-08)
 
 
