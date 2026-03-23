@@ -281,13 +281,13 @@ function M.stat(path) end
 ---fs.samefile("README.md", "README.md") --> true
 ---```
 ---
----@param path_a string Input path.
----@param path_b string Input path.
+---@param a string Input path.
+---@param b string Input path.
 ---@return boolean? isSameFile True when both paths refer to the same file.
 ---@return string? errmsg Error message when the check fails.
 ---@return integer? errcode OS error code when available.
 ---@nodiscard
-function M.samefile(path_a, path_b) end
+function M.samefile(a, b) end
 
 --------------------------------------------------------------------------------
 ------------------------------- Existence Checks -------------------------------
