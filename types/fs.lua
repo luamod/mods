@@ -3,6 +3,16 @@
 ---
 ---Filesystem, environment, and cwd-dependent path operations.
 ---
+---## Usage
+---
+---```lua
+---fs = require "mods.fs"
+---
+---fs.mkdir("tmp/cache/app", true)
+---fs.write_text("tmp/cache/app/data.txt", "hello")
+---print(fs.read_text("tmp/cache/app/data.txt")) --> "hello"
+---```
+---
 ---@class mods.fs
 local M = {}
 
@@ -37,6 +47,21 @@ function M.read_bytes(path) end
 ---@return integer? errcode OS error code when available.
 ---@nodiscard
 function M.read_text(path) end
+
+---
+---Iterator over items in `path`.
+---
+---```lua
+---for name, type in fs.dir(path.cwd(), { recursive = true }) do
+---  print(name, type)
+---end
+---```
+---
+---@param path string Input path.
+---@param opts? {hidden?:boolean, recursive?:boolean, follow_links?:boolean, type?:string} Optional traversal options.
+---@return (fun(state:table, prev?:string):basename:string?, type:"file"|"directory"|"link"|"fifo"|"socket"|"char"|"block"|"unknown"?)? iterator Iterator, or `nil` on failure.
+---@return table|string state Iterator state on success, or error message on failure.
+function M.dir(path, opts) end
 
 ---
 ---Return direct children of a directory.

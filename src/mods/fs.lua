@@ -207,6 +207,15 @@ local function normalize_dir_opts(fname, opts)
   }
 end
 
+local function dir_items_iter(state)
+  local item = state.items[state.index]
+  if item == nil then
+    return nil
+  end
+  state.index = state.index + 1
+  return item[1], item[2]
+end
+
 function M.getsize(p)
   assert_arg(1, p, "string")
   return get_attr(p, "size")
@@ -404,6 +413,19 @@ function M.listdir(p, opts)
     out[#out + 1] = items[i][1]
   end
   return out
+end
+
+function M.dir(p, opts)
+  assert_arg(1, p, "string")
+  assert_arg(2, opts, "table", true)
+  opts = normalize_dir_opts("dir", opts)
+
+  local items = {}
+  local ok, err = collect_dir_items(p, opts, items, false)
+  if not ok then
+    return nil, err
+  end
+  return dir_items_iter, { index = 1, items = items }
 end
 
 M.rename = rename
