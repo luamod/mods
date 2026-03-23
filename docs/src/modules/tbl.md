@@ -364,7 +364,7 @@ Return a new table by mapping each key-value pair.
 **Parameters**:
 
 - `t` (`table<K,V>`): Input table.
-- `fn` (`fun(key:K,`): value:V):T Key-value mapping function.
+- `fn` (`fun(key:K, value:V):T`): Key-value mapping function.
 
 **Return**:
 
@@ -435,7 +435,7 @@ Call a function for each value in the table.
 **Parameters**:
 
 - `t` (`table<K,V>`): Input table.
-- `fn` (`fun(value:V,`): key:K) Function invoked for each entry.
+- `fn` (`fun(value:V, key:K)`): Function invoked for each entry.
 
 **Return**:
 
@@ -461,7 +461,7 @@ Iterate key-value pairs in sorted key order.
 
 **Return**:
 
-- `table<K,` (`fun(table:`): V>, index?: K):(K, V) iterator Sorted pairs
+- `iterator` (`fun(table: table<K, V>, index?: K):(K, V)`): Sorted pairs
   iterator.
 - **value** (`T`)
 
