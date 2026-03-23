@@ -121,7 +121,7 @@ local function collect_dir_items(root, opts, items, fullpath)
 
   local stat = lfs.attributes
   local lstat = lfs.symlinkattributes
-  local follow = opts.follow_links
+  local follow = opts.follow
   local hidden = opts.hidden
   local recursive = opts.recursive
   local type_filter = opts.type
@@ -197,11 +197,11 @@ local function normalize_dir_opts(fname, opts)
   opts = opts or {}
   validate(fname .. ".opts.hidden", opts.hidden, "boolean", true)
   validate(fname .. ".opts.recursive", opts.recursive, "boolean", true)
-  validate(fname .. ".opts.follow_links", opts.follow_links, "boolean", true)
+  validate(fname .. ".opts.follow", opts.follow, "boolean", true)
   validate(fname .. ".opts.type", opts.type, "string", true)
 
   return {
-    follow_links = opts.follow_links == true,
+    follow = opts.follow == true,
     hidden = opts.hidden ~= false,
     recursive = opts.recursive == true,
     type = opts.type,

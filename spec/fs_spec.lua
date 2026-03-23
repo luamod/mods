@@ -372,7 +372,7 @@ describe("mods.fs", function()
           { link_dir, join(link_dir, "nested.txt"), target_dir, nested },
           fs.listdir(root, {
             recursive = true,
-            follow_links = true,
+            follow = true,
           }):sort()
         )
 
@@ -563,7 +563,7 @@ describe("mods.fs", function()
           return
         end
 
-        local opts = { recursive = true, follow_links = true }
+        local opts = { recursive = true, follow = true }
         for name, tp in fs.dir(root, opts) do
           ls:append(name .. ":" .. tp)
         end
@@ -1061,7 +1061,9 @@ describe("mods.fs", function()
   -- stylua: ignore
   ---@diagnostic disable: param-type-mismatch, discard-returns, missing-parameter, assign-type-mismatch
   it("errors on invalid argument types", function()
+
     -- Argument #1 validation.
+
     assert.has_error(function() fs.cp(false)       end, "bad argument #1 to 'cp' (string expected, got boolean)")
     assert.has_error(function() fs.dir(false)      end, "bad argument #1 to 'dir' (string expected, got boolean)")
     assert.has_error(function() fs.exists(true)    end, "bad argument #1 to 'exists' (string expected, got boolean)")
@@ -1080,6 +1082,7 @@ describe("mods.fs", function()
     assert.has_error(function() fs.write_text({})  end, "bad argument #1 to 'write_text' (string expected, got table)")
 
     -- Argument #2 validation.
+
     assert.has_error(function() fs.cp("a")                      end, "bad argument #2 to 'cp' (string expected, got no value)")
     assert.has_error(function() fs.dir("src", false)            end, "bad argument #2 to 'dir' (table expected, got boolean)")
     assert.has_error(function() fs.listdir("src", false)        end, "bad argument #2 to 'listdir' (table expected, got boolean)")
@@ -1093,14 +1096,14 @@ describe("mods.fs", function()
 
     local hidden = { hidden = 1 }
     local rec    = { recursive = 1 }
-    local follow = { follow_links = 1 }
+    local follow = { follow = 1 }
     local tp     = { type = 1 }
 
-    assert.has_error(function() fs.dir("src", follow)     end, "dir.opts.follow_links: boolean expected, got number")
+    assert.has_error(function() fs.dir("src", follow)     end, "dir.opts.follow: boolean expected, got number")
     assert.has_error(function() fs.dir("src", hidden)     end, "dir.opts.hidden: boolean expected, got number")
     assert.has_error(function() fs.dir("src", rec)        end, "dir.opts.recursive: boolean expected, got number")
     assert.has_error(function() fs.dir("src", tp)         end, "dir.opts.type: string expected, got number")
-    assert.has_error(function() fs.listdir("src", follow) end, "listdir.opts.follow_links: boolean expected, got number")
+    assert.has_error(function() fs.listdir("src", follow) end, "listdir.opts.follow: boolean expected, got number")
     assert.has_error(function() fs.listdir("src", hidden) end, "listdir.opts.hidden: boolean expected, got number")
     assert.has_error(function() fs.listdir("src", rec)    end, "listdir.opts.recursive: boolean expected, got number")
     assert.has_error(function() fs.listdir("src", tp)     end, "listdir.opts.type: string expected, got number")

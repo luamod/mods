@@ -1,6 +1,6 @@
 ---@meta mods.fs
 
----@alias modsDirOptions {hidden?:boolean, recursive?:boolean, follow_links?:boolean, type?:string}
+---@alias modsDirOptions {hidden?:boolean, recursive?:boolean, follow?:boolean, type?:string}
 
 ---
 ---Filesystem I/O, metadata, and filesystem path operations.
