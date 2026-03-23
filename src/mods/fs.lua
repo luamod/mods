@@ -156,7 +156,8 @@ local function copy_tree(src, dst)
     return nil, "cannot copy a directory into itself or its descendant"
   end
 
-  local ok, errmsg, errcode = M.mkdir(dst, true)
+  local ok, errmsg, errcode
+  ok, errmsg, errcode = M.mkdir(dst, true)
   if not ok then
     return nil, errmsg, errcode
   end
@@ -171,8 +172,8 @@ local function copy_tree(src, dst)
     local child, type_ = items[i][1], items[i][2]
     local target = join(dst, basename(child))
     if type_ == "directory" then
-      local copied, errmsg, errcode = copy_tree(child, target)
-      if not copied then
+      ok, errmsg, errcode = copy_tree(child, target)
+      if not ok then
         return nil, errmsg, errcode
       end
     else
