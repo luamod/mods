@@ -435,7 +435,7 @@ M.rename = rename
 
 return setmetatable(M, {
   __index = function(t, k)
-    local v = ({ cd = lfs.chdir, stat = lfs.attributes, lstat = lfs.symlinkattributes })[k]
+    local v = ({ cwd = lfs.currentdir, cd = lfs.chdir, stat = lfs.attributes, lstat = lfs.symlinkattributes })[k]
     t[k] = v
     return v
   end,

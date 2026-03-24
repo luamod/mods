@@ -5,6 +5,10 @@
 ---
 ---Filesystem I/O, metadata, and filesystem path operations.
 ---
+---> [!NOTE]
+--->
+---> This module requires [LuaFileSystem (`lfs`)](https://github.com/lunarmodules/luafilesystem).
+---
 ---## Usage
 ---
 ---```lua
@@ -150,6 +154,18 @@ function M.link(path, linkpath) end
 ---@return string? errmsg Error message when the check fails.
 ---@return integer? errcode OS error code when available.
 function M.symlink(path, linkpath) end
+
+---
+---Return the current working directory.
+---
+---```lua
+---fs.cwd()
+---```
+---
+---@return string? cwd Current working directory, or `nil` on failure.
+---@return string? errmsg Error message when the lookup fails.
+---@return integer? errcode OS error code when available.
+function M.cwd() end
 
 ---
 ---Change the current working directory.

@@ -107,6 +107,26 @@ describe("mods.fs", function()
     end)
   end)
 
+  describe("cwd()", function()
+    it("exposes an lfs.currentdir alias", function()
+      assert.are_equal(lfs.currentdir, fs.cwd)
+    end)
+
+    it("returns the current working directory", function()
+      assert.are_equal(cwd, fs.cwd())
+    end)
+
+    it("fails when the current directory no longer exists", function()
+      local root = make_tmp_dir()
+      assert.is_true(fs.cd(root))
+      assert.is_true(fs.rm(root, true))
+
+      local dir, errmsg, errcode = fs.cwd()
+      assert.is_true(fs.cd(cwd))
+      assert.are_same({ "nil", "string", "number" }, { type(dir), type(errmsg), type(errcode) })
+    end)
+  end)
+
   describe("write_bytes()", function()
     it("writes file contents", function()
       local target = tmpname()
