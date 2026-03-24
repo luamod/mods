@@ -104,6 +104,10 @@ local function escape_lua_char(c)
   return (gsub(c, "([%^%$%(%)%%%.%[%]%+%-%*%?])", "%%%1"))
 end
 
+local function fold_case(s, ignorecase)
+  return ignorecase and lower(s) or s
+end
+
 -- Translate one bracket class like `[a-z]` or `[!0-9]` into a Lua pattern class.
 local function translate_class(part, i)
   local j = i + 1
@@ -319,10 +323,15 @@ local function match_parts(path_parts, pattern_parts, path_i, pattern_i, cache)
   end
 end
 
-function M.match(p, pattern)
+function M.match(p, pattern, ignorecase)
   assert_arg(1, p, "string")
   assert_arg(2, pattern, "string")
-  return match_parts(split_parts(p), split_parts(pattern), 1, 1, new_match_cache())
+  assert_arg(3, ignorecase, "boolean", true)
+
+  local ignorecase_ = ignorecase == nil and is_windows or ignorecase
+  local folded_path = fold_case(p, ignorecase_)
+  local folded_pattern = fold_case(pattern, ignorecase_)
+  return match_parts(split_parts(folded_path), split_parts(folded_pattern), 1, 1, new_match_cache())
 end
 
 function M.translate(pattern)
@@ -350,10 +359,6 @@ end
 function M.escape(s)
   assert_arg(1, s, "string")
   return (gsub(s, "([%*%?%[%]{}!,\\])", "\\%1"))
-end
-
-local function fold_case(s, ignorecase)
-  return ignorecase and lower(s) or s
 end
 
 local function prepare_glob(name, root, pattern, opts)

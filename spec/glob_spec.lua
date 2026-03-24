@@ -102,12 +102,21 @@ describe("mods.glob", function()
       { false, { [[foo\bar.txt]], [[foo\*.txt]]       }},
       { false, { "a\\b"         , "a\\\\b"            }},
       { false, { "a\\b"         , glob.escape("a\\b") }},
+      { true , { "FOO"          , "foo"               }},
+      { true , { "foo/BAR"      , "foo/[a-z][a-z][a-z]" }},
+      { true , { "DATA.TXT"     , "*.txt"             }},
+      { true , { "DATA.TXT"     , "*.txt"     , true  }},
+      { false, { "DATA.TXT"     , "*.txt"     , false }},
 
       "posix",
       { false, { [[foo\bar.txt]], "foo/*.txt"         }},
       { true , { [[foo\bar.txt]], [[foo\\bar.txt]]    }},
       { true , { "a\\b"         , "a\\\\b"            }},
       { true , { "a\\b"         , glob.escape("a\\b") }},
+      { false, { "FOO"          , "foo"               }},
+      { false, { "foo/BAR"      , "foo/[a-z][a-z][a-z]" }},
+      { false, { "DATA.TXT"     , "*.txt"             }},
+      { true , { "DATA.TXT"     , "*.txt"     , true  }},
 
       "common",
       -- literal strings
@@ -118,7 +127,6 @@ describe("mods.glob", function()
       { false, { "/tmp/example.txt"    , "/tmp/other.txt"       }},
       { false, { "alpha/beta/gamma.txt", "alpha/beta/delta.txt" }},
       { false, { "foo"                 , "bar"                  }},
-      { false, { "FOO"                 , "foo"                  }},
       { false, { "foo/bar"             , "foo/baz"              }},
 
       -- wildcard: *
@@ -182,7 +190,6 @@ describe("mods.glob", function()
       { false, { "aa.txt" , "a[0-9].txt"          }},
       { false, { "ad.txt" , "a[bc].txt"           }},
       { false, { "f_"     , "f[0-9A-Z]"           }},
-      { false, { "foo/BAR", "foo/[a-z][a-z][a-z]" }},
       { false, { "fz"     , "f[A-Y]"              }},
 
       -- wildcard: [!]
@@ -541,6 +548,7 @@ describe("mods.glob", function()
 
     assert.has_error(function() glob.glob("a", "*.txt", false)  end, "bad argument #3 to 'glob' (table expected, got boolean)")
     assert.has_error(function() glob.iglob("a", "*.txt", false) end, "bad argument #3 to 'iglob' (table expected, got boolean)")
+    assert.has_error(function() glob.match("a", "*.txt", 1)     end, "bad argument #3 to 'match' (boolean expected, got number)")
 
     -- Option validation.
 

@@ -11,6 +11,7 @@
 ---glob = require "mods.glob"
 ---
 ---print(glob.match("src/mods/fs.lua", "**/*.lua")) --> true
+---print(glob.match("DATA.TXT", "*.txt", true))     --> true
 ---print(glob.glob("src", "*.lua")[1])
 ---```
 ---
@@ -64,9 +65,10 @@ local M = {}
 ---
 ---@param path string Input path.
 ---@param pattern string Input glob pattern.
+---@param ignorecase? boolean Override platform-default case matching.
 ---@return boolean matches True when the path matches the pattern.
 ---@nodiscard
-function M.match(path, pattern) end
+function M.match(path, pattern, ignorecase) end
 
 ---
 ---Translate one glob segment into an equivalent Lua pattern.
