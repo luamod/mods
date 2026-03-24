@@ -8,6 +8,7 @@ local template ---@module "mods.template"
 ---
 ---@class mods
 ---@field fs mods.fs
+---@field glob mods.glob
 ---@field is mods.is
 ---@field keyword mods.keyword
 ---@field List mods.List

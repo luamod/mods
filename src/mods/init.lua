@@ -2,6 +2,7 @@ local mods = {}
 
 local module_names = {
   "fs",
+  "glob",
   "is",
   "keyword",
   "List",

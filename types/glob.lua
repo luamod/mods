@@ -1,0 +1,153 @@
+---@meta mods.glob
+
+---@alias modsGlobOptions {hidden?:boolean, recursive?:boolean, follow?:boolean, ignorecase?:boolean}
+
+---
+---Glob-style matching and filesystem expansion helpers.
+---
+---## Usage
+---
+---```lua
+---glob = require "mods.glob"
+---
+---print(glob.match("src/mods/fs.lua", "**/*.lua")) --> true
+---print(glob.glob("src", "*.lua")[1])
+---```
+---
+---## Supported wildcards:
+---
+---* `*`: match zero or more characters within one path segment.
+---  ```lua
+---  match("main.lua", "*.lua")
+---  ```
+---
+---* `?`: match exactly one character within one path segment.
+---  ```lua
+---  match("a1.lua", "a?.lua")
+---  ```
+---
+---* `[]`: match one character from a bracket class like `[a-z]`.
+---  ```lua
+---  match("file7.lua", "file[0-9].lua")
+---  ```
+---
+---* `[!]`: negate a bracket class, like `[!0-9]`.
+---  ```lua
+---  match("filex.lua", "file[!0-9].lua")
+---  ```
+---
+---* `{a,b}`: match one of several brace alternatives.
+---  ```lua
+---  match("init.lua", "init.{lua,luac}")
+---  ```
+---
+---* `**`: match across path segments recursively.
+---  ```lua
+---  match("src/mods/fs.lua", "**/*.lua")
+---  ```
+---
+---@class mods.glob
+local M = {}
+
+---
+---Match a path against a glob pattern.
+---
+---```lua
+---glob.match("src/mods/fs.lua", "**/*.lua") --> true
+---```
+---
+---@param path string Input path.
+---@param pattern string Input glob pattern.
+---@return boolean matches True when the path matches the pattern.
+---@nodiscard
+function M.match(path, pattern) end
+
+---
+---Translate one glob segment into an equivalent Lua pattern.
+---
+---```lua
+---local s = "init.lua"
+---local pattern = "*.lua"
+---local matches = glob.match(s, pattern)
+---local translated_matches = s:match(glob.translate(pattern)) ~= nil
+---print(matches == translated_matches) --> true
+---```
+---
+---> [!NOTE]
+--->
+---> * `*` and `?` stay within a single path segment.
+--->   ```lua
+--->   local pattern = "*.txt"
+--->   print(glob.translate(pattern))            --> "^[^/]*%.txt$"
+--->   print(glob.match("foo/bar.txt", pattern)) --> false
+--->   ```
+--->
+---> * `**` and `{a,b}` need higher-level matching logic.
+--->   ```lua
+--->   pattern = "src/{x,y}.lua"
+--->   print(("src/x.lua"):match(glob.translate(pattern))) --> nil
+--->   print(glob.match("src/x.lua", pattern))             --> true
+--->   ```
+---
+---@param pattern string Input glob segment.
+---@return string lua_pattern Lua pattern string.
+---@nodiscard
+function M.translate(pattern) end
+
+---Return whether a pattern contains glob metacharacters.
+---
+---```lua
+---glob.has_magic("foo.txt") --> false
+---glob.has_magic("*.txt")   --> true
+---```
+---
+---@param s string Input string.
+---@return boolean has_magic True when the string contains glob syntax.
+---@nodiscard
+function M.has_magic(s) end
+
+---
+---Escape glob metacharacters in a literal string.
+---
+---```lua
+---glob.escape("a*b") --> "a\\*b"
+---```
+---
+---@param s string Input literal string.
+---@return string pattern Escaped glob pattern.
+---@nodiscard
+function M.escape(s) end
+
+---
+---Return glob matches under `path`.
+---
+---```lua
+---glob.glob("src", "*.lua")
+---glob.glob("src", "*.lua", { recursive = true })
+---```
+---
+---@param path string Input path.
+---@param pattern? string Optional pattern to match.
+---@param opts? modsGlobOptions Optional glob options.
+---@return mods.List<string> paths Matching paths under `path`.
+---@nodiscard
+function M.glob(path, pattern, opts) end
+
+---
+---Iterator over glob matches under `path`.
+---
+---```lua
+---for path in glob.iglob("src", "*.lua") do
+---  print(path)
+---end
+---```
+---
+---@param path string Input path.
+---@param pattern? string Optional pattern to match.
+---@param opts? modsGlobOptions Optional glob options.
+---@return (fun(state:table, prev?:string): (path:string?)) iterator Iterator function.
+---@return table state Iterator state table.
+---@return nil initial Initial iterator value.
+function M.iglob(path, pattern, opts) end
+
+return M
