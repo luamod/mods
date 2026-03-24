@@ -12,7 +12,6 @@ local List = mods.List
 local runtime = mods.runtime
 local str = mods.str
 local utils = mods.utils
-local lfs = mods.utils.lazy_module("lfs") ---@module 'lfs'
 
 local is_win = runtime.is_windows
 local assert_arg = utils.assert_arg
@@ -144,11 +143,6 @@ function M._splitext(p, sep, altsep, extsep)
   end
 
   return p, ""
-end
-
-function M.cwd()
-  M.cwd = lfs.currentdir
-  return M.cwd()
 end
 
 function M.anchor(p)
@@ -415,4 +409,12 @@ if _TEST then
   getenv = function(name) return os.getenv(name) end
 end
 
-return M
+return setmetatable(M, {
+  __index = function(t, k)
+    if k == "cwd" then
+      local cwd = mods.fs.cwd
+      t[k] = cwd
+      return cwd
+    end
+  end,
+})

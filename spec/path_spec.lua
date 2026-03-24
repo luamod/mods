@@ -7,9 +7,9 @@
 ]]
 
 local helpers = require "spec.helpers"
-local lfs = require "lfs"
 local mods = require "mods"
 
+local fs = mods.fs
 local Set = mods.Set
 local ntpath = mods.ntpath
 local path = mods.path
@@ -656,8 +656,8 @@ describe("mods.path", function()
     end
   end
 
-  it("cwd()", function()
-    assert.are_equal(lfs.currentdir(), path.cwd())
+  it("cwd() delegates to fs.cwd()", function()
+    assert.are_equal(fs.cwd, path.cwd)
   end)
 
   it("expandvars()", function()
