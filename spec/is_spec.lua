@@ -1,15 +1,16 @@
 local helpers = require "spec.helpers"
-local lfs = require "lfs"
 local mods = require "mods"
 
+local fs = mods.fs
 local is = mods.is
 local path = mods.path
 
-local is_unix = not mods.runtime.is_windows
 local fmt = string.format
+local make_tmp_dir = helpers.make_tmp_dir
 local tmpname = helpers.tmpname
 
 describe("mods.is", function()
+  local is_unix = not mods.runtime.is_windows
   local fn = function() end
   local co = coroutine.create(fn)
   local ct = setmetatable({}, { __call = fn })
@@ -73,50 +74,38 @@ describe("mods.is", function()
   end
 
   it("link detects symlink paths when supported", function()
-    local root = tmpname()
-    assert.is_true(lfs.mkdir(root))
+    local root = make_tmp_dir()
 
     local target = path.join(root, "target.txt")
     local link = path.join(root, "link.txt")
-    local f = assert(io.open(target, "w"))
-    f:close()
+    assert.is_true(fs.touch(target))
 
-    local ok = lfs.link(target, link, true)
+    local ok = fs.symlink(target, link)
     if ok then
       assert.is_true(is.link(link))
-      os.remove(link)
     end
 
-    os.remove(target)
-    lfs.rmdir(root)
+    assert.is_true(fs.rm(root, true))
   end)
 
   if is_unix then
     it("path() returns true for a symlink to an existing file", function()
-      local root = tmpname()
-      assert.is_true(lfs.mkdir(root))
+      local root = make_tmp_dir()
 
       local target = path.join(root, "target.txt")
       local link = path.join(root, "link.txt")
-      local f = assert(io.open(target, "w"))
-      f:close()
-
-      assert.is_true(lfs.link(target, link, true))
+      assert.is_true(fs.touch(target))
+      assert.is_true(fs.symlink(target, link))
       assert.is_true(is.path(link))
-
-      os.remove(link)
-      os.remove(target)
-      lfs.rmdir(root)
+      assert.is_true(fs.rm(root, true))
     end)
 
     it("path() returns true for a broken symlink", function()
       local target = tmpname()
       local link = tmpname()
-
-      assert.is_true(lfs.link(target, link, true))
+      assert.is_true(fs.symlink(target, link))
       assert.is_true(is.path(link))
-
-      os.remove(link)
+      assert.is_true(fs.rm(link))
     end)
   end
 end)
