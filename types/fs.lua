@@ -152,6 +152,18 @@ function M.link(path, linkpath) end
 function M.symlink(path, linkpath) end
 
 ---
+---Change the current working directory.
+---
+---```lua
+---fs.cd("src")
+---```
+---
+---@param path string Directory path to switch into.
+---@return true? changed `true` when the directory change succeeds, or `nil` on failure.
+---@return string? errmsg Error message when the change fails.
+function M.cd(path) end
+
+---
 ---Rename or move a filesystem entry.
 ---
 ---```lua

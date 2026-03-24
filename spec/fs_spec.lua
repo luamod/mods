@@ -84,6 +84,28 @@ describe("mods.fs", function()
     end)
   end)
 
+  describe("cd()", function()
+    it("changes the current working directory", function()
+      local root = make_tmp_dir()
+
+      assert.is_true(fs.cd(root))
+      assert.are_equal(root, path.cwd())
+      assert.is_true(fs.cd(cwd))
+      assert.is_true(fs.rm(root, true))
+    end)
+
+    it("fails with an error for a missing path", function()
+      local root = make_tmp_dir()
+      local missing = join(root, "missing")
+      local ok, errmsg = fs.cd(missing)
+
+      assert.is_nil(ok)
+      assert.is_string(errmsg)
+      assert.are_equal(cwd, path.cwd())
+      assert.is_true(fs.rm(root, true))
+    end)
+  end)
+
   describe("write_bytes()", function()
     it("writes file contents", function()
       local target = tmpname()
@@ -1115,6 +1137,7 @@ describe("mods.fs", function()
 
     -- Argument #1 validation.
 
+    assert.has_error(function() fs.cd(false)       end, "bad argument #1 to 'cd' (string expected, got boolean)")
     assert.has_error(function() fs.cp(false)       end, "bad argument #1 to 'cp' (string expected, got boolean)")
     assert.has_error(function() fs.dir(false)      end, "bad argument #1 to 'dir' (string expected, got boolean)")
     assert.has_error(function() fs.exists(true)    end, "bad argument #1 to 'exists' (string expected, got boolean)")

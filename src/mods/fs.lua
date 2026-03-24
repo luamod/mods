@@ -285,6 +285,11 @@ function M.symlink(p, linkpath)
   return lfs.link(p, linkpath, true)
 end
 
+function M.cd(p)
+  M.cd = lfs.chdir
+  return M.cd(p)
+end
+
 function M.stat(p)
   M.stat = lfs.attributes
   return M.stat(p)
