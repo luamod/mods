@@ -1126,7 +1126,7 @@ describe("mods.fs", function()
   end)
 
   -- stylua: ignore
-  ---@diagnostic disable: param-type-mismatch, discard-returns, missing-parameter, assign-type-mismatch
+  ---@diagnostic disable: param-type-mismatch, discard-returns, missing-parameter
   it("errors on invalid argument types", function()
 
     -- Argument #1 validation.
