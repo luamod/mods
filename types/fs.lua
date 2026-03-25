@@ -57,6 +57,13 @@ function M.read_text(path) end
 ---
 ---Iterator over items in `path`.
 ---
+---**Options**:
+---
+---* `recursive`: recurse into subdirectories; defaults to `false`.
+---* `hidden`: include hidden entries; defaults to `true`.
+---* `follow`: recurse into symlinked directories; defaults to `false`.
+---* `type`: filter by entry type, such as `"file"` or `"directory"`; defaults to `nil`.
+---
 ---```lua
 ---for name, type in fs.dir(path.cwd(), { recursive = true }) do
 ---  print(name, type)
