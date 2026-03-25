@@ -453,6 +453,26 @@ describe("mods.glob", function()
     end)
   end)
 
+  describe("filter()", function()
+    it("returns matching values from a list", function()
+      local names = { "a.lua", "b.txt", "c.lua" }
+      assert.same({ "a.lua", "c.lua" }, glob.filter(names, "*.lua"))
+    end)
+
+    it("supports ignorecase", function()
+      local names = { "A.LUA", "b.txt", "c.lua" }
+      assert.same({ "A.LUA", "c.lua" }, glob.filter(names, "*.lua", true))
+      assert.same({ "c.lua" }, glob.filter(names, "*.lua", false))
+    end)
+
+    it("defaults ignorecase to true under windows semantics", function()
+      local names = { "A.LUA", "b.txt", "c.lua" }
+      set_windows_semantics()
+      assert.same({ "A.LUA", "c.lua" }, glob.filter(names, "*.lua"))
+      restore_semantics()
+    end)
+  end)
+
   describe("iglob()", function()
     it("iterates over the same matches as glob()", function()
       local root, target, nested = make_recursive_txt_fixture()
@@ -532,6 +552,7 @@ describe("mods.glob", function()
     -- Argument #1 validation.
 
     assert.has_error(function() glob.escape()     end, "bad argument #1 to 'escape' (string expected, got no value)")
+    assert.has_error(function() glob.filter()     end, "bad argument #1 to 'filter' (table expected, got no value)")
     assert.has_error(function() glob.glob(false)  end, "bad argument #1 to 'glob' (string expected, got boolean)")
     assert.has_error(function() glob.has_magic()  end, "bad argument #1 to 'has_magic' (string expected, got no value)")
     assert.has_error(function() glob.iglob(false) end, "bad argument #1 to 'iglob' (string expected, got boolean)")
@@ -540,12 +561,14 @@ describe("mods.glob", function()
 
     -- Argument #2 validation.
 
+    assert.has_error(function() glob.filter({}, false) end, "bad argument #2 to 'filter' (string expected, got boolean)")
     assert.has_error(function() glob.glob("a", false)  end, "bad argument #2 to 'glob' (string expected, got boolean)")
     assert.has_error(function() glob.iglob("a", false) end, "bad argument #2 to 'iglob' (string expected, got boolean)")
     assert.has_error(function() glob.match("a", false) end, "bad argument #2 to 'match' (string expected, got boolean)")
 
     -- Argument #3 validation.
 
+    assert.has_error(function() glob.filter({}, "*.txt", 1)     end, "bad argument #3 to 'filter' (boolean expected, got number)")
     assert.has_error(function() glob.glob("a", "*.txt", false)  end, "bad argument #3 to 'glob' (table expected, got boolean)")
     assert.has_error(function() glob.iglob("a", "*.txt", false) end, "bad argument #3 to 'iglob' (table expected, got boolean)")
     assert.has_error(function() glob.match("a", "*.txt", 1)     end, "bad argument #3 to 'match' (boolean expected, got number)")

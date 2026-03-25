@@ -12,6 +12,7 @@
 ---
 ---print(glob.match("src/mods/fs.lua", "**/*.lua")) --> true
 ---print(glob.match("DATA.TXT", "*.txt", true))     --> true
+---print(glob.filter({ "a.lua", "b.txt" }, "*.lua")[1]) --> "a.lua"
 ---print(glob.glob("src", "*.lua")[1])
 ---```
 ---
@@ -127,6 +128,20 @@ function M.has_magic(s) end
 ---@return string pattern Escaped glob pattern.
 ---@nodiscard
 function M.escape(s) end
+
+---
+---Return the values from `names` that match the glob pattern.
+---
+---```lua
+---glob.filter({ "a.lua", "b.txt", "c.lua" }, "*.lua") --> { "a.lua", "c.lua" }
+---```
+---
+---@param names string[] Input names.
+---@param pattern string Input glob pattern.
+---@param ignorecase? boolean Override platform-default case matching.
+---@return mods.List<string> matches Matching values from `names`.
+---@nodiscard
+function M.filter(names, pattern, ignorecase) end
 
 ---
 ---Return glob matches under `path`.

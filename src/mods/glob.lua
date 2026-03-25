@@ -429,6 +429,21 @@ local function iglob_iter(state)
   end
 end
 
+function M.filter(names, pattern, ignorecase)
+  assert_arg(1, names, "table")
+  assert_arg(2, pattern, "string")
+  assert_arg(3, ignorecase, "boolean", true)
+
+  local matches = List()
+  for i = 1, #names do
+    local name = names[i]
+    if M.match(name, pattern, ignorecase) then
+      matches[#matches + 1] = name
+    end
+  end
+  return matches
+end
+
 function M.iglob(p, pattern, opts)
   assert_arg(1, p, "string")
   assert_arg(2, pattern, "string", true)
