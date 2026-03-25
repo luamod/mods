@@ -513,23 +513,6 @@ function M.as_posix(path) end
 function M.as_uri(path) end
 
 ---
----Match a path against a glob-style pattern using only `*` and `?` wildcards.
----
----```lua
----path.match("a/b.lua", "*.lua")       --> true
----path.match("A.lua", "a.LUA", false)  --> true
----path.match("notes.txt", "n?tes.*")   --> true
----path.match("a/b/c.lua", "a/*/c.lua") --> true
----```
----
----@param path string Input path.
----@param pattern string Pattern to match.
----@param case_sensitive? boolean Override platform-default case matching.
----@return boolean matchesPattern True when the path matches.
----@nodiscard
-function M.match(path, pattern, case_sensitive) end
-
----
 ---Convert a `file://` URI to a local absolute path.
 ---
 ---```lua

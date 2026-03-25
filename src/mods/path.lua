@@ -25,7 +25,6 @@ local format = string.format
 local getenv = os.getenv
 local gmatch = string.gmatch
 local gsub = string.gsub
-local lower = string.lower
 local match = string.match
 local sub = string.sub
 
@@ -68,12 +67,8 @@ local function parse_path(p)
   return drive, root, tail
 end
 
-local function ignore_case(case_sensitive)
-  return case_sensitive == false or (case_sensitive == nil and is_win)
-end
-
 local function parts_equal(a, b, case_sensitive)
-  if ignore_case(case_sensitive) then
+  if case_sensitive == false or (case_sensitive == nil and is_win) then
     return M.normcase(a) == M.normcase(b)
   end
   return a == b
@@ -106,15 +101,6 @@ local function relative_parts(p, other)
     out[#out + 1] = tail[i]
   end
   return out
-end
-
-local function match_part(name, pattern, case_sensitive)
-  if ignore_case(case_sensitive) then
-    name = lower(name)
-    pattern = lower(pattern)
-  end
-  local s = gsub(pattern, "([%^%$%(%)%%%.%[%]%+%-])", "%%%1"):gsub("%*", ".*"):gsub("%?", ".")
-  return match(name, "^" .. s .. "$") ~= nil
 end
 
 local function expandvars(getenv_fn, s, pattern, prefix, suffix)
@@ -241,37 +227,6 @@ function M.is_relative_to(p, other)
   assert_arg(1, p, "string")
   assert_arg(2, other, "string")
   return relative_parts(p, other) ~= nil
-end
-
-function M.match(p, pattern, case_sensitive)
-  assert_arg(1, p, "string")
-  assert_arg(2, pattern, "string")
-
-  local path_drive, path_root, path_tail = parse_path(p)
-  local pattern_drive, pattern_root, pattern_tail = parse_path(pattern)
-  local path_anchor = path_drive .. path_root
-  local pattern_anchor = pattern_drive .. pattern_root
-
-  if pattern_anchor == "" and #pattern_tail == 0 then
-    return false
-  end
-  if #path_tail < #pattern_tail then
-    return false
-  end
-  if
-    pattern_anchor ~= "" and (not match_part(path_anchor, pattern_anchor, case_sensitive) or #path_tail > #pattern_tail)
-  then
-    return false
-  end
-
-  local offset = #path_tail - #pattern_tail
-  for i = 1, #pattern_tail do
-    if not match_part(path_tail[offset + i], pattern_tail[i], case_sensitive) then
-      return false
-    end
-  end
-
-  return true
 end
 
 function M.parts(p)
