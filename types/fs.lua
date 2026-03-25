@@ -1,6 +1,7 @@
 ---@meta mods.fs
 
----@alias modsDirOptions {hidden?:boolean, recursive?:boolean, follow?:boolean, type?:string}
+---@alias modsFsEntryType "file"|"directory"|"link"|"fifo"|"socket"|"char"|"block"|"unknown"
+---@alias modsDirOptions {hidden?:boolean, recursive?:boolean, follow?:boolean, type?:modsFsEntryType}
 
 ---
 ---Filesystem I/O, metadata, and filesystem path operations.
@@ -65,7 +66,7 @@ function M.read_text(path) end
 ---
 ---@param path string Input path.
 ---@param opts? modsDirOptions Optional traversal options.
----@return (fun(state:table, prev?:string):basename:string?, type:"file"|"directory"|"link"|"fifo"|"socket"|"char"|"block"|"unknown"?)? iterator Iterator, or `nil` on failure.
+---@return (fun(state:table, prev?:string):basename:string?, type:modsFsEntryType?)? iterator Iterator, or `nil` on failure.
 ---@return table|string state Iterator state on success, or error message on failure.
 function M.dir(path, opts) end
 
