@@ -12,6 +12,7 @@ local template ---@module "mods.template"
 ---@field is mods.is
 ---@field keyword mods.keyword
 ---@field List mods.List
+---@field log mods.log
 ---@field ntpath mods.ntpath
 ---@field operator mods.operator
 ---@field path mods.path

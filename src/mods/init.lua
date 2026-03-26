@@ -6,6 +6,7 @@ local module_names = {
   "is",
   "keyword",
   "List",
+  "log",
   "ntpath",
   "operator",
   "path",

@@ -14,8 +14,8 @@ description = {
   license = "MIT",
   detailed = [[
 Mods provides small, focused Lua modules:
-fs, glob, is, keyword, List, ntpath, operator, path, posixpath, repr, runtime,
-Set, str, stringcase, tbl, template, and validate.
+fs, glob, is, keyword, List, log, ntpath, operator, path, posixpath, repr,
+runtime, Set, str, stringcase, tbl, template, and validate.
 ]],
 }
 
@@ -32,6 +32,7 @@ build = {
     ["mods.is"] = "src/mods/is.lua",
     ["mods.keyword"] = "src/mods/keyword.lua",
     ["mods.List"] = "src/mods/List.lua",
+    ["mods.log"] = "src/mods/log.lua",
     ["mods.ntpath"] = "src/mods/ntpath.lua",
     ["mods.operator"] = "src/mods/operator.lua",
     ["mods.path"] = "src/mods/path.lua",
