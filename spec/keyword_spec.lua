@@ -6,7 +6,7 @@ local runtime = require "mods.runtime"
 local fmt = string.format
 
 describe("mods.keyword", function()
-  local ver = runtime.version_num
+  local ver = runtime.version
   -- stylua: ignore
   local keywords = List({
     "and"   , "break" , "do"  , "else"    , "elseif",

@@ -4,7 +4,7 @@ local List = mods.List
 local Set = mods.Set
 local runtime = mods.runtime
 
-local ver = runtime.version_num
+local ver = runtime.version
 
 local gsub = string.gsub
 local match = string.match

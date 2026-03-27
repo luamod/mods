@@ -8,20 +8,19 @@
 ---```lua
 ---runtime = require "mods.runtime"
 ---
----print(runtime.version)     --> "Lua 5.x"
----print(runtime.version_num) --> 501 | 502 | 503 | 504 | 505
+---print(runtime.version)  --> 501 | 502 | 503 | 504 | 505
 ---print(runtime.is_lua55)    --> true | false
 ---```
 ---
 ---@class mods.runtime
 ---
----Version string reported by the runtime.
+---Numeric version encoded as `major * 100 + minor`.
 ---
 ---```lua
----print(runtime.version) --> "Lua 5.x"
+---print(runtime.version) --> 501 | 502 | 503 | 504 | 505
 ---```
 ---
----@field version "Lua 5.1"|"Lua 5.2"|"Lua 5.3"|"Lua 5.4"|"Lua 5.5"
+---@field version 501|502|503|504|505
 ---
 ---Major version number parsed from `version`.
 ---
@@ -38,14 +37,6 @@
 ---```
 ---
 ---@field minor 1|2|3|4|5
----
----Numeric version encoded as `major * 100 + minor`.
----
----```lua
----print(runtime.version_num) --> 501 | 502 | 503 | 504 | 505
----```
----
----@field version_num 501|502|503|504|505
 ---
 ---True when running under LuaJIT.
 ---

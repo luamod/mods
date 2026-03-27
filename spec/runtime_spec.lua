@@ -2,11 +2,15 @@ local runtime = require "mods.runtime"
 local version = _VERSION
 
 describe("mods.runtime", function()
+  local version_nums = {}
+  for minor = 1, 5 do
+    version_nums["Lua 5." .. minor] = 500 + minor
+  end
+
   it("exposes version metadata", function()
-    assert.are_equal(version, runtime.version)
+    assert.are_equal(version_nums[version], runtime.version)
     assert.is_number(runtime.major)
     assert.is_number(runtime.minor)
-    assert.is_number(runtime.version_num)
     assert.is_boolean(runtime.is_lua51)
     assert.is_boolean(runtime.is_lua52)
     assert.is_boolean(runtime.is_lua53)
@@ -17,13 +21,11 @@ describe("mods.runtime", function()
   end)
 
   it("flags Lua versions consistently", function()
-    local version_flags = {
-      is_lua51 = version == "Lua 5.1",
-      is_lua52 = version == "Lua 5.2",
-      is_lua53 = version == "Lua 5.3",
-      is_lua54 = version == "Lua 5.4",
-      is_lua55 = version == "Lua 5.5",
-    }
+    local version_flags = {}
+    for minor = 1, 5 do
+      local flag = "is_lua5" .. minor
+      version_flags[flag] = version == "Lua 5." .. minor
+    end
 
     assert.are_equal(version_flags.is_lua51, runtime.is_lua51)
     assert.are_equal(version_flags.is_lua52, runtime.is_lua52)
@@ -32,17 +34,9 @@ describe("mods.runtime", function()
     assert.are_equal(version_flags.is_lua55, runtime.is_lua55)
   end)
 
-  it("version_num encodes major/minor versions", function()
-    local version_nums = {
-      ["Lua 5.1"] = 501,
-      ["Lua 5.2"] = 502,
-      ["Lua 5.3"] = 503,
-      ["Lua 5.4"] = 504,
-      ["Lua 5.5"] = 505,
-    }
-
-    assert.are_equal(500 + runtime.minor, runtime.version_num)
-    assert.are_equal(version_nums[version], runtime.version_num)
+  it("version encodes major/minor versions", function()
+    assert.are_equal(500 + runtime.minor, runtime.version)
+    assert.are_equal(version_nums[version], runtime.version)
   end)
 
   it("detects host windows flag from package.config", function()

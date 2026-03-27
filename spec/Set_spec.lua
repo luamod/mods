@@ -173,7 +173,7 @@ describe("mods.Set", function()
       assert.are_same({ b = true, x = true }, b)
     end)
 
-    if runtime.version_num > 502 then
+    if runtime.version > 502 then
       it("__bor (|) returns set union", function()
         local a = Set({ "a", "b" })
         local b = Set({ "b", "x" })
