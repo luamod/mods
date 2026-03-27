@@ -3,8 +3,6 @@ local ins = require "inspect"
 local say = require "say"
 local util = require "luassert.util"
 
-package.path = package.path .. ";./?/init.lua"
-
 local remove_all_metatables = function(item, path)
   if path[#path] ~= ins.METATABLE then
     return item
