@@ -1145,6 +1145,7 @@ describe("mods.fs", function()
   -- stylua: ignore
   ---@diagnostic disable: param-type-mismatch, discard-returns, missing-parameter
   it("errors on invalid argument types", function()
+    -- Keep these explicit: internal function names can leak into errors.
 
     -- Argument #1 validation.
 
@@ -1180,14 +1181,18 @@ describe("mods.fs", function()
     assert.has_error(function() fs.symlink("a", false)          end, "bad argument #2 to 'symlink' (string expected, got boolean)")
     assert.has_error(function() fs.write_bytes(readme_file, {}) end, "bad argument #2 to 'write_bytes' (string expected, got table)")
     assert.has_error(function() fs.write_text(readme_file)      end, "bad argument #2 to 'write_text' (string expected, got no value)")
+  end)
 
-    -- Option validation.
-
+  -- stylua: ignore
+  ---@diagnostic disable: param-type-mismatch, discard-returns
+  it("validates options", function()
     local hidden = { hidden = 1 }
     local names  = { names = 1 }
     local rec    = { recursive = 1 }
     local follow = { follow = 1 }
     local tp     = { type = 1 }
+
+    -- Keep these explicit: internal function names can leak into errors.
 
     assert.has_error(function() fs.dir("src", follow)     end, "dir.opts.follow: boolean expected, got number")
     assert.has_error(function() fs.dir("src", hidden)     end, "dir.opts.hidden: boolean expected, got number")

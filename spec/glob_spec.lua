@@ -545,9 +545,11 @@ describe("mods.glob", function()
     end)
   end)
 
-  -- stylua: ignore
   ---@diagnostic disable: param-type-mismatch, missing-parameter, discard-returns
+
+  -- stylua: ignore
   it("errors on invalid argument types", function()
+    -- Keep these explicit: internal function names can leak into errors.
 
     -- Argument #1 validation.
 
@@ -572,13 +574,16 @@ describe("mods.glob", function()
     assert.has_error(function() glob.glob("a", "*.txt", false)  end, "bad argument #3 to 'glob' (table expected, got boolean)")
     assert.has_error(function() glob.iglob("a", "*.txt", false) end, "bad argument #3 to 'iglob' (table expected, got boolean)")
     assert.has_error(function() glob.match("a", "*.txt", 1)     end, "bad argument #3 to 'match' (boolean expected, got number)")
+  end)
 
-    -- Option validation.
-
-    local hidden = { hidden = 1 }
-    local recursive = { recursive = 1 }
-    local follow = { follow = 1 }
+  -- stylua: ignore
+  it("validates options", function()
+    local hidden     = { hidden = 1 }
+    local recursive  = { recursive = 1 }
+    local follow     = { follow = 1 }
     local ignorecase = { ignorecase = 1 }
+
+    -- Keep these explicit: internal function names can leak into errors.
 
     assert.has_error(function() glob.glob("a", "*.txt", hidden)      end, "glob.opts.hidden: boolean expected, got number")
     assert.has_error(function() glob.glob("a", "*.txt", recursive)   end, "glob.opts.recursive: boolean expected, got number")
