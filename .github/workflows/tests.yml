@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-posix:
+  tests:
     uses: luamod/.github/.github/workflows/tests.yml@main
     with:
       runner: ubuntu-latest
