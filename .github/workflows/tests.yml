@@ -10,7 +10,7 @@ jobs:
     uses: luamod/.github/.github/workflows/tests.yml@main
     with:
       runner: ubuntu-latest
-      lua_versions: '["5.1","5.2","5.3","5.4","5.5","luajit"]'
+      lua_versions: '["luajit","5.1","5.2","5.3","5.4"]'
       luarocks_cache_path: |
         ~/.cache/luarocks
         ~/.luarocks
@@ -22,7 +22,7 @@ jobs:
     uses: luamod/.github/.github/workflows/tests.yml@main
     with:
       runner: windows-latest
-      lua_versions: '["5.1","5.2","5.3","5.4","5.5","luajit"]'
+      lua_versions: '["luajit","5.1","5.2","5.3","5.4"]'
       luarocks_cache_path: |
         ~/AppData/Local/LuaRocks/Cache
         ~/AppData/Roaming/LuaRocks
