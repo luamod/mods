@@ -6,7 +6,7 @@ local runtime = require "mods.runtime"
 local fmt = string.format
 
 describe("mods.keyword", function()
-  local is_lua51 = runtime.is_lua51
+  local ver = runtime.version_num
   -- stylua: ignore
   local keywords = List({
     "and"   , "break" , "do"  , "else"    , "elseif",
@@ -14,7 +14,8 @@ describe("mods.keyword", function()
     "in"    , "local" , "nil" , "not"     , "or"    ,
     "repeat", "return", "then", "true"    , "until" , "while"
   })
-  keywords[#keywords + 1] = not is_lua51 and "goto" or nil
+  keywords[#keywords + 1] = ver > 501 and "goto" or nil
+  keywords[#keywords + 1] = ver > 504 and "global" or nil
   keywords:sort()
 
   local kwlist = keywords
@@ -35,6 +36,7 @@ describe("mods.keyword", function()
     "_",
     "",
     "Function",
+    "global1",
     "goto1",
     "hello",
     "local_var",
@@ -57,19 +59,20 @@ describe("mods.keyword", function()
 
   -- stylua: ignore
   tests = {
-    ------input-----|-expected---
-    { "hello"       , true     },
-    { "hello_world" , true     },
-    { "_name2"      , true     },
-    { "goto"        , is_lua51 },
-    { "(var"        , false    },
-    { "[var"        , false    },
-    { "local"       , false    },
-    { "function"    , false    },
-    { "2bad"        , false    },
-    { "bad-name"    , false    },
-    { false         , false    },
-    { nil           , false    },
+    ------input-----|--expected---
+    { "hello"       , true      },
+    { "hello_world" , true      },
+    { "_name2"      , true      },
+    { "global"      , ver < 505 },
+    { "goto"        , ver < 502 },
+    { "(var"        , false     },
+    { "[var"        , false     },
+    { "local"       , false     },
+    { "function"    , false     },
+    { "2bad"        , false     },
+    { "bad-name"    , false     },
+    { false         , false     },
+    { nil           , false     },
   }
 
   for i = 1, #tests do
@@ -85,11 +88,12 @@ describe("mods.keyword", function()
 
   -- stylua: ignore
   tests = {
-    ------input------|----expected----
-    { " 2 bad-name " , "_2_bad_name" },
-    { "local"        , "local_"      },
-    { ""             , "_"           },
-    { "   "          , "_"           },
+    ------input------|----------------expected---------------
+    { " 2 bad-name " , "_2_bad_name"                        },
+    { "global"       , ver >= 505 and "global_" or "global" },
+    { "local"        , "local_"                             },
+    { ""             , "_"                                  },
+    { "   "          , "_"                                  },
   }
 
   for i = 1, #tests do

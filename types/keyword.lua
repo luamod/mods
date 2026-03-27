@@ -20,7 +20,7 @@ local M = {}
 ---
 ---```lua
 ---kw.iskeyword("function") --> true
----kw.iskeyword("hello") --> false
+---kw.iskeyword("hello")    --> false
 ---```
 ---
 ---@param v any Value to validate.
@@ -33,7 +33,7 @@ function M.iskeyword(v) end
 ---
 ---```lua
 ---kw.isidentifier("hello_world") --> true
----kw.isidentifier("local") --> false
+---kw.isidentifier("local")       --> false
 ---```
 ---
 ---@param v any Value to validate.
@@ -45,7 +45,8 @@ function M.isidentifier(v) end
 ---Return Lua keywords as a `mods.List`.
 ---
 ---```lua
----kw.kwlist():contains("and") --> true
+---kw.kwlist():contains("and")    --> true
+---kw.kwlist():contains("global") --> true -- Lua 5.5+
 ---```
 ---
 ---@return mods.List<string> words List of Lua keywords.
@@ -56,7 +57,8 @@ function M.kwlist() end
 ---Return Lua keywords as a `mods.Set`.
 ---
 ---```lua
----kw.kwlset():contains("and") --> true
+---kw.kwlset():contains("and")    --> true
+---kw.kwlset():contains("global") --> true -- Lua 5.5+
 ---```
 ---
 ---@return mods.Set<string> words Set of Lua keywords.

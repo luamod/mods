@@ -1,6 +1,10 @@
-local List = require "mods.List"
-local Set = require "mods.Set"
-local runtime = require "mods.runtime"
+local mods = require "mods"
+
+local List = mods.List
+local Set = mods.Set
+local runtime = mods.runtime
+
+local ver = runtime.version_num
 
 local gsub = string.gsub
 local match = string.match
@@ -16,8 +20,12 @@ local kwlist = List({
   "repeat", "return", "then", "true"    , "until" , "while",
 })
 
-if runtime.version_num > 501 then
+if ver > 501 then
   kwlist:append("goto"):sort()
+end
+
+if ver > 504 then
+  kwlist:append("global"):sort()
 end
 
 local kwset = kwlist:toset()
