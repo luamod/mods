@@ -95,7 +95,7 @@
 ---```
 ---
 ---@field is_lua54 boolean
-
+---
 ---True only on Lua 5.5 runtimes.
 ---
 ---```lua
