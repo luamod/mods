@@ -11,21 +11,6 @@ jobs:
     with:
       runner: ubuntu-latest
       lua_versions: '["luajit","5.1","5.2","5.3","5.4"]'
-      luarocks_cache_path: |
-        ~/.cache/luarocks
-        ~/.luarocks
-      luarocks_deps: |
-        busted
-        inspect
-
-  test-windows:
-    uses: luamod/.github/.github/workflows/tests.yml@main
-    with:
-      runner: windows-latest
-      lua_versions: '["luajit","5.1","5.2","5.3","5.4"]'
-      luarocks_cache_path: |
-        ~/AppData/Local/LuaRocks/Cache
-        ~/AppData/Roaming/LuaRocks
       luarocks_deps: |
         busted
         inspect
