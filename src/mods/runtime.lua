@@ -18,6 +18,7 @@ local M = {
   is_lua52 = major == 5 and minor == 2,
   is_lua53 = major == 5 and minor == 3,
   is_lua54 = major == 5 and minor == 4,
+  is_lua55 = major == 5 and minor == 5,
 }
 
 return M

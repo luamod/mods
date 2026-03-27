@@ -10,6 +10,7 @@ describe("mods.runtime", function()
     assert.is_boolean(runtime.is_lua52)
     assert.is_boolean(runtime.is_lua53)
     assert.is_boolean(runtime.is_lua54)
+    assert.is_boolean(runtime.is_lua55)
     assert.is_boolean(runtime.is_luajit)
     assert.is_boolean(runtime.is_windows)
   end)
@@ -20,21 +21,31 @@ describe("mods.runtime", function()
       assert.is_false(runtime.is_lua52)
       assert.is_false(runtime.is_lua53)
       assert.is_false(runtime.is_lua54)
+      assert.is_false(runtime.is_lua55)
     elseif _VERSION == "Lua 5.2" then
       assert.is_false(runtime.is_lua51)
       assert.is_true(runtime.is_lua52)
       assert.is_false(runtime.is_lua53)
       assert.is_false(runtime.is_lua54)
+      assert.is_false(runtime.is_lua55)
     elseif _VERSION == "Lua 5.3" then
       assert.is_false(runtime.is_lua51)
       assert.is_false(runtime.is_lua52)
       assert.is_true(runtime.is_lua53)
       assert.is_false(runtime.is_lua54)
+      assert.is_false(runtime.is_lua55)
     elseif _VERSION == "Lua 5.4" then
       assert.is_false(runtime.is_lua51)
       assert.is_false(runtime.is_lua52)
       assert.is_false(runtime.is_lua53)
       assert.is_true(runtime.is_lua54)
+      assert.is_false(runtime.is_lua55)
+    elseif _VERSION == "Lua 5.5" then
+      assert.is_false(runtime.is_lua51)
+      assert.is_false(runtime.is_lua52)
+      assert.is_false(runtime.is_lua53)
+      assert.is_false(runtime.is_lua54)
+      assert.is_true(runtime.is_lua55)
     end
   end)
 
@@ -49,6 +60,8 @@ describe("mods.runtime", function()
       assert.are_equal(503, runtime.version_num)
     elseif _VERSION == "Lua 5.4" then
       assert.are_equal(504, runtime.version_num)
+    elseif _VERSION == "Lua 5.5" then
+      assert.are_equal(505, runtime.version_num)
     end
   end)
 
