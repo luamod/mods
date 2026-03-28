@@ -433,6 +433,22 @@ local function sort_function_entries(entries)
   end)
 end
 
+local function sort_section_names(section_names)
+  sort(section_names, function(a, b)
+    local a_is_metamethods = a == "Metamethods"
+    local b_is_metamethods = b == "Metamethods"
+    if a_is_metamethods ~= b_is_metamethods then
+      return not a_is_metamethods
+    end
+    local al = (a or ""):lower()
+    local bl = (b or ""):lower()
+    if al == bl then
+      return (a or "") < (b or "")
+    end
+    return al < bl
+  end)
+end
+
 is_function_doc_item = function(item)
   if not item or item.kind ~= "alias" then
     return false
@@ -573,6 +589,7 @@ local function build_markdown(items)
   -- Show quick reference only for larger modules.
   if has_functions and function_count > 3 then
     if section_fields then
+      sort_section_names(section_order)
       if #detail_entries > 0 then
         sort_function_entries(detail_entries)
         for _, entry in ipairs(detail_entries) do
@@ -602,6 +619,7 @@ local function build_markdown(items)
   end
 
   if section_fields then
+    sort_section_names(section_order)
     sort_function_entries(detail_entries)
     for _, entry in ipairs(detail_entries) do
       if entry.item then
