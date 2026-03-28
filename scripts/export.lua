@@ -407,20 +407,19 @@ local function append_fields_table(doc, fields, alias_views)
     return
   end
 
-  insert(doc, "Field | Type | Description")
-  insert(doc, "---- | ---- | ----")
+  insert(doc, "Field | Description")
+  insert(doc, "---- | ----")
   for _, field in ipairs(fields) do
     local name = field.name or ""
     local anchor = heading_anchor(name)
     local link = fmt("[`%s`](#%s)", esc_table_cell(name), anchor)
     local fview = field and field.view or "any"
-    local expanded, alias_desc = expand_type_view(fview, alias_views)
-    local type_cell = esc_table_cell("`" .. expanded .. "`")
+    local _, alias_desc = expand_type_view(fview, alias_views)
     local desc = esc_table_cell(first_paragraph(linkify_mods_refs(field.desc)))
     if desc == "" and alias_desc and alias_desc ~= "" then
       desc = esc_table_cell(first_paragraph(linkify_mods_refs(alias_desc)))
     end
-    insert(doc, fmt("%s | %s | %s", link, type_cell, desc))
+    insert(doc, fmt("%s | %s", link, desc))
   end
 end
 
@@ -587,6 +586,7 @@ local function build_markdown(items)
       append_fields_table(doc, fields, alias_views)
     end
     for _, field in ipairs(fields) do
+      insert(doc, "")
       local fview = field and field.view
       local heading = fmt("### `%s`", field.name or "")
       if fview and fview ~= "" then
