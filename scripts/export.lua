@@ -6,6 +6,7 @@
 local concat = table.concat
 local fmt = string.format
 local insert = table.insert
+local sort = table.sort
 local FIELD_OVERVIEW_MIN = 4
 local is_function_doc_item
 
@@ -119,6 +120,9 @@ local function collect_class_fields(items)
       end
     end
   end
+  sort(out, function(a, b)
+    return (a.name or "") < (b.name or "")
+  end)
   return out
 end
 
@@ -423,6 +427,12 @@ local function append_fields_table(doc, fields, alias_views)
   end
 end
 
+local function sort_function_entries(entries)
+  sort(entries, function(a, b)
+    return (a.signature or "") < (b.signature or "")
+  end)
+end
+
 is_function_doc_item = function(item)
   if not item or item.kind ~= "alias" then
     return false
@@ -482,12 +492,12 @@ local function build_markdown(items)
     function_heading_level = "##"
   end
   local quick_ref = {}
-  local quick_ref_sections = {}
   local section_order = {}
   local seen_sections = {}
   local current_section = nil
   local function_count = 0
-  local details = {}
+  local detail_entries = {}
+  local detail_sections = {}
   local doc = {}
   if frontmatter then
     insert(doc, frontmatter)
@@ -517,13 +527,16 @@ local function build_markdown(items)
   for _, item in ipairs(items) do
     if has_functions and item.kind == "section" then
       current_section = item.name or "Section"
+      if not detail_sections[current_section] then
+        detail_sections[current_section] = {
+          heading = fmt("### %s", current_section),
+          desc = item.desc and linkify_mods_refs(item.desc) or nil,
+          entries = {},
+        }
+      end
       if not seen_sections[current_section] then
         insert(section_order, current_section)
         seen_sections[current_section] = true
-      end
-      insert(details, fmt("### %s", current_section))
-      if item.desc then
-        insert(details, linkify_mods_refs(item.desc))
       end
     elseif has_functions and (item.kind == "function" or is_function_doc_item(item)) then
       local alias_doc_item = is_function_doc_item(item)
@@ -541,22 +554,29 @@ local function build_markdown(items)
       }
       if section_fields then
         local section_name = current_section or "Ungrouped"
-        if not quick_ref_sections[section_name] then
-          quick_ref_sections[section_name] = {}
+        if not detail_sections[section_name] then
+          detail_sections[section_name] = {
+            heading = fmt("### %s", section_name),
+            entries = {},
+          }
         end
         if not seen_sections[section_name] then
           insert(section_order, section_name)
           seen_sections[section_name] = true
         end
-        insert(quick_ref_sections[section_name], row)
+        insert(detail_sections[section_name].entries, {
+          signature = signature,
+          row = row,
+          item = alias_doc_item and nil or item,
+          ref_id = ref_id,
+        })
       else
-        insert(quick_ref, row)
-      end
-
-      if not alias_doc_item then
-        insert(details, fmt('<a id="%s"></a>', ref_id))
-        insert(details, fmt("%s `%s`", function_heading_level, signature))
-        append_function_signature_details(details, item, alias_views)
+        insert(detail_entries, {
+          signature = signature,
+          row = row,
+          item = alias_doc_item and nil or item,
+          ref_id = ref_id,
+        })
       end
     end
   end
@@ -565,19 +585,53 @@ local function build_markdown(items)
   if has_functions and function_count > 3 then
     if section_fields then
       for _, section_name in ipairs(section_order) do
-        local rows = quick_ref_sections[section_name]
-        if rows and #rows > 0 then
+        local section = detail_sections[section_name]
+        local rows = {}
+        if section and #section.entries > 0 then
+          sort_function_entries(section.entries)
+          for _, entry in ipairs(section.entries) do
+            insert(rows, entry.row)
+          end
           insert(doc, fmt("\n**%s**:\n", section_name))
           append_quick_ref_table(doc, rows)
         end
       end
     else
+      sort_function_entries(detail_entries)
+      for _, entry in ipairs(detail_entries) do
+        insert(quick_ref, entry.row)
+      end
       append_quick_ref_table(doc, quick_ref)
     end
   end
 
-  for _, line in ipairs(details) do
-    insert(doc, line)
+  if section_fields then
+    for _, section_name in ipairs(section_order) do
+      local section = detail_sections[section_name]
+      if section then
+        insert(doc, section.heading)
+        if section.desc then
+          insert(doc, section.desc)
+        end
+        sort_function_entries(section.entries)
+        for _, entry in ipairs(section.entries) do
+          if entry.item then
+            insert(doc, fmt('<a id="%s"></a>', entry.ref_id))
+            insert(doc, fmt("%s `%s`", function_heading_level, entry.signature))
+            append_function_signature_details(doc, entry.item, alias_views)
+          end
+        end
+      end
+    end
+  else
+    sort_function_entries(detail_entries)
+    for _, entry in ipairs(detail_entries) do
+      if entry.item then
+        insert(doc, fmt('<a id="%s"></a>', entry.ref_id))
+        insert(doc, fmt("%s `%s`", function_heading_level, entry.signature))
+        append_function_signature_details(doc, entry.item, alias_views)
+      end
+    end
   end
 
   if #fields > 0 then
