@@ -587,6 +587,7 @@ local function build_markdown(items)
     end
     for _, field in ipairs(fields) do
       insert(doc, "")
+      insert(doc, fmt('<a id="%s"></a>', heading_anchor(field.name or "")))
       local fview = field and field.view
       local heading = fmt("### `%s`", field.name or "")
       if fview and fview ~= "" then
