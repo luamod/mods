@@ -493,12 +493,16 @@ local function build_markdown(items)
   local section_fields = has_section_field(items)
   local alias_views = collect_alias_views(items)
   local function_heading_level
+  local unsectioned_function_heading_level
   if section_fields then
     function_heading_level = "####"
+    unsectioned_function_heading_level = "###"
   elseif has_functions_header then
     function_heading_level = "###"
+    unsectioned_function_heading_level = "###"
   else
     function_heading_level = "##"
+    unsectioned_function_heading_level = "##"
   end
   local quick_ref = {}
   local section_order = {}
@@ -624,7 +628,7 @@ local function build_markdown(items)
     for _, entry in ipairs(detail_entries) do
       if entry.item then
         insert(doc, fmt('<a id="%s"></a>', entry.ref_id))
-        insert(doc, fmt("%s `%s`", function_heading_level, entry.signature))
+        insert(doc, fmt("%s `%s`", unsectioned_function_heading_level, entry.signature))
         append_function_signature_details(doc, entry.item, alias_views)
       end
     end
