@@ -402,19 +402,25 @@ local function append_quick_ref_table(doc, rows)
   end
 end
 
-local function append_fields_table(doc, fields)
+local function append_fields_table(doc, fields, alias_views)
   if not fields or #fields == 0 then
     return
   end
 
-  insert(doc, "Field | Description")
-  insert(doc, "---- | ----")
+  insert(doc, "Field | Type | Description")
+  insert(doc, "---- | ---- | ----")
   for _, field in ipairs(fields) do
     local name = field.name or ""
     local anchor = heading_anchor(name)
     local link = fmt("[`%s`](#%s)", esc_table_cell(name), anchor)
+    local fview = field and field.view or "any"
+    local expanded, alias_desc = expand_type_view(fview, alias_views)
+    local type_cell = esc_table_cell("`" .. expanded .. "`")
     local desc = esc_table_cell(first_paragraph(linkify_mods_refs(field.desc)))
-    insert(doc, fmt("%s | %s", link, desc))
+    if desc == "" and alias_desc and alias_desc ~= "" then
+      desc = esc_table_cell(first_paragraph(linkify_mods_refs(alias_desc)))
+    end
+    insert(doc, fmt("%s | %s | %s", link, type_cell, desc))
   end
 end
 
@@ -578,11 +584,24 @@ local function build_markdown(items)
   if #fields > 0 then
     insert(doc, "## Fields")
     if #fields >= FIELD_OVERVIEW_MIN then
-      append_fields_table(doc, fields)
+      append_fields_table(doc, fields, alias_views)
     end
     for _, field in ipairs(fields) do
-      insert(doc, fmt("### `%s`", field.name or ""))
+      local fview = field and field.view
+      local heading = fmt("### `%s`", field.name or "")
+      if fview and fview ~= "" then
+        local expanded, alias_desc = expand_type_view(fview, alias_views)
+        heading = fmt("### `%s` (`%s`)", field.name or "", expanded)
+        insert(doc, heading)
+        if (not field.desc or field.desc == "") and alias_desc and alias_desc ~= "" then
+          insert(doc, "")
+          insert(doc, linkify_mods_refs(alias_desc))
+        end
+      else
+        insert(doc, heading)
+      end
       if field.desc then
+        insert(doc, "")
         insert(doc, linkify_mods_refs(field.desc))
       end
     end
