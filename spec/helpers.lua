@@ -12,9 +12,6 @@ local fmt = string.format
 
 local M = {}
 
----@module "spec.helpers.Tree"
-M.Tree = mods.utils.lazy_module("spec.helpers.Tree")
-
 function M.tmpname()
   local p = os.tmpname()
   os.remove(p)
