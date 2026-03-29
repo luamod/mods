@@ -16,63 +16,33 @@ print(utils.quote('hello "world"')) --> 'hello "world"'
 
 ## Functions
 
+**Formatting**:
+
+| Function                        | Description                                                    |
+| ------------------------------- | -------------------------------------------------------------- |
+| [`args_repr(v)`](#fn-args-repr) | Format a list-like table as a comma-separated argument string. |
+| [`keypath(...)`](#fn-keypath)   | Format a key chain as a Lua-like table access path.            |
+| [`quote(v)`](#fn-quote)         | Smart-quote a string for readable Lua-like output.             |
+
+**Lazy Loading**:
+
+| Function                                     | Description                       |
+| -------------------------------------------- | --------------------------------- |
+| [`lazy_module(name, err?)`](#fn-lazy-module) | Return a lazy proxy for a module. |
+
+**Validation**:
+
 | Function                                                             | Description                                                                                        |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [`quote(v)`](#fn-quote)                                              | Smart-quote a string for readable Lua-like output.                                                 |
-| [`keypath(...)`](#fn-keypath)                                        | Format a key chain as a Lua-like table access path.                                                |
-| [`args_repr(v)`](#fn-args-repr)                                      | Format a list-like table as a comma-separated argument string.                                     |
 | [`assert_arg(argn, v, validator?, optional?, msg?)`](#fn-assert-arg) | Assert argument value using [`mods.validate`](/modules/validate) and raise a Lua error on failure. |
 | [`validate(name, v, validator?, optional?, msg?)`](#fn-validate)     | Validate a value using [`mods.validate`](/modules/validate) and raise a Lua error on failure.      |
 | [`validate(path, v, validator?, optional?, msg?)`](#fn-validate)     | Validate a value using [`mods.validate`](/modules/validate) and raise a Lua error on failure.      |
-| [`lazy_module(name, err?)`](#fn-lazy-module)                         | Return a lazy proxy for a module.                                                                  |
 
-<a id="fn-quote"></a>
-
-### `quote(v)`
-
-Smart-quote a string for readable Lua-like output.
-
-**Parameters**:
-
-- `v` (`string`): String to quote.
-
-**Return**:
-
-- `out` (`string`): Quoted string.
-
-**Example**:
-
-```lua
-print(utils.quote('He said "hi"')) -- 'He said "hi"'
-print(utils.quote('say "hi" and \\'bye\\'')) -- "say \"hi\" and 'bye'"
-```
-
-<a id="fn-keypath"></a>
-
-### `keypath(...)`
-
-Format a key chain as a Lua-like table access path.
-
-**Parameters**:
-
-- `...` (`any`): Additional arguments.
-
-**Return**:
-
-- `path` (`string`): Rendered key path.
-
-**Example**:
-
-```lua
-p1 = utils.keypath("t", "a", "b", "c")        --> "t.a.b.c"
-p2 = utils.keypath("ctx", "users", 1, "name") --> "ctx.users[1].name"
-p3 = utils.keypath("ctx", "invalid-key")      --> 'ctx["invalid-key"]'
-p4 = utils.keypath()                          --> ""
-```
+### Formatting
 
 <a id="fn-args-repr"></a>
 
-### `args_repr(v)`
+#### `args_repr(v)`
 
 Format a list-like table as a comma-separated argument string.
 
@@ -94,9 +64,89 @@ utils.args_repr({ "a", 1, true }) --> '"a", 1, true'
 >
 > Requires [`inspect`](https://github.com/kikito/inspect.lua)
 
+<a id="fn-keypath"></a>
+
+#### `keypath(...)`
+
+Format a key chain as a Lua-like table access path.
+
+**Parameters**:
+
+- `...` (`any`): Additional arguments.
+
+**Return**:
+
+- `path` (`string`): Rendered key path.
+
+**Example**:
+
+```lua
+p1 = utils.keypath("t", "a", "b", "c")        --> "t.a.b.c"
+p2 = utils.keypath("ctx", "users", 1, "name") --> "ctx.users[1].name"
+p3 = utils.keypath("ctx", "invalid-key")      --> 'ctx["invalid-key"]'
+p4 = utils.keypath()                          --> ""
+```
+
+<a id="fn-quote"></a>
+
+#### `quote(v)`
+
+Smart-quote a string for readable Lua-like output.
+
+**Parameters**:
+
+- `v` (`string`): String to quote.
+
+**Return**:
+
+- `out` (`string`): Quoted string.
+
+**Example**:
+
+```lua
+print(utils.quote('He said "hi"')) -- 'He said "hi"'
+print(utils.quote('say "hi" and \\'bye\\'')) -- "say \"hi\" and 'bye'"
+```
+
+### Lazy Loading
+
+<a id="fn-lazy-module"></a>
+
+#### `lazy_module(name, err?)`
+
+Return a lazy proxy for a module.
+
+The proxy rewrites its metamethods after first access while keeping the proxy
+table itself free of cached fields.
+
+**Parameters**:
+
+- `name` (`string`): Module name passed to `require`.
+- `err?` (`string`): Optional error message raised when loading fails.
+
+**Return**:
+
+- `module` (`{}`): Lazy proxy for the loaded module.
+
+**Example**:
+
+```lua
+local fs = utils.lazy_module("mods.fs")
+print(fs.exists("README.md"))
+
+local repr = utils.lazy_module("mods.repr")
+print(repr({ a = 1 }))
+```
+
+> [!NOTE]
+>
+> Supports both table-returning modules and function-returning modules.
+
+### Validation
+
 <a id="fn-assert-arg"></a>
 
-### `assert_arg(argn, v, validator?, optional?, msg?)`
+#### `assert_arg(argn, v, validator?, optional?, msg?)`
 
 Assert argument value using [`mods.validate`](/modules/validate) and raise a Lua
 error on failure.
@@ -132,7 +182,7 @@ utils.assert_arg(3, "x", "number", false, "need {{expected}}, got {{got}}")
 
 <a id="fn-validate"></a>
 
-### `validate(name, v, validator?, optional?, msg?)`
+#### `validate(name, v, validator?, optional?, msg?)`
 
 Validate a value using [`mods.validate`](/modules/validate) and raise a Lua
 error on failure.
@@ -161,7 +211,7 @@ utils.validate("count", "x", "number")
 
 <a id="fn-validate"></a>
 
-### `validate(path, v, validator?, optional?, msg?)`
+#### `validate(path, v, validator?, optional?, msg?)`
 
 Validate a value using [`mods.validate`](/modules/validate) and raise a Lua
 error on failure.
@@ -191,35 +241,3 @@ utils.validate({ "ctx", "users", 1, "name" }, 123, "string")
 >
 > On failure, `path` is rendered with
 > [`mods.utils.keypath`](/modules/utils#fn-keypath).
-
-<a id="fn-lazy-module"></a>
-
-### `lazy_module(name, err?)`
-
-Return a lazy proxy for a module.
-
-The proxy rewrites its metamethods after first access while keeping the proxy
-table itself free of cached fields.
-
-**Parameters**:
-
-- `name` (`string`): Module name passed to `require`.
-- `err?` (`string`): Optional error message raised when loading fails.
-
-**Return**:
-
-- `module` (`{}`): Lazy proxy for the loaded module.
-
-**Example**:
-
-```lua
-local fs = utils.lazy_module("mods.fs")
-print(fs.exists("README.md"))
-
-local repr = utils.lazy_module("mods.repr")
-print(repr({ a = 1 }))
-```
-
-> [!NOTE]
->
-> Supports both table-returning modules and function-returning modules.
