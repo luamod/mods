@@ -22,7 +22,7 @@ describe("mods.validate", function()
   end)
 
   it("is callable", function()
-    assert.Callable(validate) ---@diagnostic disable-line: undefined-field
+    assert.is_callable(validate)
   end)
 
   it("defaults to truthy check when type is omitted", function()

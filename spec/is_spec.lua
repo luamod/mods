@@ -17,7 +17,7 @@ describe("mods.is", function()
   local nct = setmetatable({}, { __call = true })
 
   it("is is callable", function()
-    assert.is_callable(is) ---@diagnostic disable-line: undefined-field
+    assert.is_callable(is)
   end)
 
   -- stylua: ignore
