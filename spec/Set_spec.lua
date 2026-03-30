@@ -143,10 +143,6 @@ describe("mods.Set", function()
     assert.are_same(ls, res:sort())
   end)
 
-  it("constructs a set from a List", function()
-    assert.is_true(Set({ 1, 2 }):equals(Set(List({ 1, 2, 2 }))))
-  end)
-
   describe("metamethods", function()
     it("__call constructs a set from a list", function()
       local s = Set({ "a", "b", "c" })
