@@ -23,7 +23,7 @@
 ---@operator add(mods.List):mods.List
 ---@operator mul(integer):mods.List
 ---@operator sub(mods.List):mods.List
----@overload fun(t?:any[]|mods.Set):mods.List
+---@overload fun(t?:{}):mods.List
 local List = {}
 List.__index = List
 
@@ -701,18 +701,12 @@ function List:reverse() end
 ---Convert the list to a set.
 ---
 ---```lua
----local set = List({ "a", "b", "c" }):toset()
----print(set:equals(Set({ "a", "b", "c" }))) --> true
+---s = List({ "a", "b", "a" }):toset() --> { a = true, b = true }
 ---```
 ---
 ---> [!NOTE]
 --->
----> `List(Set())` is also supported and collects set values into a `List`.
---->
----> ```lua
----> local values = List(Set({ "a", "b", "c" }))
----> print(values:sort():equals(List({ "a", "b", "c" }))) --> true
----> ```
+---> Order is preserved from the original list.
 ---
 ---@section Transforms
 ---@param self mods.List|any[] Current list.

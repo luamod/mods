@@ -1,5 +1,3 @@
----@diagnostic disable: duplicate-set-field
-
 local mods = require "mods"
 
 local keypath = mods.utils.keypath
@@ -12,7 +10,7 @@ local remove = table.remove
 local sort = table.sort
 local unpack = table.unpack or unpack
 
----@class mods.List
+---@type mods.List
 local List = {}
 List.__index = List
 
@@ -481,14 +479,7 @@ return setmetatable(List, {
       return fn
     end
   end,
-  __call = function(_, obj)
-    if type(obj) == "table" then
-      local mt = getmetatable(obj)
-      local tolist = mt and mt._tolist
-      if tolist then
-        return tolist(obj)
-      end
-    end
-    return setmetatable(obj or {}, List)
+  __call = function(_, ls)
+    return setmetatable(ls or {}, List)
   end,
 })

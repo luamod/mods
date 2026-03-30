@@ -172,10 +172,6 @@ describe("mods.List", function()
     assert.is_nil(res)
   end)
 
-  it("constructs a list from a Set", function()
-    assert.is_true(List({ 1, 2 }):equals(List(Set({ 1, 2 })):sort()))
-  end)
-
   describe("join()", function()
     it("stringifies non-string values", function()
       local ls = List({ "a", 1, true })
