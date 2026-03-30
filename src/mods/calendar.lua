@@ -30,6 +30,7 @@ for i, v in ipairs(months) do M[v:upper()] = i end
 for i, v in ipairs(days)   do M[v:upper()] = i end
 -- stylua: ignore end
 
+---@type modsCalendarWeekday
 local default_firstweekday = M.MONDAY
 
 -- Return a positive modulo result for negative offsets too.
@@ -52,6 +53,7 @@ local function validate_month(month)
   return month
 end
 
+---@return modsCalendarWeekday
 local function validate_weekday(firstweekday)
   if firstweekday < 1 or firstweekday > 7 then
     error(fmt("bad weekday number %s; must be 1 (Monday) to 7 (Sunday)", firstweekday), 3)
@@ -59,11 +61,10 @@ local function validate_weekday(firstweekday)
   return firstweekday
 end
 
-local function resolve_firstweekday(index, firstweekday)
-  if firstweekday == nil then
+local function resolve_firstweekday(firstweekday)
+  if not firstweekday then
     return default_firstweekday
   end
-  assert_arg(index, firstweekday, "integer")
   return validate_weekday(firstweekday)
 end
 
@@ -94,15 +95,6 @@ local function days_from_civil(year, month, day)
   local doy = floor((153 * mp + 2) / 5) + day - 1
   local doe = yoe * 365 + floor(yoe / 4) - floor(yoe / 100) + doy
   return era * 146097 + doe - 719468
-end
-
-function M.listweekdays(firstweekday)
-  firstweekday = resolve_firstweekday(1, firstweekday)
-  local out = List()
-  for i = 0, 6 do
-    out[#out + 1] = ((firstweekday - 1 + i) % 7) + 1
-  end
-  return out
 end
 
 function M.getfirstweekday()
@@ -149,15 +141,32 @@ end
 
 function M.weekheader(width, firstweekday)
   assert_arg(1, width, "integer", true)
+  assert_arg(2, firstweekday, "integer", true)
   width = width or 2
   if width < 1 then
     error("bad argument #1 to 'weekheader' (width must be a positive integer)", 2)
   end
-  return format_weekheader(resolve_firstweekday(2, firstweekday), width)
+  return format_weekheader(resolve_firstweekday(firstweekday), width)
 end
 
 M.days = List(days)
 M.months = List(months)
+
+function M.weekdays(firstweekday)
+  assert_arg(1, firstweekday, "integer", true)
+  local current = resolve_firstweekday(firstweekday)
+  local count = 0
+
+  return function()
+    if count >= 7 then
+      return nil
+    end
+    local out = current
+    current = (current % 7) + 1
+    count = count + 1
+    return out
+  end
+end
 
 return setmetatable(M, {
   __index = function(_, k)

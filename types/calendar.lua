@@ -1,6 +1,8 @@
 ---@meta mods.calendar
 
 ---@alias modsCalendarWeekday 1|2|3|4|5|6|7
+---@alias modsCalendarMonth 1|2|3|4|5|6|7|8|9|10|11|12
+---@alias modsCalendarMonthday 1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31
 
 ---
 ---Calendar and date helpers.
@@ -98,19 +100,21 @@ function M.getfirstweekday() end
 function M.setfirstweekday(firstweekday) end
 
 ---
----Return weekday numbers for one full week as a `List`.
+---Iterate weekday numbers for one full week.
 ---
 ---```lua
----days = cal.listweekdays()              -->  {1, 2, 3, 4, 5, 6, 7}
----days = cal.listweekdays(cal.SUNDAY)    -->  {7, 1, 2, 3, 4, 5, 6}
----days = cal.listweekdays(cal.WEDNESDAY) -->  {3, 4, 5, 6, 7, 1, 2}
+---local weekdays = {}
+---for day in cal.weekdays() do
+---  weekdays[#weekdays + 1] = day
+---end
+---print(table.concat(weekdays, ", ")) --> "1, 2, 3, 4, 5, 6, 7"
 ---```
 ---
----@section Lists
+---@section Iterators
 ---@param firstweekday? modsCalendarWeekday
----@return mods.List<integer> weekdays
+---@return fun():modsCalendarWeekday iter
 ---@nodiscard
-function M.listweekdays(firstweekday) end
+function M.weekdays(firstweekday) end
 
 ---
 ---Return `true` for leap years.
@@ -148,8 +152,8 @@ function M.leapdays(y1, y2) end
 ---
 ---@section Calendar Calculations
 ---@param year integer
----@param month integer
----@param day integer
+---@param month modsCalendarMonth
+---@param day modsCalendarMonthday
 ---@return modsCalendarWeekday weekday
 ---@nodiscard
 function M.weekday(year, month, day) end
