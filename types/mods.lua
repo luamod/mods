@@ -11,6 +11,7 @@ local template ---@module "mods.template"
 ---@field fs mods.fs
 ---@field glob mods.glob
 ---@field is mods.is
+---@field json mods.json
 ---@field keyword mods.keyword
 ---@field List mods.List
 ---@field log mods.log

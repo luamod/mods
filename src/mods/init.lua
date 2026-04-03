@@ -5,6 +5,7 @@ local module_names = {
   "fs",
   "glob",
   "is",
+  "json",
   "keyword",
   "List",
   "log",
