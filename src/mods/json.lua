@@ -120,7 +120,7 @@ local function parse_unicode_escape_at(input, pos)
     return nil, pos - 6, "unexpected low surrogate"
   end
 
-  return utf8_char(cp), pos
+  return utf8_char(cp --[[@as integer]]), pos
 end
 
 local function classify_table(t)
