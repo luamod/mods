@@ -70,8 +70,10 @@ function M.keypath(...)
 end
 
 function M.args_repr(v)
-  local s = inspect(v, { process = remove_mt })
-  return s:gsub("^%s*{%s*(.-)%s*}%s*$", "%1")
+  if v == nil then
+    return ""
+  end
+  return inspect(v, { process = remove_mt }):gsub("^%s*{%s*(.-)%s*}%s*$", "%1")
 end
 
 function M.assert_arg(argn, v, validator, optional, msg)

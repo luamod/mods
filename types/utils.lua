@@ -56,7 +56,7 @@ function M.keypath(...) end
 ---> Requires [`inspect`](https://github.com/kikito/inspect.lua)
 ---
 ---@section Formatting
----@param v table|any Value to format.
+---@param v any Value to format. `nil` returns an empty string.
 ---@return string out Argument list string.
 ---@nodiscard
 function M.args_repr(v) end

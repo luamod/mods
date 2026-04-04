@@ -66,6 +66,7 @@ describe("mods.utils", function()
   -- stylua: ignore
   tests = {
     ---------input----------|------expected--------
+    { nil                   , ""                  },
     { {                   } , ""                  },
     { { "a", 1, true      } , '"a", 1, true'      },
     { { "x", "y", "z", {} } , '"x", "y", "z", {}' },
