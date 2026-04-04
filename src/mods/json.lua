@@ -71,10 +71,6 @@ local function is_digit_byte(ch)
   return ch ~= nil and ch >= 0x30 and ch <= 0x39
 end
 
----@param input string
----@param pos integer
----@return integer? codepoint
----@return string? err
 local function decode_hex4_at(input, pos)
   local hex = sub(input, pos, pos + 3)
   if not find(hex, "^%x%x%x%x$") then
@@ -89,11 +85,6 @@ local function decode_hex4_at(input, pos)
   return codepoint
 end
 
----@param input string
----@param pos integer
----@return string? decoded
----@return integer next_pos
----@return string? err
 local function parse_unicode_escape_at(input, pos)
   local cp, hex_err = decode_hex4_at(input, pos + 2)
   if not cp then
