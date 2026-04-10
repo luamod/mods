@@ -478,7 +478,7 @@ function M.commonpath(paths)
 
   local common = {}
   for i = 1, common_len do
-    common[#common + 1] = first_parts[i]
+    common[i] = first_parts[i]
   end
 
   return first_drive .. first_root .. concat(common, SEP)

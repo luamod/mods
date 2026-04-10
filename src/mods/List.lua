@@ -310,7 +310,7 @@ end
 function List:map(fn)
   local ls = List()
   for i = 1, #self do
-    ls[#ls + 1] = fn(self[i])
+    ls[i] = fn(self[i])
   end
   return ls
 end
@@ -449,7 +449,7 @@ function List:zip(t)
     limit = #t
   end
   for i = 1, limit do
-    res[#res + 1] = { self[i], t[i] }
+    res[i] = { self[i], t[i] }
   end
   return res
 end
