@@ -84,9 +84,9 @@ function M.args_repr(v) end
 ---@param v T Value to check.
 ---@param validator? modsValidatorName Validator name (defaults to `"truthy"`).
 ---@param optional? boolean Skip errors when `v` is `nil` (defaults to `false`).
----@param msg? string Optional override template passed to `mods.validate`.
+---@param lv? integer Error level passed to `error` (defaults to `3`).
 ---@return T validatedValue Same input value on success, or `nil` when optional.
-function M.assert_arg(argn, v, validator, optional, msg) end
+function M.assert_arg(argn, v, validator, optional, lv) end
 
 ---
 ---Validate a value using `mods.validate` and raise a Lua error on failure.

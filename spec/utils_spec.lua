@@ -118,11 +118,6 @@ describe("mods.utils", function()
       end, "bad argument #1 to 'needs_string' (string expected, got number)")
     end)
 
-    it("passes custom message template to validate when provided", function()
-      assert.has_error(function()
-        utils.assert_arg(1, 123, "string", false, "need {{expected}}, got {{got}}")
-      end, "bad argument #1 (need string, got number)")
-    end)
   end)
 
   describe("validate()", function()

@@ -76,8 +76,8 @@ function M.args_repr(v)
   return inspect(v, { process = remove_mt }):gsub("^%s*{%s*(.-)%s*}%s*$", "%1")
 end
 
-function M.assert_arg(argn, v, validator, optional, msg)
-  local ok, err = validate(v, validator, msg)
+function M.assert_arg(argn, v, validator, optional, lv)
+  local ok, err = validate(v, validator)
   if ok or (optional and v == nil) then
     return v
   end
@@ -89,7 +89,7 @@ function M.assert_arg(argn, v, validator, optional, msg)
   else
     message = fmt("bad argument #%d (%s)", argn, err)
   end
-  error(message, 2)
+  error(message, lv or 3)
 
   return v
 end
