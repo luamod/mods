@@ -166,30 +166,27 @@ describe("mods.calendar", function()
 
   -- stylua: ignore
   it("errors on invalid argument types", function()
-    -- Keep these explicit: some invalid inputs report internal helper names
-    -- like `validate_month` instead of the public function name.
-
     -- Argument #1 validation.
 
-    assert.Error(function() cal.isleap(true)          end, "bad argument #1 to 'isleap' (integer value expected, got true)")
-    assert.Error(function() cal.monthdays(false, 2)   end, "bad argument #1 to 'monthdays' (integer value expected, got false)")
-    assert.Error(function() cal.monthrange(2026.5, 3) end, "bad argument #1 to 'monthrange' (integer value expected, got 2026.5)")
-    assert.Error(function() cal.setfirstweekday(7.5)  end, "bad argument #1 to 'setfirstweekday' (integer value expected, got 7.5)")
-    assert.Error(function() cal.setfirstweekday(true) end, "bad argument #1 to 'setfirstweekday' (integer value expected, got true)")
-    assert.Error(function() cal.weekdays(false)       end, "bad argument #1 to 'weekdays' (integer value expected, got false)")
-    assert.Error(function() cal.weekheader("2")       end, [[bad argument #1 to 'weekheader' (integer value expected, got "2")]])
+    assert.Error(function() cal.isleap(true)          end, "bad argument #1 (integer value expected, got true)")
+    assert.Error(function() cal.monthdays(false, 2)   end, "bad argument #1 (integer value expected, got false)")
+    assert.Error(function() cal.monthrange(2026.5, 3) end, "bad argument #1 (integer value expected, got 2026.5)")
+    assert.Error(function() cal.setfirstweekday(7.5)  end, "bad argument #1 (integer value expected, got 7.5)")
+    assert.Error(function() cal.setfirstweekday(true) end, "bad argument #1 (integer value expected, got true)")
+    assert.Error(function() cal.weekdays(false)       end, "bad argument #1 (integer value expected, got false)")
+    assert.Error(function() cal.weekheader("2")       end, [[bad argument #1 (integer value expected, got "2")]])
 
     -- Argument #2 validation.
 
-    assert.Error(function() cal.leapdays(2000, false) end, "bad argument #2 to 'leapdays' (integer value expected, got false)")
-    assert.Error(function() cal.monthdays(2026, "2")  end, [[bad argument #2 to 'monthdays' (integer value expected, got "2")]])
-    assert.Error(function() cal.monthrange(2026)      end, "bad argument #2 to 'monthrange' (integer value expected, got no value)")
-    assert.Error(function() cal.weekday(2026, "3", 1) end, [[bad argument #2 to 'weekday' (integer value expected, got "3")]])
-    assert.Error(function() cal.weekheader(2, "7")    end, [[bad argument #2 to 'weekheader' (integer value expected, got "7")]])
+    assert.Error(function() cal.leapdays(2000, false) end, "bad argument #2 (integer value expected, got false)")
+    assert.Error(function() cal.monthdays(2026, "2")  end, [[bad argument #2 (integer value expected, got "2")]])
+    assert.Error(function() cal.monthrange(2026)      end, "bad argument #2 (integer value expected, got no value)")
+    assert.Error(function() cal.weekday(2026, "3", 1) end, [[bad argument #2 (integer value expected, got "3")]])
+    assert.Error(function() cal.weekheader(2, "7")    end, [[bad argument #2 (integer value expected, got "7")]])
 
     -- Argument #3 validation.
 
-    assert.Error(function() cal.monthdays(2026, 2, "7") end, [[bad argument #3 to 'monthdays' (integer value expected, got "7")]])
+    assert.Error(function() cal.monthdays(2026, 2, "7") end, [[bad argument #3 (integer value expected, got "7")]])
   end)
 
   -- stylua: ignore

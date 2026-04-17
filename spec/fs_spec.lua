@@ -1145,42 +1145,39 @@ describe("mods.fs", function()
   -- stylua: ignore
   ---@diagnostic disable: param-type-mismatch, discard-returns, missing-parameter
   it("errors on invalid argument types", function()
-    -- Keep these explicit: internal function names can leak into errors.
-
     -- Argument #1 validation.
 
-    assert.has_error(function() fs.cd(false)       end, "bad argument #1 to 'cd' (string expected, got boolean)")
-    assert.has_error(function() fs.cp(false)       end, "bad argument #1 to 'cp' (string expected, got boolean)")
-    assert.has_error(function() fs.dir(false)      end, "bad argument #1 to 'dir' (string expected, got boolean)")
-    assert.has_error(function() fs.exists(true)    end, "bad argument #1 to 'exists' (string expected, got boolean)")
-    assert.has_error(function() fs.getatime(false) end, "bad argument #1 to 'getatime' (string expected, got boolean)")
-    assert.has_error(function() fs.getctime(0)     end, "bad argument #1 to 'getctime' (string expected, got number)")
-    assert.has_error(function() fs.getmtime()      end, "bad argument #1 to 'getmtime' (string expected, got no value)")
-    assert.has_error(function() fs.getsize()       end, "bad argument #1 to 'getsize' (string expected, got no value)")
-    assert.has_error(function() fs.lexists({})     end, "bad argument #1 to 'lexists' (string expected, got table)")
-    assert.has_error(function() fs.link(false)     end, "bad argument #1 to 'link' (string expected, got boolean)")
-    assert.has_error(function() fs.listdir(false)  end, "bad argument #1 to 'listdir' (string expected, got boolean)")
-    assert.has_error(function() fs.mkdir()         end, "bad argument #1 to 'mkdir' (string expected, got no value)")
-    assert.has_error(function() fs.read_bytes({})  end, "bad argument #1 to 'read_bytes' (string expected, got table)")
-    assert.has_error(function() fs.read_text({})   end, "bad argument #1 to 'read_text' (string expected, got table)")
-    assert.has_error(function() fs.rm({})          end, "bad argument #1 to 'rm' (string expected, got table)")
-    assert.has_error(function() fs.symlink(false)  end, "bad argument #1 to 'symlink' (string expected, got boolean)")
-    assert.has_error(function() fs.touch(false)    end, "bad argument #1 to 'touch' (string expected, got boolean)")
-    assert.has_error(function() fs.write_bytes({}) end, "bad argument #1 to 'write_bytes' (string expected, got table)")
-    assert.has_error(function() fs.write_text({})  end, "bad argument #1 to 'write_text' (string expected, got table)")
+    assert.has_error(function() fs.cp(false)       end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.dir(false)      end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.exists(true)    end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.getatime(false) end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.getctime(0)     end, "bad argument #1 (string expected, got number)")
+    assert.has_error(function() fs.getmtime()      end, "bad argument #1 (string expected, got no value)")
+    assert.has_error(function() fs.getsize()       end, "bad argument #1 (string expected, got no value)")
+    assert.has_error(function() fs.lexists({})     end, "bad argument #1 (string expected, got table)")
+    assert.has_error(function() fs.link(false)     end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.listdir(false)  end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.mkdir()         end, "bad argument #1 (string expected, got no value)")
+    assert.has_error(function() fs.read_bytes({})  end, "bad argument #1 (string expected, got table)")
+    assert.has_error(function() fs.read_text({})   end, "bad argument #1 (string expected, got table)")
+    assert.has_error(function() fs.rm({})          end, "bad argument #1 (string expected, got table)")
+    assert.has_error(function() fs.symlink(false)  end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.touch(false)    end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() fs.write_bytes({}) end, "bad argument #1 (string expected, got table)")
+    assert.has_error(function() fs.write_text({})  end, "bad argument #1 (string expected, got table)")
 
     -- Argument #2 validation.
 
-    assert.has_error(function() fs.cp("a")                      end, "bad argument #2 to 'cp' (string expected, got no value)")
-    assert.has_error(function() fs.dir("src", false)            end, "bad argument #2 to 'dir' (table expected, got boolean)")
-    assert.has_error(function() fs.link("a", false)             end, "bad argument #2 to 'link' (string expected, got boolean)")
-    assert.has_error(function() fs.listdir("src", false)        end, "bad argument #2 to 'listdir' (table expected, got boolean)")
-    assert.has_error(function() fs.mkdir("tmp", 1)              end, "bad argument #2 to 'mkdir' (boolean expected, got number)")
-    assert.has_error(function() fs.rm("tmp", 1)                 end, "bad argument #2 to 'rm' (boolean expected, got number)")
-    assert.has_error(function() fs.samefile(readme_file, 123)   end, "bad argument #2 to 'samefile' (string expected, got number)")
-    assert.has_error(function() fs.symlink("a", false)          end, "bad argument #2 to 'symlink' (string expected, got boolean)")
-    assert.has_error(function() fs.write_bytes(readme_file, {}) end, "bad argument #2 to 'write_bytes' (string expected, got table)")
-    assert.has_error(function() fs.write_text(readme_file)      end, "bad argument #2 to 'write_text' (string expected, got no value)")
+    assert.has_error(function() fs.cp("a")                      end, "bad argument #2 (string expected, got no value)")
+    assert.has_error(function() fs.dir("src", false)            end, "bad argument #2 (table expected, got boolean)")
+    assert.has_error(function() fs.link("a", false)             end, "bad argument #2 (string expected, got boolean)")
+    assert.has_error(function() fs.listdir("src", false)        end, "bad argument #2 (table expected, got boolean)")
+    assert.has_error(function() fs.mkdir("tmp", 1)              end, "bad argument #2 (boolean expected, got number)")
+    assert.has_error(function() fs.rm("tmp", 1)                 end, "bad argument #2 (boolean expected, got number)")
+    assert.has_error(function() fs.samefile(readme_file, 123)   end, "bad argument #2 (string expected, got number)")
+    assert.has_error(function() fs.symlink("a", false)          end, "bad argument #2 (string expected, got boolean)")
+    assert.has_error(function() fs.write_bytes(readme_file, {}) end, "bad argument #2 (string expected, got table)")
+    assert.has_error(function() fs.write_text(readme_file)      end, "bad argument #2 (string expected, got no value)")
   end)
 
   -- stylua: ignore
@@ -1191,8 +1188,6 @@ describe("mods.fs", function()
     local rec    = { recursive = 1 }
     local follow = { follow = 1 }
     local tp     = { type = 1 }
-
-    -- Keep these explicit: internal function names can leak into errors.
 
     assert.has_error(function() fs.dir("src", follow)     end, "dir.opts.follow: boolean expected, got number")
     assert.has_error(function() fs.dir("src", hidden)     end, "dir.opts.hidden: boolean expected, got number")

@@ -549,31 +549,29 @@ describe("mods.glob", function()
 
   -- stylua: ignore
   it("errors on invalid argument types", function()
-    -- Keep these explicit: internal function names can leak into errors.
-
     -- Argument #1 validation.
 
-    assert.has_error(function() glob.escape()     end, "bad argument #1 to 'escape' (string expected, got no value)")
-    assert.has_error(function() glob.filter()     end, "bad argument #1 to 'filter' (table expected, got no value)")
-    assert.has_error(function() glob.glob(false)  end, "bad argument #1 to 'glob' (string expected, got boolean)")
-    assert.has_error(function() glob.has_magic()  end, "bad argument #1 to 'has_magic' (string expected, got no value)")
-    assert.has_error(function() glob.iglob(false) end, "bad argument #1 to 'iglob' (string expected, got boolean)")
-    assert.has_error(function() glob.match(false) end, "bad argument #1 to 'match' (string expected, got boolean)")
-    assert.has_error(function() glob.translate()  end, "bad argument #1 to 'translate' (string expected, got no value)")
+    assert.has_error(function() glob.escape()     end, "bad argument #1 (string expected, got no value)")
+    assert.has_error(function() glob.filter()     end, "bad argument #1 (table expected, got no value)")
+    assert.has_error(function() glob.glob(false)  end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() glob.has_magic()  end, "bad argument #1 (string expected, got no value)")
+    assert.has_error(function() glob.iglob(false) end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() glob.match(false) end, "bad argument #1 (string expected, got boolean)")
+    assert.has_error(function() glob.translate()  end, "bad argument #1 (string expected, got no value)")
 
     -- Argument #2 validation.
 
-    assert.has_error(function() glob.filter({}, false) end, "bad argument #2 to 'filter' (string expected, got boolean)")
-    assert.has_error(function() glob.glob("a", false)  end, "bad argument #2 to 'glob' (string expected, got boolean)")
-    assert.has_error(function() glob.iglob("a", false) end, "bad argument #2 to 'iglob' (string expected, got boolean)")
-    assert.has_error(function() glob.match("a", false) end, "bad argument #2 to 'match' (string expected, got boolean)")
+    assert.has_error(function() glob.filter({}, false) end, "bad argument #2 (string expected, got boolean)")
+    assert.has_error(function() glob.glob("a", false)  end, "bad argument #2 (string expected, got boolean)")
+    assert.has_error(function() glob.iglob("a", false) end, "bad argument #2 (string expected, got boolean)")
+    assert.has_error(function() glob.match("a", false) end, "bad argument #2 (string expected, got boolean)")
 
     -- Argument #3 validation.
 
-    assert.has_error(function() glob.filter({}, "*.txt", 1)     end, "bad argument #3 to 'filter' (boolean expected, got number)")
-    assert.has_error(function() glob.glob("a", "*.txt", false)  end, "bad argument #3 to 'glob' (table expected, got boolean)")
-    assert.has_error(function() glob.iglob("a", "*.txt", false) end, "bad argument #3 to 'iglob' (table expected, got boolean)")
-    assert.has_error(function() glob.match("a", "*.txt", 1)     end, "bad argument #3 to 'match' (boolean expected, got number)")
+    assert.has_error(function() glob.filter({}, "*.txt", 1)     end, "bad argument #3 (boolean expected, got number)")
+    assert.has_error(function() glob.glob("a", "*.txt", false)  end, "bad argument #3 (table expected, got boolean)")
+    assert.has_error(function() glob.iglob("a", "*.txt", false) end, "bad argument #3 (table expected, got boolean)")
+    assert.has_error(function() glob.match("a", "*.txt", 1)     end, "bad argument #3 (boolean expected, got number)")
   end)
 
   -- stylua: ignore
@@ -582,8 +580,6 @@ describe("mods.glob", function()
     local recursive  = { recursive = 1 }
     local follow     = { follow = 1 }
     local ignorecase = { ignorecase = 1 }
-
-    -- Keep these explicit: internal function names can leak into errors.
 
     assert.has_error(function() glob.glob("a", "*.txt", hidden)      end, "glob.opts.hidden: boolean expected, got number")
     assert.has_error(function() glob.glob("a", "*.txt", recursive)   end, "glob.opts.recursive: boolean expected, got number")

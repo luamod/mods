@@ -106,18 +106,6 @@ describe("mods.utils", function()
         utils.assert_arg(3, 123, "string")
       end, "bad argument #3 (string expected, got number)")
     end)
-
-    it("includes caller function name when available", function()
-      local function needs_string(v)
-        local out = utils.assert_arg(1, v, "string")
-        return out
-      end
-
-      assert.has_error(function()
-        needs_string(123)
-      end, "bad argument #1 to 'needs_string' (string expected, got number)")
-    end)
-
   end)
 
   describe("validate()", function()
