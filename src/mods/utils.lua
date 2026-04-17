@@ -31,17 +31,6 @@ local function remove_mt(item, path)
   end
 end
 
-local function caller_name(level)
-  local base = (level or 2) + 1
-  for i = base, base + 3 do
-    local info = getinfo(i, "n")
-    local name = info and info.name
-    if name and not ignored_caller_names[name] then
-      return name
-    end
-  end
-end
-
 function M.quote(v)
   if find(v, '"', 1, true) and not find(v, "'", 1, true) then
     return "'" .. v .. "'"
@@ -81,17 +70,7 @@ function M.assert_arg(argn, v, validator, optional, lv)
   if ok or (optional and v == nil) then
     return v
   end
-
-  local message
-  local fname = caller_name(2)
-  if fname then
-    message = fmt("bad argument #%d to '%s' (%s)", argn, fname, err)
-  else
-    message = fmt("bad argument #%d (%s)", argn, err)
-  end
-  error(message, lv or 3)
-
-  return v
+  error(fmt("bad argument #%d (%s)", argn, err), lv or 3)
 end
 
 function M.validate(label, v, validator, optional, msg)
@@ -146,10 +125,5 @@ end
 
 inspect = M.lazy_module("inspect")
 validate = M.lazy_module("mods.validate")
-
-if _TEST then
-  ignored_caller_names.callback = true
-  ignored_caller_names.has_error = true
-end
 
 return M
