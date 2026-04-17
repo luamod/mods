@@ -1,8 +1,10 @@
 local mods = require "mods"
 
-local quote = mods.utils.quote
 local tbl = mods.tbl
+local utils = mods.utils
 
+local quote = utils.quote
+local is_same = tbl.is_same
 local concat = table.concat
 
 ---@type mods.Set
@@ -156,7 +158,7 @@ function Set:update(t)
 end
 
 function Set:equals(t)
-  return tbl.same(self, as_set(t))
+  return is_same(self, as_set(t))
 end
 
 Set.copy = copy_set
