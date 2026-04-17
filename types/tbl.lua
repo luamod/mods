@@ -110,8 +110,8 @@ function M.find(t, v) end
 ---Return `true` if two tables have the same keys and equal values.
 ---
 ---```lua
----ok = same({ a = 1, b = 2 }, { b = 2, a = 1 }) --> true
----ok = same({ a = {} }, { a = {} })             --> false
+---ok = is_same({ a = 1, b = 2 }, { b = 2, a = 1 }) --> true
+---ok = is_same({ a = {} }, { a = {} })             --> false
 ---```
 ---
 ---@section Queries
@@ -119,7 +119,7 @@ function M.find(t, v) end
 ---@param b table Right table.
 ---@return boolean isSame True when both tables have the same keys and values.
 ---@nodiscard
-function M.same(a, b) end
+function M.is_same(a, b) end
 
 ---
 ---Find first value and key matching predicate.

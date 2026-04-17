@@ -70,7 +70,7 @@ function M.find(t, v)
   end
 end
 
-function M.same(a, b)
+function M.is_same(a, b)
   for k, v in pairs(a) do
     if b[k] ~= v then
       return false
