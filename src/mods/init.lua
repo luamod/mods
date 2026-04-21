@@ -1,47 +1,13 @@
-local mods = {}
-
-local module_names = {
-  "calendar",
-  "fs",
-  "glob",
-  "is",
-  "json",
-  "keyword",
-  "List",
-  "log",
-  "ntpath",
-  "operator",
-  "path",
-  "posixpath",
-  "repr",
-  "runtime",
-  "Set",
-  "str",
-  "stringcase",
-  "tbl",
-  "template",
-  "utils",
-  "validate",
-}
-
-for i = 1, #module_names do
-  local name = module_names[i]
-  mods[name] = "mods." .. name
-end
-
 local M = {}
-
-if _TEST then
-  M._module_name = module_names
-end
 
 return setmetatable(M, {
   __index = function(t, k)
-    local mod = mods[k]
-    if mod then
-      local v = require(mod)
-      rawset(t, k, v)
-      return v
+    local modname = "mods." .. tostring(k)
+    local ok, v = pcall(require, modname)
+    if not ok then
+      error('unknown mods module "' .. tostring(k) .. '"', 2)
     end
+    rawset(t, k, v)
+    return v
   end,
 })
