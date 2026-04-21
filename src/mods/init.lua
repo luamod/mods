@@ -1,6 +1,4 @@
-local M = {}
-
-return setmetatable(M, {
+return setmetatable({}, {
   __index = function(t, k)
     local modname = "mods." .. tostring(k)
     local ok, v = pcall(require, modname)
