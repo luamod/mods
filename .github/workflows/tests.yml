@@ -9,7 +9,7 @@ jobs:
   tests:
     uses: luamod/.github/.github/workflows/tests.yml@main
     with:
-      lua_versions: '["luajit","5.1","5.2","5.3","5.4"]'
+      lua_versions: '["luajit","5.1","5.2","5.3","5.4","5.5"]'
       luarocks_deps: |
         busted
         inspect
