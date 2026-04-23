@@ -3,7 +3,10 @@
   "private": true,
   "type": "module",
   "overrides": {
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.0",
+    "vitepress": {
+      "vite": "^6.4.2"
+    }
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
