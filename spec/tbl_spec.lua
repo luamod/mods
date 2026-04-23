@@ -121,6 +121,35 @@ describe("mods.tbl", function()
     assert.are_same({ "a1", "b2", "c3" }, out)
   end)
 
+  describe("deep_equal()", function()
+    it("compares nested tables structurally", function()
+      local left = { a = { b = { c = 1 } } }
+      local right = { a = { b = { c = 1 } } }
+      local mismatch = { a = { b = { c = 2 } } }
+
+      assert.is_true(tbl.deep_equal(left, right))
+      assert.is_false(tbl.deep_equal(left, mismatch))
+    end)
+
+    it("handles cycles and repeated references", function()
+      local cycle1 = {}
+      local cycle2 = {}
+      cycle1.self = cycle1
+      cycle2.self = cycle2
+
+      local shared1 = { x = { y = 1 } }
+      shared1.a = shared1.x
+      shared1.b = shared1.x
+
+      local shared2 = { x = { y = 1 } }
+      shared2.a = { y = 1 }
+      shared2.b = { y = 1 }
+
+      assert.is_true(tbl.deep_equal(cycle1, cycle2))
+      assert.is_true(tbl.deep_equal(shared1, shared2))
+    end)
+  end)
+
   describe("deepcopy()", function()
     it("should copy nested tables", function()
       local t = { a = { b = { c = 5 } } }

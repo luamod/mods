@@ -122,6 +122,21 @@ function M.find(t, v) end
 function M.is_same(a, b) end
 
 ---
+---Return `true` if two tables are deeply equal.
+---
+---```lua
+---ok = deep_equal({ a = { b = 1 } }, { a = { b = 1 } }) --> true
+---ok = deep_equal({ a = { b = 1 } }, { a = { b = 2 } }) --> false
+---```
+---
+---@section Queries
+---@param a table Left table.
+---@param b table Right table.
+---@return boolean isDeepEqual True when both tables are recursively equal.
+---@nodiscard
+function M.deep_equal(a, b) end
+
+---
 ---Find first value and key matching predicate.
 ---
 ---```lua

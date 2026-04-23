@@ -3,6 +3,44 @@ local List = require "mods.List"
 ---@type mods.tbl
 local M = {}
 
+local function deep_equal(a, b, seen)
+  if rawequal(a, b) then
+    return true
+  end
+
+  local at = type(a)
+  if at ~= type(b) then
+    return false
+  end
+
+  if at ~= "table" then
+    return false
+  end
+
+  local seen_a = seen[a]
+  if not seen_a then
+    seen_a = {}
+    seen[a] = seen_a
+  elseif seen_a[b] then
+    return true
+  end
+  seen_a[b] = true
+
+  for k, v in pairs(a) do
+    if not deep_equal(v, b[k], seen) then
+      return false
+    end
+  end
+
+  for k in pairs(b) do
+    if a[k] == nil then
+      return false
+    end
+  end
+
+  return true
+end
+
 function M.clear(t)
   for k in pairs(t) do
     t[k] = nil
@@ -50,6 +88,10 @@ end
 
 function M.deepcopy(t)
   return deepcopy(t, {})
+end
+
+function M.deep_equal(a, b)
+  return deep_equal(a, b, {})
 end
 
 function M.filter(t, pred)
