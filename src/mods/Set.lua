@@ -121,6 +121,14 @@ function Set:map(fn)
   return set
 end
 
+function Set:mirror()
+  local res = {}
+  for k in pairs(self) do
+    res[k] = k
+  end
+  return res
+end
+
 function Set:pop()
   local k = next(self)
   if k == nil then

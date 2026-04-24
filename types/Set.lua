@@ -346,6 +346,20 @@ function Set:len() end
 function Set:map(fn) end
 
 ---
+---Mirror values into a new table as both keys and values.
+---
+---```lua
+---mirrored = Set({ "a", "b" }):mirror() --> { a = "a", b = "b" }
+---```
+---
+---@section Transforms
+---@generic K
+---@param self table<K,true> Current set.
+---@return table<K,K> mirroredValues Table mapping each value to itself.
+---@nodiscard
+function Set:mirror() end
+
+---
 ---Return a list of all values in the set.
 ---
 ---```lua

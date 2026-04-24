@@ -2,7 +2,6 @@
 
 local mods = require "mods"
 
-local List = mods.List
 local Set = mods.Set
 local shallow_copy = mods.tbl.copy
 local runtime = mods.runtime
@@ -27,38 +26,39 @@ describe("mods.Set", function()
 
   -- stylua: ignore
   local tests = {
-    --------------fname-------------|--set--|-input-|--expected-|-same_ref?
-    { "add"                         , _b_d_ , "c"   , _bcd_     , true  },
-    { "clear"                       , abcde , nil   , {}        , true  },
-    { "contains"                    , abcde , "a"   , true      ,       },
-    { "contains"                    , abcde , "z"   , false     ,       },
-    { "copy"                        , abcde , nil   , abcde     , false },
-    { "difference_update"           , a_c_e , _bcd_ , a___e     , true  },
-    { "difference"                  , a_c_e , _bcd_ , a___e     , false },
-    { "equals"                      , abcde , abcd_ , false     ,       },
-    { "equals"                      , abcde , abcde , true      ,       },
-    { "intersection_update"         , a_c_e , _bcd_ , __c__     , true  },
-    { "intersection"                , a_c_e , _bcd_ , __c__     , false },
-    { "isdisjoint"                  , _b_d_ , ___de , false     ,       },
-    { "isdisjoint"                  , _b_d_ , a___e , true      ,       },
-    { "isempty"                     , _____ , nil   , true      ,       },
-    { "isempty"                     , abcde , nil   , false     ,       },
-    { "issubset"                    , abcd_ , abcde , true      ,       },
-    { "issubset"                    , abcde , abcd_ , false     ,       },
-    { "issuperset"                  , abcd_ , abcde , false     ,       },
-    { "issuperset"                  , abcde , abcd_ , true      ,       },
-    { "join"                        , a____ , nil   , 'a'       ,       },
-    { "len"                         , _____ , nil   , 0         ,       },
-    { "len"                         , a_c__ , nil   , 2         ,       },
-    { "map"                         , abc__ , upper , ABC__     , false },
-    { "pop"                         , _____ , nil   , nil       ,       },
-    { "remove"                      , _bcd_ , "c"   , _b_d_     , true  },
-    { "symmetric_difference_update" , a_c_e , _bcd_ , ab_de     , true  },
-    { "symmetric_difference"        , a_c_e , _bcd_ , ab_de     , false },
-    { "tostring"                    , a____ , nil   , '{ "a" }' ,       },
-    { "union"                       , abc__ , ___de , abcde     , false },
-    { "update"                      , abc__ , ___de , abcde     , true  },
-    { "values"                      , _____ , nil   , {}        ,       },
+    --------------fname-------------|--set--|-input-|---expected---|-same_ref?
+    { "add"                         , _b_d_ , "c"   , _bcd_        , true  },
+    { "clear"                       , abcde , nil   , {}           , true  },
+    { "contains"                    , abcde , "a"   , true         ,       },
+    { "contains"                    , abcde , "z"   , false        ,       },
+    { "copy"                        , abcde , nil   , abcde        , false },
+    { "difference_update"           , a_c_e , _bcd_ , a___e        , true  },
+    { "difference"                  , a_c_e , _bcd_ , a___e        , false },
+    { "equals"                      , abcde , abcd_ , false        ,       },
+    { "equals"                      , abcde , abcde , true         ,       },
+    { "intersection_update"         , a_c_e , _bcd_ , __c__        , true  },
+    { "intersection"                , a_c_e , _bcd_ , __c__        , false },
+    { "isdisjoint"                  , _b_d_ , ___de , false        ,       },
+    { "isdisjoint"                  , _b_d_ , a___e , true         ,       },
+    { "isempty"                     , _____ , nil   , true         ,       },
+    { "isempty"                     , abcde , nil   , false        ,       },
+    { "issubset"                    , abcd_ , abcde , true         ,       },
+    { "issubset"                    , abcde , abcd_ , false        ,       },
+    { "issuperset"                  , abcd_ , abcde , false        ,       },
+    { "issuperset"                  , abcde , abcd_ , true         ,       },
+    { "join"                        , a____ , nil   , 'a'          ,       },
+    { "len"                         , _____ , nil   , 0            ,       },
+    { "len"                         , a_c__ , nil   , 2            ,       },
+    { "map"                         , abc__ , upper , ABC__        , false },
+    { "mirror"                      , a_c__ , nil   , {a="a",c="c"}, false },
+    { "pop"                         , _____ , nil   , nil          ,       },
+    { "remove"                      , _bcd_ , "c"   , _b_d_        , true  },
+    { "symmetric_difference_update" , a_c_e , _bcd_ , ab_de        , true  },
+    { "symmetric_difference"        , a_c_e , _bcd_ , ab_de        , false },
+    { "tostring"                    , a____ , nil   , '{ "a" }'    ,       },
+    { "union"                       , abc__ , ___de , abcde        , false },
+    { "update"                      , abc__ , ___de , abcde        , true  },
+    { "values"                      , _____ , nil   , {}           ,       },
   }
 
   for i = 1, #tests do
