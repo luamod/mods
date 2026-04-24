@@ -85,7 +85,7 @@ local function decode_hex4_at(input, pos)
   return codepoint
 end
 
-local function parse_unicode_escape_at(input, pos)
+local function parse_unicode_escape(input, pos)
   local cp, hex_err = decode_hex4_at(input, pos + 2)
   if not cp then
     return nil, pos, hex_err
@@ -311,7 +311,7 @@ local function parser_parse_string(input, pos, len)
         n = n + 1
         pos = pos + 2
       elseif esc == 0x75 then
-        local decoded, new_pos, unicode_err = parse_unicode_escape_at(input, pos)
+        local decoded, new_pos, unicode_err = parse_unicode_escape(input, pos)
         if not decoded then
           return nil, new_pos, unicode_err
         end
@@ -379,14 +379,14 @@ local function parser_parse_number(input, pos)
   return tonumber(sub(input, start_pos, pos - 1)), pos
 end
 
-local function parser_parse_literal(input, pos, literal, value)
+local function parse_literal(input, pos, literal, value)
   if sub(input, pos, pos + #literal - 1) ~= literal then
     return nil, pos, "unexpected token"
   end
   return value, pos + #literal
 end
 
-local function parser_parse_value_at_pos(input, pos, len, depth)
+local function parse_value_at(input, pos, len, depth)
   local ch = byte(input, pos)
   if ch == 0x22 then
     return parser_parse_string(input, pos, len)
@@ -395,11 +395,11 @@ local function parser_parse_value_at_pos(input, pos, len, depth)
   elseif ch == 0x7B then
     return parser_parse_object(input, pos, len, depth + 1)
   elseif ch == 0x74 then
-    return parser_parse_literal(input, pos, "true", true)
+    return parse_literal(input, pos, "true", true)
   elseif ch == 0x66 then
-    return parser_parse_literal(input, pos, "false", false)
+    return parse_literal(input, pos, "false", false)
   elseif ch == 0x6E then
-    return parser_parse_literal(input, pos, "null", NULL)
+    return parse_literal(input, pos, "null", NULL)
   elseif ch == 0x2D or is_digit_byte(ch) then
     return parser_parse_number(input, pos)
   end
@@ -421,7 +421,7 @@ function parser_parse_array(input, pos, len, depth)
 
   while true do
     local v, err
-    v, pos, err = parser_parse_value_at_pos(input, pos, len, depth)
+    v, pos, err = parse_value_at(input, pos, len, depth)
     if v == nil then
       return nil, pos, err
     end
@@ -468,7 +468,7 @@ function parser_parse_object(input, pos, len, depth)
     end
     pos = parser_skip_ws(input, pos + 1, len)
 
-    v, pos, err = parser_parse_value_at_pos(input, pos, len, depth)
+    v, pos, err = parse_value_at(input, pos, len, depth)
     if v == nil then
       return nil, pos, err
     end
@@ -503,7 +503,7 @@ function M.decode(s)
     return nil, format_decode_error(s, pos, "unexpected end of input")
   end
 
-  local v, new_pos, err = parser_parse_value_at_pos(s, pos, len, 0)
+  local v, new_pos, err = parse_value_at(s, pos, len, 0)
   if v == nil then
     return nil, format_decode_error(s, new_pos, err)
   end
