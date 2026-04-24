@@ -90,6 +90,7 @@ describe("mods.List", function()
     { "insert"       , abc__     , { "d"        } , abcd_          , true  },
     { "intersection" , a_c_e     , { _bcd_      } , __c__          , false },
     { "invert"       , a___e     , {            } , a1_e2          , false },
+    { "mirror"       , a___e     , {            } , { a="a",e="e" }, false },
     { "isempty"      , _____     , {            } , true           ,       },
     { "isempty"      , abc__     , {            } , false          ,       },
     { "join"         , abc__     , { ","        } , "a,b,c"        ,       },

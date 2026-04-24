@@ -282,6 +282,15 @@ function List:invert()
   return res
 end
 
+function List:mirror()
+  local res = {}
+  for i = 1, #self do
+    local v = self[i]
+    res[v] = v
+  end
+  return res
+end
+
 function List:keypath()
   return keypath(unpack(self))
 end

@@ -563,6 +563,20 @@ function List:intersection(t) end
 function List:invert() end
 
 ---
+---Mirror values into a new table as both keys and values.
+---
+---```lua
+---t = List({ "a", "b", "c" }):mirror() --> { a = "a", b = "b", c = "c" }
+---```
+---
+---@section Transforms
+---@generic T
+---@param self mods.List|T[] Current list.
+---@return table<T,T> mirroredValues Table mapping each value to itself.
+---@nodiscard
+function List:mirror() end
+
+---
 ---Concatenate list values using Lua's native `table.concat` behavior.
 ---
 ---```lua
