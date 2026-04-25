@@ -6,26 +6,8 @@ local rep = string.rep
 local sort = table.sort
 local sub = string.sub
 local gsub = string.gsub
-local char = string.char
-local floor = math.floor
+local utf8_char = utf8.char
 local huge = math.huge
-local utf8_char = utf8 and utf8.char
-  or function(cp)
-    if cp <= 0x7F then
-      return char(cp)
-    elseif cp <= 0x7FF then
-      return char(0xC0 + floor(cp / 0x40), 0x80 + (cp % 0x40))
-    elseif cp <= 0xFFFF then
-      return char(0xE0 + floor(cp / 0x1000), 0x80 + (floor(cp / 0x40) % 0x40), 0x80 + (cp % 0x40))
-    end
-
-    return char(
-      0xF0 + floor(cp / 0x40000),
-      0x80 + (floor(cp / 0x1000) % 0x40),
-      0x80 + (floor(cp / 0x40) % 0x40),
-      0x80 + (cp % 0x40)
-    )
-  end
 
 local NULL = setmetatable({}, {
   __tostring = function()

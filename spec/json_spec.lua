@@ -4,7 +4,7 @@
 ]]
 
 describe("mods.json", function()
-  local json = require "mods.json"
+  local json = require("mods").json
   local NULL = json.null
   local tests = {}
 
