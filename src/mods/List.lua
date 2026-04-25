@@ -26,17 +26,6 @@ local function collect_by_membership(ls, set, keep_if_present)
   return res
 end
 
-local function copy_range(self, start_i, end_i)
-  local res = List()
-  if end_i < start_i then
-    return res
-  end
-  for i = start_i, end_i do
-    res[#res + 1] = self[i]
-  end
-  return res
-end
-
 local function index_of(self, v)
   for i = 1, #self do
     if self[i] == v then
@@ -124,7 +113,7 @@ function List:contains(v)
 end
 
 function List:copy()
-  return copy_range(self, 1, #self)
+  return List(move(self, 1, #self, 1, {}))
 end
 
 function List:count(v)
@@ -145,12 +134,9 @@ end
 function List:drop(n)
   local len = #self
   if n == nil or n <= 0 then
-    return copy_range(self, 1, len)
+    return List(move(self, 1, len, 1, {}))
   end
-  if n >= len then
-    return List()
-  end
-  return copy_range(self, n + 1, len)
+  return List(move(self, n + 1, len, 1, {}))
 end
 
 function List:equals(ls)
@@ -401,11 +387,7 @@ function List:slice(i, j)
   if start > finish then
     return res
   end
-  if move then
-    move(self, start, finish, 1, res)
-  else
-    return copy_range(self, start, finish)
-  end
+  move(self, start, finish, 1, res)
   return res
 end
 
@@ -422,7 +404,7 @@ function List:take(n)
   if n < limit then
     limit = n
   end
-  return copy_range(self, 1, limit)
+  return List(move(self, 1, limit, 1, {}))
 end
 
 function List:uniq()
