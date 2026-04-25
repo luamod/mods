@@ -3,6 +3,9 @@
 local mods = require "mods"
 
 local runtime = mods.runtime
+local is_lua51 = runtime.is_lua51
+local is_luajit = runtime.is_luajit
+
 local source = debug.getinfo(1, "S").source
 local source_file = source:sub(1, 1) == "@" and source:sub(2) or source
 
@@ -190,7 +193,7 @@ describe("mods internal compat", function()
         end, nil, "t")
         assert.Nil(fn)
         assert.Equals(
-          runtime.is_lua51 and not runtime.is_luajit and [[[string "(load)"]:1: unexpected symbol near ')']]
+          is_lua51 and not is_luajit and [[[string "(load)"]:1: unexpected symbol near ')']]
             or "(load):1: unexpected symbol near ')'",
           err
         )
@@ -205,7 +208,7 @@ describe("mods internal compat", function()
         -- stylua: ignore end
         assert.Nil(fn)
         assert.Equals(
-          runtime.is_lua51 and not runtime.is_luajit and "reader function must return a string"
+          is_lua51 and not is_luajit and "reader function must return a string"
             or ("%s:%d: reader function must return a string"):format(source_file, line),
           err
         )
@@ -217,7 +220,7 @@ describe("mods internal compat", function()
         local fn, err = load("return 1", "compat_chunk", 1)
         assert.Nil(fn)
         assert.Equals(
-          runtime.is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is '1')",
+          is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is '1')",
           err
         )
       end)
@@ -248,7 +251,7 @@ describe("mods internal compat", function()
         local fn, err = load("return 1", "bad_mode", "b")
         assert.Nil(fn)
         assert.Equals(
-          runtime.is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is 'b')",
+          is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is 'b')",
           err
         )
       end)
@@ -264,7 +267,7 @@ describe("mods internal compat", function()
         end, "bad_reader_mode", "b")
         assert.Nil(fn)
         assert.Equals(
-          runtime.is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is 'b')",
+          is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is 'b')",
           err
         )
       end)
@@ -281,8 +284,7 @@ describe("mods internal compat", function()
         )
         assert.Nil(fn)
         assert.Equals(
-          runtime.is_luajit and "attempt to load chunk with wrong mode"
-            or "attempt to load a binary chunk (mode is 't')",
+          is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a binary chunk (mode is 't')",
           err
         )
       end)
@@ -293,7 +295,7 @@ describe("mods internal compat", function()
         local fn, err = load("return 1", "bad_mode", "x")
         assert.Nil(fn)
         assert.Equals(
-          runtime.is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is 'x')",
+          is_luajit and "attempt to load chunk with wrong mode" or "attempt to load a text chunk (mode is 'x')",
           err
         )
       end)
