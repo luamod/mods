@@ -24,6 +24,7 @@ local gsub = string.gsub
 local lower = string.lower
 local match = string.match
 local min = math.min
+local move = table.move
 local sub = string.sub
 local upper = string.upper
 
@@ -418,9 +419,7 @@ function M.relpath(p, start)
   for _ = i, #start_list do
     rel[#rel + 1] = PARDIR
   end
-  for j = i, #path_list do
-    rel[#rel + 1] = path_list[j]
-  end
+  move(path_list, i, #path_list, #rel + 1, rel)
 
   if #rel == 0 then
     return CURDIR
@@ -477,9 +476,7 @@ function M.commonpath(paths)
   end
 
   local common = {}
-  for i = 1, common_len do
-    common[i] = first_parts[i]
-  end
+  move(first_parts, 1, common_len, 1, common)
 
   return first_drive .. first_root .. concat(common, SEP)
 end

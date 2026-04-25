@@ -17,6 +17,7 @@ local gmatch = string.gmatch
 local gsub = string.gsub
 local match = string.match
 local min = math.min
+local move = table.move
 local sub = string.sub
 
 local path = {}
@@ -207,9 +208,7 @@ function M.relpath(p, start)
   for _ = i, #sparts do
     out[#out + 1] = PARDIR
   end
-  for j = i, #pparts do
-    out[#out + 1] = pparts[j]
-  end
+  move(pparts, i, #pparts, #out + 1, out)
 
   return #out == 0 and CURDIR or concat(out, SEP)
 end

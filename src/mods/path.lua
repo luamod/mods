@@ -26,6 +26,7 @@ local getenv = os.getenv
 local gmatch = string.gmatch
 local gsub = string.gsub
 local match = string.match
+local move = table.move
 local sub = string.sub
 
 ---@type mods.path
@@ -97,9 +98,7 @@ local function relative_parts(p, other)
   end
 
   local out = {}
-  for i = #other_tail + 1, #tail do
-    out[#out + 1] = tail[i]
-  end
+  move(tail, #other_tail + 1, #tail, 1, out)
   return out
 end
 
@@ -237,9 +236,7 @@ function M.parts(p)
   if anchor ~= "" then
     out[#out + 1] = anchor
   end
-  for i = 1, #tail do
-    out[#out + 1] = tail[i]
-  end
+  move(tail, 1, #tail, anchor ~= "" and 2 or 1, out)
   return List(out)
 end
 
@@ -275,9 +272,7 @@ function M.relative_to(p, other, walk_up)
   for _ = 1, #other_tail - common do
     parts[#parts + 1] = PARDIR
   end
-  for i = common + 1, #tail do
-    parts[#parts + 1] = tail[i]
-  end
+  move(tail, common + 1, #tail, #parts + 1, parts)
 
   return concat(parts, SEP)
 end
