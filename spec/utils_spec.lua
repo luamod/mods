@@ -1,4 +1,4 @@
-local utils = require "mods.utils"
+local utils = require("mods").utils
 
 local args_repr = utils.args_repr
 local fmt = string.format
@@ -157,7 +157,7 @@ describe("mods.utils", function()
       local k, v = "_lazy_module_proxy_value", 3
 
       assert.is_nil(proxy[k])
-      assert.are_same(loaded.boolean, proxy.boolean)
+      assert.same(loaded.boolean, proxy.boolean)
       assert.is_nil(rawget(proxy, "boolean"))
 
       proxy[k] = v
@@ -210,11 +210,11 @@ describe("mods.utils", function()
     end)
 
     it("supports __call when the loaded module is a function", function()
-      local proxy = utils.lazy_module("mods.repr")
-      local loaded = require("mods.repr")
+      local proxy = utils.lazy_module("mods.template")
+      local loaded = require("mods.template")
 
-      assert.are_equal(loaded({ a = 1 }), proxy({ a = 1 }))
-      assert.are_equal(loaded({ b = 2 }), proxy({ b = 2 }))
+      assert.are_equal(loaded("{{name}}", { name = "Ada" }), proxy("{{name}}", { name = "Ada" }))
+      assert.are_equal(loaded("{{name}}", { name = "Grace" }), proxy("{{name}}", { name = "Grace" }))
       assert.is_nil(getmetatable(proxy).__index)
       assert.is_nil(getmetatable(proxy).__newindex)
     end)

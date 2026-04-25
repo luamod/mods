@@ -8,7 +8,7 @@ local insert = table.insert
 local move = table.move
 local remove = table.remove
 local sort = table.sort
-local unpack = table.unpack or unpack
+local unpack = table.unpack
 
 ---@type mods.List
 local List = {}

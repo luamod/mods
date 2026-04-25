@@ -6,9 +6,8 @@ local validate ---@module "mods.validate"
 local concat = table.concat
 local find = string.find
 local fmt = string.format
-local getinfo = debug.getinfo
 local gsub = string.gsub
-local unpack = table.unpack or unpack
+local unpack = table.unpack
 
 ---@type mods.utils
 local M = {}
