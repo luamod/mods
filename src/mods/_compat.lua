@@ -72,6 +72,45 @@ if runtime.version < 503 then
       return v > neg_huge and v < huge and v == floor(v) and "integer" or "float"
     end
   end)
+
+  local math_type = math.type
+
+  local function move_int_or_err(v, i)
+    local kind = math_type(v)
+    if not kind then
+      error(("bad argument #%d to 'move' (number expected, got %s)"):format(i, type(v)), 2)
+    elseif kind ~= "integer" then
+      error(("bad argument #%d to 'move' (number has no integer representation)"):format(i), 2)
+    end
+  end
+
+  rawset(table, "move", function(a1, f, e, t, a2)
+    if type(a1) ~= "table" then
+      error(("bad argument #1 to 'move' (table expected, got %s)"):format(type(a1)), 2)
+    elseif a2 ~= nil and type(a2) ~= "table" then
+      error(("bad argument #5 to 'move' (table expected, got %s)"):format(type(a2)), 2)
+    end
+    move_int_or_err(f, 2)
+    move_int_or_err(e, 3)
+    move_int_or_err(t, 4)
+
+    local dst = a2 or a1
+    if e < f then
+      return dst
+    end
+
+    local offset = t - f
+    if a1 == dst and t > f and t <= e then
+      for i = e, f, -1 do
+        dst[i + offset] = a1[i]
+      end
+    else
+      for i = f, e do
+        dst[i + offset] = a1[i]
+      end
+    end
+    return dst
+  end)
 end
 
 if runtime.version < 504 then

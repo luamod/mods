@@ -22,6 +22,65 @@ describe("mods internal compat", function()
     assert.Same({ "a", "b", "c" }, { table.unpack({ "a", "b", "c" }) })
   end)
 
+  it("table.move()", function()
+    local move = table.move
+
+    local dst = { "x" }
+    assert.Equals(dst, move({ "a", "b", "c" }, 1, 3, 2, dst))
+    assert.Same({ "x", "a", "b", "c" }, dst)
+
+    local same = { 1, 2, 3 }
+    assert.Equals(same, move(same, 1, 3, 1))
+    assert.Same({ 1, 2, 3 }, same)
+
+    local overlap = { 1, 2, 3, 4 }
+    assert.Equals(overlap, move(overlap, 1, 3, 2))
+    assert.Same({ 1, 1, 2, 3 }, overlap)
+
+    local left = { 1, 2, 3, 4 }
+    assert.Equals(left, move(left, 2, 4, 1))
+    assert.Same({ 2, 3, 4, 4 }, left)
+
+    local boundary_same = { 1, 2, 3, 4 }
+    assert.Equals(boundary_same, move(boundary_same, 2, 4, 2))
+    assert.Same({ 1, 2, 3, 4 }, boundary_same)
+
+    local boundary_next = { 1, 2, 3, 4 }
+    assert.Equals(boundary_next, move(boundary_next, 1, 3, 4))
+    assert.Same({ 1, 2, 3, 1, 2, 3 }, boundary_next)
+
+    local empty = { "x" }
+    assert.Equals(empty, move({}, 2, 1, 1, empty))
+    assert.Same({ "x" }, empty)
+
+    local sparse = {}
+    assert.Equals(sparse, move({ [1] = "a", [3] = "c" }, 1, 3, 1, sparse))
+    assert.Same({ "a", [3] = "c" }, sparse)
+
+    local negative = { 1, 2 }
+    assert.Equals(negative, move(negative, 1, 2, -1))
+    assert.Equals(1, negative[-1])
+    assert.Equals(2, negative[0])
+
+    local large = {}
+    assert.Equals(large, move({ 1 }, 1, 1, 2147483648, large))
+    assert.Equals(1, large[2147483648])
+
+    -- stylua: ignore start
+    assert.Error(function() move(false, 1, 1, 1)       end, "bad argument #1 to 'move' (table expected, got boolean)")
+    assert.Error(function() move({}, "a", 1, 1)        end, "bad argument #2 to 'move' (number expected, got string)")
+    assert.Error(function() move({}, 1.5, 1, 1)        end, "bad argument #2 to 'move' (number has no integer representation)")
+    assert.Error(function() move({}, 1, "a", 1)        end, "bad argument #3 to 'move' (number expected, got string)")
+    assert.Error(function() move({}, 1, 1.5, 1)        end, "bad argument #3 to 'move' (number has no integer representation)")
+    assert.Error(function() move({}, 1, 1, "a")        end, "bad argument #4 to 'move' (number expected, got string)")
+    assert.Error(function() move({}, 1, 1, 1.5)        end, "bad argument #4 to 'move' (number has no integer representation)")
+    assert.Error(function() move({}, 0 / 0, 1, 1)      end, "bad argument #2 to 'move' (number has no integer representation)")
+    assert.Error(function() move({}, math.huge, 1, 1)  end, "bad argument #2 to 'move' (number has no integer representation)")
+    assert.Error(function() move({}, 1, math.huge, 1)  end, "bad argument #3 to 'move' (number has no integer representation)")
+    assert.Error(function() move({}, 1, 1, -math.huge) end, "bad argument #4 to 'move' (number has no integer representation)")
+    assert.Error(function() move({}, 1, 1, 1, false)   end, "bad argument #5 to 'move' (table expected, got boolean)")
+  end)
+
   it("math.type() negative numbers", function()
     assert.Equals("integer", math.type(1))
     assert.Equals("float", math.type(1.5))
