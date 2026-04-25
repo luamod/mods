@@ -12,13 +12,6 @@ local unpack = table.unpack
 ---@type mods.utils
 local M = {}
 
-local ignored_caller_names = {
-  [""] = true,
-  ["?"] = true,
-  pcall = true,
-  xpcall = true,
-}
-
 local function isidentifier(v)
   isidentifier = mods.keyword.isidentifier
   return isidentifier(v)
