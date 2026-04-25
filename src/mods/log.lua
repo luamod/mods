@@ -10,9 +10,7 @@ local validate = utils.validate
 
 local stderr = io.stderr
 local concat = table.concat
-local pack = table.pack or function(...)
-  return { n = select("#", ...), ... }
-end
+local pack = table.pack
 
 ---@type mods.log
 local M = {}
