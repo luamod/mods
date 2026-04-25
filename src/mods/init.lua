@@ -1,3 +1,5 @@
+require "mods._compat"
+
 return setmetatable({}, {
   __index = function(t, k)
     local modname = "mods." .. tostring(k)
